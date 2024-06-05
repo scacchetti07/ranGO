@@ -1,0 +1,119 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MarketProject.ViewModels"
+        xmlns:scr="clr-namespace:MarketProject.Views"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+        x:Class="MarketProject.Views.HomeView"
+        Title="Tela Inicial - ranGO!"
+        Icon="/Assets/rango_icon.ico"
+        WindowState="Maximized"
+        ExtendClientAreaToDecorationsHint="True"
+        FontFamily="{StaticResource FilsonPro}"
+        x:DataType="vm:HomeViewModel">
+    
+    <Grid ColumnDefinitions="Auto,*">
+        <Border BoxShadow="16 0 21.8 4 #223374B9" 
+            Width="339" Height="1072" 
+            HorizontalAlignment="Left">
+        <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"></Rectangle>    
+        </Border>
+            <StackPanel Grid.Column="0" Orientation="Vertical" Width="339" Height="1072" HorizontalAlignment="Left" Spacing="15">
+                <Image Source="/Assets/rango-principal-2.png" Width="220" Height="86" Margin="21"/>
+                <Border Background="#883374B9" Height="4" Width="250" CornerRadius="5"/>
+                
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 20 0 0" Name="Options" Classes="tabBar">
+                    <Button Click="btnDashb">
+                        <StackPanel Orientation="Horizontal">
+                             <Image Source="/Assets/Icons/drkDashboard.png"/>
+                             <Label Content="Dashboard"/>
+                         </StackPanel>
+                    </Button>
+                        <Button Click="btnPack">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/drkPackage.png"/>
+                                <Label Content="Estoque"/>
+                            </StackPanel>
+                        </Button>
+                    <Button Click="btnTrk">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Assets/Icons/drkTruck.png"/>
+                            <Label Content="Fornecedor"/>
+                        </StackPanel> 
+                    </Button>
+                    <Button Click="btnEmp">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Assets/Icons/drkEmployer.png"/>
+                            <Label Content="Funcionários"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="btnGrp">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Assets/Icons/drkGraphs.png"/>
+                            <Label Content="Gráficos"/>
+                        </StackPanel>
+                    </Button>
+                    <Border Background="#883374B9" Height="4" Width="250" CornerRadius="5" Margin="0 90 0 55"/>
+                    
+                    <StackPanel Margin="0 -30 0 0">
+                        <Button Click="btnSett">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/drkSettings.png"/>
+                                <Label Content="Opções"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Click="btnPrf">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/drkProfile.png"/>
+                                <Label Content="Seu Perfil"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>  
+            </StackPanel>
+        
+        <Carousel Grid.Column="1" VerticalAlignment="Center" Name="TabGeral">
+            
+            <Carousel.PageTransition>
+                <CompositePageTransition>
+                    <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
+                </CompositePageTransition>
+            </Carousel.PageTransition>
+            <Carousel.Items>
+                <!-- Home Screen -->
+                <Image Source="/Assets/LogoNrml.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="400" Opacity="0.1" IsVisible="true"/>
+                <!-- Dashboard Screen -->
+                <Rectangle Fill="Red" Height="500" Width="500"/>
+                <!-- Storage Screen -->
+                <Carousel Name="TabStorage">
+                    <Carousel.PageTransition>
+                        <CompositePageTransition>
+                            <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
+                        </CompositePageTransition>
+                    </Carousel.PageTransition>
+                
+                    <Carousel.Items>
+                        <scr:StorageView Name="strView" x:CompileBindings="False" Products="{Binding $parent[scr:HomeView].DataContext.Database.Products}" ActionChanged="StorageView_OnActionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></scr:StorageView>
+                        <scr:ProdRegisterView ProductAdded="ProdRegisterView_OnProductAdded"></scr:ProdRegisterView>
+                    </Carousel.Items>
+                </Carousel>
+                <!-- Supply Screen -->
+                <Rectangle Fill="Red" Height="500" Width="500"/>
+                <!-- Employers Screen -->
+                <Rectangle Fill="Red" Height="500" Width="500"/>
+                <!-- Graphs Screen -->
+                <Rectangle Fill="Red" Height="500" Width="500"/>
+                <!-- Option Screen -->
+                <Rectangle Fill="Red" Height="500" Width="500"/>
+                <!-- Profile Screen -->
+                <Rectangle Fill="Red" Height="500" Width="500"/>
+            </Carousel.Items>
+            
+
+        </Carousel>
+    </Grid>
+    
+    
+        
+</Window>

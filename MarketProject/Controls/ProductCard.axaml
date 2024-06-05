@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="340" d:DesignHeight="376"
+             x:Class="MarketProject.Controls.ProductCard"
+             Background="#DBDBDA"
+             CornerRadius="15"
+             FontWeight="SemiBold"
+             FontFamily="{StaticResource FilsonPro}"
+             Foreground="#DBDBDA"
+             Cursor="Hand">
+    <UserControl.Styles>
+        <Style Selector="TextBlock.Text">
+            <Setter Property="TextBlock.FontWeight" Value="Regular"></Setter>
+        </Style>
+        <Style Selector="StackPanel#CardPanel.SelectedCard">
+            <Setter Property="Opacity" Value="0.8"/>
+        </Style>
+    </UserControl.Styles>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Name="CardPanel">
+        <!-- Imagem do produto-->
+        <Rectangle Fill="#3374B9" Height="228"></Rectangle>
+        <!--<Image Source="../Assets/LoginBG.jpg" Width="315" Height="228" Margin="0 13 0 0" VerticalAlignment="Top" Stretch="UniformToFill"></Image>-->
+        <Grid>
+        <Border CornerRadius="0 0 15 15 " Background="#DD0B0E18" Width="315" Height="123" >
+            <!-- Informações textuais-->
+            <StackPanel Margin="10 9 0 0">
+                <StackPanel>
+                    <TextBlock Text="Nome:" Foreground="#DDDBDBDA" FontSize="10" Classes="Text"></TextBlock>
+                    <Label Name="txtProductName" Margin="-3 0 0 0"></Label>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Fornecedor:" Foreground="#DDDBDBDA" FontSize="10" Classes="Text"></TextBlock>
+                    <Label Name="txtSupply" Margin="-3 0 0 0"></Label>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Estado:" Foreground="#DDDBDBDA" FontSize="10" Classes="Text"></TextBlock>
+                    <Label Name="txtCategory" Margin="-3 0 0 0"></Label>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+            <StackPanel HorizontalAlignment="Right" Margin="10 9 0 0">
+                <!-- Informações Numerais -->
+                <StackPanel>
+                    <TextBlock Text="No Estoque:" Foreground="#DDDBDBDA" FontSize="10" Padding="0 0 12 0" Classes="Text"></TextBlock>
+                    <Label Name="txtQtd" Margin="-3 0 0 0"></Label>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Mínimo:" Foreground="#DDDBDBDA" FontSize="10" Padding="0 0 12 0" Classes="Text"></TextBlock>
+                    <Label Name="txtMin" Margin="-3 0 0 0"></Label>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Máximo:" Foreground="#DDDBDBDA" FontSize="10" Padding="0 0 12 0" Classes="Text"></TextBlock>
+                    <Label Name="txtMax" Margin="-3 0 0 0"></Label>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+            
+        
+    </StackPanel>
+    
+</UserControl>

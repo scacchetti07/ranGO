@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MarketProject.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+        x:Class="MarketProject.Views.LoginPage"
+        x:DataType="vm:LoginPageViewModel"
+        Icon="/Assets/rango_icon.ico"
+        Title="Cadastro - ranGO!"
+        WindowState="Maximized"
+        FontFamily="{StaticResource FilsonPro}"
+        ExtendClientAreaToDecorationsHint="True"
+        CanResize="False">
+        <Window.Background>
+                <ImageBrush Source="/Assets/LoginBG.jpg" Stretch="UniformToFill"/>
+        </Window.Background>
+        <Grid RowDefinitions="35,*">
+                <Border Background="#BB000000">
+                </Border>
+                <Border Grid.Row="1" Background="#0B0E18" Opacity="80" BoxShadow="1 4 100 -4 #DBDBDA" BorderThickness="3" BorderBrush="#DBDBDA" Width="760" Height="817" CornerRadius="75"/>
+                        <StackPanel Width="760" Height="817" Grid.Row="1">
+                                <TextBlock Text="Cadastro" FontSize="64" FontWeight="Black" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="30" Margin="0 40 0  0"/>
+                                <StackPanel Margin="0 40 0 0">
+                                        <Label Content="Usuário" FontSize="26" Foreground="#DBDBDA" Padding="54 0 0 3"/>
+                                        <TextBox Name="txtUser" Width="646" Height="58" CornerRadius="5" 
+                                                 Background="#0B0E18" Opacity="20" FontSize="25" BorderBrush="#DBDBDA" BorderThickness="3"/>
+                                </StackPanel>
+                                <StackPanel Margin="0 90 0 0">
+                                        <Label Content="Senha" FontSize="26" Foreground="#DBDBDA" Padding="54 0 0 3"/>
+                                                <TextBox RevealPassword="{Binding IsChecked, ElementName=ShowPass}" 
+                                                        Name="txtPass" PasswordChar="*" Width="646" Height="58" CornerRadius="5" Background="#0B0E18" Opacity="20" FontSize="25" BorderBrush="#DBDBDA" BorderThickness="3">
+                                                </TextBox>
+                                        <CheckBox Name="ShowPass" HorizontalAlignment="Right" Content="Mostrar Senha" FontSize="20" Padding="10 4 60 0" IsChecked="False"></CheckBox>
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Margin="0 100 0 0 ">
+                                        <Button Click="btnlogin" Cursor="Hand" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0 26 0 0" Content="Entrar no Sistema" Foreground="#DBDBDA" Width="532" Height="93" FontSize="32" Background="#3374B9"/>
+                                </StackPanel>
+                        </StackPanel>
+        </Grid>
+
+</Window>

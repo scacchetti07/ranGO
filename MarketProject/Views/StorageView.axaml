@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MarketProject.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1072"
+             x:Class="MarketProject.Views.StorageView"
+             x:DataType="vm:StorageViewModel">
+    <UserControl.DataContext>
+        <vm:StorageViewModel></vm:StorageViewModel>
+    </UserControl.DataContext>
+    <Grid RowDefinitions="930,*">
+        <Border BorderBrush="#3374B9" 
+                BorderThickness="3" 
+                Margin="51">
+            <ScrollViewer>
+                <WrapPanel Name="ProductsPanel" Classes="ProductsPanel">
+                </WrapPanel>
+            </ScrollViewer>
+        </Border>
+        <StackPanel Classes="BtnStr" Name="StkStorage">
+            <Button Content="Editar" Click="btnEdit_OnClick"/>
+            <Button Content="Novo" Click="btnNew_OnClick"/>
+            <Button Content="Ver estoque" Click="btnStorage_OnClick"/>
+            <Button Content="Remover" Click="btnRemove_OnClick"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

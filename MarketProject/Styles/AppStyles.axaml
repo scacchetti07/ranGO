@@ -1,0 +1,130 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:MarketProject.Controls">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="StackPanel.tabBar">
+        <Style Selector="^ Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <!--<Setter Property="Width" Value="274"/>-->
+            <Setter Property="Height" Value="66"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0 35 0 0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style Selector="^ StackPanel">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="Width" Value="274"/>
+                <Style Selector="^ Image">
+                    <Setter Property="Width" Value="50"/>
+                    <Setter Property="Height" Value="44"/>
+                </Style>
+                <Style Selector="^ Label">
+                    <Setter Property="Foreground" Value="#DBDBDA"/>
+                    <Setter Property="Margin" Value="10 0 0 0"/>
+                    <Setter Property="FontSize" Value="27"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </Style>
+            <Style Selector="^:pointerover /template/ ContentPresenter, ^.isSelected /template/ ContentPresenter">
+                <Setter Property="Background" Value="#3374B9"/>
+            </Style>
+        </Style>
+    </Style>
+    <Style Selector="StackPanel.BtnStr">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Grid.Row" Value="1"/>
+        <Style Selector="^ Button">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Width" Value="263"/>
+            <Setter Property="Height" Value="88"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="35"/>
+            <Setter Property="BorderBrush" Value="#3374B9"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="65 0 65 60"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Style Selector="^:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="#3374B9"></Setter>
+            </Style>
+        </Style>
+    </Style>
+    
+    <Style Selector="Border.BorderProdRegis">
+        <Setter Property="Padding" Value="30"/>
+        <Setter Property="BorderBrush" Value="#DBDBDA"/>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        
+        <Style Selector="^ TextBlock.ProdTitleBlock">
+            <Setter Property="FontSize" Value="100" />
+        </Style>
+    </Style>
+    
+    <Style Selector="Grid.ProdRegisBlock">
+        <Setter Property="Margin" Value="0 30 0 0"/>
+        
+        <Style Selector="^ StackPanel">
+            <Setter Property="Orientation" Value="Vertical"/>
+            <Setter Property="Margin" Value="30,35,30,35"/>
+            
+            <Style Selector="^ Label">
+                <Setter Property="FontSize" Value="45"/>
+            </Style>
+            
+            <Style Selector="^ TextBox, ^ ComboBox, ^ NumericUpDown">
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="Background" Value="#0B0E18"/>
+                <Setter Property="FontSize" Value="35"/>
+                <Setter Property="BorderBrush" Value="#DBDBDA"/>
+                <Setter Property="BorderThickness" Value="3"/>
+                <Setter Property="Padding" Value="8,10,8,10"/>
+            </Style>
+            
+            <Style Selector="^ ComboBox">
+                <Setter Property="Padding" Value="12 10 12 10"/>
+                <Setter Property="PlaceholderForeground" Value="#99DBDBDA"/>
+            </Style>
+            
+            <Style Selector="^ ComboBox ComboBoxItem:nth-child(1)">
+                <Setter Property="Foreground" Value="Green"/>
+            </Style>
+            
+            <Style Selector="^ ComboBox ComboBoxItem:nth-child(2)">
+                <Setter Property="Foreground" Value="#6EA759"/>
+            </Style>
+            
+            <Style Selector="^ ComboBox ComboBoxItem:nth-child(3)">
+                <Setter Property="Foreground" Value="#DCB861"/>
+            </Style>
+            
+            <Style Selector="^ ComboBox ComboBoxItem:nth-child(4)">
+                <Setter Property="Foreground" Value="#D87249"/>
+            </Style>
+        </Style>
+    </Style>
+    
+    <Style Selector="WrapPanel.ProductsPanel">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="Margin" Value="20"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Style Selector="^ controls|ProductCard">
+            <Setter Property="Margin" Value="10" />
+        </Style>
+    </Style>
+    
+</Styles>

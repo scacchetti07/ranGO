@@ -1,0 +1,30 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MarketProject.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="110"
+        x:Class="MarketProject.Views.PopUpErrorView"
+        x:DataType="vm:PopUpErrorViewModel"
+        Title="PopUpError"
+        Width="350"
+        Height="110"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        WindowStartupLocation="CenterScreen">
+        <Border Background="#DBDBDA" CornerRadius="10">
+            <Grid RowDefinitions="21,*">
+                <Border Background="#D87249" Width="350" VerticalAlignment="Top" CornerRadius="10 10 0 0">
+                    <TextBlock Text="Dados inválidos" Foreground="#0B0E18" HorizontalAlignment="Center" FontWeight="Black" FontSize="15"/>
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Width="30" Height="30" Content="X" FontSize="15" FontWeight="Black" Foreground="#DBDBDA" Background="Red" Click="btnExit" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                </StackPanel>
+                    <Panel Grid.Row="1">
+                        <Label 
+                            Foreground="#0B0E18" FontWeight="Bold" FontSize="20" Name="lblmsg" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"></Label>
+                    </Panel>
+            </Grid>
+        </Border>
+</Window>
