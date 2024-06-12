@@ -120,8 +120,8 @@
     <Style Selector="WrapPanel.ProductsPanel">
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="Margin" Value="20"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Style Selector="^ controls|ProductCard">
             <Setter Property="Margin" Value="10" />
         </Style>

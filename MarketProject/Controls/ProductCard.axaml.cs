@@ -27,8 +27,6 @@ public partial class ProductCard : UserControl
         get => GetValue(ProdNameProperty);
         set => SetValue(ProdNameProperty, value);
     }
-
-    
     public int ProdQtd
     {
         get => GetValue(ProdQtdProperty);

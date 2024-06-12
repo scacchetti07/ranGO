@@ -12,31 +12,41 @@ namespace MarketProject.Views;
 
 public partial class HomeView : Window
 {
+    // variável do tipo botão indicando que já ta selecionado
     private Button? _selectedButton;
+
+    // Chamando as funcionalidades do HomeViewModel
     private HomeViewModel ViewModel => DataContext as HomeViewModel;
     
     public HomeView()
     {
         InitializeComponent();
+        
     }
 
+    // Método que verifica se a variável do botão selecionado é nula,
+    // Caso for verdade, ele retorna nada, se não for, ele remove o estilo de selecionado
     private void unSelectButton()
     {
         _selectedButton?.Classes.Remove("isSelected");
     }
 
+    // Método que adiciona uma seleção visual no botão clicado
     private void selectButton(Button? btn)
     {
         _selectedButton = btn;
         _selectedButton.Classes.Add("isSelected");
     }
 
+    // Método que verifica se aquele botão 
     private void toggleSelectedButton(Button? btn)
     {
-        unSelectButton();
-        selectButton(btn);
+        unSelectButton(); // ele remove o estilo caso a variável _selectedButton tiver algum valor
+        selectButton(btn); // ele adiciona o estilo de selecionado ao botão clicado
     }
     
+    // TabGeral => Área lateral de opção do sistema e cada número significa o index de posição para navegar e acessar as opções.
+    // Cada botão clicado acessa o seu espaço no Carousel do XAML
     private void btnDashb(object sender, RoutedEventArgs e)
     {
         TabGeral.SelectedIndex = 1;
@@ -77,6 +87,8 @@ public partial class HomeView : Window
         toggleSelectedButton(sender as Button);
     }
 
+    // Método que indica as ações fornecidas dentro do user control do storage View.
+    // Opções presentes no enum do StorageView.
     private void StorageView_OnActionChanged(CrudActions actions)
     {
         switch (actions)
@@ -85,20 +97,21 @@ public partial class HomeView : Window
                 TabStorage.SelectedIndex = 1;
                 break;
             case CrudActions.Read:
-                TabStorage.SelectedIndex = 1;
                 break;
             case CrudActions.Update:
+                TabStorage.SelectedIndex = 1;
                 break;
             case CrudActions.Delete:
                 break;
         }
     }
 
+    // Método que registra os produtos digitados no user control para o banco de dados e para StorageView
     private void ProdRegisterView_OnProductAdded(Product? product)
     {
         TabStorage.SelectedIndex = 0;
         if (product is null) return;
-        ViewModel.Database.AddProduct(product);
-        strView?.UpdateStorage();
+        ViewModel.Database.AddProduct(product); // Adiciona o produto digitado no banco json
+        strView?.UpdateStorage(); // Atualiza na tela StorageView o estoque atual
     }
 }

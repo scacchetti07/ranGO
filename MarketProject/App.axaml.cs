@@ -12,18 +12,18 @@ namespace MarketProject;
 public partial class App : Application
 {
 
-    private ServiceProvider? _provider;
+    private ServiceProvider _provider; // delcarando a váriavel de serviço
     
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
         var collection = new ServiceCollection();
-        collection.AddSingleton<Database>();
-        collection.AddSingleton<HomeViewModel>();
-
-        var services = collection.BuildServiceProvider();
+        collection.AddSingleton<Database>(); // Declarado o serviço "DataBase" no provider
+        collection.AddSingleton<HomeViewModel>(); // Declardo o serviço "HomeViewModel" no provider
+      
+        var services = collection.BuildServiceProvider(); // Implementando os serviços por meio do provider
         _provider = services;
-        this.Resources[typeof(ServiceProvider)] = services;
+        this.Resources[typeof(ServiceProvider)] = services; // Recebe os serviõs estabelecidos pelo provider na aplicação 
     }
 
     public override void OnFrameworkInitializationCompleted()

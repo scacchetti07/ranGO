@@ -14,7 +14,7 @@ public class Product
 
     public Product(string prdName, int prdQtd, string supply, string prdcat, int min, int max)
     {
-        Id = Guid.NewGuid().ToString();
+        Id = Guid.NewGuid().ToString(); // Gera um Id único
         ProdName = prdName;
         ProdQtd = prdQtd;
         SupName = supply;

@@ -76,7 +76,8 @@
         <Carousel Grid.Column="1" VerticalAlignment="Center" Name="TabGeral">
             
             <Carousel.PageTransition>
-                <CompositePageTransition>
+                <!-- Animação da Transição de Telas -->
+                <CompositePageTransition> 
                     <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
                 </CompositePageTransition>
             </Carousel.PageTransition>
@@ -94,7 +95,9 @@
                     </Carousel.PageTransition>
                 
                     <Carousel.Items>
+                        <!-- Implementação do Storage View com o banco de dados -->
                         <scr:StorageView Name="strView" x:CompileBindings="False" Products="{Binding $parent[scr:HomeView].DataContext.Database.Products}" ActionChanged="StorageView_OnActionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></scr:StorageView>
+                        <!-- Tela de Adicionar os Produto -->
                         <scr:ProdRegisterView ProductAdded="ProdRegisterView_OnProductAdded"></scr:ProdRegisterView>
                     </Carousel.Items>
                 </Carousel>

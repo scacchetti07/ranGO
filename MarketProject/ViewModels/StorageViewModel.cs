@@ -6,6 +6,7 @@ namespace MarketProject.ViewModels;
 
 public class StorageViewModel : ViewModelBase
 {
+    // Método que transforma o produto em ProductCard 
     public ProductCard ProductToCard(Product prd)
     {
         return new ProductCard()

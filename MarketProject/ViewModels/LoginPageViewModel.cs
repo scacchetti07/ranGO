@@ -2,8 +2,7 @@
 
 public class LoginPageViewModel : ViewModelBase
 {
-    // variáveis de teste (o correto será linkar com um banco de dados externo para que os usuários e senhas sejam capturados de lá)
-    private string _correctUser = "teste";
+    private string _correctUser = "admin";
     private string _correctPass = "1234";
 
     public string VerifLogin(string user, string pass)
