@@ -11,6 +11,7 @@
         WindowState="Maximized"
         ExtendClientAreaToDecorationsHint="True"
         FontFamily="{StaticResource FilsonPro}"
+        RequestedThemeVariant="Dark"
         x:DataType="vm:HomeViewModel">
     
     <Grid ColumnDefinitions="Auto,*">
@@ -36,7 +37,7 @@
                                 <Label Content="Estoque"/>
                             </StackPanel>
                         </Button>
-                    <Button Click="btnTrk">
+                    <Button Click="BtnSupply">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Assets/Icons/drkTruck.png"/>
                             <Label Content="Fornecedor"/>
@@ -45,13 +46,13 @@
                     <Button Click="btnEmp">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Assets/Icons/drkEmployer.png"/>
-                            <Label Content="Funcionários"/>
+                            <Label Content="Cardápio"/>
                         </StackPanel>
                     </Button>
                     <Button Click="btnGrp">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Assets/Icons/drkGraphs.png"/>
-                            <Label Content="Gráficos"/>
+                            <Label Content="Gerência"/>
                         </StackPanel>
                     </Button>
                     <Border Background="#883374B9" Height="4" Width="250" CornerRadius="5" Margin="0 90 0 55"/>
@@ -103,9 +104,9 @@
                 </Carousel>
                 <!-- Supply Screen -->
                 <Rectangle Fill="Red" Height="500" Width="500"/>
-                <!-- Employers Screen -->
+                <!-- Resturant menu Screen -->
                 <Rectangle Fill="Red" Height="500" Width="500"/>
-                <!-- Graphs Screen -->
+                <!-- Admin (Employers and Graphs) Screen -->
                 <Rectangle Fill="Red" Height="500" Width="500"/>
                 <!-- Option Screen -->
                 <Rectangle Fill="Red" Height="500" Width="500"/>

@@ -57,7 +57,7 @@ public partial class HomeView : Window
         TabGeral.SelectedIndex = 2;
         toggleSelectedButton(sender as Button);
     }
-    private void btnTrk(object sender, RoutedEventArgs e)
+    private void BtnSupply(object sender, RoutedEventArgs e)
     {
         TabGeral.SelectedIndex = 3;
         toggleSelectedButton(sender as Button);

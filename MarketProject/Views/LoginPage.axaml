@@ -40,7 +40,7 @@
                                 </StackPanel>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center">
-                                <Button Click="btnlogin" Cursor="Hand" FontWeight="Bold" Margin="0 30 0 30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Login" Foreground="#DBDBDA" Width="600" Height="75" FontSize="30" CornerRadius="12" Background="#3374B9"/>
+                                <Button Click="btnlogin" Classes="BtnLoginHover" Cursor="Hand" FontWeight="Bold" Margin="0 30 0 30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Login" Foreground="#DBDBDA" Width="600" Height="75" FontSize="30" CornerRadius="12" Background="#3374B9"/>
                                 <DockPanel HorizontalAlignment="Center">
                                 <Label Content="Esqueceu o login?" Foreground="#DBDBDA" FontStyle="Italic" FontSize="21.3"/>
                                 <Label Content="Contate-o suporte" Foreground="#DCB861" FontStyle="Italic" FontSize="21.3"/>

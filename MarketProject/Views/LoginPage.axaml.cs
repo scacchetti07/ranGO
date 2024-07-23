@@ -11,7 +11,6 @@ public partial class LoginPage : Window
 {
     // Instância que permite as funções da LoginPageViewModel serem chamadas   
     private LoginPageViewModel ViewModel => DataContext as LoginPageViewModel;
-    
     public LoginPage()
     {
         InitializeComponent();
