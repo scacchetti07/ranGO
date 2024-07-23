@@ -16,7 +16,7 @@
         <Border Background="#DBDBDA" CornerRadius="10">
             <Grid RowDefinitions="21,*">
                 <Border Background="#D87249" Width="350" VerticalAlignment="Top" CornerRadius="10 10 0 0">
-                    <TextBlock Text="Dados inválidos" Foreground="#0B0E18" HorizontalAlignment="Center" FontWeight="Black" FontSize="15"/>
+                    <TextBlock Text="Login inválido!!" Foreground="#0B0E18" HorizontalAlignment="Center" FontWeight="Black" FontSize="15"/>
                 </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Width="30" Height="30" Content="X" FontSize="15" FontWeight="Black" Foreground="#DBDBDA" Background="Red" Click="btnExit" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
