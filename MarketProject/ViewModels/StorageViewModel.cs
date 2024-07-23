@@ -13,10 +13,10 @@ public class StorageViewModel : ViewModelBase
         {
             ProdName = prd.ProdName,
             ProdQtd = prd.ProdQtd,
-            ProdCat = prd.ProdCat,
+            ProdStatus = prd.ProdCat,
             ProdMin = prd.ProdMin,
             ProdMax = prd.ProdMax,
-            SupName = prd.SupName,
+            SupplyName = prd.SupName,
             Id = prd.Id
         };
 

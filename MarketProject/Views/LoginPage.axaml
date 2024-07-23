@@ -7,20 +7,20 @@
         x:Class="MarketProject.Views.LoginPage"
         x:DataType="vm:LoginPageViewModel"
         Icon="/Assets/rango_icon.ico"
-        Title="Cadastro - ranGO!"
+        Title="Login - ranGO!"
         WindowState="Maximized"
         FontFamily="{StaticResource FilsonPro}"
         ExtendClientAreaToDecorationsHint="True"
         CanResize="False">
         <Window.Background>
-                <ImageBrush Source="/Assets/LoginBG.jpg" Stretch="UniformToFill"/>
+                <ImageBrush Source="/Assets/LoginBG_Dark.jpg" Stretch="UniformToFill"/>
         </Window.Background>
         <Grid RowDefinitions="35,*">
                 <Border Background="#BB000000">
                 </Border>
-                <Border Grid.Row="1" Background="#0B0E18" Opacity="80" BoxShadow="1 4 100 -4 #DBDBDA" BorderThickness="3" BorderBrush="#DBDBDA" Width="760" Height="817" CornerRadius="75"/>
-                        <StackPanel Width="760" Height="817" Grid.Row="1">
-                                <TextBlock Text="Cadastro" FontSize="64" FontWeight="Black" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="30" Margin="0 40 0  0"/>
+                <Border Grid.Row="1" Background="#0B0E18" Opacity="80" BoxShadow="1 4 100 -4 #DBDBDA" BorderThickness="3" BorderBrush="#DBDBDA" Width="749" Height="746" CornerRadius="75"/>
+                        <StackPanel Width="749" Height="746" Grid.Row="1">
+                                <TextBlock Text="Login" FontSize="67" FontWeight="Black" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="30" Margin="0 40 0  0"/>
                                 <StackPanel Margin="0 40 0 0">
                                         <Label Content="Usuário" FontSize="26" Foreground="#DBDBDA" Padding="54 0 0 3"/>
                                         <TextBox Name="txtUser" Width="646" Height="58" CornerRadius="5" 

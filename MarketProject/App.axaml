@@ -20,7 +20,7 @@
         <StyleInclude Source="/Styles/AppStyles.axaml"></StyleInclude>
     </Application.Styles>
     <Application.Resources>
-        <FontFamily x:Key="FilsonPro">avares://MarketProject/Assets/Fonts#Filson Pro</FontFamily>
+        <FontFamily x:Key="FilsonPro">avares://rango/Assets/Fonts#Filson Pro</FontFamily>
     </Application.Resources>
              
              

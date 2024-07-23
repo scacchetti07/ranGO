@@ -11,9 +11,9 @@ public partial class ProductCard : UserControl
     public static readonly StyledProperty<int> ProdQtdProperty =
         AvaloniaProperty.Register<ProductCard, int>(nameof(ProdQtd));
     public static readonly StyledProperty<string> SupNameProperty =
-    AvaloniaProperty.Register<ProductCard, string>(nameof(SupName));
+    AvaloniaProperty.Register<ProductCard, string>(nameof(SupplyName));
     public static readonly StyledProperty<string> ProdCatProperty =
-    AvaloniaProperty.Register<ProductCard, string>(nameof(ProdCat));
+    AvaloniaProperty.Register<ProductCard, string>(nameof(ProdStatus));
     public static readonly StyledProperty<int> ProdMinProperty =
         AvaloniaProperty.Register<ProductCard, int>(nameof(ProdMin));
     public static readonly StyledProperty<int> ProdMaxProperty =
@@ -32,12 +32,12 @@ public partial class ProductCard : UserControl
         get => GetValue(ProdQtdProperty);
         set => SetValue(ProdQtdProperty, value);
     }
-    public string SupName
+    public string SupplyName
     {
         get => GetValue(SupNameProperty);
         set => SetValue(SupNameProperty, value);
     }
-    public string ProdCat
+    public string ProdStatus
     {
         get => GetValue(ProdCatProperty);
         set => SetValue(ProdCatProperty, value);
@@ -83,8 +83,8 @@ public partial class ProductCard : UserControl
     {
         txtProductName.Content = ProdName;
         txtQtd.Content = ProdQtd.ToString();
-        txtSupply.Content = SupName;
-        txtCategory.Content = ProdCat;
+        txtSupply.Content = SupplyName;
+        txtCategory.Content = ProdStatus;
         txtMax.Content = ProdMin.ToString();
         txtMin.Content = ProdMin.ToString();
         CardPanel.Classes.Clear();

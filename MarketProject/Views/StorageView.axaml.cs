@@ -64,8 +64,6 @@ public partial class StorageView : UserControl
 
     private void btnNew_OnClick(object? sender, RoutedEventArgs e)
     {
-        // verifica se o evento possuí alguam função,
-        // caso verdade, passa o CrudActions.Create como argumento (ação de novo produto)
         ActionChanged?.Invoke(CrudActions.Create);
     }
 
