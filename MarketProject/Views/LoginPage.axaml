@@ -15,28 +15,37 @@
         <Window.Background>
                 <ImageBrush Source="/Assets/LoginBG_Dark.jpg" Stretch="UniformToFill"/>
         </Window.Background>
-        <Grid RowDefinitions="35,*">
-                <Border Background="#BB000000">
-                </Border>
-                <Border Grid.Row="1" Background="#0B0E18" Opacity="80" BoxShadow="1 4 100 -4 #DBDBDA" BorderThickness="3" BorderBrush="#DBDBDA" Width="749" Height="746" CornerRadius="75"/>
-                        <StackPanel Width="749" Height="746" Grid.Row="1">
-                                <TextBlock Text="Login" FontSize="67" FontWeight="Black" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="30" Margin="0 40 0  0"/>
+        <Grid RowDefinitions="35,*" Background="#CC0B0E18">
+                <Border Background="#1AFFFFFF"/>
+                <Border Grid.Row="1" Background="#0B0E18" BoxShadow="0 0 15 0 #4DDBDBDA" BorderThickness="3" BorderBrush="#DBDBDA" Width="749" Height="746" Margin="73 100 73 100" CornerRadius="20"/>
+                <StackPanel Width="749" Height="746" Grid.Row="1">
+                        <TextBlock Text="Login" FontSize="67.3" FontWeight="Heavy" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="30" Margin="0 40 0  0"/>
+                        <StackPanel Width="600" Height="296" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <StackPanel Margin="0 40 0 0">
-                                        <Label Content="Usuário" FontSize="26" Foreground="#DBDBDA" Padding="54 0 0 3"/>
-                                        <TextBox Name="txtUser" Width="646" Height="58" CornerRadius="5" 
-                                                 Background="#0B0E18" Opacity="20" FontSize="25" BorderBrush="#DBDBDA" BorderThickness="3"/>
+                                        <Label Content="Usuário" FontSize="21.3" />
+                                        <ThemeVariantScope RequestedThemeVariant="Light">
+                                        <TextBox Name="txtUser" Width="600" Height="60" CornerRadius="7" Foreground="Black"
+                                                 Background="White" FontSize="18" BorderBrush="#DBDBDA" BorderThickness="2" Watermark="Usuário..." VerticalContentAlignment="Center"/>
+                                        </ThemeVariantScope>
                                 </StackPanel>
-                                <StackPanel Margin="0 90 0 0">
-                                        <Label Content="Senha" FontSize="26" Foreground="#DBDBDA" Padding="54 0 0 3"/>
-                                                <TextBox RevealPassword="{Binding IsChecked, ElementName=ShowPass}" 
-                                                        Name="txtPass" PasswordChar="*" Width="646" Height="58" CornerRadius="5" Background="#0B0E18" Opacity="20" FontSize="25" BorderBrush="#DBDBDA" BorderThickness="3">
-                                                </TextBox>
-                                        <CheckBox Name="ShowPass" HorizontalAlignment="Right" Content="Mostrar Senha" FontSize="20" Padding="10 4 60 0" IsChecked="False"></CheckBox>
-                                </StackPanel>
-                                <StackPanel HorizontalAlignment="Center" Margin="0 100 0 0 ">
-                                        <Button Click="btnlogin" Cursor="Hand" FontWeight="Bold" HorizontalContentAlignment="Center" Padding="0 26 0 0" Content="Entrar no Sistema" Foreground="#DBDBDA" Width="532" Height="93" FontSize="32" Background="#3374B9"/>
+                                <StackPanel Margin="0 30 0 0">
+                                        <Label Content="Senha" FontSize="21.3"/>
+                                        <ThemeVariantScope RequestedThemeVariant="Light">        
+                                        <TextBox RevealPassword="{Binding IsChecked, ElementName=ShowPass}" Foreground="Black"
+                                                 Name="txtPass" PasswordChar="*" Width="600" Height="60" CornerRadius="7" Background="White" FontSize="18" BorderBrush="#DBDBDA" BorderThickness="2" Watermark="Senha..." VerticalContentAlignment="Center">
+                                        </TextBox>
+                                        </ThemeVariantScope>
+                                        <CheckBox Name="ShowPass" HorizontalAlignment="Right" Content="Mostrar Senha" FontSize="16" Margin="0 5 0 0" FontWeight="SemiLight" IsChecked="False"></CheckBox>
+                                        
                                 </StackPanel>
                         </StackPanel>
-        </Grid>
-
+                        <StackPanel HorizontalAlignment="Center">
+                                <Button Click="btnlogin" Cursor="Hand" FontWeight="Bold" Margin="0 30 0 30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Login" Foreground="#DBDBDA" Width="600" Height="75" FontSize="30" CornerRadius="12" Background="#3374B9"/>
+                                <DockPanel HorizontalAlignment="Center">
+                                <Label Content="Esqueceu o login?" Foreground="#DBDBDA" FontStyle="Italic" FontSize="21.3"/>
+                                <Label Content="Contate-o suporte" Foreground="#DCB861" FontStyle="Italic" FontSize="21.3"/>
+                                </DockPanel>
+                        </StackPanel>
+                </StackPanel>
+        </Grid>   
 </Window>
