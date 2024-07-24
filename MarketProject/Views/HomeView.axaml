@@ -27,7 +27,8 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 20 0 0" Name="Options" Classes="tabBar">
                     <Button Click="btnDashb">
                         <StackPanel Orientation="Horizontal">
-                             <Image Source="/Assets/Icons/drkDashboard.png"/>
+                             <!-- <Image Source="/Assets/Icons/drkDashboard.png"/> -->
+                             <!-- <Svg Path="MarketProject/Assets/Icons/SVG_Icons/IconDashboard.svg" ></Svg> -->
                              <Label Content="Dashboard"/>
                          </StackPanel>
                     </Button>
@@ -39,7 +40,7 @@
                         </Button>
                     <Button Click="BtnSupply">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/Assets/Icons/drkTruck.png"/>
+                            <Image Source="/Assets/Icons/drkSupply.png"/>
                             <Label Content="Fornecedor"/>
                         </StackPanel> 
                     </Button>
