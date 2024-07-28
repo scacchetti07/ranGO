@@ -3,21 +3,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MarketProject.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1072"
+             mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1026"
              x:Class="MarketProject.Views.StorageView"
              x:DataType="vm:StorageViewModel">
     <UserControl.DataContext>
         <vm:StorageViewModel></vm:StorageViewModel>
     </UserControl.DataContext>
-    <Grid RowDefinitions="930,*">
-        <Border BorderBrush="#3374B9" 
-                BorderThickness="3" 
-                Margin="51">
+    <Grid RowDefinitions="890,*">
+        <StackPanel Background="Red" Margin="45">
             <ScrollViewer>
                 <WrapPanel Name="ProductsPanel" Classes="ProductsPanel">
                 </WrapPanel>
             </ScrollViewer>
-        </Border>
+        </StackPanel>
         <StackPanel Classes="BtnStr" Name="StkStorage">
             <Button Content="Editar" Click="btnEdit_OnClick"/>
             <Button Content="Novo" Click="btnNew_OnClick"/>

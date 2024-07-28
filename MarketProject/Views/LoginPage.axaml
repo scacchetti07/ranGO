@@ -31,7 +31,7 @@
                                 <StackPanel Margin="0 30 0 0">
                                         <Label Content="Senha" FontSize="21.3"/>
                                         <ThemeVariantScope RequestedThemeVariant="Light">        
-                                        <TextBox RevealPassword="{Binding IsChecked, ElementName=ShowPass}" Foreground="Black"
+                                        <TextBox RevealPassword="{Binding IsChecked, ElementName=ShowPass}" Foreground="Black" 
                                                  Name="txtPass" PasswordChar="*" Width="600" Height="60" CornerRadius="7" Background="White" FontSize="18" BorderBrush="#DBDBDA" BorderThickness="2" Watermark="Senha..." VerticalContentAlignment="Center">
                                         </TextBox>
                                         </ThemeVariantScope>

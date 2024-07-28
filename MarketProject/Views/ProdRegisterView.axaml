@@ -15,7 +15,7 @@
     </UserControl.DataContext>
     <Grid RowDefinitions="Auto,*">
         <Button VerticalAlignment="Top" Width="100" Background="Transparent" Click="Button_OnClick">
-            <Image Source="/Assets/Icons/drkReturn.png"/>
+            <Svg Path="/Assets/Icons/SVG/IconReturn.svg"></Svg>
         </Button>
         <Border Classes="BorderProdRegis" Margin="70,70,70,0">
             <Grid RowDefinitions="Auto,*">
