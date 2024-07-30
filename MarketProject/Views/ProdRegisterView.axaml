@@ -39,7 +39,7 @@
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <Label Content="Estoque:" />
+                        <Label Content="Estofque:" />
                         <TextBox Watermark="Quantidade" Name="txtQtd"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="1">

@@ -35,57 +35,57 @@ public partial class StorageView : UserControl
         set => SetValue(ProductsProperty, value);
     }
     
-    public StorageView()
-    {
-        InitializeComponent();
-        // Toda vez que algum produto for adicionad ou alterado no sistema,
-        // O storageView será atualizado com os novos dados adicionados do banco jason para as interface.
-        ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => UpdateStorage()); 
-    }
-    public void UpdateStorage()
-    {
-        
-        ProductsPanel.Children.Clear(); // limpa todo o paínel visual do sistema
-        if (Products is null) return;
-        foreach (Product product in Products)
-        {
-            // lista os produtos do banco json para o painel visual na StorageView
-            var productCard = ViewModel.ProductToCard(product);
-            // pointerpresse = Toda vez que for clicado no card, ele será selecionado ou desselecionado
-            productCard.PointerPressed += (sender, args) => 
-            {
-                productCard.Selected = !productCard.Selected;
-            }; 
-            ProductsPanel.Children.Add(productCard);
-        }
-    }
+    // public StorageView()
+    // {
+    //     InitializeComponent();
+    //     // Toda vez que algum produto for adicionad ou alterado no sistema,
+    //     // O storageView será atualizado com os novos dados adicionados do banco jason para as interface.
+    //     ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => UpdateStorage()); 
+    // }
+    // public void UpdateStorage()
+    // {
+    //     
+    //     ProductsPanel.Children.Clear(); // limpa todo o paínel visual do sistema
+    //     if (Products is null) return;
+    //     foreach (Product product in Products)
+    //     {
+    //         // lista os produtos do banco json para o painel visual na StorageView
+    //         var productCard = ViewModel.ProductToCard(product);
+    //         // pointerpresse = Toda vez que for clicado no card, ele será selecionado ou desselecionado
+    //         productCard.PointerPressed += (sender, args) => 
+    //         {
+    //             productCard.Selected = !productCard.Selected;
+    //         }; 
+    //         ProductsPanel.Children.Add(productCard);
+    //     }
+    // }
     
     
 
-    private void btnNew_OnClick(object? sender, RoutedEventArgs e)
-    {
-        ActionChanged?.Invoke(CrudActions.Create);
-    }
+    // private void btnNew_OnClick(object? sender, RoutedEventArgs e)
+    // {
+    //     ActionChanged?.Invoke(CrudActions.Create);
+    // }
+    //
+    // private void btnStorage_OnClick(object? sender, RoutedEventArgs e)
+    // {
+    //     ActionChanged?.Invoke(CrudActions.Read);
+    // }
 
-    private void btnStorage_OnClick(object? sender, RoutedEventArgs e)
-    {
-        ActionChanged?.Invoke(CrudActions.Read);
-    }
+    // private void btnRemove_OnClick(object? sender, RoutedEventArgs e)
+    // {
+    //     ActionChanged?.Invoke(CrudActions.Delete);
+    //     // Ocorre a remoção dos produtos apartir da seleção feita no pointerpressed
+    //     IEnumerable<string> selectedProducts = ProductsPanel.Children.Cast<ProductCard>().Where(card => card.Selected)
+    //         .Select(card => card.Id);
+    //     Products.RemoveAll(product => selectedProducts.Contains(product.Id));
+    //     UpdateStorage();
+    // }
 
-    private void btnRemove_OnClick(object? sender, RoutedEventArgs e)
-    {
-        ActionChanged?.Invoke(CrudActions.Delete);
-        // Ocorre a remoção dos produtos apartir da seleção feita no pointerpressed
-        IEnumerable<string> selectedProducts = ProductsPanel.Children.Cast<ProductCard>().Where(card => card.Selected)
-            .Select(card => card.Id);
-        Products.RemoveAll(product => selectedProducts.Contains(product.Id));
-        UpdateStorage();
-    }
-
-    private void btnEdit_OnClick(object? sender, RoutedEventArgs e)
-    {
-        ActionChanged?.Invoke(CrudActions.Update);
-    }
+    // private void btnEdit_OnClick(object? sender, RoutedEventArgs e)
+    // {
+    //     ActionChanged?.Invoke(CrudActions.Update);
+    // }
 }
 
 // Ações possíveis de serem feitas no sistema pelo enum

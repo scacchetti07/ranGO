@@ -29,8 +29,8 @@
                 <Setter Property="Width" Value="274"/>
                 <Style Selector="^ Image">
                     <Setter Property="Width" Value="50"/>
-                    <Setter Property="Height" Value="44"/>
-                    <Setter Property="Margin" Value="7 0 0 0 "/>
+                    <Setter Property="Height" Value="50"/>
+                    <Setter Property="Margin" Value="10 0 0 0"/>
                 </Style>
                 <Style Selector="^ Label">
                     <Setter Property="Foreground" Value="#DBDBDA"/>

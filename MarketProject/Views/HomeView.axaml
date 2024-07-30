@@ -14,17 +14,15 @@
         RequestedThemeVariant="Dark"
         x:DataType="vm:HomeViewModel">
     
-    <Grid ColumnDefinitions="Auto,*">
-        <Border BoxShadow="16 0 21.8 4 #223374B9" 
-            Width="339" Height="1072" 
-            HorizontalAlignment="Left">
+        <Grid ColumnDefinitions="Auto,*">
+        <Border BoxShadow="16 0 21.8 4 #223374B9" Width="339" Height="1072" HorizontalAlignment="Left">
         <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"/>    
         </Border>
             <StackPanel Grid.Column="0" Orientation="Vertical" Width="339" Height="1072" HorizontalAlignment="Left" Spacing="15">
                 <Image Source="/Assets/rango-principal-2.png" Width="220" Height="86" Margin="0 50 0 0"/>
-                <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 0 0 109"/>
+                <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 0 0 90"/>
                 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" Name="Options" Classes="tabBar">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Options" Classes="tabBar">
                     <Button Click="btnDashb">
                         <StackPanel Orientation="Horizontal">
                              <Image Source="{SvgImage /Assets/Icons/SVG/IconDashboard.svg}"/>
@@ -39,7 +37,7 @@
                         </Button>
                     <Button Click="BtnSupply">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="{SvgImage /Assets/Icons/SVG/IconSupply.svg}"></Image>
+                            <Image Source="{SvgImage /Assets/Icons/SVG/IconSupply.svg}"/>
                             <Label Content="Fornecedor"/>
                         </StackPanel> 
                     </Button>
@@ -51,13 +49,13 @@
                     </Button>
                     <Button Click="btnGrp">
                         <StackPanel Orientation="Horizontal">
-                            <Svg Path="/Assets/Icons/SVG/IconAdmin.svg"/>
+                            <Image Source="{SvgImage /Assets/Icons/SVG/IconAdmin.svg}"/>
                             <Label Content="Gerência"/>
                         </StackPanel>
                     </Button>
                     <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 90 0 60"/>
                     
-                    <StackPanel Margin="0 0 0 0">
+                    <StackPanel>
                         <Button Click="btnSett">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSettings.svg}"/>
@@ -117,7 +115,6 @@
 
         </Carousel>
     </Grid>
-    
     
         
 </Window>
