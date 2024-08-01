@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:MarketProject.ViewModels"
+             xmlns:lambda="using:MarketProject.Converters"
+             mc:Ignorable="d" d:DesignWidth="441" d:DesignHeight="181"
+             x:Class="MarketProject.Views.RegisterMinMaxView"
+             x:DataType="vm:RegisterMinMaxViewModel"
+             Width="441"
+             Height="181"
+             Background="#1C1F2B"
+             CornerRadius="5">
+    <UserControl.DataContext>
+        <vm:RegisterMinMaxViewModel/>
+    </UserControl.DataContext>
+    <Grid RowDefinitions="Auto, *" Margin="20">
+        <StackPanel>
+            <StackPanel Classes="HeaderMinMax">
+                <Button Click="WeekdaysButton" Name="WeekdayButton">
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconWeekdays.svg}" Width="21.5" Height="24"/>
+                </Button>
+                
+                <Button Click="WeekendsButton" Name="WeekendButton">
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconWeekends.svg}" Width="25" Height="23"/>
+                </Button>
+                
+                <Button Click="EventsButton" Name="EventButton">
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconEvents.svg}" Width="20" Height="27"/>
+                </Button>
+                <TextBlock Text="{Binding SectionTitle}" FontSize="21.3" Padding="155 0 0 0" VerticalAlignment="Center" FontWeight="Bold"/>
+            </StackPanel>
+            <Border BorderBrush="#2B375C" BorderThickness="1" Margin="2 3 0 0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Classes="ContentMinMax">
+            <StackPanel>
+                <Label Content="Mínimo: *"/>
+                <TextBox Width="192.34" Name="MinTextBox" Text="{Binding WeekdaysMin}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Máximo: *"/>
+                <TextBox Width="192.34" Name="MaxTextBox" Text="{Binding WeekdaysMax}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

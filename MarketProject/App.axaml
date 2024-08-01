@@ -17,8 +17,8 @@
                 <ColorPaletteResources x:Key="Dark" Accent="#ff3374b9" AltHigh="Black" AltLow="Black" AltMedium="Black" AltMediumHigh="Black" AltMediumLow="Black" BaseHigh="White" BaseLow="#ff202229" BaseMedium="#ff8d919e" BaseMediumHigh="#ffa8adbb" BaseMediumLow="#ff565a63" ChromeAltLow="#ffa8adbb" ChromeBlackHigh="Black" ChromeBlackLow="#ffa8adbb" ChromeBlackMedium="Black" ChromeBlackMediumLow="Black" ChromeDisabledHigh="#ff202229" ChromeDisabledLow="#ff8d919e" ChromeGray="#ff727581" ChromeHigh="#ff727581" ChromeLow="#ff060f25" ChromeMedium="#ff0d1426" ChromeMediumLow="#ff1a1d28" ChromeWhite="White" ListLow="#ff0d1426" ListMedium="#ff202229" RegionColor="#ff0b0e18" />
             </FluentTheme.Palettes>
         </FluentTheme>
-
-        <StyleInclude Source="/Styles/AppStyles.axaml"></StyleInclude>
+        <StyleInclude Source="/Styles/AppStyles.axaml"/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
     </Application.Styles>
     <Application.Resources>
         <FontFamily x:Key="FilsonPro">avares://MarketProject/Assets/Fonts#Filson Pro</FontFamily>

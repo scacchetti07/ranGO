@@ -35,13 +35,13 @@ public partial class StorageView : UserControl
         set => SetValue(ProductsProperty, value);
     }
     
-    // public StorageView()
-    // {
-    //     InitializeComponent();
-    //     // Toda vez que algum produto for adicionad ou alterado no sistema,
-    //     // O storageView será atualizado com os novos dados adicionados do banco jason para as interface.
-    //     ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => UpdateStorage()); 
-    // }
+    public StorageView()
+    {
+        InitializeComponent();
+        // // Toda vez que algum produto for adicionad ou alterado no sistema,
+        // // O storageView será atualizado com os novos dados adicionados do banco jason para as interface.
+        // ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => UpdateStorage()); 
+    }
     // public void UpdateStorage()
     // {
     //     
@@ -71,7 +71,7 @@ public partial class StorageView : UserControl
     // {
     //     ActionChanged?.Invoke(CrudActions.Read);
     // }
-
+    //
     // private void btnRemove_OnClick(object? sender, RoutedEventArgs e)
     // {
     //     ActionChanged?.Invoke(CrudActions.Delete);
@@ -79,9 +79,9 @@ public partial class StorageView : UserControl
     //     IEnumerable<string> selectedProducts = ProductsPanel.Children.Cast<ProductCard>().Where(card => card.Selected)
     //         .Select(card => card.Id);
     //     Products.RemoveAll(product => selectedProducts.Contains(product.Id));
-    //     UpdateStorage();
+    //     //UpdateStorage();
     // }
-
+    //
     // private void btnEdit_OnClick(object? sender, RoutedEventArgs e)
     // {
     //     ActionChanged?.Invoke(CrudActions.Update);

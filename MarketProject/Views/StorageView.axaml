@@ -7,22 +7,10 @@
              x:Class="MarketProject.Views.StorageView"
              x:DataType="vm:StorageViewModel">
     <UserControl.DataContext>
-        <vm:StorageViewModel></vm:StorageViewModel>
+        <vm:StorageViewModel/>
     </UserControl.DataContext>
-    <StackPanel>
-    </StackPanel>
-    <!-- <Grid RowDefinitions="890,*"> -->
-    <!--     <StackPanel Background="Red" Margin="45"> -->
-    <!--         <ScrollViewer> -->
-    <!--             <WrapPanel Name="ProductsPanel" Classes="ProductsPanel"> -->
-    <!--             </WrapPanel> -->
-    <!--         </ScrollViewer> -->
-    <!--     </StackPanel> -->
-    <!--     <StackPanel Classes="BtnStr" Name="StkStorage"> -->
-    <!--         <Button Content="Editar" Click="btnEdit_OnClick"/> -->
-    <!--         <Button Content="Novo" Click="btnNew_OnClick"/> -->
-    <!--         <Button Content="Ver estoque" Click="btnStorage_OnClick"/> -->
-    <!--         <Button Content="Remover" Click="btnRemove_OnClick"/> -->
-    <!--     </StackPanel> -->
-    <!-- </Grid> -->
+    <DataGrid Margin="20" ItemsSource="{Binding Product}" 
+              AutoGenerateColumns="True" IsReadOnly="True" 
+              BorderThickness="5" BorderBrush="White">
+    </DataGrid>
 </UserControl>

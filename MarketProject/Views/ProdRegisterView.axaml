@@ -5,7 +5,7 @@
              xmlns:vm="using:MarketProject.ViewModels"
              xmlns:vw="using:MarketProject.Views"
              xmlns:converters="clr-namespace:MarketProject.Converters"
-             mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1072"
+             mc:Ignorable="d" d:DesignWidth="1142" d:DesignHeight="800"
              x:Class="MarketProject.Views.ProdRegisterView"
              x:DataType="vm:ProdRegisterViewModel"
              FontFamily="{StaticResource FilsonPro}">
@@ -13,52 +13,77 @@
     <UserControl.DataContext>
         <vm:ProdRegisterViewModel></vm:ProdRegisterViewModel>
     </UserControl.DataContext>
-    <Grid RowDefinitions="Auto,*">
-        <Button VerticalAlignment="Top" Width="100" Background="Transparent" Click="Button_OnClick">
-            <Svg Path="/Assets/Icons/SVG/IconReturn.svg"></Svg>
-        </Button>
-        <Border Classes="BorderProdRegis" Margin="70,70,70,0">
-            <Grid RowDefinitions="Auto,*">
-                <TextBlock Classes="ProdTitleBlock" Text="{Binding ElementName=txtName, Path=Text, Converter={x:Static converters:LambdaConverters.ProdConverter}}" />
-                <Grid Classes="ProdRegisBlock" Grid.Row="1" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="2*,*">
-                    <StackPanel>
-                        <Label Content="Nome do Produto:" />
-                        <TextBox Watermark="Nome" Name="txtName" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="1">
-                        <Label Content="Nome do Fornecedor:" />
-                        <TextBox Watermark="Fornecedor" Name="txtSup" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="2">
-                        <Label Content="Estado do Produto:" />
-                        <ComboBox HorizontalAlignment="Stretch" PlaceholderText="Estado" Name="cbxStatus">
-                            <ComboBoxItem Content="Ótimo" />
-                            <ComboBoxItem Content="Bom" />
-                            <ComboBoxItem Content="OK" />
-                            <ComboBoxItem Content="Ruim" />
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <Label Content="Estofque:" />
-                        <TextBox Watermark="Quantidade" Name="txtQtd"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="1">
-                        <Label Content="Limite Mínimo:" />
-                        <TextBox Watermark="Mínimo" Name="txtMin" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="2" Grid.Column="1">
-                        <Label Content="Limite Máximo:" />
-                        <TextBox Watermark="Máximo" Name="txtMax"/>
-                    </StackPanel>
-                </Grid>
+    <Grid ColumnDefinitions="Auto,Auto">
+        <StackPanel Classes="ProductRegisterStyle">
+            <Grid >
+                <TextBlock Text="Cadastro de Produtos no estoque" FontSize="30" FontWeight="Bold" Classes = "RegisterTitle"/>
+                <Button></Button>
             </Grid>
-        </Border>
-        <Grid Grid.Row="1">
-            <StackPanel  Classes="BtnStr" VerticalAlignment="Bottom">
-                <Button Click="btnAdd_OnClick">Adicionar</Button>
-                <Button Click="btnLimpar">Limpar</Button>
+            <StackPanel>
+                <Label Content="Código GTIN: *"/>
+                <TextBox Name="GtinTextBox" Watermark="0-000000-00000000"/>
             </StackPanel>
-        </Grid>
+            <StackPanel>
+                <Label Content="Nome: *"/>
+                <TextBox Name="NameTextBox" MaxLength="40"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Descrição:"/>
+                <TextBox Name="DescriptionTextBox" Height="70" VerticalContentAlignment="Top" MaxLength="150" TextWrapping="Wrap"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Fornecedor: *"/>
+                <AutoCompleteBox Name="SupplyTextBox" FilterMode="StartsWith" Watermark="Selecione algum fornecedor"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <Label Content="Preço Unitário: *"/>
+                    <MaskedTextBox Name="PriceTextBox" Mask="00.00" Width="190" Margin="0" MaxLength="7" Watermark="R$ 00,00" />
+                </StackPanel>
+                <StackPanel Margin="60 0 0 0">
+                    <Label Content="Unid. de Medida: *"/>
+                    <ComboBox Name = "UnitComboBox" SelectedIndex="0">
+                        <ComboBoxItem Content="Unidade"/>
+                        <ComboBoxItem Content="Kilogramas"/>
+                        <ComboBoxItem Content="Gramas"/>
+                        <ComboBoxItem Content="Litros"/>
+                        <ComboBoxItem Content="Mililitros"/>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Quantidade Atual: "/>
+                <TextBox Name = "QuantityTextBox" MaxLength="5"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Classes="ProductRegisterStyle" Margin="0 100 0 0">
+            <StackPanel Margin="0 0 0 26">
+                <Label Content="Limites do Estoque: *"/>
+                <vw:RegisterMinMaxView Width="441" Height="181" Name="MinMaxView"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Imagem do Produto: "/>
+                <StackPanel>
+                    <Border Classes="ImageProduct">
+                        <Button Name="ProductImage" Click="AddImageProduct">
+                            <Border Classes="ImageSelect">
+                                <StackPanel>
+                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconImageUpload.svg}" Width="28" Height="29"/>
+                                    <Label Content="Arraste e solte ou escolha uma arquivo"/>
+                                    <Label Content="Arquivos em .png e .jpg" Padding="0 -2 4 0"/>
+                                </StackPanel>
+                            </Border>
+                        </Button>    
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel Classes="ProductRegisterButtons">
+                <Button Content="Adicionar" Background="#3374B9" Click="AddProductButton"/>
+                <Button Content="Limpar" Background="#D87249"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 
+    
 </UserControl>

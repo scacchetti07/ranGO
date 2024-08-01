@@ -45,8 +45,6 @@ public partial class HomeView : Window
         selectButton(btn); // ele adiciona o estilo de selecionado ao botão clicado
     }
     
-    // TabGeral => Área lateral de opção do sistema e cada número significa o index de posição para navegar e acessar as opções.
-    // Cada botão clicado acessa o seu espaço no Carousel do XAML
     private void btnDashb(object sender, RoutedEventArgs e)
     {
         TabGeral.SelectedIndex = 1;
@@ -112,6 +110,6 @@ public partial class HomeView : Window
         TabStorage.SelectedIndex = 0;
         if (product is null) return;
         ViewModel.Database.AddProduct(product); // Adiciona o produto digitado no banco json
-        strView?.UpdateStorage(); // Atualiza na tela StorageView o estoque atual
+        // strView?.UpdateStorage(); // Atualiza na tela StorageView o estoque atual
     }
 }
