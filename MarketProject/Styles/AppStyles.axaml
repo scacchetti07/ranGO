@@ -63,9 +63,35 @@
     <Style Selector="TextBlock.RegisterTitle">
         <Setter Property="Margin" Value="0 33 0 31"/>
     </Style>
+    <Style Selector="Button.ReturnButton">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="0 25"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="50"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        
+        <Style Selector="^ StackPanel.ReturnButtonStackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            
+            <Style Selector="^ Image">
+                <Setter Property="Width" Value="26.33"/>
+                <Setter Property="Height" Value="16"/>
+            </Style>
+            <Style Selector="^ Label">
+                <Setter Property="FontSize" Value="17"/>
+            </Style>
+        </Style>
+    </Style>
+    <Style Selector="Button.ReturnButton:pointerover /template/ ContentPresenter">
+        <Setter Property="BorderBrush" Value="#DCB861"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    
     <Style Selector="StackPanel.ProductRegisterStyle">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="Margin" Value="50 0 0 0"/>
+        
         <Style Selector="^ Label">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="21.3"/>

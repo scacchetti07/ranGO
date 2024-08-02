@@ -8,20 +8,26 @@
              mc:Ignorable="d" d:DesignWidth="1142" d:DesignHeight="800"
              x:Class="MarketProject.Views.ProdRegisterView"
              x:DataType="vm:ProdRegisterViewModel"
-             FontFamily="{StaticResource FilsonPro}">
+             FontFamily="{StaticResource FilsonPro}"
+             CornerRadius="20">
 
     <UserControl.DataContext>
         <vm:ProdRegisterViewModel></vm:ProdRegisterViewModel>
     </UserControl.DataContext>
-    <Grid ColumnDefinitions="Auto,Auto">
+    <Grid ColumnDefinitions="Auto,Auto" Margin="50 0">
+        <Button Grid.Column="1" Classes="ReturnButton" Click="ReturnButton">
+            <StackPanel Classes="ReturnButtonStackPanel">
+                <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}"/>
+                <Label Content="Retornar"/>
+            </StackPanel>
+        </Button>
         <StackPanel Classes="ProductRegisterStyle">
-            <Grid ColumnDefinitions="Auto, Auto">
+            <Grid ColumnDefinitions="Auto, Auto, Auto">
                 <TextBlock Text="Cadastro de Produtos no estoque" FontSize="30" FontWeight="Bold" Classes = "RegisterTitle"/>
-                <Button Grid.Column="1" HorizontalAlignment="Right"></Button>
             </Grid>
             <StackPanel>
                 <Label Content="Código GTIN: *"/>
-                <TextBox Name="GtinTextBox" Watermark="0-000000-00000000"/>
+                <TextBox Name="GtinTextBox" Watermark="0-000000-00000000" MaxLength="14"/>
             </StackPanel>
             <StackPanel>
                 <Label Content="Nome: *"/>
@@ -38,7 +44,7 @@
             <StackPanel Orientation="Horizontal">
                 <StackPanel>
                     <Label Content="Preço Unitário: *"/>
-                    <MaskedTextBox Name="PriceTextBox" Mask="00.00" Width="190" Margin="0" MaxLength="7" Watermark="R$ 00,00" />
+                    <TextBox Name="PriceTextBox" Width="190" MaxLength="7" Watermark="R$ 00,00" />
                 </StackPanel>
                 <StackPanel Margin="60 0 0 0">
                     <Label Content="Unid. de Medida: *"/>
@@ -56,7 +62,8 @@
                 <TextBox Name = "QuantityTextBox" MaxLength="5"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="1" Classes="ProductRegisterStyle" Margin="0 100 0 0">
+        
+        <StackPanel Grid.Column="1" Classes="ProductRegisterStyle" Margin="95 100 0 0">
             <StackPanel Margin="0 0 0 26">
                 <Label Content="Limites do Estoque: *"/>
                 <vw:RegisterMinMaxView Width="441" Height="181" Name="MinMaxView"/>
@@ -80,7 +87,7 @@
             
             <StackPanel Classes="ProductRegisterButtons">
                 <Button Content="Adicionar" Background="#3374B9" Click="AddProductButton"/>
-                <Button Content="Limpar" Background="#D87249"/>
+                <Button Content="Limpar" Background="#D87249" Click="CleanTextBoxButton"/>
             </StackPanel>
         </StackPanel>
     </Grid>
