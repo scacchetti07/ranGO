@@ -15,9 +15,9 @@
     </UserControl.DataContext>
     <Grid ColumnDefinitions="Auto,Auto">
         <StackPanel Classes="ProductRegisterStyle">
-            <Grid >
+            <Grid ColumnDefinitions="Auto, Auto">
                 <TextBlock Text="Cadastro de Produtos no estoque" FontSize="30" FontWeight="Bold" Classes = "RegisterTitle"/>
-                <Button></Button>
+                <Button Grid.Column="1" HorizontalAlignment="Right"></Button>
             </Grid>
             <StackPanel>
                 <Label Content="Código GTIN: *"/>

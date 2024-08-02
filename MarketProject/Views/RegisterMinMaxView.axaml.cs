@@ -1,4 +1,3 @@
-using System;
 using System.Net.Mime;
 using System.Text.RegularExpressions;
 using Avalonia;
@@ -7,7 +6,6 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using MarketProject.Converters;
 using MarketProject.ViewModels;
 
 namespace MarketProject.Views;
@@ -19,8 +17,10 @@ public partial class RegisterMinMaxView : UserControl
         InitializeComponent();
         MinTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         MinTextBox.AddHandler(TextBox.KeyDownEvent, KeyDownEvent, RoutingStrategies.Tunnel);
+        
         MaxTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         MaxTextBox.AddHandler(TextBox.KeyDownEvent, KeyDownEvent, RoutingStrategies.Tunnel);
+        
         SelectedButton = WeekdayButton;
     }
 
@@ -40,7 +40,6 @@ public partial class RegisterMinMaxView : UserControl
     {
         Regex regex = new(@"^[0-9]+$");
         e.Handled = !regex.IsMatch(e.Text!);
-        
     }
     private void KeyDownEvent(object sender, KeyEventArgs e)
     {
@@ -52,9 +51,10 @@ public partial class RegisterMinMaxView : UserControl
         }
     }
     
+    // Botões para alterar o conteúdo do text box de acordo com a sessão que for escolhida
     private void WeekdaysButton(object sender, RoutedEventArgs e)
     {
-        SelectedButton = WeekdayButton;
+        SelectedButton = WeekdayButton; // Definindo o estilo de seleção no botão
         MinTextBox.Bind(TextBox.TextProperty, new Binding("WeekdaysMin"));
         MaxTextBox.Bind(TextBox.TextProperty, new Binding("WeekdaysMax"));
     }

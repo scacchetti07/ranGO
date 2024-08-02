@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Net.Mime;
+using System.Security.AccessControl;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
@@ -32,8 +36,34 @@ public partial class ProdRegisterView : UserControl
     public ProdRegisterView()
     {
         InitializeComponent();
+        
+        GtinTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        GtinTextBox.AddHandler(TextBox.KeyDownEvent, KeyDownEvent, RoutingStrategies.Tunnel);
+        
+        PriceTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        PriceTextBox.AddHandler(TextBox.KeyDownEvent, KeyDownEvent, RoutingStrategies.Tunnel);
+        
+        QuantityTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        QuantityTextBox.AddHandler(TextBox.KeyDownEvent, KeyDownEvent, RoutingStrategies.Tunnel);
+            
     }
 
+    private void PreviewTextChanged(object sender, TextInputEventArgs e)
+    {
+        Regex regex = new(@"^[0-9]+$");
+        e.Handled = !regex.IsMatch(e.Text!);
+    }
+
+    private void KeyDownEvent(object sender, KeyEventArgs e)
+    {
+        var textBox = sender as TextBox;
+        if (textBox.SelectedText is null && e.Key == Key.Back && (textBox.Text.Length == 1 || textBox.SelectedText.Length == textBox.Text.Length ))
+        {
+            textBox.Text = "0";
+            e.Handled = true;
+        }
+    }
+    
     // Botão de Retornar a tela do estoque
     private void Button_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -64,7 +94,7 @@ public partial class ProdRegisterView : UserControl
                 (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
                 new Range(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
-                new Range(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax));
+                new Range(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
 
             var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
@@ -77,7 +107,6 @@ public partial class ProdRegisterView : UserControl
                 Markdown = false,
                 MaxHeight = 800,
                 MaxWidth = 500,
-                SystemDecorations = SystemDecorations.Full,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 CloseOnClickAway = false,
                 ButtonDefinitions = ButtonEnum.Ok,
@@ -120,6 +149,6 @@ public partial class ProdRegisterView : UserControl
             }
         };
         var result = await TopLevel.GetTopLevel(this)!.StorageProvider.OpenFilePickerAsync(fileoption);
-        Console.WriteLine(result[0].Path);
+        //Console.WriteLine(result[0].Path);
     }   
 }
