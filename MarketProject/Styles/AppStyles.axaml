@@ -236,7 +236,7 @@
     <Style Selector="DataGrid.ItensTableDataGrid">
         <Setter Property="Margin" Value="30"/>
         <Setter Property="IsReadOnly" Value="True"/>
-        <Style Selector="^ DataGridTextColumn">
+        <Style Selector="^ DataGridTextColumn.ItensStyle">
             <Setter Property="FontWeight" Value="Regular"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="20"/>
@@ -298,6 +298,15 @@
            <Style Selector="^ Image">
                 <Setter Property="Opacity" Value="70"/>
             </Style>
+        </Style>
+        
+        <Style Selector="^ ComboBox.ChangeTable">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="0 -15"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
     </Style>
     

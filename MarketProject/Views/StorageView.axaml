@@ -15,7 +15,7 @@
         <DockPanel>
             <Grid Classes="SearchTextBox" DockPanel.Dock="Left">
                 <ThemeVariantScope RequestedThemeVariant="Light">
-                    <TextBox Watermark="Procure por Id ou Nome do produto..."/>
+                    <TextBox Watermark="Procure por Id ou Nome do produto..." MaxLength="70"/>
                 </ThemeVariantScope>
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
             </Grid>
@@ -25,16 +25,27 @@
                     <TextBlock Text="Adicionar Novo Produto"/>
                 </StackPanel>
             </Button>
+                <ComboBox SelectedIndex="0" Classes="ChangeTable" SelectionChanged="ChangeMinMaxTable" Name="SchedComboBox">
+                    <ComboBoxItem Content="Dias úteis"/>
+                    <ComboBoxItem Content="Finais de Semana"/>
+                    <ComboBoxItem Content="Eventos"/>
+                </ComboBox>
         </DockPanel>
-        <DataGrid ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Product}" Classes="ItensTableDataGrid" >
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="ID" Binding="{Binding Id, StringFormat='{}{}{}{}{}'}"/>
-            <DataGridTextColumn Header="Nome" Binding="{Binding ProdName}"/>
-            <DataGridTextColumn Header="Fornecedor" Binding="{Binding Supply}"/>
-            <DataGridTextColumn Header="Min" Binding="{Binding Weekday.Start}"/>
-            <DataGridTextColumn Header="Max" Binding="{Binding Weekday.End}"/>
-            <DataGridTextColumn Header="Total" Binding="{Binding ProdTotal}"/>
-        </DataGrid.Columns>
+        <DataGrid ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                  ItemsSource="{Binding Product}" 
+                  Classes="ItensTableDataGrid"
+                  CanUserSortColumns="True"
+                  IsReadOnly="True"
+                  IsScrollInertiaEnabled="True"
+                  Name="ProductsDataGrid">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Width="*" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding ProdName}"/>
+                <DataGridTextColumn Header="Fornecedor" Width="*" Binding="{Binding Supply}"/>
+                <DataGridTextColumn Header="Min" Width="*" Binding="{Binding Min}"/>
+                <DataGridTextColumn Header="Max" Width="*" Binding="{Binding Max}"/>
+                <DataGridTextColumn Header="Total" Width="*" Binding="{Binding ProdTotal}"/>
+            </DataGrid.Columns>
     </DataGrid>
     </StackPanel>
     

@@ -20,8 +20,11 @@ public class Product
     public Range Weekends { get; set; } // Min Max
     public Range Events { get; set; } // Min Max
     
+    public Index Min { get; set; }
+    public Index Max { get; set; }
     
-    public Product(int gtin, string prodName, string supply, decimal price, string unit, Range weekday, Range weekends, Range events, string? description = null, int prodTotal = 0)
+    
+    public Product(int gtin, string prodName, string supply, decimal price, string unit, Range weekday, Range weekends, Range events, string? description = null, int prodTotal = 0, string id = null)
     {
         Id = Guid.NewGuid().ToString(); // Gera um Id único
         GTIN = gtin;
@@ -36,5 +39,7 @@ public class Product
         Events = events;
     }
 
+    public Product()
+    { }
 
 }
