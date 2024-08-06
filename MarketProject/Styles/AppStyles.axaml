@@ -232,4 +232,73 @@
     <Style Selector="Button.MinMaxSelected">
         <Setter Property="Background" Value="#803374B9"/>
     </Style>
+    
+    <Style Selector="DataGrid.ItensTableDataGrid">
+        <Setter Property="Margin" Value="30"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Style Selector="^ DataGridTextColumn">
+            <Setter Property="FontWeight" Value="Regular"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Width" Value="*"/>
+        </Style>
+        
+    </Style>
+    
+    <Style Selector="StackPanel.StorageStyles">
+        <Style Selector="^ Grid.SearchTextBox">
+            <Style Selector="^ TextBox">
+                <Setter Property="Padding" Value="35 0 0 0"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="Width" Value="415"/>
+                <Setter Property="Height" Value="45"/>
+                <Setter Property="Margin" Value="30"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Background" Value="#DBDBDA"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+            <Style Selector="^ Image">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="37"/>
+                <Setter Property="Width" Value="25"/>
+                <Setter Property="Height" Value="25"/>
+            </Style>
+        </Style>
+        <Style Selector="^ Button.AddProductButton">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Background" Value="#6EA759"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#DBDBDA"/>
+            <Setter Property="Margin" Value="30"/>
+            <Setter Property="Width" Value="350"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Style Selector="^ StackPanel">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="Margin" Value="9 0"/>
+                <Style Selector="^ Image">
+                    <Setter Property="Width" Value="31"/>
+                </Style>
+                <Style Selector="^ TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="10 3 0 0"/>
+                </Style>
+            </Style>
+        </Style>
+        <Style Selector="^ Button.AddProductButton:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="#B36EA759"/>
+                <Setter Property="Foreground" Value="#B3DBDBDA"/>
+                <Setter Property="BorderBrush" Value="#DCB861"/>
+                <Setter Property="BorderThickness" Value="2"/>
+           <Style Selector="^ Image">
+                <Setter Property="Opacity" Value="70"/>
+            </Style>
+        </Style>
+    </Style>
+    
 </Styles>

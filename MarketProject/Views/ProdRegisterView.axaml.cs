@@ -2,17 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
-using Avalonia.Styling;
+using DialogHostAvalonia;
 using MarketProject.Models;
+using MarketProject.Views;
 using MarketProject.Models.Exceptions;
 using MarketProject.ViewModels;
-using Microsoft.VisualBasic;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
@@ -81,47 +79,47 @@ public partial class ProdRegisterView : UserControl
                 new Range(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
+            
             var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
                 CanResize = false,
                 ShowInCenter = true,
                 ContentTitle = "Novo Produto Adicionado!",
-                ContentHeader = null,
-                Icon = Icon.Success,
+                Icon = MsBox.Avalonia.Enums.Icon.Success,
                 ContentMessage = $"O produto \"{NameTextBox.Text}\" foi acrescentado ao estoque com êxito!",
                 Markdown = false,
                 MaxHeight = 800,
                 MaxWidth = 500,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                CloseOnClickAway = false,
                 ButtonDefinitions = ButtonEnum.Ok,
             });
-
+            
             await msgbox.ShowAsPopupAsync(this);
         }
         catch (FormatException)
         {
-            var msgboxError = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-            {
-                CanResize = false,
-                ShowInCenter = true,
-                ContentTitle = "Novo Produto Adicionado!",
-                ContentHeader = null,
-                Icon = Icon.Error,
-                ContentMessage = "Erro: Verifique se os campos digitados estão corretos e tente novamente",
-                Markdown = false,
-                MaxHeight = 800,
-                MaxWidth = 500,
-                SizeToContent = SizeToContent.Manual,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                CloseOnClickAway = false,
-                ButtonDefinitions = ButtonEnum.Ok,
-            });
-
+             var msgboxError = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+             {
+                 CanResize = false,
+                 ShowInCenter = true,
+                 ContentTitle = "Novo Produto Adicionado!",
+                 ContentHeader = null,
+                 Icon = MsBox.Avalonia.Enums.Icon.Error,
+                 ContentMessage = "Erro: Verifique se os campos digitados estão corretos e tente novamente",
+                 Markdown = false,
+                 MaxHeight = 800,
+                 MaxWidth = 500,
+                 SizeToContent = SizeToContent.Manual,
+                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                 CloseOnClickAway = false,
+                 ButtonDefinitions = ButtonEnum.Ok,
+             });
+        
             await msgboxError.ShowAsPopupAsync(this);
         }
         catch (MaxMinException ex)
         {
+            
             var ErrorMessageBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
                 WindowIcon = null,
@@ -137,7 +135,7 @@ public partial class ProdRegisterView : UserControl
                 Topmost = false,
                 InputParams = null,
                 CloseOnClickAway = false,
-                Icon = Icon.Warning,
+                Icon = MsBox.Avalonia.Enums.Icon.Warning,
                 ButtonDefinitions = ButtonEnum.Ok
             });
             await ErrorMessageBox.ShowAsPopupAsync(this); 
@@ -161,12 +159,14 @@ public partial class ProdRegisterView : UserControl
 
     private void ReturnButton(object sender, RoutedEventArgs e)
     {
-        ProductAdded?.Invoke(null);
+        //ProductAdded?.Invoke(null);
+        var prodView = (Window)this.Parent;
+        prodView?.Hide();
     }
 
     private async void CleanTextBoxButton(object sender, RoutedEventArgs e)
     {
-        var ClearMessageBox = MessageBoxManager.GetMessageBoxStandard("Limpar todos os campos de texto", "Você realmente deseja limpar todos os campos de texto?", ButtonEnum.YesNo, Icon.Warning);
+        var ClearMessageBox = MessageBoxManager.GetMessageBoxStandard("Limpar todos os campos de texto", "Você realmente deseja limpar todos os campos de texto?", ButtonEnum.YesNo, MsBox.Avalonia.Enums.Icon.Warning);
         
         var res = await ClearMessageBox.ShowAsPopupAsync(this);
         if (res == ButtonResult.Yes)
@@ -189,6 +189,4 @@ public partial class ProdRegisterView : UserControl
             MinMaxViewModel.EventsMax = 0;
         }
     }
-    
-
 }

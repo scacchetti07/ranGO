@@ -15,7 +15,7 @@
         x:DataType="vm:HomeViewModel">
     
         <Grid ColumnDefinitions="Auto,*">
-        <Border BoxShadow="16 0 21.8 4 #223374B9" Width="339" Height="1072" HorizontalAlignment="Left">
+        <Border BoxShadow="7 0 40 0 #1A3374B9" Width="339" Height="1072" HorizontalAlignment="Left">
         <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"/>    
         </Border>
             <StackPanel Grid.Column="0" Orientation="Vertical" Width="339" Height="1072" HorizontalAlignment="Left" Spacing="15">
@@ -98,8 +98,8 @@
                         <!-- Implementação do Storage View com o banco de dados -->
                         <!-- <scr:StorageView Name="strView" x:CompileBindings="False" Products="{Binding $parent[scr:HomeView].DataContext.Database.Products}" ActionChanged="StorageView_OnActionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/> -->
                         <!-- Tela de Adicionar os Produto -->
-                        <!-- <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/> -->
-                        <scr:ProdRegisterView ProductAdded="ProdRegisterView_OnProductAdded"/>
+                        <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <!-- <scr:ProdRegisterView ProductAdded="ProdRegisterView_OnProductAdded"/> -->
                     </Carousel.Items>
                 </Carousel>
                 <!-- Supply Screen -->

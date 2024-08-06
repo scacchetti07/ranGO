@@ -5,12 +5,37 @@
              xmlns:vm="clr-namespace:MarketProject.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1026"
              x:Class="MarketProject.Views.StorageView"
-             x:DataType="vm:StorageViewModel">
+             x:DataType="vm:StorageViewModel"
+             Width="1581"
+             Height="1026">
     <UserControl.DataContext>
         <vm:StorageViewModel/>
     </UserControl.DataContext>
-    <DataGrid Margin="20" ItemsSource="{Binding Product}" 
-              AutoGenerateColumns="True" IsReadOnly="True" 
-              BorderThickness="5" BorderBrush="White">
+    <StackPanel Classes="StorageStyles">
+        <DockPanel>
+            <Grid Classes="SearchTextBox" DockPanel.Dock="Left">
+                <ThemeVariantScope RequestedThemeVariant="Light">
+                    <TextBox Watermark="Procure por Id ou Nome do produto..."/>
+                </ThemeVariantScope>
+                <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
+            </Grid>
+            <Button DockPanel.Dock="Right" Classes="AddProductButton" Click="RegisterProductButton">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconAddProduct.svg}"/>
+                    <TextBlock Text="Adicionar Novo Produto"/>
+                </StackPanel>
+            </Button>
+        </DockPanel>
+        <DataGrid ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Product}" Classes="ItensTableDataGrid" >
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="ID" Binding="{Binding Id, StringFormat='{}{}{}{}{}'}"/>
+            <DataGridTextColumn Header="Nome" Binding="{Binding ProdName}"/>
+            <DataGridTextColumn Header="Fornecedor" Binding="{Binding Supply}"/>
+            <DataGridTextColumn Header="Min" Binding="{Binding Weekday.Start}"/>
+            <DataGridTextColumn Header="Max" Binding="{Binding Weekday.End}"/>
+            <DataGridTextColumn Header="Total" Binding="{Binding ProdTotal}"/>
+        </DataGrid.Columns>
     </DataGrid>
+    </StackPanel>
+    
 </UserControl>

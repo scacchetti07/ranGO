@@ -1,13 +1,17 @@
 using System;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
 using MarketProject.Models;
 using System.Collections.Generic;
 using System.Linq;
-using DynamicData;
-using MarketProject.Controls;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Platform;
+using MarketProject.Views;
+using Avalonia.ReactiveUI;
 using MarketProject.ViewModels;
+using ReactiveUI;
 
 namespace MarketProject.Views;
 
@@ -38,10 +42,23 @@ public partial class StorageView : UserControl
     public StorageView()
     {
         InitializeComponent();
+        // this.WhenActivated(action => 
+        //     action(ViewModel!.ShowDialog.RegisterHandler(DoShowDialogAsync)));
+        //DataContext = this;
         // // Toda vez que algum produto for adicionad ou alterado no sistema,
         // // O storageView será atualizado com os novos dados adicionados do banco jason para as interface.
         // ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => UpdateStorage()); 
     }
+
+    // private async Task DoShowDialogAsync(InteractionContext<ProdRegisterViewModel, StorageViewModel?> interaction)
+    // {
+    //     var dialog = new ProdRegisterView();
+    //     dialog.DataContext = interaction.Input;
+    //
+    //     var result = await dialog.
+    //     interaction.SetOutput(result);
+    // }
+    
     // public void UpdateStorage()
     // {
     //     
@@ -86,6 +103,23 @@ public partial class StorageView : UserControl
     // {
     //     ActionChanged?.Invoke(CrudActions.Update);
     // }
+
+
+    private async void RegisterProductButton(object sender, RoutedEventArgs e)
+    {
+        Window prodView = new()
+        {
+            Title = "Cadastro de Produtos",
+            Content = new ProdRegisterView(),
+            WindowStartupLocation= WindowStartupLocation.CenterScreen,
+            ExtendClientAreaChromeHints= ExtendClientAreaChromeHints.NoChrome,
+            ExtendClientAreaToDecorationsHint = true,
+            CanResize = false,
+            ShowInTaskbar = false,
+            SizeToContent = SizeToContent.WidthAndHeight
+        };
+        prodView.Show();
+    }
 }
 
 // Ações possíveis de serem feitas no sistema pelo enum

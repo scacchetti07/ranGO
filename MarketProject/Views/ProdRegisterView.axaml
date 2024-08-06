@@ -4,17 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:MarketProject.ViewModels"
              xmlns:vw="using:MarketProject.Views"
-             xmlns:converters="clr-namespace:MarketProject.Converters"
              mc:Ignorable="d" d:DesignWidth="1142" d:DesignHeight="800"
              x:Class="MarketProject.Views.ProdRegisterView"
              x:DataType="vm:ProdRegisterViewModel"
              FontFamily="{StaticResource FilsonPro}"
-             CornerRadius="20">
+             BorderBrush="#3374B9"
+             Width="1142"
+             Height="800"
+             BorderThickness="0">
 
     <UserControl.DataContext>
         <vm:ProdRegisterViewModel></vm:ProdRegisterViewModel>
     </UserControl.DataContext>
-    <Grid ColumnDefinitions="Auto,Auto" Margin="50 0">
+        <Grid ColumnDefinitions="Auto,Auto" Margin="50 0">
         <Button Grid.Column="1" Classes="ReturnButton" Click="ReturnButton">
             <StackPanel Classes="ReturnButtonStackPanel">
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}"/>
@@ -85,10 +87,12 @@
                 </StackPanel>
             </StackPanel>
             
-            <StackPanel Classes="ProductRegisterButtons">
-                <Button Content="Adicionar" Background="#3374B9" Click="AddProductButton"/>
-                <Button Content="Limpar" Background="#D87249" Click="CleanTextBoxButton"/>
-            </StackPanel>
+               <StackPanel Classes="ProductRegisterButtons">
+                   <Button Content="Adicionar" Background="#3374B9" Click="AddProductButton"/>
+                   <Button Content="Limpar" Background="#D87249" Click="CleanTextBoxButton"/>
+               </StackPanel>
+           
+            
         </StackPanel>
     </Grid>
 
