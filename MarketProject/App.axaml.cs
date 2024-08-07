@@ -18,7 +18,7 @@ public partial class App : Application
     {
         AvaloniaXamlLoader.Load(this);
         var collection = new ServiceCollection();
-        collection.AddSingleton<Database>(); // Declarado o serviço "DataBase" no provider
+        collection.AddSingleton<old_Database>(); // Declarado o serviço "DataBase" no provider
         collection.AddSingleton<HomeViewModel>(); // Declardo o serviço "HomeViewModel" no provider
       
         var services = collection.BuildServiceProvider(); // Implementando os serviços por meio do provider
@@ -36,11 +36,11 @@ public partial class App : Application
             };
             desktop.Exit += (_, _) =>
             {
-                _provider?.GetRequiredService<Database>().Serialize();
+                _provider?.GetRequiredService<old_Database>().Serialize();
             };
             desktop.Startup += (_, _) =>
             {
-                _provider?.GetRequiredService<Database>().Deserialize();
+                _provider?.GetRequiredService<old_Database>().Deserialize();
             };
         }
 

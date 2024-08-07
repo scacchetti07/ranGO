@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -10,16 +11,15 @@ namespace MarketProject.ViewModels;
 
 public class StorageViewModel : ViewModelBase
 {
-    public ObservableCollection<Product> Product { get; set; }
+    public ObservableCollection<Product> Product { get; }
     
    // public ICommand OpenProductRegisterButton { get; }
     
-    public Interaction<ProdRegisterViewModel, StorageViewModel> ShowDialog { get; }
+    //public Interaction<ProdRegisterViewModel, StorageViewModel> ShowDialog { get; }
     public StorageViewModel()
     {
-        var list = UpdateStorage();
-        if (list is null) return;
-        Product = new ObservableCollection<Product>(list);
+        UpdateStorage();
+        //Product = new ObservableCollection<Product>(list);
         // ShowDialog = new Interaction<ProdRegisterViewModel, StorageViewModel>();
         //
         // OpenProductRegisterButton = ReactiveCommand.CreateFromTask(async () =>
@@ -32,19 +32,19 @@ public class StorageViewModel : ViewModelBase
         //Product = new ObservableCollection<Product>(products);
     }
 
-    public List<Product> UpdateStorage(Product? product = null)
+    public void UpdateStorage(params Product[]? product )
     {
-        var productsList = new List<Product>();
-        if (Product is null) return null;
-        productsList.Add(product);
-        foreach (var prod in Product)
+        //var productsList = new List<Product>();
+        if (Product is null) return;
+        //productsList.Add(product);
+        foreach (var prod in product)
         {
-            productsList.Add(new Product(prod.GTIN, prod.ProdName, prod.Supply, prod.Price, 
+            Product.Add(new Product(prod.GTIN, prod.ProdName, prod.Supply, prod.Price, 
                 prod.Unit, prod.Weekday, prod.Weekends, prod.Events, prod.Description, 
                 prod.ProdTotal, prod.Id));
+            Console.WriteLine(Product);   
         }
-        return productsList;
-
+           
     }
     
     // public ProductCard ProductToCard(Product prd)

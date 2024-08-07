@@ -165,7 +165,7 @@ public partial class ProdRegisterView : UserControl
     {
         //ProductAdded?.Invoke(null);
         var prodView = (Window)this.Parent;
-        prodView?.Hide();
+        prodView?.Close();
     }
 
     private async void CleanTextBoxButton(object sender, RoutedEventArgs e)

@@ -57,26 +57,28 @@ public partial class StorageView : UserControl
     //     interaction.SetOutput(result);
     // }
     
-    public void UpdateStorage()
+   /* public void UpdateStorage()
     {
-        // ProductsPanel.Children.Clear(); // limpa todo o paínel visual do sistema
-        // if (Products is null) return;
-        // foreach (Product product in Products)
-        // {
-        //     // lista os produtos do banco json para o painel visual na StorageView
-        //     var productCard = ViewModel.ProductToCard(product);
-        //     // pointerpresse = Toda vez que for clicado no card, ele será selecionado ou desselecionado
-        //     productCard.PointerPressed += (sender, args) => 
-        //     {
-        //         productCard.Selected = !productCard.Selected;
-        //     }; 
-        //     ProductsPanel.Children.Add(productCard);
-        // }
+        ProductsPanel.Children.Clear(); // limpa todo o paínel visual do sistema
+        if (Products is null) return;
+        foreach (Product product in Products)
+        {
+           // lista os produtos do banco json para o painel visual na StorageView
+         var productCard = ViewModel.ProductToCard(product);
+         pointerpresse = Toda vez que for clicado no card, ele será selecionado ou desselecionado
+            productCard.PointerPressed += (sender, args) => 
+            {
+                 productCard.Selected = !productCard.Selected;
+            }; 
+            ProductsPanel.Children.Add(productCard);
+        }
     
     }
+    */
+   
     // private void btnRemove_OnClick(object? sender, RoutedEventArgs e)
     // {
-    //     ActionChanged?.Invoke(CrudActions.Delete);
+    //     ActionChanged?.Invoke(Actions.Delete);
     //     // Ocorre a remoção dos produtos apartir da seleção feita no pointerpressed
     //     IEnumerable<string> selectedProducts = ProductsPanel.Children.Cast<ProductCard>().Where(card => card.Selected)
     //         .Select(card => card.Id);
@@ -123,7 +125,6 @@ public partial class StorageView : UserControl
         }
     }
 }
-
 // Ações possíveis de serem feitas no sistema pelo enum
 public enum CrudActions
 {

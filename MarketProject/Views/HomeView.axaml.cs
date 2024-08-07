@@ -85,31 +85,12 @@ public partial class HomeView : Window
         toggleSelectedButton(sender as Button);
     }
 
-    // Método que indica as ações fornecidas dentro do user control do storage View.
-    // Opções presentes no enum do StorageView.
-    private void StorageView_OnActionChanged(CrudActions actions)
-    {
-        switch (actions)
-        {
-            case CrudActions.Create:
-                TabStorage.SelectedIndex = 1;
-                break;
-            case CrudActions.Read:
-                break;
-            case CrudActions.Update:
-                TabStorage.SelectedIndex = 1;
-                break;
-            case CrudActions.Delete:
-                break;
-        }
-    }
-
     // Método que registra os produtos digitados no user control para o banco de dados e para StorageView
     private void ProdRegisterView_OnProductAdded(Product? product)
     {
         TabStorage.SelectedIndex = 0;
         if (product is null) return;
-        ViewModel.Database.AddProduct(product); // Adiciona o produto digitado no banco json
+        ViewModel.OldDatabase.AddProduct(product); // Adiciona o produto digitado no banco json
         // strView?.UpdateStorage(); // Atualiza na tela StorageView o estoque atual
     }
 }
