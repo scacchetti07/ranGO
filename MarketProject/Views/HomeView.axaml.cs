@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using MarketProject.Extensions;
 using MarketProject.Models;
 using MarketProject.ViewModels;
 using ReactiveUI;
@@ -21,7 +22,7 @@ public partial class HomeView : Window
     public HomeView()
     {
         InitializeComponent();
-        
+        this.ResponsiveWindow();
     }
 
     // Método que verifica se a variável do botão selecionado é nula,

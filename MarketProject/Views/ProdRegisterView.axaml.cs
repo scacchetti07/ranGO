@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using DialogHostAvalonia;
+using MarketProject.Extensions;
 using MarketProject.Models;
 using MarketProject.Views;
 using MarketProject.Models.Exceptions;
@@ -81,15 +82,13 @@ public partial class ProdRegisterView : UserControl
                 new Range(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
-
-            //StorageViewModel.UpdateStorage(newproduct!);
             
             var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
                 CanResize = false,
                 ShowInCenter = true,
                 ContentTitle = "Novo Produto Adicionado!",
-                Icon = Icon.Success,
+                Icon = MsBox.Avalonia.Enums.Icon.Success,
                 ContentMessage = $"O produto \"{NameTextBox.Text}\" foi acrescentado ao estoque com êxito!",
                 Markdown = false,
                 MaxHeight = 800,
@@ -108,7 +107,7 @@ public partial class ProdRegisterView : UserControl
                  ShowInCenter = true,
                  ContentTitle = "Novo Produto Adicionado!",
                  ContentHeader = null,
-                 Icon = Icon.Error,
+                 Icon = MsBox.Avalonia.Enums.Icon.Error,
                  ContentMessage = "Erro: Verifique se os campos digitados estão corretos e tente novamente",
                  Markdown = false,
                  MaxHeight = 800,
@@ -139,7 +138,7 @@ public partial class ProdRegisterView : UserControl
                 Topmost = false,
                 InputParams = null,
                 CloseOnClickAway = false,
-                Icon = Icon.Warning,
+                Icon = MsBox.Avalonia.Enums.Icon.Warning,
                 ButtonDefinitions = ButtonEnum.Ok
             });
             await ErrorMessageBox.ShowAsPopupAsync(this); 
@@ -164,7 +163,7 @@ public partial class ProdRegisterView : UserControl
     private void ReturnButton(object sender, RoutedEventArgs e)
     {
         //ProductAdded?.Invoke(null);
-        var prodView = (Window)this.Parent;
+        var prodView = (Window)Parent;
         prodView?.Close();
     }
 

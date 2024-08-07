@@ -1,9 +1,11 @@
 using System;
-using System.Runtime.InteropServices.JavaScript;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using MarketProject.ViewModels;
 using Microsoft.Extensions.DependencyInjection; // biblioteca da injeção de dependência
+using MarketProject.Extensions;
 
 namespace MarketProject.Views;
 
@@ -14,6 +16,7 @@ public partial class LoginPage : Window
     public LoginPage()
     {
         InitializeComponent();
+        this.ResponsiveWindow();
     }
 
     private void btnlogin(object? sender, RoutedEventArgs e)

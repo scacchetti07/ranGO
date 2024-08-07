@@ -42,6 +42,7 @@ public partial class App : Application
             {
                 _provider?.GetRequiredService<old_Database>().Deserialize();
             };
+            
         }
 
         base.OnFrameworkInitializationCompleted();

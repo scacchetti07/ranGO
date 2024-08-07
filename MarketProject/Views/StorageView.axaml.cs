@@ -11,6 +11,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform;
 using MarketProject.Views;
 using Avalonia.ReactiveUI;
+using MarketProject.Extensions;
 using MarketProject.ViewModels;
 using ReactiveUI;
 
@@ -101,6 +102,7 @@ public partial class StorageView : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
+        //prodView.ResponsiveWindow();
         prodView.Show();
     }
 

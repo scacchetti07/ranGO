@@ -13,110 +13,107 @@
         FontFamily="{StaticResource FilsonPro}"
         RequestedThemeVariant="Dark"
         x:DataType="vm:HomeViewModel">
-    
-        <Grid ColumnDefinitions="Auto,*">
-        <Border BoxShadow="7 0 40 0 #1A3374B9" Width="339" Height="1072" HorizontalAlignment="Left">
-        <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"/>    
-        </Border>
-            <StackPanel Grid.Column="0" Orientation="Vertical" Width="339" Height="1072" HorizontalAlignment="Left" Spacing="15">
-                <Image Source="/Assets/rango-principal-2.png" Width="220" Height="86" Margin="0 50 0 0"/>
-                <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 0 0 90"/>
-                
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Options" Classes="tabBar">
-                    <Button Click="btnDashb">
-                        <StackPanel Orientation="Horizontal">
-                             <Image Source="{SvgImage /Assets/Icons/SVG/IconDashboard.svg}"/>
-                             <Label Content="Dashboard"/>
-                         </StackPanel>
-                    </Button>
-                        <Button Click="btnPack">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{SvgImage /Assets/Icons/SVG/IconStorage.svg}"/>
-                                <Label Content="Estoque"/>
-                            </StackPanel>
-                        </Button>
-                    <Button Click="BtnSupply">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{SvgImage /Assets/Icons/SVG/IconSupply.svg}"/>
-                            <Label Content="Fornecedor"/>
-                        </StackPanel> 
-                    </Button>
-                    <Button Click="btnEmp">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{SvgImage /Assets/Icons/SVG/IconMenu.svg}"/>
-                            <Label Content="Cardápio"/>
-                        </StackPanel>
-                    </Button>
-                    <Button Click="btnGrp">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{SvgImage /Assets/Icons/SVG/IconAdmin.svg}"/>
-                            <Label Content="Gerência"/>
-                        </StackPanel>
-                    </Button>
-                    <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 90 0 60"/>
+            <Grid ColumnDefinitions="Auto,*">
+            <Border BoxShadow="7 0 40 0 #1A3374B9" Width="339" Height="1072" HorizontalAlignment="Left">
+            <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"/>    
+            </Border>
+                <StackPanel Grid.Column="0" Orientation="Vertical" Width="339" Height="1072" HorizontalAlignment="Left" Spacing="15">
+                    <Image Source="/Assets/rango-principal-2.png" Width="220" Height="86" Margin="0 50 0 0"/>
+                    <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 0 0 90"/>
                     
-                    <StackPanel>
-                        <Button Click="btnSett">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Options" Classes="tabBar">
+                        <Button Click="btnDashb">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{SvgImage /Assets/Icons/SVG/IconSettings.svg}"/>
-                                <Label Content="Opções"/>
+                                 <Image Source="{SvgImage /Assets/Icons/SVG/IconDashboard.svg}"/>
+                                 <Label Content="Dashboard"/>
+                             </StackPanel>
+                        </Button>
+                            <Button Click="btnPack">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconStorage.svg}"/>
+                                    <Label Content="Estoque"/>
+                                </StackPanel>
+                            </Button>
+                        <Button Click="BtnSupply">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{SvgImage /Assets/Icons/SVG/IconSupply.svg}"/>
+                                <Label Content="Fornecedor"/>
+                            </StackPanel> 
+                        </Button>
+                        <Button Click="btnEmp">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{SvgImage /Assets/Icons/SVG/IconMenu.svg}"/>
+                                <Label Content="Cardápio"/>
                             </StackPanel>
                         </Button>
-                        <Button Click="btnPrf">
+                        <Button Click="btnGrp">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{SvgImage /Assets/Icons/SVG/IconProfile.svg}"/>
-                                <Label Content="Perfil"/>
+                                <Image Source="{SvgImage /Assets/Icons/SVG/IconAdmin.svg}"/>
+                                <Label Content="Gerência"/>
                             </StackPanel>
                         </Button>
-                    </StackPanel>
-                </StackPanel>  
-            </StackPanel>
-        
-        <Carousel Grid.Column="1" VerticalAlignment="Center" Name="TabGeral">
+                        <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 90 0 60"/>
+                        
+                        <StackPanel>
+                            <Button Click="btnSett">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconSettings.svg}"/>
+                                    <Label Content="Opções"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Click="btnPrf">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconProfile.svg}"/>
+                                    <Label Content="Perfil"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>  
+                </StackPanel>
             
-            <Carousel.PageTransition>
-                <!-- Animação da Transição de Telas -->
-                <CompositePageTransition> 
-                    <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
-                </CompositePageTransition>
-            </Carousel.PageTransition>
-            <Carousel.Items>
-                <!-- Home Screen -->
-                <Image Source="/Assets/HomeScreenLogo.png" VerticalAlignment="Stretch" Width="288" Opacity="0.1" IsVisible="true"/>
-                <!-- Dashboard Screen -->
-                <Rectangle Fill="Red" Height="500" Width="500"/>
-                <!-- Storage Screen -->
-                <Carousel Name="TabStorage">
-                    <Carousel.PageTransition>
-                        <CompositePageTransition>
-                            <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
-                        </CompositePageTransition>
-                    </Carousel.PageTransition>
-                    
+            <Carousel Grid.Column="1" VerticalAlignment="Center" Name="TabGeral">
                 
-                    <Carousel.Items>
-                        <!-- Implementação do Storage View com o banco de dados -->
-                        <!-- <scr:StorageView Name="strView" x:CompileBindings="False" Products="{Binding $parent[scr:HomeView].DataContext.Database.Products}" ActionChanged="StorageView_OnActionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/> -->
-                        <!-- Tela de Adicionar os Produto -->
-                        <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <!-- <scr:ProdRegisterView ProductAdded="ProdRegisterView_OnProductAdded"/> -->
-                    </Carousel.Items>
-                </Carousel>
-                <!-- Supply Screen -->
-                <Rectangle Fill="Red" Height="500" Width="500"/>
-                <!-- Resturant menu Screen -->
-                <Rectangle Fill="Red" Height="500" Width="500"/>
-                <!-- Admin (Employers and Graphs) Screen -->
-                <Rectangle Fill="Red" Height="500" Width="500"/>
-                <!-- Option Screen -->
-                <Rectangle Fill="Red" Height="500" Width="500"/>
-                <!-- Profile Screen -->
-                <Rectangle Fill="Red" Height="500" Width="500"/>
-            </Carousel.Items>
-            
+                <Carousel.PageTransition>
+                    <!-- Animação da Transição de Telas -->
+                    <CompositePageTransition> 
+                        <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
+                    </CompositePageTransition>
+                </Carousel.PageTransition>
+                <Carousel.Items>
+                    <!-- Home Screen -->
+                    <Image Source="/Assets/HomeScreenLogo.png" VerticalAlignment="Stretch" Width="288" Opacity="0.1" IsVisible="true"/>
+                    <!-- Dashboard Screen -->
+                    <Rectangle Fill="Red" Height="500" Width="500"/>
+                    <!-- Storage Screen -->
+                    <Carousel Name="TabStorage">
+                        <Carousel.PageTransition>
+                            <CompositePageTransition>
+                                <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
+                            </CompositePageTransition>
+                        </Carousel.PageTransition>
+                        
+                    
+                        <Carousel.Items>
+                            <!-- Implementação do Storage View com o banco de dados -->
+                            <!-- <scr:StorageView Name="strView" x:CompileBindings="False" Products="{Binding $parent[scr:HomeView].DataContext.Database.Products}" ActionChanged="StorageView_OnActionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/> -->
+                            <!-- Tela de Adicionar os Produto -->
+                            <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <!-- <scr:ProdRegisterView ProductAdded="ProdRegisterView_OnProductAdded"/> -->
+                        </Carousel.Items>
+                    </Carousel>
+                    <!-- Supply Screen -->
+                    <Rectangle Fill="Red" Height="500" Width="500"/>
+                    <!-- Resturant menu Screen -->
+                    <Rectangle Fill="Red" Height="500" Width="500"/>
+                    <!-- Admin (Employers and Graphs) Screen -->
+                    <Rectangle Fill="Red" Height="500" Width="500"/>
+                    <!-- Option Screen -->
+                    <Rectangle Fill="Red" Height="500" Width="500"/>
+                    <!-- Profile Screen -->
+                    <Rectangle Fill="Red" Height="500" Width="500"/>
+                </Carousel.Items>
+                
 
-        </Carousel>
-    </Grid>
-    
-        
+            </Carousel>
+        </Grid>
 </Window>
