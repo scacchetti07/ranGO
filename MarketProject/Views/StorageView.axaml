@@ -25,21 +25,30 @@
                     <TextBlock Text="Adicionar Novo Produto"/>
                 </StackPanel>
             </Button>
-                <ComboBox SelectedIndex="0" Classes="ChangeTable" SelectionChanged="ChangeMinMaxTable" Name="SchedComboBox">
+                <ComboBox SelectedIndex="0" Classes="ChangeTable" SelectionChanged="ChangeMinMaxTable" Name="SchedComboBox" Background="#10DBDBDA">
                     <ComboBoxItem Content="Dias úteis"/>
                     <ComboBoxItem Content="Finais de Semana"/>
                     <ComboBoxItem Content="Eventos"/>
                 </ComboBox>
         </DockPanel>
         <DataGrid ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                  ItemsSource="{Binding Product}" 
+                  ItemsSource="{Binding ProductsList}" 
                   Classes="ItensTableDataGrid"
                   CanUserSortColumns="True"
                   IsReadOnly="True"
                   IsScrollInertiaEnabled="True"
-                  Name="ProductsDataGrid">
+                  GridLinesVisibility="Horizontal">
+            <DataGrid.Styles>
+                <Style Selector="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#3374B9"/>
+                    <Setter Property="Foreground" Value="#FFF"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Height" Value="48"/>
+                </Style>
+            </DataGrid.Styles>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Width="*" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="ID"  Width="*" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding ProdName}"/>
                 <DataGridTextColumn Header="Fornecedor" Width="*" Binding="{Binding Supply}"/>
                 <DataGridTextColumn Header="Min" Width="*" Binding="{Binding Min}"/>

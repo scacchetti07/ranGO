@@ -11,38 +11,26 @@ namespace MarketProject.ViewModels;
 
 public class StorageViewModel : ViewModelBase
 {
-    public ObservableCollection<Product> Product { get; }
-    
-   // public ICommand OpenProductRegisterButton { get; }
+    public ObservableCollection<Product> ProductsList { get; }
+
+    // public ICommand OpenProductRegisterButton { get; }
     
     //public Interaction<ProdRegisterViewModel, StorageViewModel> ShowDialog { get; }
     public StorageViewModel()
     {
         UpdateStorage();
-        //Product = new ObservableCollection<Product>(list);
-        // ShowDialog = new Interaction<ProdRegisterViewModel, StorageViewModel>();
-        //
-        // OpenProductRegisterButton = ReactiveCommand.CreateFromTask(async () =>
-        // {
-        //     var register = new ProdRegisterViewModel();
-        //
-        //     var resp = await ShowDialog.Handle(register);
-        // });
-        
-        //Product = new ObservableCollection<Product>(products);
     }
 
-    public void UpdateStorage(params Product[]? product )
+    public void UpdateStorage(params Product[] product )
     {
         //var productsList = new List<Product>();
-        if (Product is null) return;
+        if (ProductsList is null) return;
         //productsList.Add(product);
         foreach (var prod in product)
         {
-            Product.Add(new Product(prod.GTIN, prod.ProdName, prod.Supply, prod.Price, 
+            ProductsList.Add(new Product(prod.GTIN, prod.ProdName, prod.Supply, prod.Price, 
                 prod.Unit, prod.Weekday, prod.Weekends, prod.Events, prod.Description, 
                 prod.ProdTotal, prod.Id));
-            Console.WriteLine(Product);   
         }
            
     }
