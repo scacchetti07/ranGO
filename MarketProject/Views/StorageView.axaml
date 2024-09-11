@@ -44,7 +44,13 @@
                     <Setter Property="Foreground" Value="#FFF"/>
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="FontSize" Value="20"/>
-                    <Setter Property="Height" Value="48"/>
+                    <Setter Property="Height" Value="40"/>
+                </Style>
+                <Style Selector="DataGridColumnHeader:nth-child(1)">
+                    <Setter Property="CornerRadius" Value="10 0 0 10"/>
+                </Style>
+                <Style Selector="DataGridColumnHeader:nth-child(6)">
+                    <Setter Property="CornerRadius" Value="0 10 10 00"/>
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>

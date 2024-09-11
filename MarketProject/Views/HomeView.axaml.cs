@@ -7,6 +7,9 @@ using Avalonia.Markup.Xaml;
 using MarketProject.Extensions;
 using MarketProject.Models;
 using MarketProject.ViewModels;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 
 namespace MarketProject.Views;
@@ -23,6 +26,7 @@ public partial class HomeView : Window
     {
         InitializeComponent();
         this.ResponsiveWindow();
+        
     }
 
     // Método que verifica se a variável do botão selecionado é nula,
@@ -46,12 +50,12 @@ public partial class HomeView : Window
         selectButton(btn); // ele adiciona o estilo de selecionado ao botão clicado
     }
     
-    private void btnDashb(object sender, RoutedEventArgs e)
+    private void btnDashboard(object sender, RoutedEventArgs e)
     {
         TabGeral.SelectedIndex = 1;
         toggleSelectedButton(sender as Button);
     }
-    private void btnPack(object sender, RoutedEventArgs e)
+    private void btnStorage(object sender, RoutedEventArgs e)
     {
         TabGeral.SelectedIndex = 2;
         toggleSelectedButton(sender as Button);
@@ -62,28 +66,34 @@ public partial class HomeView : Window
         toggleSelectedButton(sender as Button);
     }
 
-    private void btnEmp(object sender, RoutedEventArgs e)
+    private void btnOrder(object sender, RoutedEventArgs e)
     {
         TabGeral.SelectedIndex = 4;
         toggleSelectedButton(sender as Button);
     }
 
-    private void btnGrp(object sender, RoutedEventArgs e)
+    private void btnSettings(object sender, RoutedEventArgs e)
     {
         TabGeral.SelectedIndex = 5;
         toggleSelectedButton(sender as Button);
     }
 
-    private void btnSett(object sender, RoutedEventArgs e)
+    private async void btnExit(object sender, RoutedEventArgs e)
     {
-        TabGeral.SelectedIndex = 6;
-        toggleSelectedButton(sender as Button);
-    }
+        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams()
+        {
+            ContentHeader = "Sair do Sistema",
+            ContentMessage = "Você tem certeza que realmente quer encerrar a sessão?",
+            ButtonDefinitions = ButtonEnum.YesNo, 
+            Icon = MsBox.Avalonia.Enums.Icon.Warning,
+            CanResize = false,
+            ShowInCenter = true,
+            SizeToContent = SizeToContent.WidthAndHeight
+        });
+        var result = await msgBox.ShowAsPopupAsync(this);
+        if (result == ButtonResult.No) return;
+        new LoginPage().Show();
 
-    private void btnPrf(object sender, RoutedEventArgs e)
-    {
-        TabGeral.SelectedIndex = 7;
-        toggleSelectedButton(sender as Button);
     }
 
     // Método que registra os produtos digitados no user control para o banco de dados e para StorageView

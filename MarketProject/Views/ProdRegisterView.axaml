@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,9 +13,9 @@
              Height="800"
              BorderThickness="0">
     
-    <UserControl.DataContext>
+    <Window.DataContext>
         <vm:ProdRegisterViewModel/>
-    </UserControl.DataContext>
+    </Window.DataContext>
     
         <Grid ColumnDefinitions="Auto,Auto" Margin="50 0">
         <Button Grid.Column="1" Classes="ReturnButton" Click="ReturnButton">
@@ -94,5 +94,4 @@
                </StackPanel>
         </StackPanel>
     </Grid>
-    
-</UserControl>
+</Window>

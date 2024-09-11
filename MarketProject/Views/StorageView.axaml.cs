@@ -91,10 +91,9 @@ public partial class StorageView : UserControl
 
     private async void RegisterProductButton(object sender, RoutedEventArgs e)
     {
-        Window prodView = new()
+        ProdRegisterView RegisProdView = new()
         {
             Title = "Cadastro de Produtos",
-            Content = new ProdRegisterView(),
             WindowStartupLocation= WindowStartupLocation.CenterScreen,
             ExtendClientAreaChromeHints= ExtendClientAreaChromeHints.NoChrome,
             ExtendClientAreaToDecorationsHint = true,
@@ -102,8 +101,7 @@ public partial class StorageView : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
-        //prodView.ResponsiveWindow();
-        prodView.Show();
+       await RegisProdView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 
     private void ChangeMinMaxTable(object sender, SelectionChangedEventArgs e)

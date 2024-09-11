@@ -18,7 +18,7 @@ using MsBox.Avalonia.Enums;
 
 namespace MarketProject.Views;
 
-public partial class ProdRegisterView : UserControl
+public partial class ProdRegisterView : Window
 {
     // Cria um modelo de método tipo ProductAddedDelegate,
     // havendo o parâmetro produto, permitindo valores null
@@ -157,14 +157,11 @@ public partial class ProdRegisterView : UserControl
             }
         };
         var result = await TopLevel.GetTopLevel(this)!.StorageProvider.OpenFilePickerAsync(fileoption);
-        //Console.WriteLine(result[0].Path);
     }
 
     private void ReturnButton(object sender, RoutedEventArgs e)
     {
-        //ProductAdded?.Invoke(null);
-        var prodView = (Window)Parent;
-        prodView?.Close();
+        this.Close();
     }
 
     private async void CleanTextBoxButton(object sender, RoutedEventArgs e)

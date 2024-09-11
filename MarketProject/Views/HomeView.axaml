@@ -22,13 +22,13 @@
                     <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 0 0 90"/>
                     
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Options" Classes="tabBar">
-                        <Button Click="btnDashb">
+                        <Button Click="btnDashboard">
                             <StackPanel Orientation="Horizontal">
                                  <Image Source="{SvgImage /Assets/Icons/SVG/IconDashboard.svg}"/>
                                  <Label Content="Dashboard"/>
                              </StackPanel>
                         </Button>
-                            <Button Click="btnPack">
+                            <Button Click="btnStorage">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{SvgImage /Assets/Icons/SVG/IconStorage.svg}"/>
                                     <Label Content="Estoque"/>
@@ -40,31 +40,31 @@
                                 <Label Content="Fornecedor"/>
                             </StackPanel> 
                         </Button>
-                        <Button Click="btnEmp">
+                        <Button Click="btnOrder">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{SvgImage /Assets/Icons/SVG/IconMenu.svg}"/>
-                                <Label Content="Cardápio"/>
+                                <Label Content="Pedidos"/>
                             </StackPanel>
                         </Button>
-                        <Button Click="btnGrp">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{SvgImage /Assets/Icons/SVG/IconAdmin.svg}"/>
-                                <Label Content="Gerência"/>
-                            </StackPanel>
-                        </Button>
+                        <!-- <Button Click="btnGrp"> -->
+                        <!--     <StackPanel Orientation="Horizontal"> -->
+                        <!--         <Image Source="{SvgImage /Assets/Icons/SVG/IconAdmin.svg}"/> -->
+                        <!--         <Label Content="Gerência"/> -->
+                        <!--     </StackPanel> -->
+                        <!-- </Button> -->
                         <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 90 0 60"/>
                         
                         <StackPanel>
-                            <Button Click="btnSett">
+                            <Button Click="btnSettings">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{SvgImage /Assets/Icons/SVG/IconSettings.svg}"/>
                                     <Label Content="Opções"/>
                                 </StackPanel>
                             </Button>
-                            <Button Click="btnPrf">
+                            <Button Click="btnExit">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{SvgImage /Assets/Icons/SVG/IconProfile.svg}"/>
-                                    <Label Content="Perfil"/>
+                                    <Label Content="Sair"/>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -103,13 +103,9 @@
                     </Carousel>
                     <!-- Supply Screen -->
                     <Rectangle Fill="Red" Height="500" Width="500"/>
-                    <!-- Resturant menu Screen -->
-                    <Rectangle Fill="Red" Height="500" Width="500"/>
-                    <!-- Admin (Employers and Graphs) Screen -->
+                    <!-- Orders Screen -->
                     <Rectangle Fill="Red" Height="500" Width="500"/>
                     <!-- Option Screen -->
-                    <Rectangle Fill="Red" Height="500" Width="500"/>
-                    <!-- Profile Screen -->
                     <Rectangle Fill="Red" Height="500" Width="500"/>
                 </Carousel.Items>
                 
