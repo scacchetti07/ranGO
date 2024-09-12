@@ -25,7 +25,8 @@
                     <TextBlock Text="Adicionar Novo Produto"/>
                 </StackPanel>
             </Button>
-            <Button DockPanel.Dock="Right" Classes="RemoveProductButton" Content="Remover"/>
+            <Button DockPanel.Dock="Right" Classes="RemoveProductButton" Content="Remover" Click="RemoveProductButton"/>
+            
                 <ComboBox SelectedIndex="0" Classes="ChangeTable" SelectionChanged="ChangeMinMaxTable" Name="SchedComboBox" Background="#10DBDBDA">
                     <ComboBoxItem Content="Dias úteis"/>
                     <ComboBoxItem Content="Finais de Semana"/>
@@ -37,6 +38,7 @@
                   Classes="ItensTableDataGrid"
                   CanUserSortColumns="True"
                   IsReadOnly="True"
+                  Name="ProductsDataGrid"
                   IsScrollInertiaEnabled="True"
                   GridLinesVisibility="Horizontal">
             <DataGrid.Styles>
@@ -46,6 +48,7 @@
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="FontSize" Value="20"/>
                     <Setter Property="Height" Value="40"/>
+                    <Setter Property="Margin" Value="0 0 0 10"/>
                 </Style>
                 <Style Selector="DataGridColumnHeader:nth-child(1)">
                     <Setter Property="CornerRadius" Value="10 0 0 10"/>
@@ -56,11 +59,11 @@
             </DataGrid.Styles>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Width="*" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding ProdName}"/>
-                <DataGridTextColumn Header="Fornecedor" Width="*" Binding="{Binding Supply}"/>
+                <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Fornecedor" Width="*" Binding="{Binding Supply.Name}"/>
                 <DataGridTextColumn Header="Min" Width="*" Binding="{Binding Min}"/>
                 <DataGridTextColumn Header="Max" Width="*" Binding="{Binding Max}"/>
-                <DataGridTextColumn Header="Total" Width="*" Binding="{Binding ProdTotal}"/>
+                <DataGridTextColumn Header="Total" Width="*" Binding="{Binding Total}"/>
             </DataGrid.Columns>
     </DataGrid>
     </StackPanel>

@@ -20,12 +20,7 @@ namespace MarketProject.Views;
 
 public partial class ProdRegisterView : Window
 {
-    // Cria um modelo de método tipo ProductAddedDelegate,
-    // havendo o parâmetro produto, permitindo valores null
     public delegate void ProductAddedDelegate(Product? product);
-    
-    // Armazena todos os método criados do tipo ProductAddedDelegate,
-    // Executando todas ao mesmo tempo
     public event ProductAddedDelegate? ProductAdded;
     
     // Implementando as funções do ProdRegisterViewmModel por meio do DataContext
@@ -70,78 +65,75 @@ public partial class ProdRegisterView : Window
             var Prodprice = Convert.ToDecimal(PriceTextBox.Text);
             var total = Convert.ToInt32(QuantityTextBox.Text);
 
-            if (MinMaxViewModel.EventsMax <= MinMaxViewModel.EventsMin ||
-                MinMaxViewModel.WeekdaysMax <= MinMaxViewModel.WeekdaysMin ||
+            if (MinMaxViewModel.EventsMax <= MinMaxViewModel.EventsMin || MinMaxViewModel.WeekdaysMax <= MinMaxViewModel.WeekdaysMin ||
                 MinMaxViewModel.WeekendsMax <= MinMaxViewModel.WeekendsMin)
-            {
-                throw new MaxMinException("Não é possível que o Estoque máximo seja inferior ao estoque mínimo.");
-            }
+                throw new MaxMinException();
 
+            var checkProductsMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams()
+            {
+                ContentHeader = "Adicionando o Produto",
+                ContentMessage = $"Quer mesmo adicionar \"{NameTextBox.Text}\" ao estoque?",
+                Icon = MsBox.Avalonia.Enums.Icon.Info,
+                ButtonDefinitions = ButtonEnum.YesNo,
+                CanResize = false,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            });
+            var checkResult = await checkProductsMsgBox.ShowAsync();
+
+            if (checkResult == ButtonResult.No) return;
+            
             var newproduct = new Product(gtinCode, NameTextBox.Text, new Supply(), Prodprice,
                 (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
                 new Range(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
+
+            ProductAdded?.Invoke(newproduct);
             
+            // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
             var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
-                CanResize = false,
-                ShowInCenter = true,
-                ContentTitle = "Novo Produto Adicionado!",
-                Icon = MsBox.Avalonia.Enums.Icon.Success,
-                ContentMessage = $"O produto \"{NameTextBox.Text}\" foi acrescentado ao estoque com êxito!",
-                Markdown = false,
-                MaxHeight = 800,
-                MaxWidth = 500,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                ContentHeader = "Novo Produto Adicionado!",
+                ContentMessage = $"O produto \"{NameTextBox.Text}\" foi adicionado ao estoque!",
                 ButtonDefinitions = ButtonEnum.Ok,
-            });
-            
-            await msgbox.ShowAsPopupAsync(this);
-        }
-        catch (FormatException)
-        {
-             var msgboxError = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-             {
-                 CanResize = false,
-                 ShowInCenter = true,
-                 ContentTitle = "Novo Produto Adicionado!",
-                 ContentHeader = null,
-                 Icon = MsBox.Avalonia.Enums.Icon.Error,
-                 ContentMessage = "Erro: Verifique se os campos digitados estão corretos e tente novamente",
-                 Markdown = false,
-                 MaxHeight = 800,
-                 MaxWidth = 500,
-                 SizeToContent = SizeToContent.Manual,
-                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                 CloseOnClickAway = false,
-                 ButtonDefinitions = ButtonEnum.Ok,
-             });
-        
-            await msgboxError.ShowAsPopupAsync(this);
-        }
-        catch (MaxMinException ex)
-        {
-            
-            var ErrorMessageBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-            {
-                WindowIcon = null,
+                Icon = MsBox.Avalonia.Enums.Icon.Success,
+                Markdown = false,
                 CanResize = false,
                 ShowInCenter = true,
-                ContentTitle = "Valor máximo do estoque é superior ao mínimo",
-                ContentHeader = null,
-                ContentMessage = ex.Message,
-                Markdown = false,
-                MaxWidth = 500,
-                MaxHeight = 800,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                Topmost = false,
-                InputParams = null,
-                CloseOnClickAway = false,
-                Icon = MsBox.Avalonia.Enums.Icon.Warning,
-                ButtonDefinitions = ButtonEnum.Ok
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
             });
-            await ErrorMessageBox.ShowAsPopupAsync(this); 
+            await msgbox.ShowAsync();
+        }
+        catch (MaxMinException)
+        {
+            var errorMinMaxMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Erro: Número máximo do estoque é inferiro ao mínimo.",
+                ContentMessage = "Não foi possível adicionar o produto por seu valor Máximo no estoque ser inferior ao Mínimo!",
+                ButtonDefinitions = ButtonEnum.Ok, 
+                Icon = MsBox.Avalonia.Enums.Icon.Error,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            });
+            await errorMinMaxMsgBox.ShowAsync();
+        }
+        catch (Exception ex)
+        {
+            var errorMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Erro inesperado ocorreu!",
+                ContentMessage = "Ocorreu algum erro inesperado no sistema enquanto o produo era adicionado.\nTente Novamente!",
+                ButtonDefinitions = ButtonEnum.Ok, 
+                Icon = MsBox.Avalonia.Enums.Icon.Error,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            });
+            Console.WriteLine(ex.Message);
+            await errorMsgBox.ShowAsync();
         }
     }
 
@@ -166,27 +158,36 @@ public partial class ProdRegisterView : Window
 
     private async void CleanTextBoxButton(object sender, RoutedEventArgs e)
     {
-        var ClearMessageBox = MessageBoxManager.GetMessageBoxStandard("Limpar todos os campos de texto", "Você realmente deseja limpar todos os campos de texto?", ButtonEnum.YesNo, MsBox.Avalonia.Enums.Icon.Warning);
-        
-        var res = await ClearMessageBox.ShowAsPopupAsync(this);
-        if (res == ButtonResult.Yes)
+        var ClearMessageBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
-            GtinTextBox.Text = "0";
-            NameTextBox.Text = null;
-            DescriptionTextBox.Text = null;
-            PriceTextBox.Text = "0";
-            QuantityTextBox.Text = "0";
-            SupplyTextBox.Text = null;
-            UnitComboBox.SelectedItem = 0;
+            ContentHeader = "Limpar campos...",
+            ContentMessage = "Você realmente deseja limpar todos os campos de texto?",
+            ButtonDefinitions = ButtonEnum.YesNo, 
+            Icon = MsBox.Avalonia.Enums.Icon.Warning,
+            CanResize = false,
+            ShowInCenter = true,
+            SizeToContent = SizeToContent.WidthAndHeight,
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+        });
+        
+        var res = await ClearMessageBox.ShowAsync();
+        if (res == ButtonResult.No) return;
+        
+        GtinTextBox.Text = null;
+        NameTextBox.Text = null;
+        DescriptionTextBox.Text = null;
+        PriceTextBox.Text = null;
+        QuantityTextBox.Text = null;
+        SupplyTextBox.Text = null;
+        UnitComboBox.SelectedItem = 0;
 
-            MinMaxView.MinTextBox.Text = "0";
-            MinMaxView.MaxTextBox.Text = "0";
-            MinMaxViewModel.WeekdaysMin = 0;
-            MinMaxViewModel.WeekdaysMax = 0;
-            MinMaxViewModel.WeekendsMin = 0;
-            MinMaxViewModel.WeekendsMax = 0;
-            MinMaxViewModel.EventsMin = 0;
-            MinMaxViewModel.EventsMax = 0;
-        }
+        MinMaxView.MinTextBox.Text = null;
+        MinMaxView.MaxTextBox.Text = null;
+        MinMaxViewModel.WeekdaysMin = 0;
+        MinMaxViewModel.WeekdaysMax = 0;
+        MinMaxViewModel.WeekendsMin = 0;
+        MinMaxViewModel.WeekendsMax = 0;
+        MinMaxViewModel.EventsMin = 0;
+        MinMaxViewModel.EventsMax = 0;
     }
 }

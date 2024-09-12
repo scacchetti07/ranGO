@@ -12,10 +12,10 @@ public class Product
         Id = Guid.NewGuid().ToString(); // Gera um Id único
         GTIN = gtin;
         Description = description;
-        ProdName = prodName;
+        Name = prodName;
         Price = price;
         Unit = unit;
-        ProdTotal = prodTotal;
+        Total = prodTotal;
         Supply = supply;
         Weekday = weekday;
         Weekends = weekends;
@@ -25,15 +25,14 @@ public class Product
     public Product()
     { }
     
-    public string Id { get; set; }
+    public string Id { get; private set; }
     public int GTIN { get; set; }
     public string Unit { get; set; } // Unidade de Medida
     public decimal Price { get; set; }
     public string? Description { get; set; }
-    public string ProdName { get; set; }
-    public int ProdTotal { get; set; }
+    public string Name { get; set; }
+    public int Total { get; set; }
     public Supply Supply { get; set; }
-    //public string ProdStatus { get; set; }
     public Range Weekday { get; set; } // Min Max
     public Range Weekends { get; set; } // Min Max
     public Range Events { get; set; } // Min Max

@@ -52,7 +52,7 @@
                         <!--         <Label Content="Gerência"/> -->
                         <!--     </StackPanel> -->
                         <!-- </Button> -->
-                        <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 90 0 60"/>
+                        <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 100 0 125"/>
                         
                         <StackPanel>
                             <Button Click="btnSettings">
@@ -63,7 +63,7 @@
                             </Button>
                             <Button Click="btnExit">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconProfile.svg}"/>
+                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconExit.svg}"/>
                                     <Label Content="Sair"/>
                                 </StackPanel>
                             </Button>

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using MarketProject.Models;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
+using MarketProject.Views;
 using ReactiveUI;
 
 namespace MarketProject.ViewModels;
@@ -13,26 +14,17 @@ public class StorageViewModel : ViewModelBase
 {
     public ObservableCollection<Product> ProductsList { get; }
 
-    // public ICommand OpenProductRegisterButton { get; }
-    
-    //public Interaction<ProdRegisterViewModel, StorageViewModel> ShowDialog { get; }
     public StorageViewModel()
     {
-        UpdateStorage();
-    }
-
-    public void UpdateStorage(params Product[] product )
-    {
-        //var productsList = new List<Product>();
-        if (ProductsList is null) return;
-        //productsList.Add(product);
-        foreach (var prod in product)
+        ProductsList = new ObservableCollection<Product>(new List<Product>()
         {
-            ProductsList.Add(new Product(prod.GTIN, prod.ProdName, prod.Supply, prod.Price, 
-                prod.Unit, prod.Weekday, prod.Weekends, prod.Events, prod.Description, 
-                prod.ProdTotal, prod.Id));
-        }
-           
+            new Product(1234, "Arroz", new Supply("Fornecedor Pica"), 14.5m, "Unidade", new Range(12,30), new Range(10, 40), new Range(11, 50))
+        });
+    }
+    
+    public void AddProduct(Product product)
+    {
+        ProductsList?.Add(product);
     }
     
     // public ProductCard ProductToCard(Product prd)

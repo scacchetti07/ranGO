@@ -82,7 +82,7 @@ public partial class HomeView : Window
     {
         var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
-            ContentHeader = "Sair do Sistema",
+            ContentHeader = "Encerrar sessão e Sair do Sistema?",
             ContentMessage = "Você tem certeza que realmente quer encerrar a sessão?",
             ButtonDefinitions = ButtonEnum.YesNo, 
             Icon = MsBox.Avalonia.Enums.Icon.Warning,
@@ -90,8 +90,7 @@ public partial class HomeView : Window
             ShowInCenter = true,
             SizeToContent = SizeToContent.WidthAndHeight,
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            SystemDecorations = SystemDecorations.BorderOnly,
-            
+            SystemDecorations = SystemDecorations.BorderOnly
         });
         var result = await msgBox.ShowWindowDialogAsync(this);
         if (result == ButtonResult.No) return;

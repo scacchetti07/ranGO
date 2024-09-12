@@ -24,22 +24,11 @@ public partial class StorageView : UserControl
     //     AvaloniaProperty.Register<StorageView, List<Product>>(nameof(Products));
     
     public delegate void ProductChangedDelegate(Product product);
-   // public delegate void SupplyChangedDelegate(Supply supply);
-   // public delegate void OrderChangedDelegate(Orders orders);
     public event ProductChangedDelegate ProductChanged;
-  //  public event SupplyChangedDelegate SupplyChanged;
-   // public event OrderChangedDelegate OrderEvent;
     
     // Necessário para converter o data context para o tipo storageviewmodel, 
     // E implementando suas funcionalidades.
     public StorageViewModel ViewModel => DataContext as StorageViewModel;
-    
-    // Feito para melhorar a leitura do código a reautilização da mesma função
-    // public List<Product> Products
-    // {
-    //     get => GetValue(ProductsProperty);
-    //     set => SetValue(ProductsProperty, value);
-    // }
     
     public StorageView()
     {
@@ -117,5 +106,20 @@ public partial class StorageView : UserControl
                 prod.Max = prod.Events.End;
                 break;
         }
+    }
+
+    private async void RemoveProductButton(object sender, RoutedEventArgs e)
+    {
+        RemoveProductView removeProductView = new()
+        {
+            Title = "Remover Produtos",
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            ExtendClientAreaChromeHints = ExtendClientAreaChromeHints.NoChrome,
+            ExtendClientAreaToDecorationsHint = true,
+            CanResize = false,
+            ShowInTaskbar = false,
+            SizeToContent = SizeToContent.WidthAndHeight
+        };
+        await removeProductView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 }
