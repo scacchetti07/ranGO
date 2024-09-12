@@ -77,7 +77,7 @@ public partial class ProdRegisterView : Window
                 throw new MaxMinException("Não é possível que o Estoque máximo seja inferior ao estoque mínimo.");
             }
 
-            var newproduct = new Product(gtinCode, NameTextBox.Text, SupplyTextBox.Text, Prodprice,
+            var newproduct = new Product(gtinCode, NameTextBox.Text, new Supply(), Prodprice,
                 (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
                 new Range(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),

@@ -80,7 +80,7 @@ public partial class HomeView : Window
 
     private async void btnExit(object sender, RoutedEventArgs e)
     {
-        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams()
+        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
             ContentHeader = "Sair do Sistema",
             ContentMessage = "Você tem certeza que realmente quer encerrar a sessão?",
@@ -88,14 +88,17 @@ public partial class HomeView : Window
             Icon = MsBox.Avalonia.Enums.Icon.Warning,
             CanResize = false,
             ShowInCenter = true,
-            SizeToContent = SizeToContent.WidthAndHeight
+            SizeToContent = SizeToContent.WidthAndHeight,
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            SystemDecorations = SystemDecorations.BorderOnly,
+            
         });
-        var result = await msgBox.ShowAsPopupAsync(this);
+        var result = await msgBox.ShowWindowDialogAsync(this);
         if (result == ButtonResult.No) return;
-        new LoginPage().Show();
-
+        Environment.Exit(0);
     }
-
+    
+    
     // Método que registra os produtos digitados no user control para o banco de dados e para StorageView
     private void ProdRegisterView_OnProductAdded(Product? product)
     {
@@ -103,5 +106,10 @@ public partial class HomeView : Window
         if (product is null) return;
         ViewModel.OldDatabase.AddProduct(product); // Adiciona o produto digitado no banco json
         // strView?.UpdateStorage(); // Atualiza na tela StorageView o estoque atual
+    }
+
+    private void StorageView_OnProductChanged(Product product)
+    {
+        throw new NotImplementedException();
     }
 }

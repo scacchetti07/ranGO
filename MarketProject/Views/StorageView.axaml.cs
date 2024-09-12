@@ -23,9 +23,12 @@ public partial class StorageView : UserControl
     // public static readonly StyledProperty<List<Product>> ProductsProperty =
     //     AvaloniaProperty.Register<StorageView, List<Product>>(nameof(Products));
     
-    public delegate void ActionChangedDelegate(CrudActions actions);
-    
-    public event ActionChangedDelegate ActionChanged;
+    public delegate void ProductChangedDelegate(Product product);
+   // public delegate void SupplyChangedDelegate(Supply supply);
+   // public delegate void OrderChangedDelegate(Orders orders);
+    public event ProductChangedDelegate ProductChanged;
+  //  public event SupplyChangedDelegate SupplyChanged;
+   // public event OrderChangedDelegate OrderEvent;
     
     // Necessário para converter o data context para o tipo storageviewmodel, 
     // E implementando suas funcionalidades.
@@ -41,22 +44,11 @@ public partial class StorageView : UserControl
     public StorageView()
     {
         InitializeComponent();
-        // this.WhenActivated(action => 
-        //     action(ViewModel!.ShowDialog.RegisterHandler(DoShowDialogAsync)));
         //DataContext = this;
         // // Toda vez que algum produto for adicionad ou alterado no sistema,
         // // O storageView será atualizado com os novos dados adicionados do banco jason para as interface.
         // ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => UpdateStorage()); 
     }
-
-    // private async Task DoShowDialogAsync(InteractionContext<ProdRegisterViewModel, StorageViewModel?> interaction)
-    // {
-    //     var dialog = new ProdRegisterView();
-    //     dialog.DataContext = interaction.Input;
-    //
-    //     var result = await dialog.
-    //     interaction.SetOutput(result);
-    // }
     
    /* public void UpdateStorage()
     {
@@ -91,6 +83,8 @@ public partial class StorageView : UserControl
 
     private async void RegisterProductButton(object sender, RoutedEventArgs e)
     {
+        ProductChanged?.Invoke(new Product());
+        
         ProdRegisterView RegisProdView = new()
         {
             Title = "Cadastro de Produtos",
@@ -124,12 +118,4 @@ public partial class StorageView : UserControl
                 break;
         }
     }
-}
-// Ações possíveis de serem feitas no sistema pelo enum
-public enum CrudActions
-{
-    Create,
-    Read,
-    Update,
-    Delete
 }

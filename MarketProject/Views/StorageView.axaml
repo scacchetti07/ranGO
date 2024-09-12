@@ -25,6 +25,7 @@
                     <TextBlock Text="Adicionar Novo Produto"/>
                 </StackPanel>
             </Button>
+            <Button DockPanel.Dock="Right" Classes="RemoveProductButton" Content="Remover"/>
                 <ComboBox SelectedIndex="0" Classes="ChangeTable" SelectionChanged="ChangeMinMaxTable" Name="SchedComboBox" Background="#10DBDBDA">
                     <ComboBoxItem Content="Dias úteis"/>
                     <ComboBoxItem Content="Finais de Semana"/>
