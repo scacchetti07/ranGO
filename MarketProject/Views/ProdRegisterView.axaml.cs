@@ -24,14 +24,12 @@ public partial class ProdRegisterView : Window
     public event ProductAddedDelegate? ProductAdded;
     
     // Implementando as funções do ProdRegisterViewmModel por meio do DataContext
-    public ProdRegisterViewModel ViewModel => (DataContext as ProdRegisterViewModel)!;
     public RegisterMinMaxViewModel MinMaxViewModel => (MinMaxView.DataContext as RegisterMinMaxViewModel)!;
-
-    public StorageViewModel StorageViewModel => (DataContext as StorageViewModel)!;
     
     public ProdRegisterView()
     {
         InitializeComponent();
+        //this.ResponsiveWindow();
         
         GtinTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         
@@ -82,7 +80,7 @@ public partial class ProdRegisterView : Window
 
             if (checkResult == ButtonResult.No) return;
             
-            var newproduct = new Product(gtinCode, NameTextBox.Text, new Supply(), Prodprice,
+            var newproduct = new Product(gtinCode, NameTextBox.Text, Prodprice,
                 (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
                 new Range(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),

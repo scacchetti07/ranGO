@@ -3,8 +3,6 @@ using Avalonia.ReactiveUI;
 using System;
 using Avalonia.Controls;
 using Avalonia.Svg.Skia;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace MarketProject;
 

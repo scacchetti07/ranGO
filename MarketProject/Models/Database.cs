@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
-using MongoDB.Driver;
-using MongoDB.Bson;
+using System.Collections.ObjectModel;
 
 namespace MarketProject.Models;
 
 public class Database
 {
+    // GetSupplyProductBy(Supply supply) {}
+    public Database()
+    {
+        
+    }
 }

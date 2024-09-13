@@ -97,7 +97,7 @@
                             <!-- Implementação do Storage View com o banco de dados -->
                             <!-- <scr:StorageView Name="strView" x:CompileBindings="False" Products="{Binding $parent[scr:HomeView].DataContext.Database.Products}" ActionChanged="StorageView_OnActionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/> -->
                             <!-- Tela de Adicionar os Produto -->
-                            <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ProductChanged="StorageView_OnProductChanged"/>
+                            <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             <!-- <scr:ProdRegisterView ProductAdded="ProdRegisterView_OnProductAdded"/> -->
                         </Carousel.Items>
                     </Carousel>

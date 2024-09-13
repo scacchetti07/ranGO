@@ -26,7 +26,6 @@ public partial class HomeView : Window
     {
         InitializeComponent();
         this.ResponsiveWindow();
-        
     }
 
     // Método que verifica se a variável do botão selecionado é nula,
@@ -107,8 +106,8 @@ public partial class HomeView : Window
         // strView?.UpdateStorage(); // Atualiza na tela StorageView o estoque atual
     }
 
-    private void StorageView_OnProductChanged(Product product)
-    {
-        throw new NotImplementedException();
-    }
+    // private void StorageView_OnProductChanged(Product product)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }

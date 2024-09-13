@@ -72,8 +72,7 @@ public partial class StorageView : UserControl
 
     private async void RegisterProductButton(object sender, RoutedEventArgs e)
     {
-        ProductChanged?.Invoke(new Product());
-        
+        // fazer RegisProdView retornar um produto.
         ProdRegisterView RegisProdView = new()
         {
             Title = "Cadastro de Produtos",
@@ -85,6 +84,8 @@ public partial class StorageView : UserControl
             SizeToContent = SizeToContent.WidthAndHeight
         };
        await RegisProdView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!);
+       
+       ProductChanged?.Invoke(new Product());
     }
 
     private void ChangeMinMaxTable(object sender, SelectionChangedEventArgs e)
@@ -118,7 +119,6 @@ public partial class StorageView : UserControl
             ExtendClientAreaToDecorationsHint = true,
             CanResize = false,
             ShowInTaskbar = false,
-            SizeToContent = SizeToContent.WidthAndHeight
         };
         await removeProductView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!);
     }

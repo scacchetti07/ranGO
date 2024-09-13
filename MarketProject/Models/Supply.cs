@@ -11,20 +11,13 @@ public class Supply
         Id = Guid.NewGuid().ToString();
         Name = name;
         Cnpj = cnpj;
-        Products = products;
         DayLimit = dayLimit;
+        Products = products;
         Cep = cep;
         Adress = adress;
         Phone = phone;
         Email = email;
     }
-
-    // Sobrecarga existe para testar Exibição de dados no StorageView
-    public Supply(string name)
-    {
-        Name = name;
-    }
-
     public Supply()
     { }
 
@@ -32,7 +25,7 @@ public class Supply
     public string Id { get; private set; }
     public string? Name { get; set; }
     public int Cnpj { get; private set; }
-    public List<Product> Products { get; protected set; }
+    public List<Product> Products { get; private set; }
     public int DayLimit { get; set; }
     public int Cep { get; private set; }
     public string? Adress { get; private set; }

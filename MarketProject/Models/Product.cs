@@ -1,13 +1,11 @@
 #nullable enable
 using System;
-using System.Linq;
-using Avalonia.Platform.Storage;
 
 namespace MarketProject.Models;
 
 public class Product
 {
-    public Product(int gtin, string prodName, Supply supply, decimal price, string unit, Range weekday, Range weekends, Range events, string? description = null, int prodTotal = 0, string id = null)
+    public Product(int gtin, string prodName, decimal price, string unit, Range weekday, Range weekends, Range events, string? description = null, int prodTotal = 0, string id = null)
     {
         Id = Guid.NewGuid().ToString(); // Gera um Id único
         GTIN = gtin;
@@ -16,7 +14,6 @@ public class Product
         Price = price;
         Unit = unit;
         Total = prodTotal;
-        Supply = supply;
         Weekday = weekday;
         Weekends = weekends;
         Events = events;
