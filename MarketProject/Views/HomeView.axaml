@@ -94,11 +94,9 @@
                         
                     
                         <Carousel.Items>
-                            <!-- Implementação do Storage View com o banco de dados -->
+                            <!-- Implementação do Storage View -->
                             <!-- <scr:StorageView Name="strView" x:CompileBindings="False" Products="{Binding $parent[scr:HomeView].DataContext.Database.Products}" ActionChanged="StorageView_OnActionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/> -->
-                            <!-- Tela de Adicionar os Produto -->
                             <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                            <!-- <scr:ProdRegisterView ProductAdded="ProdRegisterView_OnProductAdded"/> -->
                         </Carousel.Items>
                     </Carousel>
                     <!-- Supply Screen -->
@@ -106,7 +104,7 @@
                     <!-- Orders Screen -->
                     <Rectangle Fill="Red" Height="500" Width="500"/>
                     <!-- Option Screen -->
-                    <Rectangle Fill="Red" Height="500" Width="500"/>
+                    <scr:OptionsView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></scr:OptionsView>
                 </Carousel.Items>
                 
 
