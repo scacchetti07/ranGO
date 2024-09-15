@@ -7,25 +7,27 @@
              x:Class="MarketProject.Views.OptionsView"
              x:DataType="vm:OptionsViewModel"
              FontFamily="{StaticResource FilsonPro}">
+    <UserControl.DataContext>
+        <vm:OptionsViewModel/>
+    </UserControl.DataContext>
     <StackPanel Classes="OptionsStackPanel">
         <TextBlock Classes="OptionTitle" Text="Configurações"/>
         
         <!-- Aparência e Personalização - Appearences Options -->
-        <Grid ColumnDefinitions="Auto, *" ShowGridLines="False" RowDefinitions="Auto, Auto">
+        <Grid ColumnDefinitions="Auto, *" ShowGridLines="false" RowDefinitions="Auto, Auto, Auto">
             <StackPanel Spacing="10">
                 <Label Content="Aparência e Personalização" Classes="OptionTitleValue"/>
                 <Label Content="Modifica o tema atual do sistema ranGO somente para o usuário logado." Classes="OptionValue"/>
             </StackPanel>
-            <ComboBox Grid.Column="1" SelectedIndex="0" x:Name="ThemeOption" Classes="ValuesComboBox">
-                <ComboBoxItem Content="Escuro"/>
-                <ComboBoxItem Content="Claro"/>
-            </ComboBox>
+            <ComboBox Grid.Column="1" SelectedItem="{Binding CurrentAppTheme}" 
+                      ItemsSource="{Binding Themes}"
+                      Classes="ValuesComboBox"/>
             
-            <StackPanel Grid.Row="1" Spacing="5">
-                <Label Content="Modifica o tema de exibição das informações nas telas de Estoque e Fornecedor " Classes="OptionValue" />
-                <Label Content="Necessário reiniciar o sistema!" Foreground="#99FFFFFF" FontStyle="Italic" Classes="OptionValue"/>
+            <StackPanel Grid.Row="2" Spacing="5" Margin="0 39 0 0">
+                <Label Content="Modifica o tema de exibição das informações nas telas de Estoque e Fornecedor " Classes="OptionValue"/>
+                <Label Content="Necessário reiniciar o sistema!" Opacity="0.2" FontStyle="Oblique" Classes="OptionValue"/>
             </StackPanel>
-            <ComboBox Grid.Column="1" Grid.Row="1" SelectedIndex="0" Classes="ValuesComboBox" >
+            <ComboBox Grid.Column="1" Grid.Row="2" SelectedIndex="0" Classes="ValuesComboBox">
                 <ComboBoxItem Content="Tabela"/>
                 <ComboBoxItem Content="Cards"/>
             </ComboBox>
@@ -37,17 +39,13 @@
                 <Label Content="Segurança de Dados" Classes="OptionTitleValue"/>
                 <StackPanel Spacing="5">
                     <Label Content="Realize o buckup dos produtos e fornecedores registrados no sistema ranGO" Classes="OptionValue"/>
-                    <Label Content="Local de Destino: C://ranGO/Buckups/" Foreground="#99FFFFFF" FontStyle="Oblique" Classes="OptionValue"/>
+                    <Label Content="Local de Destino: C://ranGO/Buckups/" Opacity="0.2" FontStyle="Oblique" Classes="OptionValue"/>
                 </StackPanel>
             </StackPanel>
-            <Button Grid.Column="1" Content="Backup" Classes="OptionButton"/>
+            <Button Grid.Column="1" Content="Backup" Classes="OptionButton" IsDefault="True"/>
             
-            <StackPanel Grid.Row="1"  Spacing="10">
-                <StackPanel Spacing="5">
-                    <Label Content="Importe dados de arquivos [.xlsx, .csv ou .json] diretamente para as tabelas do sistema" Classes="OptionValue" Margin="0 39 0 0"/>
-                </StackPanel>
-            </StackPanel>
-            <Button Grid.Row="1" Grid.Column="1" Content="Importar" Classes="OptionButton"/>
+            <Label Grid.Row="1" Content="Importe dados de arquivos [.xlsx, .csv ou .json] diretamente para as tabelas do sistema" Classes="OptionValue" Margin="0 39 0 0"/>
+            <Button Grid.Row="1" Grid.Column="1" Content="Importar" Classes="OptionButton" IsDefault="True"/>
         </Grid>
         
         <!-- Central de Ajuda - Help Section -->
@@ -56,12 +54,12 @@
                 <Label Content="Central de Ajuda" Classes="OptionTitleValue"/>
                     <Label Content="Entre em contato com o suporte da ranGO pelo Whatsapp " Classes="OptionValue"/>
             </StackPanel>
-            <Button Grid.Column="1" Content="Suporte" Classes="OptionHelpButton"/>
+            <Button Grid.Column="1" Content="Suporte" Classes="OptionButton"/>
             
             <StackPanel Grid.Row="1"  Spacing="10">
                     <Label Content="Alguma dúvida em como usar o sistema? Acesse o nosso manual de uso!" Classes="OptionValue" Margin="0 39 0 0"/>
             </StackPanel>
-            <Button Grid.Row="1" Grid.Column="1" Content="Acessar" Classes="OptionHelpButton"/>
+            <Button Grid.Row="1" Grid.Column="1" Content="Acessar" Classes="OptionButton"/>
         </Grid>
         </StackPanel>
 </UserControl>

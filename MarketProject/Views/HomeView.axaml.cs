@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Styling;
 using MarketProject.Extensions;
 using MarketProject.Models;
 using MarketProject.ViewModels;
@@ -11,12 +12,13 @@ using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
 using ReactiveUI;
+using SkiaSharp;
+using Svg.Skia;
 
 namespace MarketProject.Views;
 
 public partial class HomeView : Window
 {
-    // variável do tipo botão indicando que já ta selecionado
     private Button? _selectedButton;
 
     // Chamando as funcionalidades do HomeViewModel

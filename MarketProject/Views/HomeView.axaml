@@ -11,20 +11,18 @@
         WindowState="Maximized"
         ExtendClientAreaToDecorationsHint="True"
         FontFamily="{StaticResource FilsonPro}"
-        RequestedThemeVariant="Dark"
         x:DataType="vm:HomeViewModel">
             <Grid ColumnDefinitions="Auto,*">
             <Border BoxShadow="7 0 40 0 #1A3374B9" Width="339" Height="1072" HorizontalAlignment="Left">
             <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"/>    
             </Border>
                 <StackPanel Grid.Column="0" Orientation="Vertical" Width="339" Height="1072" HorizontalAlignment="Left" Spacing="15">
-                    <Image Source="/Assets/rango-principal-2.png" Width="220" Height="86" Margin="0 50 0 0"/>
+                    <Image Source="{Binding CurrentLogoTheme}" Width="220" Height="86" Margin="0 50 0 0"/>
                     <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 0 0 90"/>
-                    
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Options" Classes="tabBar">
                         <Button Click="btnDashboard">
                             <StackPanel Orientation="Horizontal">
-                                 <Image Source="{SvgImage /Assets/Icons/SVG/IconDashboard.svg}"/>
+                                 <Image Source="{SvgImage /Assets/Icons/SVG/IconDashboard.svg}" />
                                  <Label Content="Dashboard"/>
                              </StackPanel>
                         </Button>
