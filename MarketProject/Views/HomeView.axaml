@@ -12,7 +12,7 @@
         ExtendClientAreaToDecorationsHint="True"
         FontFamily="{StaticResource FilsonPro}"
         x:DataType="vm:HomeViewModel">
-            <Grid ColumnDefinitions="Auto,*">
+    <Grid ColumnDefinitions="Auto,*">
             <Border BoxShadow="7 0 40 0 #1A3374B9" Width="339" Height="1072" HorizontalAlignment="Left">
             <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"/>    
             </Border>
@@ -22,29 +22,29 @@
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Options" Classes="tabBar">
                         <Button Click="btnDashboard">
                             <StackPanel Orientation="Horizontal">
-                                 <Image Source="{SvgImage /Assets/Icons/SVG/IconDashboard.svg}" />
+                                 <Svg Path="/Assets/Icons/SVG/IconDashboard.svg"/>
                                  <Label Content="Dashboard"/>
                              </StackPanel>
                         </Button>
                             <Button Click="btnStorage">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconStorage.svg}"/>
+                                    <Svg Path="/Assets/Icons/SVG/IconStorage.svg"/>
                                     <Label Content="Estoque"/>
                                 </StackPanel>
                             </Button>
                         <Button Click="BtnSupply">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{SvgImage /Assets/Icons/SVG/IconSupply.svg}"/>
+                                <Svg Path="/Assets/Icons/SVG/IconSupply.svg"/>
                                 <Label Content="Fornecedor"/>
                             </StackPanel> 
                         </Button>
                         <Button Click="btnOrder">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{SvgImage /Assets/Icons/SVG/IconMenu.svg}"/>
+                                <Svg Path="/Assets/Icons/SVG/IconMenu.svg"/>
                                 <Label Content="Pedidos"/>
                             </StackPanel>
                         </Button>
-                        <!-- <Button Click="btnGrp"> -->
+                        <!-- <Button> -->
                         <!--     <StackPanel Orientation="Horizontal"> -->
                         <!--         <Image Source="{SvgImage /Assets/Icons/SVG/IconAdmin.svg}"/> -->
                         <!--         <Label Content="Gerência"/> -->
@@ -55,13 +55,13 @@
                         <StackPanel>
                             <Button Click="btnSettings">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconSettings.svg}"/>
+                                    <Svg Path="/Assets/Icons/SVG/IconSettings.svg"/>
                                     <Label Content="Opções"/>
                                 </StackPanel>
                             </Button>
                             <Button Click="btnExit">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconExit.svg}"/>
+                                    <Svg Path="/Assets/Icons/SVG/IconExit.svg"/>
                                     <Label Content="Sair"/>
                                 </StackPanel>
                             </Button>

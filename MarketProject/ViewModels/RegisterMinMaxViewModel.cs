@@ -1,15 +1,43 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia.Styling;
 using MarketProject.Models;
 using ReactiveUI;
 using Tmds.DBus.Protocol;
 
 namespace MarketProject.ViewModels;
 
-public class RegisterMinMaxViewModel : ViewModelBase
+public class RegisterMinMaxViewModel : ReactiveObject
 {
+    public RegisterMinMaxViewModel()
+    {
+        var theme = Application.Current?.RequestedThemeVariant;
+        ChangeBackground = GetColor(theme?.ToString());
+    }
+    private ISolidColorBrush _changeBackground;
+    public ISolidColorBrush ChangeBackground
+    {
+        get => _changeBackground;
+        set => this.RaiseAndSetIfChanged(ref _changeBackground, value);
+    }
+
+    private ISolidColorBrush GetColor(string value)
+    {
+        switch (value)
+        {
+            case "Light":
+                return new SolidColorBrush(Color.Parse("#D6DBE2"));
+            case "Dark":
+                return new SolidColorBrush(Color.Parse("#1C1F2B"));
+            default:
+                return null;
+        }
+    }
+    
     public string SectionTitle { get; set; }
 
     public int WeekdaysMin { get; set; }

@@ -9,12 +9,13 @@ using Avalonia.Styling;
 using MarketProject.Helpers;
 using ReactiveUI;
 using MarketProject.ViewModels;
+using MarketProject.Views;
 
 namespace MarketProject.ViewModels;
 
 public class OptionsViewModel : ReactiveObject
 {
-    private HomeViewModel _home = new();
+    private HomeViewModel _homeViewModel = new();
     
     public OptionsViewModel()
     {
@@ -25,7 +26,6 @@ public class OptionsViewModel : ReactiveObject
     
     private const string _light = "Claro";
     private const string _dark = "Escuro";
-    private string _resourceLogo;
     private string _currentAppTheme;
     
     public string CurrentAppTheme
@@ -36,16 +36,17 @@ public class OptionsViewModel : ReactiveObject
             var theme = this.RaiseAndSetIfChanged(ref _currentAppTheme, value);
             if (GetTheme(theme) == null) return;
             Application.Current.RequestedThemeVariant = GetTheme(theme);
-            _resourceLogo = theme == "Escuro" ? "ranGoDark" : "ranGoLight";
-            
-            _home.CurrentLogoTheme =
-                ImageHelper.LoadFromResource(new Uri($"avares://MarketProject/Assets/{_resourceLogo}.png"));
-
         }
     }
 
+    
+    
+
     public void DefaultThemes()
-        => CurrentAppTheme = _dark;
+    {
+        CurrentAppTheme = _dark;
+        //CurrentCss = ".background { fill: #DBDBDA }";
+    }
     
     public ObservableCollection<string> Themes { get; }
 

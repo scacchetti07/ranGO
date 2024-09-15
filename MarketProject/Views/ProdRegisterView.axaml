@@ -8,10 +8,8 @@
              x:Class="MarketProject.Views.ProdRegisterView"
              x:DataType="vm:ProdRegisterViewModel"
              FontFamily="{StaticResource FilsonPro}"
-             BorderBrush="#3374B9"
              Width="1142"
-             Height="800"
-             BorderThickness="0">
+             Height="800">
     
     <Window.DataContext>
         <vm:ProdRegisterViewModel/>

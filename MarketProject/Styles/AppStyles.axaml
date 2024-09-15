@@ -29,7 +29,7 @@
             <Style Selector="^ StackPanel">
                 <Setter Property="Orientation" Value="Horizontal"/>
                 <Setter Property="Width" Value="274"/>
-                <Style Selector="^ Image">
+                <Style Selector="^ Svg">
                     <Setter Property="Width" Value="50"/>
                     <Setter Property="Height" Value="50"/>
                     <Setter Property="Margin" Value="10 0 0 0"/>
@@ -44,11 +44,14 @@
             </Style>
             <Style Selector="^:pointerover /template/ ContentPresenter">
                 <Setter Property="Background" Value="#803374B9"/>
+                <Setter Property="Foreground" Value="#DBDBDA"/>
+                <Setter Property="(Svg.Css)" Value=".background { fill: #DBDBDA }" />
                 <Setter Property="CornerRadius" Value="10"/>
             </Style>
             <Style Selector="^.isSelected">
                 <Setter Property="Background" Value="#3374B9"/>
                 <Setter Property="Foreground" Value="#DBDBDA"/>
+                <Setter Property="(Svg.Css)" Value=".background { fill: #DBDBDA }" />
             </Style>
         </Style>
     </Style>
@@ -168,7 +171,9 @@
     </Style>
     
     <Style Selector="Border.ImageProduct">
-        <Setter Property="Background" Value="#1C1F2B"/>
+        <Setter Property="BorderBrush" Value="#333374B9"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <!-- <Setter Property="Background" Value="#1C1F2B"/> -->
         <Setter Property="Width" Value="441"/>
         <Setter Property="Height" Value="248"/>
         <Setter Property="CornerRadius" Value="5"/>
@@ -212,13 +217,15 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="#DBDBDA"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         
         <Style Selector="^ Button:pointerover /template/ ContentPresenter">
             <Setter Property="BorderBrush" Value="#DCB861"/>
             <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Foreground" Value="#99DBDBDA"/>
+            <Setter Property="Opacity" Value="0.7"/>
+            <!-- <Setter Property="Foreground" Value="#990B0E18"/> -->
         </Style>
     </Style>
     

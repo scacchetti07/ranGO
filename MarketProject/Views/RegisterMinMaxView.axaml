@@ -9,8 +9,8 @@
              x:DataType="vm:RegisterMinMaxViewModel"
              Width="441"
              Height="181"
-             Background="#1C1F2B"
-             CornerRadius="5">
+             CornerRadius="5"
+             Background="{Binding ChangeBackground}">
     <UserControl.DataContext>
         <vm:RegisterMinMaxViewModel/>
     </UserControl.DataContext>
