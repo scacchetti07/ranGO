@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -5,6 +6,9 @@ using MarketProject.ViewModels;
 using MarketProject.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml.Styling;
 using MarketProject.Models;
 
 namespace MarketProject;
@@ -42,7 +46,6 @@ public partial class App : Application
             {
                 _provider?.GetRequiredService<old_Database>().Deserialize();
             };
-            
         }
 
         base.OnFrameworkInitializationCompleted();

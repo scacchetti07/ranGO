@@ -14,6 +14,4 @@ public partial class OptionsView : UserControl
     {
         InitializeComponent();
     }
-       
-    
 }

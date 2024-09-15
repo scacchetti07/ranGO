@@ -1,6 +1,5 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:MarketProject.Controls"
         xmlns:vm="clr-namespace:MarketProject.ViewModels"
         x:DataType="vm:OptionsViewModel">
     <Design.PreviewWith>
@@ -8,6 +7,10 @@
             <!-- Add Controls for Previewer Here -->
         </Border>
     </Design.PreviewWith>
+
+    <Style Selector="Window.Light Svg">
+        <Setter Property="Css" Value="path {fill: #0B0E18; }"/>
+    </Style>
     
     <Style Selector="Button.BtnLoginHover:pointerover /template/ ContentPresenter">
         <Setter Property="BorderBrush" Value="#DCB861"/>
@@ -15,7 +18,7 @@
         <Setter Property="Background" Value="#993374B9"/>
         <Setter Property="Foreground" Value="#99DBDBDA"/>
     </Style>
-    
+
     <Style Selector="StackPanel.tabBar">
         <Style Selector="^ Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -45,13 +48,21 @@
             <Style Selector="^:pointerover /template/ ContentPresenter">
                 <Setter Property="Background" Value="#803374B9"/>
                 <Setter Property="Foreground" Value="#DBDBDA"/>
-                <Setter Property="(Svg.Css)" Value=".background { fill: #DBDBDA }" />
                 <Setter Property="CornerRadius" Value="10"/>
             </Style>
             <Style Selector="^.isSelected">
                 <Setter Property="Background" Value="#3374B9"/>
                 <Setter Property="Foreground" Value="#DBDBDA"/>
-                <Setter Property="(Svg.Css)" Value=".background { fill: #DBDBDA }" />
+            </Style>
+        </Style>
+        <Style Selector="^ Button.isSelected">
+            <Style Selector="^ StackPanel Svg">
+                <Setter Property="Css" Value="path { fill: #DBDBDA; }"/>
+            </Style>
+        </Style>
+        <Style Selector="^ Button:pointerover">
+            <Style Selector="^ StackPanel Svg">
+                <Setter Property="Css" Value="path { fill: #DBDBDA; }"/>
             </Style>
         </Style>
     </Style>
@@ -66,10 +77,10 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="CornerRadius" Value="50"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
+    
         <Style Selector="^ StackPanel.ReturnButtonStackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
-            
+    
             <Style Selector="^ Image">
                 <Setter Property="Width" Value="26.33"/>
                 <Setter Property="Height" Value="16"/>
@@ -87,7 +98,7 @@
     
     <Style Selector="StackPanel.ProductRegisterStyle">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        
+    
         <Style Selector="^ Label">
             <!-- <Setter Property="Foreground" Value="White"/> -->
             <Setter Property="FontSize" Value="21.3"/>
@@ -110,7 +121,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="MaxLength" Value="70"/>
         </Style>
-        
+    
         <Style Selector="^ ComboBox">
             <Setter Property="ThemeVariantScope.RequestedThemeVariant" Value="Light"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -125,7 +136,7 @@
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        
+    
         <Style Selector="^ Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Height" Value="29"/>
@@ -133,7 +144,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        
+    
         <Style Selector="^ Button:pointerover /template/ ContentPresenter">
             <Setter Property="Height" Value="29"/>
             <Setter Property="Width" Value="29"/>
@@ -148,7 +159,7 @@
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="Spacing" Value="21"/>
         <Setter Property="Margin" Value="0 15 0 0"/>
-        
+    
         <Style Selector="^ Label">
             <!-- <Setter Property="Foreground" Value="White"/> -->
             <Setter Property="FontSize" Value="21.3"/>
@@ -209,7 +220,7 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Spacing" Value="85"/>
         <Setter Property="Margin" Value="0 67 0 0"/>
-        
+    
         <Style Selector="^ Button">
             <Setter Property="Width" Value="177"/>
             <Setter Property="Height" Value="50"/>
@@ -220,7 +231,7 @@
             <Setter Property="Foreground" Value="#DBDBDA"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
-        
+    
         <Style Selector="^ Button:pointerover /template/ ContentPresenter">
             <Setter Property="BorderBrush" Value="#DCB861"/>
             <Setter Property="BorderThickness" Value="2"/>
@@ -242,7 +253,7 @@
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Width" Value="*"/>
         </Style>
-        
+    
     </Style>
     
     <Style Selector="StackPanel.StorageStyles">
@@ -392,7 +403,7 @@
             <Setter Property="BorderBrush" Value="#736EA759"/>
             <Setter Property="Background" Value="#801F2024"/>
         </Style>
-        
+    
         <Style Selector="^ Button.OptionButton[IsDefault=false]">
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>

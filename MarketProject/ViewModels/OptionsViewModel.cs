@@ -38,14 +38,9 @@ public class OptionsViewModel : ReactiveObject
             Application.Current.RequestedThemeVariant = GetTheme(theme);
         }
     }
-
-    
-    
-
     public void DefaultThemes()
     {
         CurrentAppTheme = _dark;
-        //CurrentCss = ".background { fill: #DBDBDA }";
     }
     
     public ObservableCollection<string> Themes { get; }

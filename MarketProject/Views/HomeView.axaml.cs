@@ -14,6 +14,7 @@ using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using SkiaSharp;
 using Svg.Skia;
+using SkiaSvg = Avalonia.Svg.Skia.Svg;
 
 namespace MarketProject.Views;
 
@@ -27,6 +28,21 @@ public partial class HomeView : Window
     public HomeView()
     {
         InitializeComponent();
+        Application.Current.ActualThemeVariantChanged += (_, _) =>
+        {
+            var theme = Application.Current.RequestedThemeVariant.ToString();
+            switch (theme)
+            {
+                case "Light":
+                    Classes.Add("Light");
+                    break;
+                case "Dark":
+                    Classes.Remove("Light");
+                    break;
+            }
+        };
+        
+        
         this.ResponsiveWindow();
     }
 

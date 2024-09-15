@@ -25,7 +25,4 @@
     <Application.Resources>
         <FontFamily x:Key="FilsonPro">avares://MarketProject/Assets/Fonts#Filson Pro</FontFamily>
     </Application.Resources>
-             
-             
-            
 </Application>

@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:MarketProject.ViewModels"
-             xmlns:lambda="using:MarketProject.Converters"
              mc:Ignorable="d" d:DesignWidth="441" d:DesignHeight="181"
              x:Class="MarketProject.Views.RegisterMinMaxView"
              x:DataType="vm:RegisterMinMaxViewModel"
