@@ -1,19 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Avalonia.VisualTree;
-using DialogHostAvalonia;
-using MarketProject.Extensions;
 using MarketProject.Models;
-using MarketProject.Models;
-using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Data;
+using ctrl = MarketProject.Controllers.StorageController;
 using MarketProject.Models.Exceptions;
 using MarketProject.ViewModels;
 using MsBox.Avalonia;
@@ -80,7 +73,7 @@ public partial class ProdRegisterView : Window
                 new Range(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
 
             //ProductAdded?.Invoke(newproduct);
-            Database.AddProduct(newproduct);
+            ctrl.AddProduct(newproduct);
             
             // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
             var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams

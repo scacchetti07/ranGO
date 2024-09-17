@@ -10,7 +10,7 @@ public class Product
 {
     public Product(int gtin, string prodName, decimal price, string unit, Range weekday, Range weekends, Range events, string? description = null, int prodTotal = 0)
     {
-        GTIN = gtin;
+        Gtin = gtin;
         Description = description;
         Name = prodName;
         Price = price;
@@ -26,7 +26,7 @@ public class Product
     
     [BsonId]
     public ObjectId Id { get; set; }
-    public int GTIN { get; set; }
+    public int Gtin { get; set; }
     public string Unit { get; set; } // Unidade de Medida
     public decimal Price { get; set; }
     public string? Description { get; set; }

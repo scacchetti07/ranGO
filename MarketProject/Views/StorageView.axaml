@@ -39,6 +39,7 @@
                   CanUserSortColumns="True"
                   IsReadOnly="True"
                   IsScrollInertiaEnabled="True"
+                  Name="ProductsDataGrid"
                   GridLinesVisibility="Horizontal">
             <DataGrid.Styles>
                 <Style Selector="DataGridColumnHeader">

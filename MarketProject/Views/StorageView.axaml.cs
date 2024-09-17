@@ -20,8 +20,8 @@ namespace MarketProject.Views;
 public partial class StorageView : UserControl
 {
     // Definindo uma propriedade para o avalonia do tipo produto
-    // public static readonly StyledProperty<List<Product>> ProductsProperty =
-    //     AvaloniaProperty.Register<StorageView, List<Product>>(nameof(Products));
+    public static readonly StyledProperty<List<Product>> ProductsProperty =
+        AvaloniaProperty.Register<StorageView, List<Product>>(nameof(Database));
     
     public delegate void ProductChangedDelegate(Product product);
     public event ProductChangedDelegate ProductChanged;
@@ -33,10 +33,7 @@ public partial class StorageView : UserControl
     public StorageView()
     {
         InitializeComponent();
-        //DataContext = this;
-        // // Toda vez que algum produto for adicionad ou alterado no sistema,
-        // // O storageView será atualizado com os novos dados adicionados do banco jason para as interface.
-        // ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => UpdateStorage()); 
+        //ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => ); 
     }
     
    /* public void UpdateStorage()

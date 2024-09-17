@@ -11,10 +11,6 @@ using MarketProject.ViewModels;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
-using ReactiveUI;
-using SkiaSharp;
-using Svg.Skia;
-using SkiaSvg = Avalonia.Svg.Skia.Svg;
 
 namespace MarketProject.Views;
 

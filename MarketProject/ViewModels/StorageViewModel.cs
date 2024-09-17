@@ -1,12 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using MarketProject.Models;
-using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
-using MarketProject.Models;
-using ReactiveUI;
+using Avalonia.Controls;
 using MarketProject.Models;
 
 namespace MarketProject.ViewModels;
