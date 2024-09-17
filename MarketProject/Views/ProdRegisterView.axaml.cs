@@ -6,10 +6,14 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using Avalonia.VisualTree;
 using DialogHostAvalonia;
 using MarketProject.Extensions;
 using MarketProject.Models;
-using MarketProject.Views;
+using MarketProject.Models;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using MarketProject.Models.Exceptions;
 using MarketProject.ViewModels;
 using MsBox.Avalonia;
@@ -30,12 +34,11 @@ public partial class ProdRegisterView : Window
     {
         InitializeComponent();
         //this.ResponsiveWindow();
+        GtinTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         
-        GtinTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        PriceTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         
-        PriceTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
-        
-        QuantityTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        QuantityTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
             
     }
 
@@ -44,25 +47,14 @@ public partial class ProdRegisterView : Window
         Regex regex = new(@"^[0-9]+$");
         e.Handled = !regex.IsMatch(e.Text!);
     }
-    
-    private void btnAdd_OnClick(object? sender, RoutedEventArgs e)
-    {
-        // É instanciando um objeto do tipo Product,
-        // Recebendo todos os campos digitados na View de resgistro,
-        //Product product = new Product(txtName.Text,int.Parse(txtQtd.Text),txtSup.Text,((cbxStatus.SelectedItem as ComboBoxItem).Content.ToString()),int.Parse(txtMin.Text),int.Parse(txtMax.Text));
-        // Caso exista funções em ProductAddedDelegate, ele irá enviar os produtos registrados,
-        // Também retornando a tela de estoque.
-        //ProductAdded?.Invoke(product);
-    }
-
     private async void AddProductButton(object sender, RoutedEventArgs e)
     {
         try
         {
-            var gtinCode = Convert.ToInt32(GtinTextBox.Text);
-            var Prodprice = Convert.ToDecimal(PriceTextBox.Text);
-            var total = Convert.ToInt32(QuantityTextBox.Text);
-
+            int gtinCode = Convert.ToInt32(GtinTextBox.Text);
+            decimal Prodprice = Convert.ToDecimal(PriceTextBox.Text);
+            int total = Convert.ToInt32(QuantityTextBox.Text);
+            
             if (MinMaxViewModel.EventsMax <= MinMaxViewModel.EventsMin || MinMaxViewModel.WeekdaysMax <= MinMaxViewModel.WeekdaysMin ||
                 MinMaxViewModel.WeekendsMax <= MinMaxViewModel.WeekendsMin)
                 throw new MaxMinException();
@@ -74,7 +66,8 @@ public partial class ProdRegisterView : Window
                 Icon = MsBox.Avalonia.Enums.Icon.Info,
                 ButtonDefinitions = ButtonEnum.YesNo,
                 CanResize = false,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
             });
             var checkResult = await checkProductsMsgBox.ShowAsync();
 
@@ -86,7 +79,8 @@ public partial class ProdRegisterView : Window
                 new Range(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
 
-            ProductAdded?.Invoke(newproduct);
+            //ProductAdded?.Invoke(newproduct);
+            Database.AddProduct(newproduct);
             
             // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
             var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
@@ -95,12 +89,13 @@ public partial class ProdRegisterView : Window
                 ContentMessage = $"O produto \"{NameTextBox.Text}\" foi adicionado ao estoque!",
                 ButtonDefinitions = ButtonEnum.Ok,
                 Icon = MsBox.Avalonia.Enums.Icon.Success,
-                Markdown = false,
                 CanResize = false,
                 ShowInCenter = true,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
             });
             await msgbox.ShowAsync();
+            ClearTextBox();
         }
         catch (MaxMinException)
         {
@@ -114,6 +109,7 @@ public partial class ProdRegisterView : Window
                 ShowInCenter = true,
                 SizeToContent = SizeToContent.WidthAndHeight,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
             });
             await errorMinMaxMsgBox.ShowAsync();
         }
@@ -121,7 +117,7 @@ public partial class ProdRegisterView : Window
         {
             var errorMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
-                ContentHeader = "Erro inesperado ocorreu!",
+                ContentHeader = "Algum erro inesperado ocorreu!",
                 ContentMessage = "Ocorreu algum erro inesperado no sistema enquanto o produo era adicionado.\nTente Novamente!",
                 ButtonDefinitions = ButtonEnum.Ok, 
                 Icon = MsBox.Avalonia.Enums.Icon.Error,
@@ -129,9 +125,11 @@ public partial class ProdRegisterView : Window
                 ShowInCenter = true,
                 SizeToContent = SizeToContent.WidthAndHeight,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
             });
-            Console.WriteLine(ex.Message);
             await errorMsgBox.ShowAsync();
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
         }
     }
 
@@ -149,9 +147,23 @@ public partial class ProdRegisterView : Window
         var result = await TopLevel.GetTopLevel(this)!.StorageProvider.OpenFilePickerAsync(fileoption);
     }
 
-    private void ReturnButton(object sender, RoutedEventArgs e)
+    private async void ReturnButton(object sender, RoutedEventArgs e)
     {
-        this.Close();
+        var returnMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        {
+            ContentHeader = "Realmente quer sair do cadastro?",
+            ContentMessage = "Ainda há dados digitados no cadastro, você realmente deseja sair e excluir-los?",
+            ButtonDefinitions = ButtonEnum.YesNo, 
+            Icon = MsBox.Avalonia.Enums.Icon.Warning,
+            CanResize = false,
+            ShowInCenter = true,
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            SystemDecorations = SystemDecorations.BorderOnly
+        });
+        var result = await returnMsgBox.ShowAsync();
+        
+        if (result == ButtonResult.Yes)
+            Close();
     }
 
     private async void CleanTextBoxButton(object sender, RoutedEventArgs e)
@@ -166,11 +178,16 @@ public partial class ProdRegisterView : Window
             ShowInCenter = true,
             SizeToContent = SizeToContent.WidthAndHeight,
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            SystemDecorations = SystemDecorations.BorderOnly
         });
         
         var res = await ClearMessageBox.ShowAsync();
         if (res == ButtonResult.No) return;
-        
+        ClearTextBox();
+    }
+
+    private void ClearTextBox()
+    {
         GtinTextBox.Text = null;
         NameTextBox.Text = null;
         DescriptionTextBox.Text = null;
@@ -179,8 +196,8 @@ public partial class ProdRegisterView : Window
         SupplyTextBox.Text = null;
         UnitComboBox.SelectedItem = 0;
 
-        MinMaxView.MinTextBox.Text = null;
-        MinMaxView.MaxTextBox.Text = null;
+        MinMaxView.MinTextBox.Text = "0";
+        MinMaxView.MaxTextBox.Text = "0";
         MinMaxViewModel.WeekdaysMin = 0;
         MinMaxViewModel.WeekdaysMax = 0;
         MinMaxViewModel.WeekendsMin = 0;

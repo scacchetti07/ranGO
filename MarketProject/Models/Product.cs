@@ -1,13 +1,15 @@
 #nullable enable
 using System;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace MarketProject.Models;
 
 public class Product
 {
-    public Product(int gtin, string prodName, decimal price, string unit, Range weekday, Range weekends, Range events, string? description = null, int prodTotal = 0, string id = null)
+    public Product(int gtin, string prodName, decimal price, string unit, Range weekday, Range weekends, Range events, string? description = null, int prodTotal = 0)
     {
-        Id = Guid.NewGuid().ToString(); // Gera um Id único
         GTIN = gtin;
         Description = description;
         Name = prodName;
@@ -22,7 +24,8 @@ public class Product
     public Product()
     { }
     
-    public string Id { get; private set; }
+    [BsonId]
+    public ObjectId Id { get; set; }
     public int GTIN { get; set; }
     public string Unit { get; set; } // Unidade de Medida
     public decimal Price { get; set; }

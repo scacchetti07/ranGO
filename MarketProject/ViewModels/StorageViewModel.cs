@@ -5,7 +5,7 @@ using System.Windows.Input;
 using MarketProject.Models;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
-using MarketProject.Views;
+using MarketProject.Models;
 using ReactiveUI;
 using MarketProject.Models;
 
@@ -13,10 +13,11 @@ namespace MarketProject.ViewModels;
 
 public class StorageViewModel : ViewModelBase
 {
+    
     public ObservableCollection<Product> ProductsList { get; }
     public StorageViewModel()
     {
-        ProductsList = new ObservableCollection<Product>();
+        ProductsList = Database.ProductsList;
     }
     
     // public ProductCard ProductToCard(Product prd)

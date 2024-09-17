@@ -38,7 +38,6 @@
                   Classes="ItensTableDataGrid"
                   CanUserSortColumns="True"
                   IsReadOnly="True"
-                  Name="ProductsDataGrid"
                   IsScrollInertiaEnabled="True"
                   GridLinesVisibility="Horizontal">
             <DataGrid.Styles>
@@ -61,8 +60,8 @@
                 <DataGridTextColumn Header="ID"  Width="*" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Fornecedor" Width="*" Binding="{Binding Supply.Name}"/>
-                <DataGridTextColumn Header="Min" Width="*" Binding="{Binding Min}"/>
-                <DataGridTextColumn Header="Max" Width="*" Binding="{Binding Max}"/>
+                <DataGridTextColumn Header="Min" Width="*" Binding="{Binding Weekday.Start}"/>
+                <DataGridTextColumn Header="Max" Width="*" Binding="{Binding Weekday.End}"/>
                 <DataGridTextColumn Header="Total" Width="*" Binding="{Binding Total}"/>
             </DataGrid.Columns>
     </DataGrid>
