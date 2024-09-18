@@ -33,6 +33,10 @@ public partial class StorageView : UserControl
     public StorageView()
     {
         InitializeComponent();
+        ProductsDataGrid.PropertyChanged += (_, _) =>
+        {
+            ProductsDataGrid.ItemsSource = Database.ProductsList;
+        };
         //ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => ); 
     }
     

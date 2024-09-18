@@ -44,7 +44,7 @@ public partial class ProdRegisterView : Window
     {
         try
         {
-            int gtinCode = Convert.ToInt32(GtinTextBox.Text);
+            long gtinCode = Convert.ToInt64(GtinTextBox.Text);
             decimal Prodprice = Convert.ToDecimal(PriceTextBox.Text);
             int total = Convert.ToInt32(QuantityTextBox.Text);
             

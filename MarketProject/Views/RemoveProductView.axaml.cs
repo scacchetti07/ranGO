@@ -1,9 +1,12 @@
+using System;
 using System.Text.RegularExpressions;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using MongoDB.Driver;
+using ctrl = MarketProject.Controllers.StorageController;
 
 namespace MarketProject.Views;
 
@@ -14,6 +17,7 @@ public partial class RemoveProductView : Window
         InitializeComponent();
         
         RemoveTotalTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        GtinIdTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
     }
 
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
@@ -22,9 +26,20 @@ public partial class RemoveProductView : Window
         e.Handled = !regex.IsMatch(e.Text!);
     }
     
-    private void RemoveProduct(object sender, RoutedEventArgs e)
+    private async void RemoveProduct(object sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        if (GtinIdTextBox.Text is null && RemoveTotalTextBox.Text is null && ProductNameTextBox.Text is null) Close();
+        
+        var product = await ctrl.FindProduct(int.Parse(GtinIdTextBox.Text!));
+        if (product.Count == 0 ) Close();
+        foreach (var p in product)
+        {
+            int total = int.Parse(RemoveTotalTextBox.Text!);
+            if (total > p.Total) break;
+            
+            ctrl.RemoveTotalProduct(p, total);
+        }
+
     }
 
     private void ReturnStorage(object sender, RoutedEventArgs e) => this.Close();

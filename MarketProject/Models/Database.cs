@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Avalonia.Controls;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using MongoDB.Bson.IO;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Dto;
-using MsBox.Avalonia.Enums;
-using Newtonsoft.Json;
-using ReactiveUI;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace MarketProject.Models;
 
@@ -19,10 +14,11 @@ public class Database
     public Database()
     {
         _client.StartSession();
-        Console.WriteLine("Sou o DataBase!");
+        Console.WriteLine("Conexão Estabelecida!");
     }
-    
-    
+
+    private static ObservableCollection<Product> _productsList;
+
     public static ObservableCollection<Product> ProductsList { get; private set; } = new();
 
     private static MongoClient _client =
@@ -33,24 +29,16 @@ public class Database
 
     protected static IMongoCollection<BsonDocument> GetCollectionBson(string dbName, string dbCollection)
         => GetDatabase(dbName).GetCollection<BsonDocument>(dbCollection);
+    protected static IMongoCollection<T> GetCollection<T>(string dbName, string dbCollection)
+        => GetDatabase(dbName).GetCollection<T>(dbCollection);
 
-    public async void Deserialize()
+    public async void StartStorage()
     {
         var collectionProducts = GetDatabase("storage").GetCollection<Product>("products");
-
         var docs = await collectionProducts.Find(Builders<Product>.Filter.Empty).ToListAsync();
-        //string jsonList = docsBson.ToJson();
-        Console.WriteLine(docs.Count);
-        foreach (var d in docs)
-        {
-            Console.WriteLine(d);
-        }
-
         
-        //var products = JsonConvert.DeserializeObject<List<Product>>(jsonList);
         ProductsList = new ObservableCollection<Product>(docs);
-        Console.WriteLine("Lista de produtos atualizada!");
-        
+        Console.WriteLine("Lista de produtos Iniciada!");
     }
     
     // GetSupplyProductBy(Supply supply) {}

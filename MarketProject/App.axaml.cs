@@ -35,7 +35,7 @@ public partial class App : Application
             };
             desktop.Startup += (_, _) =>
             {
-                _provider.GetRequiredService<Database>().Deserialize();
+                _provider.GetRequiredService<Database>().StartStorage();
             };
         }
 

@@ -25,7 +25,7 @@
                     <TextBlock Text="Adicionar Novo Produto"/>
                 </StackPanel>
             </Button>
-            <Button DockPanel.Dock="Right" Classes="RemoveProductButton" Content="Remover" Click="RemoveProductButton"/>
+            <Button DockPanel.Dock="Right" Classes="RemoveProductButton" Content="Quitar Produto" Click="RemoveProductButton"/>
             
                 <ComboBox SelectedIndex="0" Classes="ChangeTable" SelectionChanged="ChangeMinMaxTable" Name="SchedComboBox" Background="#10DBDBDA">
                     <ComboBoxItem Content="Dias úteis"/>
@@ -58,7 +58,7 @@
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"  Width="*" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="GTIN"  Width="*" Binding="{Binding Gtin}"/>
                 <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Fornecedor" Width="*" Binding="{Binding Supply.Name}"/>
                 <DataGridTextColumn Header="Min" Width="*" Binding="{Binding Weekday.Start}"/>
