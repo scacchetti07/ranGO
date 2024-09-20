@@ -6,9 +6,10 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using MarketProject.Models;
-using ctrl = MarketProject.Controllers.StorageController;
+using StorageController = MarketProject.Controllers.StorageController;
 using MarketProject.Models.Exceptions;
 using MarketProject.ViewModels;
+using MongoDB.Driver.Core.Misc;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
@@ -68,12 +69,12 @@ public partial class ProdRegisterView : Window
             
             var newproduct = new Product(gtinCode, NameTextBox.Text, Prodprice,
                 (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
-                new Range(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
-                new Range(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
-                new Range(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
+                new Range<int>(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
+                new Range<int>(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
+                new Range<int>(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
 
             //ProductAdded?.Invoke(newproduct);
-            ctrl.AddProduct(newproduct);
+            StorageController.AddProduct(newproduct);
             
             // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
             var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams

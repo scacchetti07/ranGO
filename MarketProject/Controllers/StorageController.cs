@@ -3,25 +3,16 @@ using System.Threading.Tasks;
 using MarketProject.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Misc;
 
 namespace MarketProject.Controllers;
 
 public class StorageController : Database
 {
-    public static IMongoCollection<BsonDocument> Collection { get; } = GetCollectionBson("storage", "products");
-    public static void AddProduct(Product product)
+    public static IMongoCollection<Product> Collection { get; } = GetCollection<Product>("storage", "products");
+    public static async void AddProduct(Product product)
     {
-        var newProduct = new BsonDocument
-        {
-            {"Gtin", product.Gtin},
-            {"Name", product.Name},
-            {"Description", product.Description},
-            {"Price", product.Price},
-            {"Total", product.Total},
-            {"Unit", product.Unit},
-        };
-        Collection.InsertOne(newProduct);
-        
+        await Collection.InsertOneAsync(product);
         ProductsList.Add(product);
     }
 

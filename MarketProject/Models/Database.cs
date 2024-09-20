@@ -31,7 +31,6 @@ public class Database
         => GetDatabase(dbName).GetCollection<BsonDocument>(dbCollection);
     protected static IMongoCollection<T> GetCollection<T>(string dbName, string dbCollection)
         => GetDatabase(dbName).GetCollection<T>(dbCollection);
-
     public async void StartStorage()
     {
         var collectionProducts = GetDatabase("storage").GetCollection<Product>("products");

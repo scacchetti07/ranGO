@@ -19,6 +19,14 @@
                 </ThemeVariantScope>
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
             </Grid>
+            <StackPanel Orientation="Horizontal" Spacing="20" IsVisible="false" Name="ButtonOptions" Classes="ButtonOptions">
+                <Button Click="EditButton_OnClick">
+                    <Svg Path="/Assets/Icons/SVG/IconEdit.svg" Width="30" Height="30"/>
+                </Button>
+                <Button Click="DeleteButton_OnClick">
+                    <Svg Path="/Assets/Icons/SVG/IconDelete.svg" Width="30" Height="30"/>
+                </Button>
+            </StackPanel>
             <Button DockPanel.Dock="Right" Classes="AddProductButton" Click="RegisterProductButton">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{SvgImage /Assets/Icons/SVG/IconAddProduct.svg}"/>
@@ -26,17 +34,18 @@
                 </StackPanel>
             </Button>
             <Button DockPanel.Dock="Right" Classes="RemoveProductButton" Content="Quitar Produto" Click="RemoveProductButton"/>
-            
-                <ComboBox SelectedIndex="0" Classes="ChangeTable" SelectionChanged="ChangeMinMaxTable" Name="SchedComboBox" Background="#10DBDBDA">
-                    <ComboBoxItem Content="Dias úteis"/>
-                    <ComboBoxItem Content="Finais de Semana"/>
-                    <ComboBoxItem Content="Eventos"/>
-                </ComboBox>
+            <ComboBox SelectedIndex="0" Classes="ChangeTable" SelectionChanged="ChangeMinMaxTable_OnSelectionChanged" Name="SchedComboBox" Background="#10DBDBDA" HorizontalAlignment="Center">
+                <ComboBoxItem Content="Dias úteis"/>
+                <ComboBoxItem Content="Finais de Semana"/>
+                <ComboBoxItem Content="Eventos"/>
+            </ComboBox>
         </DockPanel>
         <DataGrid ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  ItemsSource="{Binding ProductsList}"
+                  x:CompileBindings="False"
                   Classes="ItensTableDataGrid"
-                  CanUserSortColumns="True"
+                  VerticalScrollBarVisibility="Visible"
+                  RowBackground="#33DBDBDA"
+                  CellPointerPressed="ProductsDataGrid_OnCellPointerPressed"
                   IsReadOnly="True"
                   IsScrollInertiaEnabled="True"
                   Name="ProductsDataGrid"
@@ -60,9 +69,9 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="GTIN"  Width="*" Binding="{Binding Gtin}"/>
                 <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Fornecedor" Width="*" Binding="{Binding Supply.Name}"/>
-                <DataGridTextColumn Header="Min" Width="*" Binding="{Binding Weekday.Start}"/>
-                <DataGridTextColumn Header="Max" Width="*" Binding="{Binding Weekday.End}"/>
+                <DataGridTextColumn Header="Fornecedor" Width="*" Binding="{Binding Supply}"/>
+                <DataGridTextColumn Header="Min" Width="*" Binding="{Binding Min}"/>
+                <DataGridTextColumn Header="Max" Width="*" Binding="{Binding Max}"/>
                 <DataGridTextColumn Header="Total" Width="*" Binding="{Binding Total}"/>
             </DataGrid.Columns>
     </DataGrid>

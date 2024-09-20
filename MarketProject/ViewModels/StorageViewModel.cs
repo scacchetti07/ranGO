@@ -1,36 +1,43 @@
-using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Avalonia.Controls;
-using ExCSS;
+using Avalonia.Platform;
 using MarketProject.Models;
-using Tmds.DBus.SourceGenerator;
+using MarketProject.Views;
+using ReactiveUI;
 
 namespace MarketProject.ViewModels;
 
 public class StorageViewModel : ViewModelBase
 {
-    
-    public ObservableCollection<Product> ProductsList { get; set; }
-
-    public StorageViewModel()
+    public static ProductDataGrid ProductToDataGrid(Product prod, MinMaxOptions options)
     {
-        ProductsList = Database.ProductsList;
-        
+        int min = 0, max = 0;
+        switch (options)
+        {
+            case MinMaxOptions.Weekdays:
+                min = prod.Weekday.Min;
+                max = prod.Weekday.Max;
+                break;
+            case MinMaxOptions.Weekends:
+                min = prod.Weekends.Min;
+                max = prod.Weekends.Max;
+                break;
+            case MinMaxOptions.Events:
+                min = prod.Events.Min;
+                max = prod.Events.Max;
+                break;
+        }
+        return new ProductDataGrid(prod.Gtin, prod.Name, prod.Total, "Fornecedor Teste", min, max);
     }
-    
-    // public ProductCard ProductToCard(Product prd)
-    // {
-    //     return new ProductCard()
-    //     {
-    //         ProdName = prd.ProdName,
-    //         ProdQtd = prd.ProdQtd,
-    //         ProdStatus = prd.ProdStatus,
-    //         ProdMin = prd.ProdMin,
-    //         ProdMax = prd.ProdMax,
-    //         SupplyName = prd.SupplyName,
-    //         Id = prd.Id
-    //     };
-    // }
+}
+
+public record ProductDataGrid(long Gtin, string Name, int Total, string Supply, int Min, int Max);
+
+public enum MinMaxOptions
+{
+    Weekdays,
+    Weekends,
+    Events
 }

@@ -3,17 +3,14 @@ using Avalonia;
 using MarketProject.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
-using MarketProject.Views;
-using Avalonia.ReactiveUI;
-using MarketProject.Extensions;
 using MarketProject.ViewModels;
-using ReactiveUI;
+using ctrl = MarketProject.Controllers;
 
 namespace MarketProject.Views;
 
@@ -26,51 +23,22 @@ public partial class StorageView : UserControl
     public delegate void ProductChangedDelegate(Product product);
     public event ProductChangedDelegate ProductChanged;
     
-    // Necessário para converter o data context para o tipo storageviewmodel, 
-    // E implementando suas funcionalidades.
-    public StorageViewModel ViewModel => DataContext as StorageViewModel;
+    private IEnumerable<Product> _selectedProducts;
+    
+    private StorageViewModel _vm => DataContext as StorageViewModel;
     
     public StorageView()
     {
         InitializeComponent();
-        ProductsDataGrid.PropertyChanged += (_, _) =>
+        ProductsDataGrid.ItemsSource = Database.ProductsList.Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex));
+        Database.ProductsList.CollectionChanged += (sender, _) =>
         {
-            ProductsDataGrid.ItemsSource = Database.ProductsList;
+            ProductsDataGrid.ItemsSource = new List<Product>();
+            ProductsDataGrid.ItemsSource = (sender as ObservableCollection<Product>)!
+                .Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex)); 
         };
-        //ProductsProperty.Changed.AddClassHandler<StorageView>((_, _) => ); 
     }
     
-   /* public void UpdateStorage()
-    {
-        ProductsPanel.Children.Clear(); // limpa todo o paínel visual do sistema
-        if (Products is null) return;
-        foreach (Product product in Products)
-        {
-           // lista os produtos do banco json para o painel visual na StorageView
-         var productCard = ViewModel.ProductToCard(product);
-         pointerpresse = Toda vez que for clicado no card, ele será selecionado ou desselecionado
-            productCard.PointerPressed += (sender, args) => 
-            {
-                 productCard.Selected = !productCard.Selected;
-            }; 
-            ProductsPanel.Children.Add(productCard);
-        }
-    
-    }
-    */
-   
-    // private void btnRemove_OnClick(object? sender, RoutedEventArgs e)
-    // {
-    //     ActionChanged?.Invoke(Actions.Delete);
-    //     // Ocorre a remoção dos produtos apartir da seleção feita no pointerpressed
-    //     IEnumerable<string> selectedProducts = ProductsPanel.Children.Cast<ProductCard>().Where(card => card.Selected)
-    //         .Select(card => card.Id);
-    //     Products.RemoveAll(product => selectedProducts.Contains(product.Id));
-    //     //UpdateStorage();
-    // }
-
-    
-
     private async void RegisterProductButton(object sender, RoutedEventArgs e)
     {
         // fazer RegisProdView retornar um produto.
@@ -86,28 +54,19 @@ public partial class StorageView : UserControl
         };
        await RegisProdView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!);
        
+       // Fazer evento acionar que ocorreu adição dos produtos.
        ProductChanged?.Invoke(new Product());
     }
 
-    private void ChangeMinMaxTable(object sender, SelectionChangedEventArgs e)
+    private void ChangeMinMaxTable_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var prod = new Product();
-        var i = SchedComboBox?.SelectedIndex;
-        switch (i)
+        if (ProductsDataGrid == null) return;
+        PropertyChanged += (_, _) =>
         {
-            case 0:
-                prod.Min = prod.Weekday.Start;
-                prod.Max = prod.Weekday.End;
-                break;
-            case 1:
-                prod.Min = prod.Weekends.Start;
-                prod.Max = prod.Weekends.End;
-                break;
-            case 2:
-                prod.Min = prod.Events.Start;
-                prod.Max = prod.Events.End;
-                break;
-        }
+            ProductsDataGrid.ItemsSource = Database.ProductsList
+                .Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex)); 
+        };
+
     }
 
     private async void RemoveProductButton(object sender, RoutedEventArgs e)
@@ -121,6 +80,47 @@ public partial class StorageView : UserControl
             CanResize = false,
             ShowInTaskbar = false,
         };
-        await removeProductView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!);
+        await removeProductView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
+    }
+
+    private void ProductsDataGrid_OnCellPointerPressed(object sender, DataGridCellPointerPressedEventArgs e)
+    {
+        _selectedProducts = ProductsDataGrid.SelectedItems.Cast<Product>();
+        ButtonOptions.IsVisible = e.Row.IsSelected;
+    }
+
+    private async void EditButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        ProdRegisterView RegisProdView = new()
+        {
+            Title = "Cadastro de Produtos",
+            WindowStartupLocation= WindowStartupLocation.CenterScreen,
+            ExtendClientAreaChromeHints= ExtendClientAreaChromeHints.NoChrome,
+            ExtendClientAreaToDecorationsHint = true,
+            CanResize = false,
+            ShowInTaskbar = false,
+            SizeToContent = SizeToContent.WidthAndHeight
+        };
+        foreach (var p in _selectedProducts)
+        {
+            RegisProdView.NameTextBox.Text = p.Name;
+            RegisProdView.GtinTextBox.Text = p.Gtin.ToString();
+            RegisProdView.DescriptionTextBox.Text = p.Description;
+            RegisProdView.QuantityTextBox.Text = p.Total.ToString();
+            RegisProdView.UnitComboBox.SelectedValue = p.Unit;
+            RegisProdView.PriceTextBox.Mask = p.Price.ToString();
+            RegisProdView.MinMaxViewModel.WeekdaysMin = p.Weekday.Min;
+            RegisProdView.MinMaxViewModel.WeekdaysMax = p.Weekday.Max;
+            RegisProdView.MinMaxViewModel.WeekendsMin = p.Weekends.Min;
+            RegisProdView.MinMaxViewModel.WeekendsMax = p.Weekends.Max;
+            RegisProdView.MinMaxViewModel.EventsMax = p.Events.Max;
+            RegisProdView.MinMaxViewModel.EventsMin = p.Events.Min;
+        }
+        await RegisProdView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
+    }
+
+    private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        
     }
 }
