@@ -26,9 +26,6 @@ public class Database
 
     protected static IMongoDatabase GetDatabase(string dbName)
         => _client.GetDatabase(dbName);
-
-    protected static IMongoCollection<BsonDocument> GetCollectionBson(string dbName, string dbCollection)
-        => GetDatabase(dbName).GetCollection<BsonDocument>(dbCollection);
     protected static IMongoCollection<T> GetCollection<T>(string dbName, string dbCollection)
         => GetDatabase(dbName).GetCollection<T>(dbCollection);
     public async void StartStorage()

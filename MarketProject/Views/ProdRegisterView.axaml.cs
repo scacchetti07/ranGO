@@ -105,7 +105,7 @@ public partial class ProdRegisterView : Window
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 SystemDecorations = SystemDecorations.BorderOnly
             });
-            await errorMinMaxMsgBox.ShowAsync();
+            await errorMinMaxMsgBox.ShowAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -143,21 +143,21 @@ public partial class ProdRegisterView : Window
 
     private async void ReturnButton(object sender, RoutedEventArgs e)
     {
-        var returnMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-        {
-            ContentHeader = "Realmente quer sair do cadastro?",
-            ContentMessage = "Ainda há dados digitados no cadastro, você realmente deseja sair e excluir-los?",
-            ButtonDefinitions = ButtonEnum.YesNo, 
-            Icon = MsBox.Avalonia.Enums.Icon.Warning,
-            CanResize = false,
-            ShowInCenter = true,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            SystemDecorations = SystemDecorations.BorderOnly
-        });
-        var result = await returnMsgBox.ShowAsync();
-        
-        if (result == ButtonResult.Yes)
-            Close();
+        // var returnMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        // {
+        //     ContentHeader = "Realmente quer sair do cadastro?",
+        //     ContentMessage = "Ainda há dados digitados no cadastro, você realmente deseja sair e excluir-los?",
+        //     ButtonDefinitions = ButtonEnum.YesNo, 
+        //     Icon = MsBox.Avalonia.Enums.Icon.Warning,
+        //     CanResize = false,
+        //     ShowInCenter = true,
+        //     WindowStartupLocation = WindowStartupLocation.CenterScreen,
+        //     SystemDecorations = SystemDecorations.BorderOnly
+        // });
+        // var result = await returnMsgBox.ShowAsync();
+        //
+        // if (result == ButtonResult.Yes)
+       Close();
     }
 
     private async void CleanTextBoxButton(object sender, RoutedEventArgs e)

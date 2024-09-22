@@ -2,8 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MarketProject.ViewModels"
         mc:Ignorable="d" d:DesignWidth="534" d:DesignHeight="400"
         x:Class="MarketProject.Views.RemoveProductView"
+        x:DataType="vm:RemoveProductViewModel"
         Width="534"
         Height="400"
         Title="Remove Product"
@@ -30,10 +32,10 @@
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Margin="105 0 0 0">
                                         <Label Content="Total para baixa: *"/>
-                                        <TextBox Height="50" Width="190" Name="RemoveTotalTextBox" MaxLength="3"/>
+                                        <TextBox Height="50" Width="190" Name="RemoveTextBox" MaxLength="3"/>
                                 </StackPanel>
                         </Grid>
-                        <Button HorizontalAlignment="Center" Classes="RemoveProductButton" Content="Remover" Click="RemoveProduct"/>
+                        <Button HorizontalAlignment="Center" Classes="RemoveProductButton" Content="Remover" Click="RemoveProductButton"/>
                 </StackPanel>
         </DockPanel>
 </Window>
