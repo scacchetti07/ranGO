@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 
 namespace MarketProject.Extensions;
@@ -19,11 +20,12 @@ public static class WindowExtensions
 
       window.Content = layoutTransformControl;
       
-      window.GetObservable(Window.ClientSizeProperty).Subscribe(size =>
+      ((Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow ?? window)
+         .GetObservable(Window.ClientSizeProperty).Subscribe(size =>
       {
          double width = size.Width;
          double height = size.Height;
-        
+         
          double scalex = width / 1920;
          double scaley = height / 1080;
  

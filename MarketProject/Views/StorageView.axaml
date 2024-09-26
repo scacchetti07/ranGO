@@ -7,7 +7,8 @@
              x:Class="MarketProject.Views.StorageView"
              x:DataType="vm:StorageViewModel"
              Width="1581"
-             Height="1026">
+             Height="1026"
+             FontFamily="{StaticResource FilsonPro}">
     <UserControl.DataContext>
         <vm:StorageViewModel/>
     </UserControl.DataContext>
@@ -43,12 +44,14 @@
         <DataGrid ScrollViewer.VerticalScrollBarVisibility="Auto"
                   x:CompileBindings="False"
                   Classes="ItensTableDataGrid"
-                  VerticalScrollBarVisibility="Visible"
+                  VerticalScrollBarVisibility="Auto"
                   CellPointerPressed="ProductsDataGrid_OnCellPointerPressed"
                   IsReadOnly="True"
                   IsScrollInertiaEnabled="True"
                   Name="ProductsDataGrid"
-                  GridLinesVisibility="Horizontal">
+                  GridLinesVisibility="Horizontal"
+                  VerticalAlignment="Stretch"
+                  MaxHeight="800">
             <DataGrid.Styles>
                 <Style Selector="DataGridColumnHeader">
                     <Setter Property="Background" Value="#3374B9"/>

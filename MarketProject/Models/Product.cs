@@ -12,7 +12,7 @@ public class Product
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public ObjectId Id { get; set; }
+    public ObjectId Id { get; private set; }
     public long Gtin { get; set; }
     public string Unit { get; set; } // Unidade de Medida
     public decimal Price { get; set; }

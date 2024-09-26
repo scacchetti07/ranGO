@@ -7,7 +7,11 @@
              x:DataType="vm:SupplyViewModel"
              x:Class="MarketProject.Views.SupplyView"
              Width="1581"
-             Height="1026">
+             Height="1026"
+             FontFamily="{StaticResource FilsonPro}">
+    <UserControl.DataContext>
+        <vm:SupplyViewModel/>
+    </UserControl.DataContext>
     <StackPanel Classes="SupplyView">
         <DockPanel>
             <Grid Classes="SearchTextBox" DockPanel.Dock="Left">
@@ -16,7 +20,17 @@
                 </ThemeVariantScope>
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
             </Grid>
-            <Button DockPanel.Dock="Right" Classes="AddSupplyButton">
+            
+            <StackPanel Orientation="Horizontal" Spacing="20" Name="ButtonOptions" Classes="ButtonOptions">
+                <Button>
+                    <Svg Path="/Assets/Icons/SVG/IconEdit.svg" Width="30" Height="30"/>
+                </Button>
+                <Button Click="DeleteSupply_OnClick">
+                    <Svg Path="/Assets/Icons/SVG/IconDelete.svg" Width="30" Height="30"/>
+                </Button>
+            </StackPanel>
+            
+            <Button DockPanel.Dock="Right" Classes="AddSupplyButton" Click="AddSupply_OnClick">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{SvgImage /Assets/Icons/SVG/IconAddSupply.svg}" Width="26" Height="29"/>
                     <TextBlock Text="Cadastrar Fornecedor"/>
@@ -28,6 +42,7 @@
                   Classes="ItensTableDataGrid"
                   VerticalScrollBarVisibility="Visible"
                   IsReadOnly="True"
+                  CellPointerPressed="SupplyDataGrid_OnCellPointerPressed"
                   IsScrollInertiaEnabled="True"
                   Name="SupplyDataGrid"
                   GridLinesVisibility="Horizontal">
@@ -48,12 +63,12 @@
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="CNPJ"  Width="*"/>
-                <DataGridTextColumn Header="Nome" Width="*"/>
-                <DataGridTextColumn Header="Telefone" Width="*"/>
-                <DataGridTextColumn Header="CEP" Width="*"/>
-                <DataGridTextColumn Header="Produtos" Width="*"/>
-                <DataGridTextColumn Header="Prazo" Width="*"/>
+                <DataGridTextColumn Header="CNPJ"  Width="*" Binding="{Binding Cnpj}"/>
+                <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Telefone" Width="*" Binding="{Binding Phone}"/>
+                <DataGridTextColumn Header="CEP" Width="*" Binding="{Binding Cep}"/>
+                <DataGridTextColumn Header="Produtos" Width="*" Binding="{Binding Products}"/>
+                <DataGridTextColumn Header="Prazo" Width="*" Binding="{Binding Date}"/>
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>

@@ -16,10 +16,9 @@ public class Database
         _client.StartSession();
         Console.WriteLine("Conexão Estabelecida!");
     }
-
-    private static ObservableCollection<Product> _productsList;
-
     public static ObservableCollection<Product> ProductsList { get; private set; } = new();
+    
+    public static ObservableCollection<Supply> SupplyList { get; private set; } = new();
 
     private static MongoClient _client =
         new("mongodb+srv://luiscacchetti07:c2qb5VFjcVBA18PH@rango.3fwol.mongodb.net/");
@@ -31,11 +30,13 @@ public class Database
     public async void StartStorage()
     {
         var collectionProducts = GetDatabase("storage").GetCollection<Product>("products");
-        var docs = await collectionProducts.Find(Builders<Product>.Filter.Empty).ToListAsync();
+        var prodDocs = await collectionProducts.Find(Builders<Product>.Filter.Empty).ToListAsync();
         
-        ProductsList = new ObservableCollection<Product>(docs);
-        Console.WriteLine("Lista de produtos Iniciada!");
+        var collectionSupply = GetDatabase("storage").GetCollection<Supply>("supplys");
+        var supplyDocs = await collectionSupply.Find(Builders<Supply>.Filter.Empty).ToListAsync();
+        
+        ProductsList = new ObservableCollection<Product>(prodDocs);
+        SupplyList = new ObservableCollection<Supply>(supplyDocs);
+        Console.WriteLine("Lista de produtos e fornecedores Iniciada!");
     }
-    
-    // GetSupplyProductBy(Supply supply) {}
 }

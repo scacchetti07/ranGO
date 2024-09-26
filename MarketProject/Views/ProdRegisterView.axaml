@@ -16,80 +16,78 @@
     </Window.DataContext>
     
         <Grid ColumnDefinitions="Auto,Auto" Margin="50 0">
-        <Button Grid.Column="1" Classes="ReturnButton" Click="ReturnButton">
-            <StackPanel Classes="ReturnButtonStackPanel">
-                <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}"/>
-                <Label Content="Retornar"/>
-            </StackPanel>
-        </Button>
-        <StackPanel Classes="ProductRegisterStyle">
-            <Grid ColumnDefinitions="Auto, Auto, Auto">
-                <TextBlock Text="Cadastro de Produtos no estoque" FontSize="30" FontWeight="Bold" Classes = "RegisterTitle"/>
-            </Grid>
-            <StackPanel>
-                <Label Content="Código GTIN: *"/>
-                <TextBox Name="GtinTextBox" Watermark="0-000000-00000000" MaxLength="14"/>
-            </StackPanel>
-            <StackPanel>
-                <Label Content="Nome: *"/>
-                <TextBox Name="NameTextBox" MaxLength="40"/>
-            </StackPanel>
-            <StackPanel>
-                <Label Content="Descrição:"/>
-                <TextBox Name="DescriptionTextBox" Height="70" VerticalContentAlignment="Top" MaxLength="150" TextWrapping="Wrap"/>
-            </StackPanel>
-            <StackPanel>
-                <Label Content="Fornecedor: *"/>
-                <AutoCompleteBox Name="SupplyTextBox" FilterMode="StartsWith" Watermark="Selecione alguns fornecedores" FontStyle="Italic"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <Button Grid.Column="1" Classes="ReturnButton" Click="ReturnButton">
+                <StackPanel Classes="ReturnButtonStackPanel">
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}"/>
+                    <Label Content="Retornar"/>
+                </StackPanel>
+            </Button>
+            <StackPanel Classes="ProductRegisterStyle">
+                    <TextBlock Text="Cadastro de Produtos no estoque" FontSize="30" FontWeight="Bold" Classes = "RegisterTitle"/>
                 <StackPanel>
-                    <Label Content="Preço Unitário: *"/>
-                    <MaskedTextBox Name="PriceTextBox" Width="190" MaxLength="7" Watermark="R$ 00,00" Mask="00,00" OpacityMask="#d3d3d3"></MaskedTextBox>
+                    <Label Content="Código GTIN: *"/>
+                    <TextBox Name="GtinTextBox" Watermark="0-000000-00000000" MaxLength="14"/>
                 </StackPanel>
-                <StackPanel Margin="60 0 0 0">
-                    <Label Content="Unid. de Medida: *"/>
-                    <ComboBox Name = "UnitComboBox" SelectedIndex="0">
-                        <ComboBoxItem Content="Unidade"/>
-                        <ComboBoxItem Content="Kilogramas"/>
-                        <ComboBoxItem Content="Gramas"/>
-                        <ComboBoxItem Content="Litros"/>
-                        <ComboBoxItem Content="Mililitros"/>
-                    </ComboBox>
+                <StackPanel>
+                    <Label Content="Nome: *"/>
+                    <TextBox Name="NameTextBox" MaxLength="40"/>
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="Descrição:"/>
+                    <TextBox Name="DescriptionTextBox" Height="70" VerticalContentAlignment="Top" MaxLength="150" TextWrapping="Wrap"/>
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="Fornecedor: *"/>
+                    <AutoCompleteBox Name="SupplyTextBox" FilterMode="StartsWith" Watermark="Selecione alguns fornecedores" FontStyle="Italic"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <Label Content="Preço Unitário: *"/>
+                        <MaskedTextBox Name="PriceTextBox" Width="190" MaxLength="7" Watermark="R$ 00,00" Mask="00,00" OpacityMask="#d3d3d3"></MaskedTextBox>
+                    </StackPanel>
+                    <StackPanel Margin="60 0 0 0">
+                        <Label Content="Unid. de Medida: *"/>
+                        <ComboBox Name = "UnitComboBox" SelectedIndex="0">
+                            <ComboBoxItem Content="Unidade"/>
+                            <ComboBoxItem Content="Kilogramas"/>
+                            <ComboBoxItem Content="Gramas"/>
+                            <ComboBoxItem Content="Litros"/>
+                            <ComboBoxItem Content="Mililitros"/>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="Quantidade Atual: "/>
+                    <TextBox Name = "QuantityTextBox" MaxLength="5"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel>
-                <Label Content="Quantidade Atual: "/>
-                <TextBox Name = "QuantityTextBox" MaxLength="5"/>
-            </StackPanel>
-        </StackPanel>
         
-        <StackPanel Grid.Column="1" Classes="ProductRegisterStyle" Margin="95 100 0 0">
-            <StackPanel Margin="0 0 0 26">
-                <Label Content="Limites do Estoque: *"/>
-                <vw:RegisterMinMaxView Width="441" Height="181" Name="MinMaxView"/>
-            </StackPanel>
-            <StackPanel>
-                <Label Content="Imagem do Produto: "/>
-                <StackPanel>
-                    <Border Classes="ImageProduct">
-                        <Button Name="ProductImage" Click="AddImageProduct">
-                            <Border Classes="ImageSelect">
-                                <StackPanel>
-                                    <Image Source="{SvgImage /Assets/Icons/SVG/IconImageUpload.svg}" Width="28" Height="29"/>
-                                    <Label Content="Arraste e solte ou escolha uma arquivo"/>
-                                    <Label Content="Arquivos em .png e .jpg" Padding="0 -2 4 0"/>
-                                </StackPanel>
-                            </Border>
-                        </Button>    
-                    </Border>
+            <StackPanel Grid.Column="1" Classes="ProductRegisterStyle" Margin="95 100 0 0">
+                <StackPanel Margin="0 0 0 26">
+                    <Label Content="Limites do Estoque: *"/>
+                    <vw:RegisterMinMaxView Width="441" Height="181" Name="MinMaxView"/>
                 </StackPanel>
+                <StackPanel>
+                    <Label Content="Imagem do Produto: "/>
+                    <StackPanel>
+                        <Border Classes="ImageProduct">
+                            <Button Name="ProductImage" Click="AddImageProduct">
+                                <Border Classes="ImageSelect">
+                                    <StackPanel>
+                                        <Image Source="{SvgImage /Assets/Icons/SVG/IconImageUpload.svg}" Width="28" Height="29"/>
+                                        <Label Content="Arraste e solte ou escolha uma arquivo"/>
+                                        <Label Content="Arquivos em .png e .jpg" Padding="0 -2 4 0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Button>    
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+                
+                   <StackPanel Classes="ProductRegisterButtons" Margin="0 67 0 0">
+                       <Button Content="Adicionar" Background="#3374B9" Click="AddProductButton"/>
+                       <Button Content="Limpar" Background="#D87249" Click="CleanTextBoxButton"/>
+                   </StackPanel>
             </StackPanel>
-            
-               <StackPanel Classes="ProductRegisterButtons">
-                   <Button Content="Adicionar" Background="#3374B9" Click="AddProductButton"/>
-                   <Button Content="Limpar" Background="#D87249" Click="CleanTextBoxButton"/>
-               </StackPanel>
-        </StackPanel>
-    </Grid>
+        </Grid>
 </Window>

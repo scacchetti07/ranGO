@@ -16,7 +16,7 @@ namespace MarketProject.ViewModels;
 
 public class HomeViewModel : ReactiveObject
 {
-    public old_Database OldDatabase { get; init; }
+    public Database Database { get; init; }
     
     // public getter permite que o database seja lido por todo o sistema
     // public init permite que o database seja iniciada e executado por todo o sistema 
@@ -25,9 +25,9 @@ public class HomeViewModel : ReactiveObject
     public HomeViewModel()
     { }
 
-    public HomeViewModel(old_Database oldDatabase)
+    public HomeViewModel(Database database)
     {
-        OldDatabase = oldDatabase;
+        Database = database;
     }
 
 }

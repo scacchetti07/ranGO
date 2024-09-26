@@ -5,6 +5,8 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
+using MarketProject.Extensions;
 using MarketProject.Models;
 using StorageController = MarketProject.Controllers.StorageController;
 using MarketProject.Models.Exceptions;
@@ -27,7 +29,7 @@ public partial class ProdRegisterView : Window
     public ProdRegisterView()
     {
         InitializeComponent();
-        //this.ResponsiveWindow();
+        this.ResponsiveWindow();
         GtinTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         
         PriceTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
@@ -73,23 +75,31 @@ public partial class ProdRegisterView : Window
                 new Range<int>(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range<int>(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
 
+            // var newproduct = new Product(12345678909876, "Atum", 23.99m, "Gramas",
+            //     new Range<int>(20, 200),
+            //     new Range<int>(30, 400),
+            //     new Range<int>(35, 500));
+
             //ProductAdded?.Invoke(newproduct);
             StorageController.AddProduct(newproduct);
             
             // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
-            var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            Dispatcher.UIThread.Post(async () =>
             {
-                ContentHeader = "Novo Produto Adicionado!",
-                ContentMessage = $"O produto \"{NameTextBox.Text}\" foi adicionado ao estoque!",
-                ButtonDefinitions = ButtonEnum.Ok,
-                Icon = MsBox.Avalonia.Enums.Icon.Success,
-                CanResize = false,
-                ShowInCenter = true,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                SystemDecorations = SystemDecorations.BorderOnly
+                var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+                {
+                    ContentHeader = "Novo Fornecedor Adicionado!",
+                    ContentMessage = $"O fornecedor \"{newproduct.Name}\" foi adicionado ao sistema!",
+                    ButtonDefinitions = ButtonEnum.Ok,
+                    Icon = MsBox.Avalonia.Enums.Icon.Success,
+                    CanResize = false,
+                    ShowInCenter = true,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SystemDecorations = SystemDecorations.BorderOnly
+                });
+                await msgbox.ShowAsync();
+                ClearTextBox(); 
             });
-            await msgbox.ShowAsync();
-            ClearTextBox();
         }
         catch (MaxMinException)
         {
