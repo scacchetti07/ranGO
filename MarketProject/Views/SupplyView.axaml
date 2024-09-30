@@ -22,7 +22,7 @@
             </Grid>
             
             <StackPanel Orientation="Horizontal" Spacing="20" Name="ButtonOptions" Classes="ButtonOptions">
-                <Button>
+                <Button Click="EditSupply_OnClick">
                     <Svg Path="/Assets/Icons/SVG/IconEdit.svg" Width="30" Height="30"/>
                 </Button>
                 <Button Click="DeleteSupply_OnClick">

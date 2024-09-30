@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using MarketProject.Extensions;
 using MongoDB.Driver;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
@@ -19,7 +20,7 @@ public partial class RemoveProductView : Window
     public RemoveProductView()
     {
         InitializeComponent();
-        
+        this.ResponsiveWindow();
         RemoveTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         GtinIdTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
     }

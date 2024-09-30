@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="217"
+             x:Class="MarketProject.Controls.DashCard_1"
+             FontFamily="{StaticResource FilsonPro}"
+             CornerRadius="10">
+    <!-- Bindar Campos de Texto indicando o tempo de chegada e a porcentagem em meio o tempo vai chegando.  -->
+    <StackPanel>
+        <StackPanel Margin="20" Orientation="Horizontal" Spacing="100">
+            <TextBlock Text="Chegada Fornecedor" FontSize="18"/>
+            <Svg Path="/Assets/Icons/SVG/IconSupply.svg" Width="24" Height="19" Css="path { fill: #DCB861; }"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="20 0">
+            <TextBlock Text="10 DIAS" FontSize="60" FontWeight="Heavy" Foreground="#DBDBDA"/>
+        </StackPanel>
+        <Border Background="#3374B9" Opacity="0.2" Height="1" Margin="0 10"/>
+        <StackPanel Margin="20 14">
+            <ProgressBar Background="#453E2C" Height="8" Value="75" Foreground="#DCB861"/>
+            <StackPanel Orientation="Horizontal" Spacing="155">
+                <Label Content="Tempo Estimado"/>
+                <Label Content="75%"/> 
+            </StackPanel>
+        </StackPanel>
+   </StackPanel>
+</UserControl>

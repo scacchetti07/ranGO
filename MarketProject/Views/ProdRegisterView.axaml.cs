@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using Avalonia.Vulkan;
+using MarketProject.Controllers;
 using MarketProject.Extensions;
 using MarketProject.Models;
 using StorageController = MarketProject.Controllers.StorageController;
@@ -31,11 +34,10 @@ public partial class ProdRegisterView : Window
         InitializeComponent();
         this.ResponsiveWindow();
         GtinTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
-        
         PriceTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
-        
         QuantityTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
-            
+
+        SupplyAutoCompleteBox.ItemsSource = Database.SupplyList.Select(s => s.Name);
     }
 
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
@@ -81,7 +83,7 @@ public partial class ProdRegisterView : Window
             //     new Range<int>(35, 500));
 
             //ProductAdded?.Invoke(newproduct);
-            StorageController.AddProduct(newproduct);
+            StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
             
             // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
             Dispatcher.UIThread.Post(async () =>
@@ -153,21 +155,26 @@ public partial class ProdRegisterView : Window
 
     private async void ReturnButton(object sender, RoutedEventArgs e)
     {
-        // var returnMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-        // {
-        //     ContentHeader = "Realmente quer sair do cadastro?",
-        //     ContentMessage = "Ainda há dados digitados no cadastro, você realmente deseja sair e excluir-los?",
-        //     ButtonDefinitions = ButtonEnum.YesNo, 
-        //     Icon = MsBox.Avalonia.Enums.Icon.Warning,
-        //     CanResize = false,
-        //     ShowInCenter = true,
-        //     WindowStartupLocation = WindowStartupLocation.CenterScreen,
-        //     SystemDecorations = SystemDecorations.BorderOnly
-        // });
-        // var result = await returnMsgBox.ShowAsync();
-        //
-        // if (result == ButtonResult.Yes)
-       Close();
+        List<string> textBoxes = GetTextBoxes();
+        if (textBoxes.TrueForAll(txt => string.IsNullOrEmpty(txt)))
+        {
+            Close();
+            return;
+        }
+        
+        var checkMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        {
+            ContentHeader = "Dados ainda digitados.",
+            ContentMessage = "Ainda existem dados escritos nos campos de cadastro,\nDeixe-os todos em branco para retornar a tela inicial.",
+            ButtonDefinitions = ButtonEnum.Ok, 
+            Icon = MsBox.Avalonia.Enums.Icon.Info,
+            CanResize = false,
+            ShowInCenter = true,
+            SizeToContent = SizeToContent.WidthAndHeight,
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            SystemDecorations = SystemDecorations.BorderOnly
+        });
+        await checkMsgBox.ShowAsync().ConfigureAwait(false);
     }
 
     private async void CleanTextBoxButton(object sender, RoutedEventArgs e)
@@ -197,7 +204,7 @@ public partial class ProdRegisterView : Window
         DescriptionTextBox.Text = null;
         PriceTextBox.Text = null;
         QuantityTextBox.Text = null;
-        SupplyTextBox.Text = null;
+        SupplyAutoCompleteBox.Text = null;
         UnitComboBox.SelectedItem = 0;
 
         MinMaxView.MinTextBox.Text = "0";
@@ -209,4 +216,13 @@ public partial class ProdRegisterView : Window
         MinMaxViewModel.EventsMin = 0;
         MinMaxViewModel.EventsMax = 0;
     }
+    
+    private List<string> GetTextBoxes() 
+        => new() {
+            NameTextBox.Text,
+            DescriptionTextBox.Text,
+            GtinTextBox.Text,
+            SupplyAutoCompleteBox.Text,
+            QuantityTextBox.Text,
+        };
 }

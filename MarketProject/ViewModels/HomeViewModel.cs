@@ -9,7 +9,6 @@ using MarketProject.Models;
 using ReactiveUI;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
-using MarketProject.Helpers;
 using Avalonia.Svg.Skia;
 
 namespace MarketProject.ViewModels;

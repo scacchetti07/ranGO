@@ -7,8 +7,10 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Threading;
+using MarketProject.Controllers;
 using MarketProject.Models;
 using MarketProject.ViewModels;
+using MongoDB.Bson;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
@@ -29,6 +31,7 @@ public partial class SupplyView : UserControl
         Database.SupplyList.CollectionChanged += (sender, _) =>
         {
             Console.WriteLine((sender as ObservableCollection<Supply>).Count);
+            
             // Faz com que o código que atualiza o datagrid seja atualizado na UIThread.
             Dispatcher.UIThread.Post(() =>
             {
@@ -78,8 +81,53 @@ public partial class SupplyView : UserControl
 
     private void SupplyDataGrid_OnCellPointerPressed(object sender, DataGridCellPointerPressedEventArgs e)
     {
-        // var suppliesRow = SupplyDataGrid.SelectedItems.Cast<Supply>();
-        // foreach (var s in suppliesRow)
-        //     _selectedSupply = Supplyctrl.FindSupply(s.Cnpj);
+        var suppliesRow = SupplyDataGrid.SelectedItems.Cast<SupplyDataGrid>();
+        foreach (var s in suppliesRow)
+            _selectedSupply = Supplyctrl.FindSupply(s.Cnpj);
+    }
+
+    private async void EditSupply_OnClick(object sender, RoutedEventArgs e)
+    {
+        SupplyAddView editSupply = new()
+        {
+            Title = "Cadastro de Fornecedores",
+            WindowStartupLocation= WindowStartupLocation.CenterScreen,
+            ExtendClientAreaChromeHints= ExtendClientAreaChromeHints.NoChrome,
+            ExtendClientAreaToDecorationsHint = true,
+            CanResize = false,
+            ShowInTaskbar = false,
+            SizeToContent = SizeToContent.WidthAndHeight
+        };
+        try
+        {
+            List<Product> products = StorageController.FindProductsFromSupply(_selectedSupply);
+            editSupply.NameTextBox.Text = _selectedSupply.Name;
+            editSupply.CnpjMaskedTextBox.Text = _selectedSupply.Cnpj;
+            foreach (var prod in products)
+                editSupply.ProductsAutoCompleteBox.Text += $"{prod.Name}, ";
+            editSupply.DateLimitTextBox.Text = _selectedSupply.DayLimit.ToString();
+            editSupply.CepMaskedTextBox.Text = _selectedSupply.Cep;
+            editSupply.AddressTextBox.Text = _selectedSupply.Adress;
+            editSupply.EmailTextBox.Text = _selectedSupply.Email;
+            editSupply.PhoneMaskedTextBox.Text = _selectedSupply.Phone;
+            
+            await editSupply.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
+        }
+        catch (NullReferenceException)
+        {
+            var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Produto não selecionado ou inválidao!",
+                ContentMessage = "Tente selecionar o produto novamente.",
+                ButtonDefinitions = ButtonEnum.Ok,
+                Icon = Icon.Warning,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+            await msgBox.ShowAsync().ConfigureAwait(false);  
+        }
     }
 }

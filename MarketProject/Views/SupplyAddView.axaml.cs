@@ -11,6 +11,8 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using MarketProject.Controllers;
+using MarketProject.Extensions;
 using MarketProject.Models;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
@@ -24,11 +26,13 @@ public partial class SupplyAddView : Window
     public SupplyAddView()
     {
         InitializeComponent();
-        
+        this.ResponsiveWindow();
         CepMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         CnpjMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         DateLimitTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         PhoneMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+
+        ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
     }
     
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
@@ -67,46 +71,45 @@ public partial class SupplyAddView : Window
         // Verificar se cnpj digitado é real após implementar a API do gov.br
         // Aplicar "Data Validation" Nos campos de CNPJ e CEP caso estejam incorretos.
         
-        
         int dateLimit = Convert.ToInt32(DateLimitTextBox.Text);
         
         List<string> textBoxes = GetTextBoxes();
         
-        // if (textBoxes.Any(txt => string.IsNullOrEmpty(txt))) return;
+        if (textBoxes.Any(txt => string.IsNullOrEmpty(txt))) return;
 
-        // if (int.Parse(DateLimitTextBox.Text) <= 0)
-        // {
-        //     var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-        //     {
-        //         ContentHeader = "Prazo inferior ou igual a 0",
-        //         ContentMessage = "Não é possível adicionar um fornecedor com prazo inferir ou igual a 0.",
-        //         ButtonDefinitions = ButtonEnum.YesNo, 
-        //         Icon = MsBox.Avalonia.Enums.Icon.Info,
-        //         CanResize = false,
-        //         ShowInCenter = true,
-        //         SizeToContent = SizeToContent.WidthAndHeight,
-        //         WindowStartupLocation = WindowStartupLocation.CenterScreen,
-        //         SystemDecorations = SystemDecorations.BorderOnly
-        //     });
-        //     await msgBox.ShowAsync().ConfigureAwait(false);
-        // }
+        if (int.Parse(DateLimitTextBox.Text) <= 0)
+        {
+            var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Prazo inferior ou igual a 0",
+                ContentMessage = "Não é possível adicionar um fornecedor com prazo inferir ou igual a 0.",
+                ButtonDefinitions = ButtonEnum.YesNo, 
+                Icon = MsBox.Avalonia.Enums.Icon.Info,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+            await msgBox.ShowAsync().ConfigureAwait(false);
+        }
 
         // Trocar por uma "Data Validation" na text box quando digitado.
-        // if (!await ValidarCEP(CepMaskedTextBox.Text))
-        // {
-        //     var cepMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-        //     {
-        //         ContentHeader = "CEP inválido",
-        //         ContentMessage = $"O CEP \"{CepMaskedTextBox.Text}\" digitado não existe. \nDigite outro que seja válido.",
-        //         ButtonDefinitions = ButtonEnum.Ok, 
-        //         Icon = MsBox.Avalonia.Enums.Icon.Warning,
-        //         ShowInCenter = true,
-        //         SizeToContent = SizeToContent.WidthAndHeight,
-        //         WindowStartupLocation = WindowStartupLocation.CenterScreen,
-        //         SystemDecorations = SystemDecorations.BorderOnly
-        //     });
-        //    await cepMsgBox.ShowAsync().ConfigureAwait(false);
-        // }
+        if (!await Supply.ValidarCEP(CepMaskedTextBox.Text))
+        {
+            var cepMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "CEP inválido",
+                ContentMessage = $"O CEP \"{CepMaskedTextBox.Text}\" digitado não existe. \nDigite outro que seja válido.",
+                ButtonDefinitions = ButtonEnum.Ok, 
+                Icon = MsBox.Avalonia.Enums.Icon.Warning,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+           await cepMsgBox.ShowAsync().ConfigureAwait(false);
+        }
         
         var confirmMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
@@ -123,12 +126,14 @@ public partial class SupplyAddView : Window
         var result = await confirmMsgBox.ShowAsync();
 
         if (result == ButtonResult.No) return;
-        
-        // Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, new List<Product>(), dateLimit, 
-        //     CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
 
-        var newSupply = new Supply("Alemanha fornecedor", "20.353.540/1111-10", new List<Product>(), 10,
-            "13063-442", "Rua King", "(11) 92222-9999", "emailfornecedor@email.com");
+        Product product = StorageController.FindProductByNameAsync(ProductsAutoCompleteBox.Text);
+        
+        Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, new List<string>(){product.Id}, dateLimit, 
+            CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
+        
+        // var newSupply = new Supply("Alemanha fornecedor", "20.353.540/1111-10", new List<Product>(), 10,
+        //     "13063-442", "Rua King", "(11) 92222-9999", "emailfornecedor@email.com");
         
         SupplyCtrl.AddNewSupply(newSupply);
         
@@ -190,30 +195,4 @@ public partial class SupplyAddView : Window
             DateLimitTextBox.Text,
             ProductsAutoCompleteBox.Text
         };
-    
-    private async Task<bool> ValidarCEP(string cep)
-    {
-        // Remove o hífen do CEP, se existir
-        cep = cep.Replace("-", "");
-        
-        string url = $"https://viacep.com.br/ws/{cep}/json/";
-
-        using HttpClient client = new HttpClient();
-        try
-        {
-            var response = await client.GetAsync(url).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode)
-                return false;
-                
-            var conteudo = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            
-            // Verifica se o conteúdo contém a chave "erro", que indica que o CEP não foi encontrado
-            return !conteudo.Contains("\"erro\"");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro ao consultar a API ViaCEP: {ex.Message}");
-            return false;
-        }
-    }
 }

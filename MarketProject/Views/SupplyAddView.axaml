@@ -28,7 +28,7 @@
            
            <!-- Products AutoText -->
            <Label Content="Produtos Fornecidos: *"/>
-           <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" Name="ProductsAutoCompleteBox"/>
+           <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox" FilterMode="StartsWith"/>
            
            <Grid ColumnDefinitions="Auto, Auto">
                <!-- Data AutoText -->

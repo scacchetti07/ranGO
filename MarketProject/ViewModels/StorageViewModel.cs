@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Platform;
+using MarketProject.Controllers;
 using MarketProject.Models;
 using MarketProject.Views;
 using ReactiveUI;
@@ -29,7 +30,10 @@ public class StorageViewModel : ViewModelBase
                 max = prod.Events.Max;
                 break;
         }
-        return new ProductDataGrid(prod.Gtin, prod.Name, prod.Total, "Fornecedor Teste", min, max);
+
+        string supplyName = SupplyController.GetSupplyNameProductBy(prod);
+        
+        return new ProductDataGrid(prod.Gtin, prod.Name, prod.Total, supplyName, min, max);
     }
 }
 

@@ -6,7 +6,6 @@ using System.Net.Mime;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Styling;
-using MarketProject.Helpers;
 using ReactiveUI;
 using MarketProject.ViewModels;
 using MarketProject.Views;
