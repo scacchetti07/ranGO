@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -142,14 +143,15 @@ public partial class SupplyView : UserControl
                 .Select(SupplyViewModel.SuppliesToDataGrid);
             return;
         }
-        
-        var checkCnpj = long.TryParse(keyword, out long cnpj);
+
+        Regex regex = new(@"[0-9]./-");
+        var checkCnpj = !regex.IsMatch(keyword);
 
         IEnumerable<Supply> searchedList;
         if (checkCnpj)
-            searchedList = Database.SupplyList.Where(p => p.Cnpj.ToString().Contains($"{cnpj}"));
+            searchedList = Database.SupplyList.Where(p => p.Cnpj.Contains(keyword));
         else
-            searchedList = Database.SupplyList.Where(p => p.Name.ToLower().Contains(keyword.ToLower()));
+            searchedList = Database.SupplyList.Where(p => p.Name.Contains(keyword, StringComparison.CurrentCultureIgnoreCase));
             
         SupplyDataGrid.ItemsSource = searchedList!.Select(SupplyViewModel.SuppliesToDataGrid);
     }
