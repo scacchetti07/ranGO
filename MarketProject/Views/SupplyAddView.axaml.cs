@@ -11,9 +11,11 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using ExCSS;
 using MarketProject.Controllers;
 using MarketProject.Extensions;
 using MarketProject.Models;
+using MarketProject.ViewModels;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
@@ -41,7 +43,7 @@ public partial class SupplyAddView : Window
         e.Handled = !regex.IsMatch(e.Text!);
     }
 
-    private async void ReturnButton_OnClick(object sender, RoutedEventArgs e)
+    private void ReturnButton_OnClick(object sender, RoutedEventArgs e)
     {
         List<string> textBoxes = GetTextBoxes();
         if (textBoxes.TrueForAll(txt => string.IsNullOrEmpty(txt)))
@@ -50,19 +52,24 @@ public partial class SupplyAddView : Window
             return;
         }
         
-        var checkMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        Dispatcher.UIThread.Post(async () =>
         {
-            ContentHeader = "Dados ainda digitados.",
-            ContentMessage = "Ainda existem dados escritos nos campos de cadastro,\nDeixe-os todos em branco para retornar a tela inicial.",
-            ButtonDefinitions = ButtonEnum.Ok, 
-            Icon = MsBox.Avalonia.Enums.Icon.Info,
-            CanResize = false,
-            ShowInCenter = true,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            SystemDecorations = SystemDecorations.BorderOnly
-        });
-        await checkMsgBox.ShowAsync().ConfigureAwait(false);
+            var checkMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Dados ainda digitados.",
+                ContentMessage = "Ainda existem dados escritos nos campos de cadastro,\nQuer realmente sair do cadastro?",
+                ButtonDefinitions = ButtonEnum.YesNo, 
+                Icon = MsBox.Avalonia.Enums.Icon.Info,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+            var result = await checkMsgBox.ShowAsync();
+            if (result == ButtonResult.Yes) Close();
+            
+        }, DispatcherPriority.Background);
         
     }
 
@@ -129,10 +136,37 @@ public partial class SupplyAddView : Window
 
         Product product = StorageController.FindProductByNameAsync(ProductsAutoCompleteBox.Text);
         
-        Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, new List<string>(){product.Id}, dateLimit, 
+        Supply? supplyDB = SupplyCtrl.FindSupply(CnpjMaskedTextBox.Text);
+        if (supplyDB is not null)
+        {
+            // Corrigir método UpdateSupply pra que seja realmente atualizado.
+            SupplyCtrl.UpdateSupply(supplyDB);
+            
+            // Checar se for verdade e exibir popup de confirmação.  
+            
+            Dispatcher.UIThread.Post(async () =>
+            {
+                var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+                {
+                    ContentHeader = "Fornecedor Atualizado!",
+                    ContentMessage = $"Informações do fornecedor \"{supplyDB.Name}\" foram atualizadas com sucesso!",
+                    ButtonDefinitions = ButtonEnum.Ok,
+                    Icon = MsBox.Avalonia.Enums.Icon.Success,
+                    CanResize = false,
+                    ShowInCenter = true,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SystemDecorations = SystemDecorations.BorderOnly
+                });
+                await msgbox.ShowAsync();
+            });
+            return;
+        }
+    
+
+        Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, new List<string> {product.Id}, dateLimit, 
             CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
         
-        // var newSupply = new Supply("Alemanha fornecedor", "20.353.540/1111-10", new List<Product>(), 10,
+        // var newSupply = new Supply("Alemanha fornecedor", "20.353.540/1111-10", new List<string>(), 10,
         //     "13063-442", "Rua King", "(11) 92222-9999", "emailfornecedor@email.com");
         
         SupplyCtrl.AddNewSupply(newSupply);

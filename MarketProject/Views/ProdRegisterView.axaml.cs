@@ -70,19 +70,21 @@ public partial class ProdRegisterView : Window
             var checkResult = await checkProductsMsgBox.ShowAsync();
 
             if (checkResult == ButtonResult.No) return;
+
+            
+            Product productDb = StorageController.FindProductAsync(long.Parse(GtinTextBox.Text));
+            if (productDb is not null)
+            {
+                StorageController.UpdateStorage(productDb);
+                return;
+            }
             
             var newproduct = new Product(gtinCode, NameTextBox.Text, Prodprice,
                 (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
                 new Range<int>(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range<int>(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range<int>(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
-
-            // var newproduct = new Product(12345678909876, "Atum", 23.99m, "Gramas",
-            //     new Range<int>(20, 200),
-            //     new Range<int>(30, 400),
-            //     new Range<int>(35, 500));
-
-            //ProductAdded?.Invoke(newproduct);
+            
             StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
             
             // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
@@ -162,19 +164,25 @@ public partial class ProdRegisterView : Window
             return;
         }
         
-        var checkMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        Dispatcher.UIThread.Post(async () =>
         {
-            ContentHeader = "Dados ainda digitados.",
-            ContentMessage = "Ainda existem dados escritos nos campos de cadastro,\nDeixe-os todos em branco para retornar a tela inicial.",
-            ButtonDefinitions = ButtonEnum.Ok, 
-            Icon = MsBox.Avalonia.Enums.Icon.Info,
-            CanResize = false,
-            ShowInCenter = true,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            SystemDecorations = SystemDecorations.BorderOnly
-        });
-        await checkMsgBox.ShowAsync().ConfigureAwait(false);
+            var checkMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Dados ainda digitados.",
+                ContentMessage = "Ainda existem dados escritos nos campos de cadastro,\nDeixe-os todos em branco para retornar a tela inicial.",
+                ButtonDefinitions = ButtonEnum.YesNo, 
+                Icon = MsBox.Avalonia.Enums.Icon.Info,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+            var result = await checkMsgBox.ShowAsync();
+            if (result == ButtonResult.Yes) Close();
+            
+        }, DispatcherPriority.Background);
+        
     }
 
     private async void CleanTextBoxButton(object sender, RoutedEventArgs e)

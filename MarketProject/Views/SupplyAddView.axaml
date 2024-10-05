@@ -24,7 +24,7 @@
            
            <!-- CNPJ MaskText -->
            <Label Content="CNPJ: "/>
-           <MaskedTextBox Width="265" Mask="00-000 000/0000-00" OpacityMask="Gray" Name="CnpjMaskedTextBox"/>
+           <MaskedTextBox Width="265" Mask="00.000.000/0000-00" OpacityMask="Gray" Name="CnpjMaskedTextBox"/>
            
            <!-- Products AutoText -->
            <Label Content="Produtos Fornecidos: *"/>
@@ -34,7 +34,7 @@
                <!-- Data AutoText -->
                <StackPanel>
                     <Label Content="Prazo: *"/>
-                    <TextBox Width="177" Name="DateLimitTextBox" Watermark="0 dias"/>
+                    <TextBox Width="177" Name="DateLimitTextBox" Watermark="0 dias" MaxLength="2"/>
                </StackPanel>
                
                <!-- CEP AutoText -->

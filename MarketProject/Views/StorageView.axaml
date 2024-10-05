@@ -16,11 +16,12 @@
         <DockPanel>
             <Grid Classes="SearchTextBox" DockPanel.Dock="Left">
                 <ThemeVariantScope RequestedThemeVariant="Light">
-                    <TextBox Watermark="Procure por Id ou Nome do produto..." MaxLength="70"/>
+                    <TextBox Watermark="Procure por GTIN ou Nome do produto..." MaxLength="20" Name="SearchTextBox" TextChanged="SearchTextBox_OnTextChanged"/>
+                    
                 </ThemeVariantScope>
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
             </Grid>
-            <StackPanel Orientation="Horizontal" Spacing="20" IsVisible="false" Name="ButtonOptions" Classes="ButtonOptions">
+            <StackPanel Orientation="Horizontal" Spacing="20" Name="ButtonOptions" Classes="ButtonOptions">
                 <Button Click="EditButton_OnClick">
                     <Svg Path="/Assets/Icons/SVG/IconEdit.svg" Width="30" Height="30"/>
                 </Button>

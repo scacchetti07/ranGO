@@ -1,7 +1,12 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using DynamicData;
 using MarketProject.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using Svg;
 
 namespace MarketProject.Controllers;
 
@@ -15,26 +20,33 @@ public class SupplyController : Database
     }
 
     public static Supply FindSupply(string cnpj) => Collection.Find(s => s.Cnpj == cnpj).FirstOrDefault();
-    public static Supply FindSupplyByName(string name) => Collection.Find(s => s.Name == name).FirstOrDefault(); 
-    
+    public static Supply FindSupplyByName(string name) => Collection.Find(s => s.Name == name).FirstOrDefault();
+    public static Supply FindSupply(ObjectId id) => Collection.Find(s => s.Id == id).FirstOrDefault(); 
     
     public static async void DeleteSupply(Supply supply)
     {
         var filter = Builders<Supply>.Filter.Eq(p => p.Id, supply.Id);
         await Collection.DeleteOneAsync(filter).ConfigureAwait(false);
-        SupplyList.Remove(supply);
+        
+        SupplyList.Remove(SupplyList.SingleOrDefault(s => s.Id == supply.Id));
     }
 
-    public static string GetSupplyNameProductBy(Product product)
+    public static async void UpdateSupply(Supply newSupply)
     {
+        if (newSupply is null) return;
+        Console.WriteLine($"{newSupply.Name} = {newSupply.Cnpj} -> {newSupply.Id}");
+
+        var filter = Builders<Supply>.Filter.Eq(s => s.Cnpj, newSupply.Cnpj);
         
-        //var filter = Builders<Supply>.Filter.In(s => s.Products.Find(p => p.Id == product.Id));
+        var result = await Collection.ReplaceOneAsync(filter, newSupply);
+        Console.WriteLine($"Modificados: {result.ModifiedCount}");
+    }
+    
+    public static string GetSupplyNameByProduct(Product product)
+    {
         var supply = Collection.Find(s => s.Products.Contains(product.Id)).FirstOrDefault();
-        
         // supply?.Name != null ? supply.Name : "Fornecedor Teste"; 
         return supply?.Name ?? "Fornecedor Teste";
-
-
     }
 
     public static void AddProductToSupply(Product product, string supplyName)

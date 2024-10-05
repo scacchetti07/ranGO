@@ -88,6 +88,8 @@ public partial class SupplyView : UserControl
 
     private async void EditSupply_OnClick(object sender, RoutedEventArgs e)
     {
+        if (_selectedSupply is null) return;
+        
         SupplyAddView editSupply = new()
         {
             Title = "Cadastro de Fornecedores",
@@ -129,5 +131,26 @@ public partial class SupplyView : UserControl
             });
             await msgBox.ShowAsync().ConfigureAwait(false);  
         }
+    }
+
+    private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        var keyword = SearchTextBox.Text;
+        if (keyword.Length < 1)
+        {
+            SupplyDataGrid.ItemsSource = Database.SupplyList!
+                .Select(SupplyViewModel.SuppliesToDataGrid);
+            return;
+        }
+        
+        var checkCnpj = long.TryParse(keyword, out long cnpj);
+
+        IEnumerable<Supply> searchedList;
+        if (checkCnpj)
+            searchedList = Database.SupplyList.Where(p => p.Cnpj.ToString().Contains($"{cnpj}"));
+        else
+            searchedList = Database.SupplyList.Where(p => p.Name.ToLower().Contains(keyword.ToLower()));
+            
+        SupplyDataGrid.ItemsSource = searchedList!.Select(SupplyViewModel.SuppliesToDataGrid);
     }
 }

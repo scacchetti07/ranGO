@@ -10,7 +10,7 @@ using ReactiveUI;
 
 namespace MarketProject.ViewModels;
 
-public class StorageViewModel : ViewModelBase
+public class StorageViewModel : ReactiveObject
 {
     public static ProductDataGrid ProductToDataGrid(Product prod, MinMaxOptions options)
     {
@@ -18,8 +18,8 @@ public class StorageViewModel : ViewModelBase
         switch (options)
         {
             case MinMaxOptions.Weekdays:
-                min = prod.Weekday.Min;
-                max = prod.Weekday.Max;
+                min = prod.Weekdays.Min;
+                max = prod.Weekdays.Max;
                 break;
             case MinMaxOptions.Weekends:
                 min = prod.Weekends.Min;
@@ -31,7 +31,7 @@ public class StorageViewModel : ViewModelBase
                 break;
         }
 
-        string supplyName = SupplyController.GetSupplyNameProductBy(prod);
+        string supplyName = SupplyController.GetSupplyNameByProduct(prod);
         
         return new ProductDataGrid(prod.Gtin, prod.Name, prod.Total, supplyName, min, max);
     }

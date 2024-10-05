@@ -11,7 +11,7 @@ public class Supply
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public ObjectId Id { get; private set; }
+    public ObjectId Id { get; set; }
     public string Name { get; set; }
     public string Cnpj { get; private set; }
     public List<string> Products { get; private set; }
