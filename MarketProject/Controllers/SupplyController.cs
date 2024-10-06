@@ -33,13 +33,9 @@ public class SupplyController : Database
 
     public static async void UpdateSupply(Supply newSupply)
     {
-        if (newSupply is null) return;
-        Console.WriteLine($"{newSupply.Name} = {newSupply.Cnpj} -> {newSupply.Id}");
-
-        var filter = Builders<Supply>.Filter.Eq(s => s.Cnpj, newSupply.Cnpj);
-        
-        var result = await Collection.ReplaceOneAsync(filter, newSupply);
-        Console.WriteLine($"Modificados: {result.ModifiedCount}");
+        var filter = Builders<Supply>.Filter.Eq(s => s.Id, newSupply.Id);
+        await Collection.ReplaceOneAsync(filter, newSupply);
+        SupplyList.Replace(SupplyList.SingleOrDefault(s => s.Id == newSupply.Id), newSupply);
     }
     
     public static string GetSupplyNameByProduct(Product product)

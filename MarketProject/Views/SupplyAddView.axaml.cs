@@ -25,6 +25,8 @@ namespace MarketProject.Views;
 
 public partial class SupplyAddView : Window
 {
+    private List<string> SupplyProductListById { get; }
+    
     public SupplyAddView()
     {
         InitializeComponent();
@@ -79,7 +81,6 @@ public partial class SupplyAddView : Window
         // Aplicar "Data Validation" Nos campos de CNPJ e CEP caso estejam incorretos.
         
         int dateLimit = Convert.ToInt32(DateLimitTextBox.Text);
-        
         List<string> textBoxes = GetTextBoxes();
         
         if (textBoxes.Any(txt => string.IsNullOrEmpty(txt))) return;
@@ -136,20 +137,23 @@ public partial class SupplyAddView : Window
 
         Product product = StorageController.FindProductByNameAsync(ProductsAutoCompleteBox.Text);
         
-        Supply? supplyDB = SupplyCtrl.FindSupply(CnpjMaskedTextBox.Text);
-        if (supplyDB is not null)
+        // SupplyProductListById.Add(product.Id);
+        Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, [product.Id], dateLimit, 
+            CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
+
+        var oldsupply = SupplyCtrl.FindSupply(newSupply.Cnpj);
+        if (oldsupply is not null)
         {
-            // Corrigir método UpdateSupply pra que seja realmente atualizado.
-            SupplyCtrl.UpdateSupply(supplyDB);
+            newSupply.Id = oldsupply.Id;
+            SupplyCtrl.UpdateSupply(newSupply);
             
-            // Checar se for verdade e exibir popup de confirmação.  
-            
+            // Mudar para popUp Personalizado.
             Dispatcher.UIThread.Post(async () =>
             {
                 var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
                 {
-                    ContentHeader = "Fornecedor Atualizado!",
-                    ContentMessage = $"Informações do fornecedor \"{supplyDB.Name}\" foram atualizadas com sucesso!",
+                    ContentHeader = "Fornecedor foi Editado!!",
+                    ContentMessage = $"Os dados do fornecedor \"{newSupply.Name}\" foram modificados!",
                     ButtonDefinitions = ButtonEnum.Ok,
                     Icon = MsBox.Avalonia.Enums.Icon.Success,
                     CanResize = false,
@@ -161,13 +165,6 @@ public partial class SupplyAddView : Window
             });
             return;
         }
-    
-
-        Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, new List<string> {product.Id}, dateLimit, 
-            CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
-        
-        // var newSupply = new Supply("Alemanha fornecedor", "20.353.540/1111-10", new List<string>(), 10,
-        //     "13063-442", "Rua King", "(11) 92222-9999", "emailfornecedor@email.com");
         
         SupplyCtrl.AddNewSupply(newSupply);
         

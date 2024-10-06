@@ -92,7 +92,7 @@ public partial class StorageView : UserControl
     {
         var productRow = ProductsDataGrid.SelectedItems.Cast<ProductDataGrid>();
         foreach (var p in productRow)
-            _selectedProducts = StorageCtrl.FindProductAsync(p.Gtin);
+            _selectedProducts = StorageCtrl.FindProduct(p.Gtin);
     }
 
     private async void EditButton_OnClick(object sender, RoutedEventArgs e)
@@ -184,7 +184,6 @@ public partial class StorageView : UserControl
         }
         
         var checkGtin = long.TryParse(keyword, out long gtin);
-
         IEnumerable<Product> searchedList;
         if (checkGtin)
             searchedList = Database.ProductsList.Where(p => p.Gtin.ToString().Contains($"{gtin}"));

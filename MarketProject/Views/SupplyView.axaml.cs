@@ -31,8 +31,6 @@ public partial class SupplyView : UserControl
         // Resolução do Erro: Call Invalid Thread
         Database.SupplyList.CollectionChanged += (sender, _) =>
         {
-            Console.WriteLine((sender as ObservableCollection<Supply>).Count);
-            
             // Faz com que o código que atualiza o datagrid seja atualizado na UIThread.
             Dispatcher.UIThread.Post(() =>
             {
@@ -120,8 +118,8 @@ public partial class SupplyView : UserControl
         {
             var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
-                ContentHeader = "Produto não selecionado ou inválidao!",
-                ContentMessage = "Tente selecionar o produto novamente.",
+                ContentHeader = "Produto não selecionado ou inválido!",
+                ContentMessage = "Tente selecionar algum produto novamente.",
                 ButtonDefinitions = ButtonEnum.Ok,
                 Icon = Icon.Warning,
                 CanResize = false,
@@ -144,11 +142,10 @@ public partial class SupplyView : UserControl
             return;
         }
 
-        Regex regex = new(@"[0-9]./-");
-        var checkCnpj = !regex.IsMatch(keyword);
+        var regexPattern = new Regex("@[./-]|\\d");
 
         IEnumerable<Supply> searchedList;
-        if (checkCnpj)
+        if (regexPattern.IsMatch(keyword))
             searchedList = Database.SupplyList.Where(p => p.Cnpj.Contains(keyword));
         else
             searchedList = Database.SupplyList.Where(p => p.Name.Contains(keyword, StringComparison.CurrentCultureIgnoreCase));

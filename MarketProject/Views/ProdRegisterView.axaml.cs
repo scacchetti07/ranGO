@@ -71,29 +71,46 @@ public partial class ProdRegisterView : Window
 
             if (checkResult == ButtonResult.No) return;
 
-            
-            Product productDb = StorageController.FindProductAsync(long.Parse(GtinTextBox.Text));
-            if (productDb is not null)
-            {
-                StorageController.UpdateStorage(productDb);
-                return;
-            }
-            
             var newproduct = new Product(gtinCode, NameTextBox.Text, Prodprice,
                 (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
                 new Range<int>(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range<int>(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range<int>(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
             
-            StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
+            var oldProductId = StorageController.FindProduct(newproduct.Gtin);
+            if (oldProductId is not null)
+            {
+                newproduct.Id = oldProductId.Id;
+                StorageController.UpdateStorage(newproduct);
+                
+                // Mudar para popUp Personalizado.
+                Dispatcher.UIThread.Post(async () =>
+                {
+                    var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+                    {
+                        ContentHeader = "Dados do produto foram Editado!!",
+                        ContentMessage = $"Os dados do produto \"{newproduct.Name}\" foram modificados!",
+                        ButtonDefinitions = ButtonEnum.Ok,
+                        Icon = MsBox.Avalonia.Enums.Icon.Success,
+                        CanResize = false,
+                        ShowInCenter = true,
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                        SystemDecorations = SystemDecorations.BorderOnly
+                    });
+                    await msgbox.ShowAsync();
+                });
+                return;
+            }
+            else
+                StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
             
             // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
             Dispatcher.UIThread.Post(async () =>
             {
                 var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
                 {
-                    ContentHeader = "Novo Fornecedor Adicionado!",
-                    ContentMessage = $"O fornecedor \"{newproduct.Name}\" foi adicionado ao sistema!",
+                    ContentHeader = "Novo Produto Adicionado!",
+                    ContentMessage = $"O Produto \"{newproduct.Name}\" foi adicionado ao sistema!",
                     ButtonDefinitions = ButtonEnum.Ok,
                     Icon = MsBox.Avalonia.Enums.Icon.Success,
                     CanResize = false,

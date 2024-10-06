@@ -37,7 +37,7 @@ public partial class RemoveProductView : Window
 
         try
         {
-            var product = ctrl.FindProductAsync(long.Parse(GtinIdTextBox.Text!));
+            var product = ctrl.FindProduct(long.Parse(GtinIdTextBox.Text!));
             var remove = int.Parse(RemoveTextBox.Text!);
             if (remove > product.Total) return;
 

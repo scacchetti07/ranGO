@@ -6,6 +6,7 @@ using DynamicData;
 using MarketProject.Models;
 using MarketProject.ViewModels;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace MarketProject.Controllers;
 
@@ -14,6 +15,7 @@ public class StorageController : Database
     private static IMongoCollection<Product> Collection { get; } = GetCollection<Product>("storage", "products");
     public static async void AddProduct(Product product,string supplyName)
     {
+        if (ProductsList.Select(p => p.Name == product.Name).FirstOrDefault()) return;
         await Collection.InsertOneAsync(product).ConfigureAwait(false);
         SupplyController.AddProductToSupply(product,supplyName);
         ProductsList.Add(product);
@@ -31,14 +33,14 @@ public class StorageController : Database
             product.Total -= total;
     }
 
-    public static Product FindProductAsync(long gtin)
+    public static Product FindProduct(long gtin)
     {
         FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Gtin, gtin);
 
         return Collection.Find(filter).FirstOrDefault();
     }
     
-    public static Product FindProductAsync(string id) 
+    public static Product FindProduct(string id) 
         => Collection.Find(p => p.Id == id).FirstOrDefault();
     
     public static Product FindProductByNameAsync(string name)
@@ -58,11 +60,9 @@ public class StorageController : Database
 
     public static async void UpdateStorage(Product prod)
     {
-        var filter = Builders<Product>.Filter.Eq(p => p.Id, prod.Id);
-        var r = await Collection.ReplaceOneAsync(filter, prod);
-        Console.WriteLine(r.ModifiedCount);
-        
-        //ProductsList.Replace(ProductsList.Where(p => p.Id == prod.Id).Single(), prod);
+        var filter = Builders<Product>.Filter.Eq(p => p.Id, prod.Id); 
+        await Collection.ReplaceOneAsync(filter, prod);
+        ProductsList.Replace(ProductsList.SingleOrDefault(p => p.Id == prod.Id), prod);
     }
 
     public static List<Product> FindProductsFromSupply(Supply supply) =>

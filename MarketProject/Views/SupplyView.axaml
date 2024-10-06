@@ -17,7 +17,7 @@
         <DockPanel>
             <Grid Classes="SearchTextBox" DockPanel.Dock="Left">
                 <ThemeVariantScope RequestedThemeVariant="Light">
-                    <TextBox Watermark="Procure por CNPJ ou Nome do fornecedor..." MaxLength="20" Name="SearchTextBox" TextChanged="SearchTextBox_OnTextChanged"/>
+                    <TextBox Watermark="Procure por CNPJ ou Nome do fornecedor..." MaxLength="20" Name="SearchTextBox" TextChanged="SearchTextBox_OnTextChanged" />
                 </ThemeVariantScope>
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
             </Grid>
