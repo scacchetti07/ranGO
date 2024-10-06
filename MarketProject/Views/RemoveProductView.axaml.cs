@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using Avalonia;
@@ -6,12 +8,14 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 using MarketProject.Extensions;
+using MarketProject.Models;
 using MongoDB.Driver;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
-using ctrl = MarketProject.Controllers.StorageController;
+using StorageCtrl = MarketProject.Controllers.StorageController;
 
 namespace MarketProject.Views;
 
@@ -23,6 +27,8 @@ public partial class RemoveProductView : Window
         this.ResponsiveWindow();
         RemoveTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         GtinIdTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+
+        ProductNameTextBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
     }
 
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
@@ -37,16 +43,16 @@ public partial class RemoveProductView : Window
 
         try
         {
-            var product = ctrl.FindProduct(long.Parse(GtinIdTextBox.Text!));
+            var product = StorageCtrl.FindProduct(long.Parse(GtinIdTextBox.Text!));
             var remove = int.Parse(RemoveTextBox.Text!);
             if (remove > product.Total) return;
 
-            ctrl.RemoveTotalProduct(product, remove);
+            StorageCtrl.RemoveTotalProduct(product, remove);
             
             var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
                 ContentHeader = $"Produto {product.Name} foi atualizado!",
-                ContentMessage = $"O produto {product.Name} teve seu estoque atual atualizado!\nEstoque atual: {product.Total}",
+                ContentMessage = $"O produto {product.Name} teve seu estoque atual atualizado!",
                 ButtonDefinitions = ButtonEnum.Ok, 
                 Icon = MsBox.Avalonia.Enums.Icon.Info,
                 CanResize = false,
@@ -54,8 +60,8 @@ public partial class RemoveProductView : Window
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 SystemDecorations = SystemDecorations.BorderOnly
             });
-
             await msgBox.ShowAsync().ConfigureAwait(false);
+            
         }
         catch (Exception)
         {
@@ -76,5 +82,57 @@ public partial class RemoveProductView : Window
         
     }
 
-    private void ReturnStorage(object sender, RoutedEventArgs e) => this.Close();
+    private void ReturnStorage(object sender, RoutedEventArgs e)
+    {
+        List<string> textBoxes = GetTextBoxes();
+        if (textBoxes.TrueForAll(txt => string.IsNullOrEmpty(txt)))
+        {
+            Close();
+            return;
+        }
+        
+        Dispatcher.UIThread.Post(async () =>
+        {
+            var checkMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Dados ainda digitados.",
+                ContentMessage = "Ainda existem dados escritos nos campos \nRealmente deseja sair desta tela?",
+                ButtonDefinitions = ButtonEnum.YesNo, 
+                Icon = MsBox.Avalonia.Enums.Icon.Info,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+            var result = await checkMsgBox.ShowAsync();
+            if (result == ButtonResult.Yes) Close();
+            
+        }, DispatcherPriority.Background);     
+    }
+    private List<string> GetTextBoxes() 
+        => new() {
+            ProductNameTextBox.Text,
+            RemoveTextBox.Text,
+            GtinIdTextBox.Text,
+        };
+    
+    private void ProductNameTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        var keyword = ProductNameTextBox.Text;
+        var prod = StorageCtrl.FindProductByNameAsync(keyword);
+        if (prod is null)
+        {
+            GtinIdTextBox.Text = "";
+            return;
+        }
+        GtinIdTextBox.Text = prod.Gtin.ToString();
+    }
+
+    private void ClearTextBox()
+    {
+        ProductNameTextBox.Text = "";
+        GtinIdTextBox.Text = "";
+        RemoveTextBox.Text = "";
+    }
 }

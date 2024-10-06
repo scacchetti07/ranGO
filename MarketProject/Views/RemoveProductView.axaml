@@ -15,7 +15,7 @@
         <DockPanel Margin="23" Classes="RemoveViewStyle">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Classes="TitleStackPanel">
                         <TextBlock Text="Remover Produto"/>
-                        <Button Classes="ReturnButton" Margin="110 0" Click="ReturnStorage">
+                        <Button Classes="ReturnButton" Margin="110 0" Click="ReturnStorage" Padding="0">
                                 <StackPanel Classes="ReturnButtonStackPanel">
                                         <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}"/>
                                         <Label Content="Retornar"/>
@@ -24,14 +24,14 @@
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Bottom" Margin="0 35 0 0" Classes="ProductRegisterStyle">
                         <Label Content="Nome do Produto:"/>
-                        <TextBox Width="485" VerticalContentAlignment="Center" Name="ProductNameTextBox"/>
+                        <AutoCompleteBox Width="560" VerticalAlignment="Center" Margin="40 0" Name="ProductNameTextBox" TextChanged="ProductNameTextBox_OnTextChanged"/>
                         <Grid ColumnDefinitions="Auto, Auto">
                                 <StackPanel>
                                         <Label Content="Código GTIN: *"/>
-                                        <TextBox Height="50" Width="190" Name="GtinIdTextBox" MaxLength="13"/>
+                                        <TextBox Height="50" Width="190" Name="GtinIdTextBox" MaxLength="14"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Margin="105 0 0 0">
-                                        <Label Content="Total para baixa: *"/>
+                                        <Label Content="Total para remover: *"/>
                                         <TextBox Height="50" Width="190" Name="RemoveTextBox" MaxLength="3"/>
                                 </StackPanel>
                         </Grid>

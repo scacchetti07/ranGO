@@ -24,13 +24,15 @@ public class StorageController : Database
     public static async void RemoveTotalProduct(Product product, int total)
     {
         var filter = Builders<Product>.Filter.Eq(p => p.Id, product.Id);
-        
         var update = Builders<Product>.Update.Inc(p => p.Total, -total);
         
         var result = await Collection.UpdateOneAsync(filter, update).ConfigureAwait(false);
 
-        if (result.IsAcknowledged && result.ModifiedCount > 0)
-            product.Total -= total;
+        var oldProduct = ProductsList.SingleOrDefault(p => p.Id == product.Id);
+        if (!result.IsAcknowledged || result.ModifiedCount <= 0) return;
+        
+        product.Total -= total;
+        ProductsList.Replace(oldProduct, product);
     }
 
     public static Product FindProduct(long gtin)

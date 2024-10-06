@@ -67,11 +67,10 @@ public partial class StorageView : UserControl
     private void ChangeMinMaxTable_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (ProductsDataGrid == null) return;
-        PropertyChanged += (_, _) =>
-        {
-            ProductsDataGrid.ItemsSource = Database.ProductsList
-                .Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex)); 
-        };
+        
+        ProductsDataGrid.ClearValue(DataGrid.ItemsSourceProperty);
+        ProductsDataGrid.ItemsSource = Database.ProductsList
+            .Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex)); 
     }
 
     private async void RemoveProductButton(object sender, RoutedEventArgs e)
@@ -117,7 +116,8 @@ public partial class StorageView : UserControl
             editProduct.NameTextBox.Text = _selectedProducts.Name;
             editProduct.DescriptionTextBox.Text = _selectedProducts.Description;
             editProduct.PriceTextBox.Text = _selectedProducts.Price.ToString();
-            editProduct.UnitComboBox.SelectedItem = _selectedProducts.Unit;
+            editProduct.UnitComboBox.SelectedValue = _selectedProducts.Unit;
+            
             editProduct.SupplyAutoCompleteBox.Text = supplyName;
             editProduct.QuantityTextBox.Text = _selectedProducts.Total.ToString();
             
