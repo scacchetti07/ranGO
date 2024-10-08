@@ -43,7 +43,6 @@
                   Classes="ItensTableDataGrid"
                   VerticalScrollBarVisibility="Visible"
                   IsReadOnly="True"
-                  CellPointerPressed="SupplyDataGrid_OnCellPointerPressed"
                   IsScrollInertiaEnabled="True"
                   Name="SupplyDataGrid"
                   GridLinesVisibility="Horizontal">

@@ -21,8 +21,6 @@ namespace MarketProject.Views;
 
 public partial class SupplyView : UserControl
 {
-    private Supply _selectedSupply;
-    
     public SupplyView()
     {
         InitializeComponent();
@@ -58,12 +56,13 @@ public partial class SupplyView : UserControl
 
     private async void DeleteSupply_OnClick(object sender, RoutedEventArgs e)
     {
-        if (_selectedSupply is null) return;
+        var supplies = SupplyDataGrid.SelectedItems.Cast<SupplyDataGrid>().FirstOrDefault();
+        var selectedSupply = Supplyctrl.FindSupply(supplies.Cnpj);
         
         var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
             ContentHeader = "Excluir produto do estoque",
-            ContentMessage = $"Você realmente deseja excluir \"{_selectedSupply.Name}\" do estoque em definitivo?",
+            ContentMessage = $"Você realmente deseja excluir \"{selectedSupply.Name}\" do estoque em definitivo?",
             ButtonDefinitions = ButtonEnum.YesNo,
             Icon = Icon.Warning,
             CanResize = false,
@@ -75,19 +74,13 @@ public partial class SupplyView : UserControl
         var result = await msgBox.ShowAsync().ConfigureAwait(false);
         if (result == ButtonResult.No) return;
         
-        Supplyctrl.DeleteSupply(_selectedSupply);
-    }
-
-    private void SupplyDataGrid_OnCellPointerPressed(object sender, DataGridCellPointerPressedEventArgs e)
-    {
-        var suppliesRow = SupplyDataGrid.SelectedItems.Cast<SupplyDataGrid>();
-        foreach (var s in suppliesRow)
-            _selectedSupply = Supplyctrl.FindSupply(s.Cnpj);
+        Supplyctrl.DeleteSupply(selectedSupply);
     }
 
     private async void EditSupply_OnClick(object sender, RoutedEventArgs e)
     {
-        if (_selectedSupply is null) return;
+        var supplies = SupplyDataGrid.SelectedItems.Cast<SupplyDataGrid>().FirstOrDefault();
+        var selectedSupply = Supplyctrl.FindSupply(supplies.Cnpj);
         
         SupplyAddView editSupply = new()
         {
@@ -101,16 +94,23 @@ public partial class SupplyView : UserControl
         };
         try
         {
-            List<Product> products = StorageController.FindProductsFromSupply(_selectedSupply);
-            editSupply.NameTextBox.Text = _selectedSupply.Name;
-            editSupply.CnpjMaskedTextBox.Text = _selectedSupply.Cnpj;
+            List<Product> products = StorageController.FindProductsFromSupply(selectedSupply);
+            editSupply.NameTextBox.Text = selectedSupply.Name;
+            editSupply.CnpjMaskedTextBox.Text = selectedSupply.Cnpj;
             foreach (var prod in products)
-                editSupply.ProductsAutoCompleteBox.Text += $"{prod.Name}, ";
-            editSupply.DateLimitTextBox.Text = _selectedSupply.DayLimit.ToString();
-            editSupply.CepMaskedTextBox.Text = _selectedSupply.Cep;
-            editSupply.AddressTextBox.Text = _selectedSupply.Adress;
-            editSupply.EmailTextBox.Text = _selectedSupply.Email;
-            editSupply.PhoneMaskedTextBox.Text = _selectedSupply.Phone;
+            {
+                editSupply.AutoCompleteSelectedProducts.Add(prod);
+                editSupply.TagContentStackPanel.Children.Add(editSupply.GenereteAutoCompleteTag(prod));
+                
+                var itemSource = editSupply.ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+                itemSource.Remove(prod.Name);
+                editSupply.ProductsAutoCompleteBox.ItemsSource = itemSource;
+            }
+            editSupply.DateLimitTextBox.Text = selectedSupply.DayLimit.ToString();
+            editSupply.CepMaskedTextBox.Text = selectedSupply.Cep;
+            editSupply.AddressTextBox.Text = selectedSupply.Adress;
+            editSupply.EmailTextBox.Text = selectedSupply.Email;
+            editSupply.PhoneMaskedTextBox.Text = selectedSupply.Phone;
             
             await editSupply.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
         }

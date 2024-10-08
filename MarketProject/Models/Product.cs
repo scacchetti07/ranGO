@@ -15,7 +15,7 @@ public class Product
     public string Id { get; internal set; }
     public long Gtin { get; set; }
     public string Unit { get; set; } // Unidade de Medida
-    public decimal Price { get; set; }
+    public double Price { get; set; }
     public string? Description { get; set; }
     public string Name { get; set; }
     public int Total { get; set; }
@@ -23,7 +23,7 @@ public class Product
     public Range<int> Weekends { get; set; } = new(0, 0); // Min Max
     public Range<int> Events { get; set; } = new(0, 0); // Min Max
     
-    public Product(long gtin, string prodName, decimal price, string unit, Range<int> weekdays, Range<int> weekends, Range<int> events, string? description = null, int prodTotal = 0)
+    public Product(long gtin, string prodName, double price, string unit, Range<int> weekdays, Range<int> weekends, Range<int> events, string? description = null, int prodTotal = 0)
     {
         Gtin = gtin;
         Description = description;

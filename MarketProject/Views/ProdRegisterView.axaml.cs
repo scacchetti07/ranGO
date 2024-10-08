@@ -50,7 +50,7 @@ public partial class ProdRegisterView : Window
         try
         {
             long gtinCode = Convert.ToInt64(GtinTextBox.Text);
-            decimal Prodprice = Convert.ToDecimal(PriceTextBox.Text);
+            double Prodprice = Convert.ToDouble(PriceTextBox.Text);
             int total = Convert.ToInt32(QuantityTextBox.Text);
             
             if (MinMaxViewModel.EventsMax <= MinMaxViewModel.EventsMin || MinMaxViewModel.WeekdaysMax <= MinMaxViewModel.WeekdaysMin ||

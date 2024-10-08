@@ -26,9 +26,6 @@ public partial class StorageView : UserControl
 { 
     public delegate void ProductChangedDelegate(Product product);
     public event ProductChangedDelegate ProductChanged;
-    
-    private Product _selectedProducts;
-    
     private StorageViewModel _vm => DataContext as StorageViewModel;
     
     public StorageView()
@@ -61,7 +58,7 @@ public partial class StorageView : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
-       await RegisProdView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!);
+       await RegisProdView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 
     private void ChangeMinMaxTable_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -87,16 +84,11 @@ public partial class StorageView : UserControl
         await removeProductView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
     }
 
-    private void ProductsDataGrid_OnCellPointerPressed(object sender, DataGridCellPointerPressedEventArgs e)
-    {
-        var productRow = ProductsDataGrid.SelectedItems.Cast<ProductDataGrid>();
-        foreach (var p in productRow)
-            _selectedProducts = StorageCtrl.FindProduct(p.Gtin);
-    }
-
     private async void EditButton_OnClick(object sender, RoutedEventArgs e)
     {
-        if (_selectedProducts is null) return;
+        var product = ProductsDataGrid.SelectedItems.Cast<ProductDataGrid>().FirstOrDefault();
+        if (product is null) return;
+        var selectedProducts = StorageCtrl.FindProduct(product.Gtin);
         
         ProdRegisterView editProduct = new()
         {
@@ -110,25 +102,28 @@ public partial class StorageView : UserControl
         };
         try
         {
-            var supplyName = SupplyController.GetSupplyNameByProduct(_selectedProducts);
+            var supplyName = SupplyController.GetSupplyNameByProduct(selectedProducts);
             
-            editProduct.GtinTextBox.Text = _selectedProducts.Gtin.ToString();
-            editProduct.NameTextBox.Text = _selectedProducts.Name;
-            editProduct.DescriptionTextBox.Text = _selectedProducts.Description;
-            editProduct.PriceTextBox.Text = _selectedProducts.Price.ToString();
-            editProduct.UnitComboBox.SelectedValue = _selectedProducts.Unit;
+            editProduct.GtinTextBox.Text = selectedProducts.Gtin.ToString();
+            editProduct.NameTextBox.Text = selectedProducts.Name;
+            editProduct.DescriptionTextBox.Text = selectedProducts.Description;
+            editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("F2", new CultureInfo("pt-BR"));
+            Console.WriteLine(selectedProducts.Price.ToString("F2", new CultureInfo("pt-BR")));
+            
+            var item = editProduct.UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);
+            editProduct.UnitComboBox.SelectedIndex = editProduct.UnitComboBox.Items.IndexOf(item);
             
             editProduct.SupplyAutoCompleteBox.Text = supplyName;
-            editProduct.QuantityTextBox.Text = _selectedProducts.Total.ToString();
+            editProduct.QuantityTextBox.Text = selectedProducts.Total.ToString();
             
-            editProduct.MinMaxView.MinTextBox.Text = _selectedProducts.Weekdays.Min.ToString();
-            editProduct.MinMaxViewModel.WeekdaysMin = _selectedProducts.Weekdays.Min;
-            editProduct.MinMaxView.MaxTextBox.Text = _selectedProducts.Weekdays.Max.ToString();
-            editProduct.MinMaxViewModel.WeekdaysMax = _selectedProducts.Weekdays.Max;
-            editProduct.MinMaxViewModel.EventsMin = _selectedProducts.Events.Min;
-            editProduct.MinMaxViewModel.EventsMax = _selectedProducts.Events.Max;
-            editProduct.MinMaxViewModel.WeekendsMin = _selectedProducts.Weekends.Min;
-            editProduct.MinMaxViewModel.WeekendsMax = _selectedProducts.Weekends.Max;
+            editProduct.MinMaxView.MinTextBox.Text = selectedProducts.Weekdays.Min.ToString();
+            editProduct.MinMaxViewModel.WeekdaysMin = selectedProducts.Weekdays.Min;
+            editProduct.MinMaxView.MaxTextBox.Text = selectedProducts.Weekdays.Max.ToString();
+            editProduct.MinMaxViewModel.WeekdaysMax = selectedProducts.Weekdays.Max;
+            editProduct.MinMaxViewModel.EventsMin = selectedProducts.Events.Min;
+            editProduct.MinMaxViewModel.EventsMax = selectedProducts.Events.Max;
+            editProduct.MinMaxViewModel.WeekendsMin = selectedProducts.Weekends.Min;
+            editProduct.MinMaxViewModel.WeekendsMax = selectedProducts.Weekends.Max;
             
             await editProduct.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
         }
@@ -153,12 +148,14 @@ public partial class StorageView : UserControl
 
     private async void DeleteButton_OnClick(object sender, RoutedEventArgs e)
     {
-        if (_selectedProducts is null) return;
+        var product = ProductsDataGrid.SelectedItems.Cast<ProductDataGrid>().FirstOrDefault();
+        if (product is null) return;
+        var selectedProducts = StorageCtrl.FindProduct(product.Gtin);
         
         var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
             ContentHeader = "Excluir produto do estoque",
-            ContentMessage = $"Você realmente deseja excluir \"{_selectedProducts.Name}\" do estoque em definitivo?",
+            ContentMessage = $"Você realmente deseja excluir \"{selectedProducts.Name}\" do estoque em definitivo?",
             ButtonDefinitions = ButtonEnum.YesNo,
             Icon = Icon.Warning,
             CanResize = false,
@@ -170,7 +167,7 @@ public partial class StorageView : UserControl
         var result = await msgBox.ShowAsync().ConfigureAwait(false);
         if (result == ButtonResult.No) return;
         
-        StorageCtrl.DeleteProduct(_selectedProducts);
+        StorageCtrl.DeleteProduct(selectedProducts);
     }
 
     private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)

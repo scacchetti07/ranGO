@@ -16,6 +16,7 @@ public class StorageController : Database
     public static async void AddProduct(Product product,string supplyName)
     {
         if (ProductsList.Select(p => p.Name == product.Name).FirstOrDefault()) return;
+        
         await Collection.InsertOneAsync(product).ConfigureAwait(false);
         SupplyController.AddProductToSupply(product,supplyName);
         ProductsList.Add(product);

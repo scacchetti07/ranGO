@@ -2,7 +2,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="MarketProject.Controls.OrderCards">
-    Welcome to Avalonia!
+             xmlns:control="clr-namespace:MarketProject.Controls"
+             mc:Ignorable="d" d:DesignWidth="479" d:DesignHeight="150"
+             x:Class="MarketProject.Controls.OrderCards"
+             Width="479"
+             Height="150"
+             CornerRadius="15"
+             Background="#E8EEF7"
+             Foreground="Black"
+             FontFamily="{StaticResource FilsonPro}">
+    <!-- Design Não programado, somente UI feito. Necessário bindar propriedades de texto -->
+    <Grid ColumnDefinitions="Auto, Auto" Margin="20 10">
+        <StackPanel>
+            <TextBlock Text="Mesa 01 - ID" FontWeight="Medium" FontSize="16"/>
+            <Border Background="Black" Opacity="0.29" Height="1" />
+            <StackPanel Margin="0 8" Orientation="Horizontal">
+                <TextBlock Text="Atendente: "/>
+                <TextBlock Text="Pedro da Silva" FontWeight="Bold"/>
+            </StackPanel>
+            <StackPanel Margin="0 8" Orientation="Horizontal">
+                <TextBlock Text="Valor Total: "/>
+                <TextBlock Text="R$ 120,50" FontWeight="Bold"/>
+            </StackPanel>
+            <StackPanel Margin="0 10 0 0" Orientation="Horizontal" Spacing="20">
+                <Button Background="#3374B9" Content="Editar Pedido" Width="134" Height="30" FontSize="14" HorizontalContentAlignment="Center"/>
+                <Button Background="#D87249" Content="Editar Pedido" Width="134" Height="30" FontSize="14" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Spacing="68">
+                <control:OrderStatus VerticalAlignment="Top" Margin="-30 0 0 0"/>
+            <StackPanel VerticalAlignment="Bottom" Margin="60 0">
+                <TextBlock Text="Atendimento:"/>
+                <TextBlock Text="10min" FontWeight="Bold" HorizontalAlignment="Right"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </UserControl>

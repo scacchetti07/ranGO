@@ -7,7 +7,9 @@
         x:Class="MarketProject.Views.SupplyAddView"
         x:DataType="vm:SupplyAddViewModel"
         Title="SupplyAddView"
-        FontFamily="{StaticResource FilsonPro}">
+        FontFamily="{StaticResource FilsonPro}"
+        Width="1142"
+        Height="564">
     
     <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto" Margin="50 27">
         <TextBlock Text="Cadastro de Fornecedores" FontWeight="Medium" FontSize="30"/>
@@ -28,7 +30,8 @@
            
            <!-- Products AutoText -->
            <Label Content="Produtos Fornecidos: *"/>
-           <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox" FilterMode="StartsWith"/>
+           <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox" IsTextCompletionEnabled="True" TextChanged="ProductsAutoCompleteBox_OnTextChanged"/>
+           <StackPanel Orientation="Horizontal" Name="TagContentStackPanel" Spacing="10"/>
            
            <Grid ColumnDefinitions="Auto, Auto">
                <!-- Data AutoText -->
@@ -41,6 +44,7 @@
                <StackPanel Grid.Column="1" Margin="69 0 0 0">
                    <Label Content="CEP: *"/>
                    <MaskedTextBox Width="197" Mask="00000-000" Name="CepMaskedTextBox"/>
+
                </StackPanel>
            </Grid>
        </StackPanel>

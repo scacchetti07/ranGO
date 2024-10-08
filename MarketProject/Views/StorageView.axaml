@@ -46,7 +46,6 @@
                   x:CompileBindings="False"
                   Classes="ItensTableDataGrid"
                   VerticalScrollBarVisibility="Auto"
-                  CellPointerPressed="ProductsDataGrid_OnCellPointerPressed"
                   IsReadOnly="True"
                   IsScrollInertiaEnabled="True"
                   Name="ProductsDataGrid"

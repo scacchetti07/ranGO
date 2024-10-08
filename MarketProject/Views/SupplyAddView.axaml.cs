@@ -24,13 +24,14 @@ using SupplyCtrl = MarketProject.Controllers.SupplyController;
 namespace MarketProject.Views;
 
 public partial class SupplyAddView : Window
-{
-    private List<string> SupplyProductListById { get; }
+{ 
+    public List<Product> AutoCompleteSelectedProducts { get; } = [];
     
     public SupplyAddView()
     {
         InitializeComponent();
         this.ResponsiveWindow();
+        
         CepMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         CnpjMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         DateLimitTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
@@ -48,7 +49,7 @@ public partial class SupplyAddView : Window
     private void ReturnButton_OnClick(object sender, RoutedEventArgs e)
     {
         List<string> textBoxes = GetTextBoxes();
-        if (textBoxes.TrueForAll(txt => string.IsNullOrEmpty(txt)))
+        if (textBoxes.TrueForAll(txt => string.IsNullOrEmpty(txt)) && AutoCompleteSelectedProducts.Count == 0)
         {
             Close();
             return;
@@ -79,12 +80,16 @@ public partial class SupplyAddView : Window
     {
         // Verificar se cnpj digitado é real após implementar a API do gov.br
         // Aplicar "Data Validation" Nos campos de CNPJ e CEP caso estejam incorretos.
+
+        if (DateLimitTextBox.Text == null) return;
         
         int dateLimit = Convert.ToInt32(DateLimitTextBox.Text);
         List<string> textBoxes = GetTextBoxes();
         
         if (textBoxes.Any(txt => string.IsNullOrEmpty(txt))) return;
 
+        if (!AutoCompleteSelectedProducts.Any()) return;
+        
         if (int.Parse(DateLimitTextBox.Text) <= 0)
         {
             var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
@@ -134,11 +139,8 @@ public partial class SupplyAddView : Window
         var result = await confirmMsgBox.ShowAsync();
 
         if (result == ButtonResult.No) return;
-
-        Product product = StorageController.FindProductByNameAsync(ProductsAutoCompleteBox.Text);
         
-        // SupplyProductListById.Add(product.Id);
-        Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, [product.Id], dateLimit, 
+        Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit, 
             CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
 
         var oldsupply = SupplyCtrl.FindSupply(newSupply.Cnpj);
@@ -205,6 +207,11 @@ public partial class SupplyAddView : Window
         var res = await ClearMessageBox.ShowAsync();
         if (res == ButtonResult.No) return;
         ClearTextBox();
+        AutoCompleteSelectedProducts.Clear();
+        TagContentStackPanel.Children.Clear();
+        
+        ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
+        
     }
     private void ClearTextBox()
     {
@@ -224,6 +231,51 @@ public partial class SupplyAddView : Window
             EmailTextBox.Text,
             AddressTextBox.Text,
             DateLimitTextBox.Text,
-            ProductsAutoCompleteBox.Text
         };
+
+    private void ProductsAutoCompleteBox_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        var keyword = ProductsAutoCompleteBox.Text;
+        if (keyword.LastOrDefault() == ',')
+        {
+            keyword = keyword!.Replace(",", "");
+            Product prod = StorageController.FindProductByNameAsync(keyword);
+            if (prod is null || AutoCompleteSelectedProducts.Any(p => p.Id == prod.Id))
+            {
+                ProductsAutoCompleteBox.Text = ProductsAutoCompleteBox.Text!.Replace(",", "");
+                return;
+            }
+            AutoCompleteSelectedProducts.Add(prod);
+            var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+            itemSource.Remove(prod.Name);
+            ProductsAutoCompleteBox.ItemsSource = itemSource;
+            
+            ProductsAutoCompleteBox.Text = "";
+            TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
+        }
+    }
+
+    public Border GenereteAutoCompleteTag(Product product)
+    {
+        Label label = new() { Content = product.Name };
+        Image image = new();
+        StackPanel stackPanel = new() { Children = { label, image } };
+
+        var border = new Border
+        {
+            Child = stackPanel,
+            Classes = { "AutoCompleteTag" }
+        };
+        border.PointerPressed += (_, _) =>
+        {
+            AutoCompleteSelectedProducts.Remove(product);
+            TagContentStackPanel.Children.Remove(border);
+            
+            var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+            itemSource.Add(product.Name);
+            ProductsAutoCompleteBox.ItemsSource = itemSource;
+        };
+        return border;
+    }
+    
 }

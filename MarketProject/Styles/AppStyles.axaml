@@ -479,4 +479,15 @@
         </Style>
     </Style>
     
+    
+    <Style Selector="Border.AutoCompleteTag">
+        <Setter Property="Background" Value="#3374B9"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Style Selector="^ StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Style Selector="^ Image">
+                <Setter Property="Source" Value="{SvgImage /Assets/Icons/SVG/IconRemove.svg}"/>
+            </Style>
+        </Style>
+    </Style>
 </Styles>
