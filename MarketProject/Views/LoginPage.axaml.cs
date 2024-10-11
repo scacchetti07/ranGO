@@ -6,12 +6,14 @@ using Avalonia.Media;
 using MarketProject.ViewModels;
 using Microsoft.Extensions.DependencyInjection; // biblioteca da injeção de dependência
 using MarketProject.Extensions;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 
 namespace MarketProject.Views;
 
 public partial class LoginPage : Window
 {
-    // Instância que permite as funções da LoginPageViewModel serem chamadas   
     private LoginPageViewModel ViewModel => DataContext as LoginPageViewModel;
     public LoginPage()
     {
@@ -21,28 +23,25 @@ public partial class LoginPage : Window
 
     private void btnlogin(object? sender, RoutedEventArgs e)
     {
-        // res é a string retornada pela verificação feita na função veriflogin
-        string res = ViewModel.VerifLogin(txtUser.Text!, txtPass.Text!);
-        if (res == null)
-        { 
-            
-            // Toda vez que a home view for instanciada,
-            // Os serviços declarados no provider são injetados no DataContext da login page,
-            // automaticamente adicionando o banco json e as funções da Home no sistema.
-            // fazendo isso, permite que no home view seja possível acessar o banco json e todas funções do sistema.
-            new HomeView()
-            {
-                DataContext = ((ServiceProvider)this.FindResource(typeof(ServiceProvider))!).GetRequiredService<HomeViewModel>()
-            }.Show();
-            Close();
+        bool res = ViewModel.VerifLogin(txtUser.Text!, txtPass.Text!);
+        if (res) {
+            new HomeView() { DataContext = ((ServiceProvider)this.FindResource(typeof(ServiceProvider))!).GetRequiredService<HomeViewModel>() }.Show();
+            Close(); return;
         }
-        else
-        {
-            // Caso as credenciais estiverem incorreta, uma UserControl 
-            // é aberta e enviado como parâmetro a mensagem retornada na função Veriflogin
-            new PopUpErrorView(res).Show();
-            txtPass.Text = string.Empty;
-            txtUser.Text = string.Empty;
-        }
+        
+        var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams {
+            ContentHeader = "Credenciais Incorretas!!",
+            ContentMessage = $"Os dados de login fornecedidas estão incorretos! Tente Novamente",
+            ButtonDefinitions = ButtonEnum.Ok,
+            Icon = MsBox.Avalonia.Enums.Icon.Error,
+            CanResize = false,
+            ShowInCenter = true,
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            SystemDecorations = SystemDecorations.BorderOnly
+        });
+        msgbox.ShowAsync();
+        
+        txtPass.Text = string.Empty;
+        txtUser.Text = string.Empty;
     }
 }

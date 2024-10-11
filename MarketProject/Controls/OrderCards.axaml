@@ -31,7 +31,10 @@
                 <Button Background="#D87249" Content="Remover"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Classes="OrderCardR2" Name="OrderStatusStackPanel" VerticalAlignment="Top" Margin="-15 0 0 0">
+        <Button Grid.Column="1" Classes="CheckOrderButton">
+            <Svg/>
+        </Button>
+        <StackPanel Grid.Column="1" Classes="OrderCardR2" Name="OrderStatusStackPanel" VerticalAlignment="Top">
             <StackPanel>
                 <Label Content="Atendimento:"/>
                 <Label Content="10min" FontWeight="Bold"/>
