@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace MarketProject.Views;
 
-public partial class OrderHomeView : Window
+public partial class OrderHomeView : UserControl
 {
     public OrderHomeView()
     {

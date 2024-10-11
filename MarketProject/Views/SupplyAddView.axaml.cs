@@ -124,22 +124,6 @@ public partial class SupplyAddView : Window
            await cepMsgBox.ShowAsync().ConfigureAwait(false);
         }
         
-        var confirmMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-        {
-            ContentHeader = "Confirmar novo Fornecedor",
-            ContentMessage = $"Você quer realmente adicionar este fornecedor ao sistema?",
-            ButtonDefinitions = ButtonEnum.YesNo, 
-            Icon = MsBox.Avalonia.Enums.Icon.Info,
-            CanResize = false,
-            ShowInCenter = true,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            SystemDecorations = SystemDecorations.BorderOnly
-        });
-        var result = await confirmMsgBox.ShowAsync();
-
-        if (result == ButtonResult.No) return;
-        
         Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit, 
             CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
 
@@ -236,34 +220,33 @@ public partial class SupplyAddView : Window
     private void ProductsAutoCompleteBox_OnTextChanged(object sender, TextChangedEventArgs e)
     {
         var keyword = ProductsAutoCompleteBox.Text;
-        if (keyword.LastOrDefault() == ',')
+        if (keyword.LastOrDefault() != ',') return;
+        
+        keyword = keyword!.Replace(",", "");
+        Product prod = StorageController.FindProductByNameAsync(keyword);
+        if (prod is null || AutoCompleteSelectedProducts.Any(p => p.Id == prod.Id))
         {
-            keyword = keyword!.Replace(",", "");
-            Product prod = StorageController.FindProductByNameAsync(keyword);
-            if (prod is null || AutoCompleteSelectedProducts.Any(p => p.Id == prod.Id))
-            {
-                ProductsAutoCompleteBox.Text = ProductsAutoCompleteBox.Text!.Replace(",", "");
-                return;
-            }
-            AutoCompleteSelectedProducts.Add(prod);
-            var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
-            itemSource.Remove(prod.Name);
-            ProductsAutoCompleteBox.ItemsSource = itemSource;
-            
-            ProductsAutoCompleteBox.Text = "";
-            TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
+            ProductsAutoCompleteBox.Text = ProductsAutoCompleteBox.Text!.Replace(",", "");
+            return;
         }
+        AutoCompleteSelectedProducts.Add(prod);
+        var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+        itemSource.Remove(prod.Name);
+        ProductsAutoCompleteBox.ItemsSource = itemSource;
+            
+        ProductsAutoCompleteBox.Text = "";
+        TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
     }
 
     public Border GenereteAutoCompleteTag(Product product)
     {
         Label label = new() { Content = product.Name };
         Image image = new();
-        StackPanel stackPanel = new() { Children = { label, image } };
+        WrapPanel wrapPanel = new() { Children = { label, image } };
 
         var border = new Border
         {
-            Child = stackPanel,
+            Child = wrapPanel,
             Classes = { "AutoCompleteTag" }
         };
         border.PointerPressed += (_, _) =>

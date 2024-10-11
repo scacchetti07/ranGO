@@ -15,12 +15,10 @@
     </UserControl.DataContext>
     <StackPanel Classes="SupplyView">
         <DockPanel>
-            <Grid Classes="SearchTextBox" DockPanel.Dock="Left">
-                <ThemeVariantScope RequestedThemeVariant="Light">
+            <Panel Classes="SearchTextBox">
                     <TextBox Watermark="Procure por CNPJ ou Nome do fornecedor..." MaxLength="20" Name="SearchTextBox" TextChanged="SearchTextBox_OnTextChanged" />
-                </ThemeVariantScope>
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
-            </Grid>
+            </Panel>
             
             <StackPanel Orientation="Horizontal" Spacing="20" Name="ButtonOptions" Classes="ButtonOptions">
                 <Button Click="EditSupply_OnClick">
@@ -31,7 +29,7 @@
                 </Button>
             </StackPanel>
             
-            <Button DockPanel.Dock="Right" Classes="AddSupplyButton" Click="AddSupply_OnClick">
+            <Button Classes="AddSupplyButton" Click="AddSupply_OnClick">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{SvgImage /Assets/Icons/SVG/IconAddSupply.svg}" Width="26" Height="29"/>
                     <TextBlock Text="Cadastrar Fornecedor"/>

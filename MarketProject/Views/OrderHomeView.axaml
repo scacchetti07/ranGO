@@ -1,9 +1,50 @@
-<Window xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1026"
         x:Class="MarketProject.Views.OrderHomeView"
-        Title="OrderHomeView">
-    Welcome to Avalonia!
-</Window>
+        xmlns:vm="clr-namespace:MarketProject.ViewModels"
+        xmlns:controls="clr-namespace:MarketProject.Controls"
+        x:DataType="vm:OrderHomeViewModel"
+        FontFamily="{StaticResource FilsonPro}"
+        Width="1581"
+        Height="1026">
+    <UserControl.DataContext>
+        <vm:OrderHomeViewModel/>
+    </UserControl.DataContext>
+    <Grid Classes="OrderHomeStyles" RowDefinitions="Auto, Auto">
+       <Grid ColumnDefinitions="Auto, *">
+           <Panel Classes="SearchTextBox">
+               <TextBox Watermark="Procure pelo ID do pedido ou N° da mesa..." Name="SearchTextBox" />
+               <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
+           </Panel>
+           
+            <StackPanel Grid.Column="1" Classes="OrderHomeTop">
+                <Button Classes="AddFood">
+                    <Svg/>
+                </Button>
+                <Button Classes="ShowFood" Content="Ver Cardápio"/>
+            </StackPanel>
+       </Grid>
+        <StackPanel Grid.Row="1" Margin="0 40" >
+            <StackPanel Classes="OrderHomeTitles">
+               <Button Content="Todos"/>
+               <Button Content="Novos"/>
+               <Button Content="Preparando"/>
+               <Button Content="Fechados"/>
+            </StackPanel>
+            
+            <Border Classes="OrderDivider"/>
+            <WrapPanel Classes="OrderCardsDisplay">
+                <controls:OrderCards/>
+                <controls:OrderCards/>
+                <controls:OrderCards/>
+                <controls:OrderCards/>
+                <controls:OrderCards/>
+                <controls:OrderCards/>
+                </WrapPanel>
+        </StackPanel>
+    </Grid>
+   
+</UserControl>

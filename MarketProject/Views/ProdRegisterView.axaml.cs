@@ -57,20 +57,6 @@ public partial class ProdRegisterView : Window
                 MinMaxViewModel.WeekendsMax <= MinMaxViewModel.WeekendsMin)
                 throw new MaxMinException();
 
-            var checkProductsMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams()
-            {
-                ContentHeader = "Adicionando o Produto",
-                ContentMessage = $"Quer mesmo adicionar \"{NameTextBox.Text}\" ao estoque?",
-                Icon = MsBox.Avalonia.Enums.Icon.Info,
-                ButtonDefinitions = ButtonEnum.YesNo,
-                CanResize = false,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                SystemDecorations = SystemDecorations.BorderOnly
-            });
-            var checkResult = await checkProductsMsgBox.ShowAsync();
-
-            if (checkResult == ButtonResult.No) return;
-
             var newproduct = new Product(gtinCode, NameTextBox.Text, Prodprice,
                 (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
                 new Range<int>(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
@@ -138,7 +124,7 @@ public partial class ProdRegisterView : Window
             });
             await errorMinMaxMsgBox.ShowAsync().ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             var errorMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
@@ -153,8 +139,6 @@ public partial class ProdRegisterView : Window
                 SystemDecorations = SystemDecorations.BorderOnly
             });
             await errorMsgBox.ShowAsync();
-            Console.WriteLine(ex.Message);
-            Console.WriteLine(ex.StackTrace);
         }
     }
 

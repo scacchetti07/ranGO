@@ -316,8 +316,9 @@
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
     </Style>
-    <Style Selector="Grid.SearchTextBox">
+    <Style Selector="Panel.SearchTextBox">
         <Style Selector="^ TextBox">
+            <Setter Property="ThemeVariantScope.RequestedThemeVariant" Value="Light"/>
             <Setter Property="Padding" Value="35 0 0 0"/>
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="Width" Value="415"/>
@@ -484,8 +485,9 @@
         <Setter Property="Background" Value="#3374B9"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Style Selector="^ StackPanel">
+        <Style Selector="^ WrapPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="10 0 10 0"/>
             <Style Selector="^ Label">
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="Padding" Value="5"/>
@@ -504,4 +506,128 @@
             </Style>
         </Style>
     </Style>
+    
+    
+        <Style Selector="StackPanel.OrderCardR1">
+            <Style Selector="^ Label">
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+            <Style Selector="^ Border">
+                <Setter Property="Background" Value="Black"/>
+                <Setter Property="Opacity" Value="0.29"/>
+                <Setter Property="Height" Value="1"/>
+                <Setter Property="Width" Value="200"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+            <Style Selector="^ StackPanel">
+                <Setter Property="Margin" Value="0 4"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="Spacing" Value="20"/>
+                
+                <Style Selector="^ Button">
+                    <Setter Property="Width" Value="134"/>
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Style>
+                <Style Selector="^ Button:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="#590B0E18"/>
+                    <Setter Property="BorderBrush" Value="#DCB861"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Style>
+            </Style>
+        </Style>
+    
+        <Style Selector="StackPanel.OrderCardR2">
+            <Setter Property="Spacing" Value="68"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Style Selector="^ StackPanel">
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Margin" Value="60 0"/>
+                <Setter Property="Spacing" Value="-7"/>
+            </Style>
+            <Style Selector="^Label">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+        </Style>
+        <Style Selector="Border.OrderStatusTag">
+            <Setter Property="Width" Value="133"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontWeight" Value="Bold"/> 
+            </Style>
+        </Style>
+    
+        <Style Selector="Grid.OrderHomeStyles">
+            <Setter Property="Margin" Value="30, 50"/>
+            <Style Selector="^ StackPanel.OrderHomeTop">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="Spacing" Value="20"/>
+                <Setter Property="Margin" Value="314 0"/>
+                <Style Selector="^ Button.AddFood">
+                    <Setter Property="Background" Value="#6EA759"/>
+                    <Setter Property="Width" Value="50"/>
+                    <Setter Property="Height" Value="50"/>
+                    <Setter Property="ToolTip.Tip" Value="Adicioanr Novo Prato"/>
+                    <Style Selector="^ Svg">
+                        <Setter Property="Path" Value="/Assets/Icons/SVG/IconAdd.svg"/>
+                        <Setter Property="Width" Value="40"/>
+                        <Setter Property="Height" Value="50"/>
+                    </Style>
+                </Style>
+                <Style Selector="^ Button.AddFood:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="#806EA759"/>
+                    <Setter Property="BorderBrush" Value="#DCB861"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Style Selector="^ Svg:pointerover /template/ ContentPresenter">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </Style>
+                </Style>
+                <Style Selector="^ Button.ShowFood">
+                    <Setter Property="Background" Value="#3374B9"/>
+                    <Setter Property="Width" Value="220"/>
+                    <Setter Property="Height" Value="50"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+                <Style Selector="^ Button.ShowFood:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="#803374B9"/>
+                    <Setter Property="BorderBrush" Value="#DCB861"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="Foreground" Value="#AADBDBDA"></Setter>
+                </Style>
+            </Style>
+            
+            <Style Selector="^ StackPanel.OrderHomeTitles">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="Margin" Value="35 0"/>
+                <Setter Property="Spacing" Value="50"/>
+                <Style Selector="^ Button">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="FontSize" Value="21.3"/>
+                </Style>
+            </Style>
+            
+            <Style Selector="^ Border.OrderDivider">
+                <Setter Property="Background" Value="#80DBDBDA"/>
+                <Setter Property="Height" Value="2"/>
+                <Setter Property="Width" Value="1050"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Margin" Value="30 0"/>
+            </Style>
+            
+            <Style Selector="^ WrapPanel.OrderCardsDisplay">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="Margin" Value="-13 0 0 0"/>
+            </Style>
+        </Style>
 </Styles>

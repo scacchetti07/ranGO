@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:MarketProject.ViewModels"
         x:Class="MarketProject.Views.SupplyAddView"
         x:DataType="vm:SupplyAddViewModel"
-        Title="SupplyAddView"
+        Title="Cadastro de Fornecedores"
         FontFamily="{StaticResource FilsonPro}"
         Width="1142"
         Height="564">
@@ -31,7 +31,7 @@
            <!-- Products AutoText -->
            <Label Content="Produtos Fornecidos: *"/>
            <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox" IsTextCompletionEnabled="True" TextChanged="ProductsAutoCompleteBox_OnTextChanged"/>
-           <StackPanel Orientation="Horizontal" Name="TagContentStackPanel" Spacing="10"/>
+           <WrapPanel Name="TagContentStackPanel" Margin="10 0"/>
            
            <Grid ColumnDefinitions="Auto, Auto">
                <!-- Data AutoText -->

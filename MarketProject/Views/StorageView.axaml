@@ -14,13 +14,10 @@
     </UserControl.DataContext>
     <StackPanel Classes="StorageStyles">
         <DockPanel>
-            <Grid Classes="SearchTextBox" DockPanel.Dock="Left">
-                <ThemeVariantScope RequestedThemeVariant="Light">
-                    <TextBox Watermark="Procure por GTIN ou Nome do produto..." MaxLength="20" Name="SearchTextBox" TextChanged="SearchTextBox_OnTextChanged"/>
-                    
-                </ThemeVariantScope>
+            <Panel Classes="SearchTextBox" DockPanel.Dock="Left">
+                <TextBox Watermark="Procure por GTIN ou Nome do produto..." MaxLength="20" Name="SearchTextBox" TextChanged="SearchTextBox_OnTextChanged"/>
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
-            </Grid>
+            </Panel>
             <StackPanel Orientation="Horizontal" Spacing="20" Name="ButtonOptions" Classes="ButtonOptions">
                 <Button Click="EditButton_OnClick">
                     <Svg Path="/Assets/Icons/SVG/IconEdit.svg" Width="30" Height="30"/>
