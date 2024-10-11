@@ -19,26 +19,21 @@
             <Label Content="Mesa 01 - ID"/>
             <Border/>
             <StackPanel>
-                <Label Content="Atendente: "/>
+                <Label Content="Garçom: "/>
                 <Label Content="Pedro da Silva" FontWeight="Bold"/>
             </StackPanel>
             <StackPanel>
-                <Label Content="Valor Total: "/>
-                <Label Content="R$ 120,50" FontWeight="Bold"/>
+                <Label Content="Pedidos: "/>
+                <Label Content="Moranguinho, Chocolate..." FontWeight="Bold"/>
             </StackPanel>
             <StackPanel>
                 <Button Background="#3374B9" Content="Editar"/>
                 <Button Background="#D87249" Content="Remover"/>
+                <Button Classes="CheckOrderButton">
+                    <Svg/>
+                </Button>
             </StackPanel>
         </StackPanel>
-        <Button Grid.Column="1" Classes="CheckOrderButton">
-            <Svg/>
-        </Button>
-        <StackPanel Grid.Column="1" Classes="OrderCardR2" Name="OrderStatusStackPanel" VerticalAlignment="Top">
-            <StackPanel>
-                <Label Content="Atendimento:"/>
-                <Label Content="10min" FontWeight="Bold"/>
-            </StackPanel>
-        </StackPanel>
+        <StackPanel Classes="OrderCardR2" Name="OrderStatusStackPanel"/>
     </Grid>
 </UserControl>

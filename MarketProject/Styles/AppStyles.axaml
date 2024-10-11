@@ -538,42 +538,34 @@
                     <Setter Property="BorderThickness" Value="2"/>
                 </Style>
             </Style>
-        </Style>
-    
-        <Style Selector="Button.CheckOrderButton">
-            <Setter Property="Background" Value="#6EA759"/>
-            <Setter Property="Width" Value="45"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Margin" Value="10 0 0 1"/>
-            <Style Selector="^ Svg">
-                <Setter Property="Path" Value="/Assets/Icons/SVG/IconCheck.svg"/>
-                <Setter Property="Height" Value="50"/>
+            <Style Selector="^ Button.CheckOrderButton">
+                <Setter Property="Background" Value="#6EA759"/>
+                <Setter Property="Width" Value="45"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Style Selector="^ Svg">
+                    <Setter Property="Path" Value="/Assets/Icons/SVG/IconCheck.svg"/>
+                    <Setter Property="Height" Value="50"/>
+                </Style>
+            </Style>
+            <Style Selector="^ Button.CheckOrderButton:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="#806EA759"/>
+                <Setter Property="BorderBrush" Value="#DCB861"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Style Selector="^ Svg">
+                    <Setter Property="Opacity" Value="0.7"/>
+                </Style>
             </Style>
         </Style>
-    <Style Selector="Button.CheckOrderButton:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="#806EA759"/>
-        <Setter Property="BorderBrush" Value="#DCB861"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Style Selector="^ Svg">
-            <Setter Property="Opacity" Value="0.7"/>
-        </Style>
-    </Style>
     
         <Style Selector="StackPanel.OrderCardR2">
-            <Setter Property="Spacing" Value="10"/>
             <Setter Property="Grid.Column" Value="1"/>
-            <Style Selector="^ StackPanel">
-                <Setter Property="VerticalAlignment" Value="Bottom"/>
-                <Setter Property="Margin" Value="60 0"/>
-                <Setter Property="Spacing" Value="-7"/>
-            </Style>
-            <Style Selector="^Label">
-                <Setter Property="HorizontalAlignment" Value="Right"/>
-            </Style>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="-30 0"/>
         </Style>
+    
         <Style Selector="Border.OrderStatusTag">
             <Setter Property="Width" Value="133"/>
             <Setter Property="Height" Value="25"/>
