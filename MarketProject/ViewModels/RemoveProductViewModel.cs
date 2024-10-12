@@ -1,6 +1,6 @@
 namespace MarketProject.ViewModels;
 
-public class RemoveProductViewModel
+public class RemoveProductViewModel : ViewModelBase
 {
     
 }

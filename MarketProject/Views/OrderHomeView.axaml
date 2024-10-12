@@ -21,29 +21,23 @@
            </Panel>
            
             <StackPanel Grid.Column="1" Classes="OrderHomeTop">
-                <Button Classes="AddFood">
+                <Button Classes="AddOrder">
                     <Svg/>
                 </Button>
                 <Button Classes="ShowFood" Content="Ver Cardápio"/>
             </StackPanel>
        </Grid>
         <StackPanel Grid.Row="1" Margin="0 40" >
+            <Canvas>
             <StackPanel Classes="OrderHomeTitles">
                <Button Content="Todos"/>
                <Button Content="Novos"/>
                <Button Content="Preparando"/>
                <Button Content="Fechados"/>
             </StackPanel>
-            
-            <Border Classes="OrderDivider"/>
-            <WrapPanel Classes="OrderCardsDisplay">
-                <controls:OrderCards/>
-                <controls:OrderCards/>
-                <controls:OrderCards/>
-                <controls:OrderCards/>
-                <controls:OrderCards/>
-                <controls:OrderCards/>
-                </WrapPanel>
+                <Border Classes="OrderDivider" Canvas.Top="38"/>
+            </Canvas>
+            <WrapPanel Classes="OrderCardsDisplay" Name="OrderCardsPanel"/>
         </StackPanel>
     </Grid>
    

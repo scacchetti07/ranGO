@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:control="clr-namespace:MarketProject.Controls"
              mc:Ignorable="d" d:DesignWidth="479" d:DesignHeight="150"
              x:Class="MarketProject.Controls.OrderCards"
              Width="479"
@@ -14,22 +13,25 @@
              Margin="43 35">
    
     <!-- Design Não programado, somente UI feito. Necessário bindar propriedades de texto -->
-    <Grid ColumnDefinitions="Auto, Auto" Margin="20 10">
+    <Grid ColumnDefinitions="Auto, Auto" Margin="20 10" Name="OrderCardContentGrid">
         <StackPanel Classes="OrderCardR1">
-            <Label Content="Mesa 01 - ID"/>
+            <StackPanel Orientation="Horizontal" Margin="0">
+                <Label Name="TableNumberLabel"/>
+                <Label Name="OrderIdLabel"/>
+            </StackPanel>
             <Border/>
             <StackPanel>
                 <Label Content="Garçom: "/>
-                <Label Content="Pedro da Silva" FontWeight="Bold"/>
+                <Label Name="WaiterNameLabel" FontWeight="Bold"/>
             </StackPanel>
             <StackPanel>
                 <Label Content="Pedidos: "/>
-                <Label Content="Moranguinho, Chocolate..." FontWeight="Bold"/>
+                <Label Name="OrderFoodDescriptionLabel" FontWeight="Bold"/>
             </StackPanel>
             <StackPanel>
-                <Button Background="#3374B9" Content="Editar"/>
-                <Button Background="#D87249" Content="Remover"/>
-                <Button Classes="CheckOrderButton">
+                <Button Background="#3374B9" Content="Editar" Click="EditOrder_OnClick"/>
+                <Button Background="#D87249" Content="Remover" Click="DeleteOrder_OnClick"/>
+                <Button Classes="CheckOrderButton" Click="CheckOrder_OnClick">
                     <Svg/>
                 </Button>
             </StackPanel>
