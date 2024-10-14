@@ -17,8 +17,9 @@ public class Database
         Console.WriteLine("Conexão Estabelecida!");
     }
     public static ObservableCollection<Product> ProductsList { get; private set; } = new();
-    
     public static ObservableCollection<Supply> SupplyList { get; private set; } = new();
+    
+    public static ObservableCollection<Orders> OrdersList { get; private set; } = new();
 
     private static MongoClient _client =
         new("mongodb+srv://luiscacchetti07:c2qb5VFjcVBA18PH@rango.3fwol.mongodb.net/");
@@ -35,8 +36,12 @@ public class Database
         var collectionSupply = GetDatabase("storage").GetCollection<Supply>("supplys");
         var supplyDocs = await collectionSupply.Find(Builders<Supply>.Filter.Empty).ToListAsync();
         
+        var collectionOrder = GetDatabase("storage").GetCollection<Orders>("orders");
+        var orderDocs = await collectionOrder.Find(Builders<Orders>.Filter.Empty).ToListAsync();
+        
         ProductsList = new ObservableCollection<Product>(prodDocs);
         SupplyList = new ObservableCollection<Supply>(supplyDocs);
-        Console.WriteLine("Lista de produtos e fornecedores Iniciada!");
+        OrdersList = new ObservableCollection<Orders>(orderDocs);
+        Console.WriteLine("Lista de produtos, fornecedores e pedidos Iniciada!");
     }
 }

@@ -26,16 +26,18 @@
             </StackPanel>
             <StackPanel>
                 <Label Content="Pedidos: "/>
-                <Label Name="OrderFoodDescriptionLabel" FontWeight="Bold"/>
+                <Label Name="OrderFoodsLabel" FontWeight="Bold"/>
             </StackPanel>
             <StackPanel>
                 <Button Background="#3374B9" Content="Editar" Click="EditOrder_OnClick"/>
-                <Button Background="#D87249" Content="Remover" Click="DeleteOrder_OnClick"/>
-                <Button Classes="CheckOrderButton" Click="CheckOrder_OnClick">
-                    <Svg/>
+                <Button Classes="StatusOrderButton" Click="PreparingOrder_OnClick" Background="#D87249" ToolTip.Tip="Preparando pedido">
+                    <Svg Path="/Assets/Icons/SVG/IconCooking.svg"/>
+                </Button>
+                <Button Classes="StatusOrderButton" Click="CheckOrder_OnClick" ToolTip.Tip="Concluir pedido">
+                    <Svg Path="/Assets/Icons/SVG/IconCheck.svg"/>
                 </Button>
             </StackPanel>
         </StackPanel>
-        <StackPanel Classes="OrderCardR2" Name="OrderStatusStackPanel"/>
+        <StackPanel Grid.Column="1" Classes="OrderCardR2" Name="OrderStatusStackPanel"/>
     </Grid>
 </UserControl>

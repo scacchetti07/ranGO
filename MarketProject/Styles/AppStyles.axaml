@@ -531,6 +531,7 @@
                     <Setter Property="FontSize" Value="15"/>
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="CornerRadius" Value="5"/>
                     <Setter Property="Cursor" Value="Hand"/>
                 </Style>
                 <Style Selector="^ Button:pointerover /template/ ContentPresenter">
@@ -539,7 +540,7 @@
                     <Setter Property="BorderThickness" Value="2"/>
                 </Style>
             </Style>
-            <Style Selector="^ Button.CheckOrderButton">
+            <Style Selector="^ Button.StatusOrderButton">
                 <Setter Property="Background" Value="#6EA759"/>
                 <Setter Property="Width" Value="45"/>
                 <Setter Property="Height" Value="35"/>
@@ -547,17 +548,17 @@
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="Cursor" Value="Hand"/>
                 <Style Selector="^ Svg">
-                    <Setter Property="Path" Value="/Assets/Icons/SVG/IconCheck.svg"/>
                     <Setter Property="Height" Value="50"/>
                 </Style>
             </Style>
-            <Style Selector="^ Button.CheckOrderButton:pointerover /template/ ContentPresenter">
-                <Setter Property="Background" Value="#806EA759"/>
+            <Style Selector="^ Button.StatusOrderButton:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="#590B0E18"/>
                 <Setter Property="BorderBrush" Value="#DCB861"/>
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="Cursor" Value="Hand"/>
                 <Style Selector="^ Svg">
                     <Setter Property="Opacity" Value="0.7"/>
+                    <Setter Property="Height" Value="50"/>
                 </Style>
             </Style>
         </Style>
@@ -573,6 +574,7 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="-100 0"/>
             <Style Selector="^ TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -627,7 +629,7 @@
                 <Setter Property="Orientation" Value="Horizontal"/>
                 <Setter Property="Margin" Value="35 0"/>
                 <Setter Property="Spacing" Value="50"/>
-                <Style Selector="^ Button">
+                <Style Selector="^ Button, ^ Label">
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="FontSize" Value="21.3"/>
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -651,6 +653,11 @@
                     <Setter Property="BorderThickness" Value="0 0 0 4"/>
                     <Setter Property="CornerRadius" Value="3"/>
                 </Style>
+                <Style Selector="^ Label">
+                    <Setter Property="Foreground" Value="#DBDBDA"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Margin" Value="350 0"/>
+                </Style>
             </Style>
             
             <Style Selector="^ Border.OrderDivider">
@@ -663,7 +670,33 @@
             
             <Style Selector="^ WrapPanel.OrderCardsDisplay">
                 <Setter Property="Orientation" Value="Horizontal"/>
-                <Setter Property="Margin" Value="-13 0 0 0"/>
+                <Setter Property="Margin" Value="-13 20 0 0"/>
+            </Style>
+        </Style>
+    
+    
+        <Style Selector="Border.PopUpLayout">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Width" Value="410"/>
+            <Setter Property="Height" Value="110"/>
+            <Setter Property="Canvas.Right" Value="30"/>
+            <Setter Property="Canvas.Top" Value="530"/>
+            <Style Selector="^ StackPanel">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="Spacing" Value="10"/>
+            </Style>
+            <Style Selector="^Svg">
+                <Setter Property="Height" Value="40"/>
+            </Style>
+            <Style Selector="^ Label">
+                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+            <Style Selector="^ TextBlock">
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="MaxLines" Value="2"/>
+                <Setter Property="FontSize" Value="20"/>
             </Style>
         </Style>
 </Styles>

@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MarketProject.ViewModels"
+             xmlns:controls="clr-namespace:MarketProject.Controls"
              mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1026"
              x:Class="MarketProject.Views.StorageView"
              x:DataType="vm:StorageViewModel"
@@ -74,6 +75,24 @@
                 <DataGridTextColumn Header="Total" Width="*" Binding="{Binding Total}"/>
             </DataGrid.Columns>
     </DataGrid>
+        <controls:AnimatedPopup x:Name="Popup"
+                                PlacementMode="Bottom"
+                                HorizontalAlignment="Left"
+                                IsOpen="{Binding ProductWasAdded}">
+            <controls:AnimatedPopup.PlacementTarget >
+                
+            </controls:AnimatedPopup.PlacementTarget>
+            <controls:AnimatedPopup.Child>
+                    <Border Background="#6EA759" Classes="PopUpLayout">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <StackPanel>
+                                <Svg Path="/Assets/Icons/SVG/IconCheck.svg"/>
+                                <Label Content="Produto Adicionado!"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="1" Text="Lorem ipsum amet ad curabitur ullamcorper etiam convallis semper."/>
+                        </Grid>
+                    </Border>
+            </controls:AnimatedPopup.Child>
+        </controls:AnimatedPopup>
     </StackPanel>
-    
 </UserControl>

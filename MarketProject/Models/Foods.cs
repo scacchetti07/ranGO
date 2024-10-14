@@ -10,15 +10,16 @@ public class Foods
 {
     public Foods(string foodName, List<Product> listOfIngredients, string foodDescription = "", IImage foodPhoto = null)
     {
+        Id = new ObjectId();
         FoodName = foodName;
         FoodPhoto = foodPhoto;
         FoodDescription = foodDescription;
         ListOfIngredients = listOfIngredients;
     }
-    
+
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; }
+    public ObjectId Id { get; set; }
     public string FoodName { get; set; }
     public List<Product> ListOfIngredients { get; set; }
     public string FoodDescription { get; set; }

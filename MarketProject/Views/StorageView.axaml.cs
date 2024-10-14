@@ -107,8 +107,7 @@ public partial class StorageView : UserControl
             editProduct.GtinTextBox.Text = selectedProducts.Gtin.ToString();
             editProduct.NameTextBox.Text = selectedProducts.Name;
             editProduct.DescriptionTextBox.Text = selectedProducts.Description;
-            editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("F2", new CultureInfo("pt-BR"));
-            Console.WriteLine(selectedProducts.Price.ToString("F2", new CultureInfo("pt-BR")));
+            editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("f2", new CultureInfo("pt-BR"));
             
             var item = editProduct.UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);
             editProduct.UnitComboBox.SelectedIndex = editProduct.UnitComboBox.Items.IndexOf(item);
@@ -188,5 +187,10 @@ public partial class StorageView : UserControl
             searchedList = Database.ProductsList.Where(p => p.Name.ToLower().Contains(keyword.ToLower()));
             
         ProductsDataGrid.ItemsSource = searchedList!.Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex));
+    }
+
+    private void PopUpOpenTest_OnClick(object sender, RoutedEventArgs e)
+    {
+        Popup.IsOpen = true;
     }
 }

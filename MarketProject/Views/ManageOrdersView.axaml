@@ -10,8 +10,13 @@
         ExtendClientAreaToDecorationsHint="True"
         CanResize="False"
         ShowInTaskbar="False"
-        SizeToContent="WidthAndHeight">
+        SizeToContent="WidthAndHeight"
+        Width="1080"
+        Height="1080">
     
     <!-- Pensar em como vai ser o design desta tela -->
-    <Button Content="Clique aqui para sair" Click="Button_OnClick"></Button>
+    <StackPanel>
+    <Button Content="Clique aqui para sair" Click="Button_OnClick"/>
+    <Button Content="Adicione um pedido" Click="Button2_OnClick"/>
+    </StackPanel>
 </Window>

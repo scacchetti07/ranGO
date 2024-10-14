@@ -36,7 +36,4 @@ public class Product
         Events = events;
     }
 
-    public Product()
-    { }
-
 }
