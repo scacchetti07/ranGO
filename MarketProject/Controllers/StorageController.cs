@@ -13,7 +13,7 @@ namespace MarketProject.Controllers;
 public class StorageController : Database
 {
     private static IMongoCollection<Product> Collection { get; } = GetCollection<Product>("storage", "products");
-    public static async void AddProduct(Product product,string supplyName)
+    public static async void AddProduct(Product product, string supplyName)
     {
         if (ProductsList.Select(p => p.Name == product.Name).FirstOrDefault()) return;
         
@@ -56,15 +56,16 @@ public class StorageController : Database
     public static async void DeleteProduct(Product product)
     {
         var filter = Builders<Product>.Filter.Eq(p => p.Id, product.Id);
-        await Collection.DeleteOneAsync(filter);
+        await Collection.DeleteOneAsync(filter).ConfigureAwait(false);
         
         ProductsList.Remove(ProductsList.SingleOrDefault(p => p.Id == product.Id));
     }
 
-    public static async void UpdateStorage(Product prod)
+    public static async void UpdateStorage(Product prod, string supplyName)
     {
-        var filter = Builders<Product>.Filter.Eq(p => p.Id, prod.Id); 
-        await Collection.ReplaceOneAsync(filter, prod);
+        var filter = Builders<Product>.Filter.Eq(p => p.Id, prod.Id);
+        await Collection.ReplaceOneAsync(filter, prod).ConfigureAwait(false);
+        SupplyController.ReplaceProductToSupply(prod, supplyName);
         ProductsList.Replace(ProductsList.SingleOrDefault(p => p.Id == prod.Id), prod);
     }
 

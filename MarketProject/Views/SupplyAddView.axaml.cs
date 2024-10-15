@@ -19,6 +19,7 @@ using MarketProject.ViewModels;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
+using Key = Avalonia.Remote.Protocol.Input.Key;
 using SupplyCtrl = MarketProject.Controllers.SupplyController;
 
 namespace MarketProject.Views;
@@ -108,11 +109,16 @@ public partial class SupplyAddView : Window
         }
 
         // Trocar por uma "Data Validation" na text box quando digitado.
-        if (!await Supply.ValidarCEP(CepMaskedTextBox.Text))
+        try
+        {
+            var cepContent = await Supply.ValidarCEP(CepMaskedTextBox.Text);
+            AddressTextBox.Text = $"{cepContent.logradouro} - {cepContent.localidade}";
+        }
+        catch (Exception ex)
         {
             var cepMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
-                ContentHeader = "CEP inválido",
+                ContentHeader = ex.Message,
                 ContentMessage = $"O CEP \"{CepMaskedTextBox.Text}\" digitado não existe. \nDigite outro que seja válido.",
                 ButtonDefinitions = ButtonEnum.Ok, 
                 Icon = MsBox.Avalonia.Enums.Icon.Warning,
@@ -122,6 +128,7 @@ public partial class SupplyAddView : Window
                 SystemDecorations = SystemDecorations.BorderOnly
             });
            await cepMsgBox.ShowAsync().ConfigureAwait(false);
+           return;
         }
         
         Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit, 
@@ -229,6 +236,7 @@ public partial class SupplyAddView : Window
             ProductsAutoCompleteBox.Text = ProductsAutoCompleteBox.Text!.Replace(",", "");
             return;
         }
+        
         AutoCompleteSelectedProducts.Add(prod);
         var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
         itemSource.Remove(prod.Name);
@@ -237,16 +245,33 @@ public partial class SupplyAddView : Window
         ProductsAutoCompleteBox.Text = "";
         TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
     }
+    
+    private void ProductsAutoCompleteBox_OnKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Avalonia.Input.Key.Enter) return;
+        
+        Product prod = StorageController.FindProductByNameAsync(ProductsAutoCompleteBox.Text);
+        if (prod is null || AutoCompleteSelectedProducts.Any(p => p.Id == prod.Id)) return;
+        
+        AutoCompleteSelectedProducts.Add(prod);
+        var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+        itemSource.Remove(prod.Name);
+        ProductsAutoCompleteBox.ItemsSource = itemSource;
+            
+        ProductsAutoCompleteBox.Text = "";
+        TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
+
+    }
 
     public Border GenereteAutoCompleteTag(Product product)
     {
         Label label = new() { Content = product.Name };
         Image image = new();
-        WrapPanel wrapPanel = new() { Children = { label, image } };
+        StackPanel stackPanel = new() { Children = { label, image } };
 
         var border = new Border
         {
-            Child = wrapPanel,
+            Child = stackPanel,
             Classes = { "AutoCompleteTag" }
         };
         border.PointerPressed += (_, _) =>
@@ -260,5 +285,4 @@ public partial class SupplyAddView : Window
         };
         return border;
     }
-    
 }

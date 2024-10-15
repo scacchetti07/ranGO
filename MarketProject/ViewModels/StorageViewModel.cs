@@ -10,23 +10,13 @@ using MarketProject.Controllers;
 using MarketProject.Models;
 using MarketProject.Views;
 using ReactiveUI;
-using Timer = System.Timers.Timer;
 
 namespace MarketProject.ViewModels;
 
 public class StorageViewModel : ReactiveObject
 {
     private static bool _productWasAdded;
-
-    public static bool ProductWasAdded
-    {
-        get => _productWasAdded;
-        set
-        {
-            if (!value) return;
-                _productWasAdded = value;
-        }
-    }
+    public static bool ProductWasAdded { get; set; }
 
     public static ProductDataGrid ProductToDataGrid(Product prod, MinMaxOptions options)
     {

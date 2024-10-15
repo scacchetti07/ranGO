@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace MarketProject.Models;
 
@@ -36,29 +39,26 @@ public class Supply
     public Supply()
     { }
     
-    public static async Task<bool> ValidarCEP(string cep)
+    public static async Task<dynamic> ValidarCEP(string cep)
     {
         // Remove o hífen do CEP, se existir
         cep = cep.Replace("-", "");
         
         string url = $"https://viacep.com.br/ws/{cep}/json/";
-
         using HttpClient client = new HttpClient();
-        try
-        {
             var response = await client.GetAsync(url).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
-                return false;
+                throw new Exception("CEP Inválido");
                 
             var conteudo = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            
+            var jsonDefinition = new
+            {
+                cep = "",
+                logradouro = "",
+                localidade = ""
+            };
+            var json = JsonConvert.DeserializeAnonymousType(conteudo, jsonDefinition);
             // Verifica se o conteúdo contém a chave "erro", que indica que o CEP não foi encontrado
-            return !conteudo.Contains("\"erro\"");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro ao consultar a API ViaCEP: {ex.Message}");
-            return false;
-        }
+            return json;
     }
 }

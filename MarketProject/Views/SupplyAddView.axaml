@@ -30,8 +30,9 @@
            
            <!-- Products AutoText -->
            <Label Content="Produtos Fornecidos: *"/>
-           <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox" IsTextCompletionEnabled="True" TextChanged="ProductsAutoCompleteBox_OnTextChanged"/>
-           <WrapPanel Name="TagContentStackPanel" Margin="10 0"/>
+           <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox" HorizontalAlignment="Left" 
+                            TextChanged="ProductsAutoCompleteBox_OnTextChanged" KeyDown="ProductsAutoCompleteBox_OnKeyDown"/>
+           <WrapPanel Name="TagContentStackPanel" MaxWidth="500" Orientation="Horizontal" HorizontalAlignment="Left"/>
            
            <Grid ColumnDefinitions="Auto, Auto">
                <!-- Data AutoText -->

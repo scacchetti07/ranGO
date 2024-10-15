@@ -36,14 +36,14 @@
                     <Label Content="Descrição:"/>
                     <TextBox Name="DescriptionTextBox" Height="70" VerticalContentAlignment="Top" MaxLength="150" TextWrapping="Wrap"/>
                 </StackPanel>
-                <StackPanel>
+                <StackPanel Name="SupplyContent">
                     <Label Content="Fornecedor: *"/>
-                    <AutoCompleteBox x:Name="SupplyAutoCompleteBox" FilterMode="StartsWith" Watermark="Selecione alguns fornecedores" FontStyle="Italic"/>
+                    <AutoCompleteBox x:Name="SupplyAutoCompleteBox" FilterMode="StartsWith" Watermark="Selecione alguns fornecedores"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
                         <Label Content="Preço Unitário: *"/>
-                        <MaskedTextBox Name="PriceTextBox" Width="190" MaxLength="7" Watermark="R$ 00,00" Mask="00,00" OpacityMask="#d3d3d3"></MaskedTextBox>
+                        <MaskedTextBox Name="PriceTextBox" Width="190" MaxLength="7" Watermark="R$ 00,00" Mask="##0.00" OpacityMask="#d3d3d3"></MaskedTextBox>
                     </StackPanel>
                     <StackPanel Margin="60 0 0 0">
                         <Label Content="Unid. de Medida: *"/>

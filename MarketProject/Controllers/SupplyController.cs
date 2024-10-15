@@ -56,4 +56,18 @@ public class SupplyController : Database
         
         // De uma olhada nisso => Collection.FindOneAndUpdate()
     }
+
+    public static void ReplaceProductToSupply(Product product, string supplyName)
+    {
+        var currentSupply = Collection.Find(s => s.Products.Contains(product.Id)).FirstOrDefault();
+        currentSupply?.Products.Remove(product.Id);
+
+        var newSupply = Collection.Find(s => s.Name == supplyName).FirstOrDefault();
+        if (newSupply is null) return;
+        newSupply.Products.Add(product.Id);
+
+        Collection.ReplaceOne(s => s.Id == newSupply.Id, newSupply);
+        if (currentSupply is not null)
+            Collection.ReplaceOne(s => s.Id == currentSupply.Id, currentSupply);
+    }
 }

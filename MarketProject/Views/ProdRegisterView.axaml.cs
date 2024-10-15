@@ -45,12 +45,13 @@ public partial class ProdRegisterView : Window
         Regex regex = new(@"^[0-9]+$");
         e.Handled = !regex.IsMatch(e.Text!);
     }
+    
     private async void AddProductButton(object sender, RoutedEventArgs e)
     {
         try
         {
             long gtinCode = Convert.ToInt64(GtinTextBox.Text);
-            double Prodprice = Convert.ToDouble(PriceTextBox.Text);
+            double Prodprice = Convert.ToDouble(PriceTextBox.Text.Replace("_", ""));
             int total = Convert.ToInt32(QuantityTextBox.Text);
             
             if (MinMaxViewModel.EventsMax <= MinMaxViewModel.EventsMin || MinMaxViewModel.WeekdaysMax <= MinMaxViewModel.WeekdaysMin ||
@@ -67,7 +68,7 @@ public partial class ProdRegisterView : Window
             if (oldProductId is not null)
             {
                 newproduct.Id = oldProductId.Id;
-                StorageController.UpdateStorage(newproduct);
+                StorageController.UpdateStorage(newproduct, SupplyAutoCompleteBox.Text);
                 
                 // Mudar para popUp Personalizado.
                 Dispatcher.UIThread.Post(async () =>
@@ -87,8 +88,7 @@ public partial class ProdRegisterView : Window
                 });
                 return;
             }
-            else
-                StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
+            StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
             
             // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
             Dispatcher.UIThread.Post(async () =>

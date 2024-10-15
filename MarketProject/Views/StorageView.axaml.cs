@@ -24,8 +24,6 @@ namespace MarketProject.Views;
 
 public partial class StorageView : UserControl
 { 
-    public delegate void ProductChangedDelegate(Product product);
-    public event ProductChangedDelegate ProductChanged;
     private StorageViewModel _vm => DataContext as StorageViewModel;
     
     public StorageView()
@@ -43,7 +41,16 @@ public partial class StorageView : UserControl
                 ProductsDataGrid.ItemsSource = (sender as ObservableCollection<Product>)!
                     .Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex));
             }, DispatcherPriority.Background);
-        }; 
+        };
+        Database.SupplyList.CollectionChanged += (_, _) =>
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                ProductsDataGrid.ClearValue(DataGrid.ItemsSourceProperty);
+                ProductsDataGrid.ItemsSource = Database.ProductsList
+                    .Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex));
+            }, DispatcherPriority.Background);
+        };
     }
     
     private async void RegisterProductButton(object sender, RoutedEventArgs e)
@@ -102,17 +109,19 @@ public partial class StorageView : UserControl
         };
         try
         {
-            var supplyName = SupplyController.GetSupplyNameByProduct(selectedProducts);
-            
+
             editProduct.GtinTextBox.Text = selectedProducts.Gtin.ToString();
+            editProduct.GtinTextBox.IsEnabled = false;
+            
             editProduct.NameTextBox.Text = selectedProducts.Name;
             editProduct.DescriptionTextBox.Text = selectedProducts.Description;
-            editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("f2", new CultureInfo("pt-BR"));
+            
+            editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("f2").PadLeft(6, '_');
             
             var item = editProduct.UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);
             editProduct.UnitComboBox.SelectedIndex = editProduct.UnitComboBox.Items.IndexOf(item);
-            
-            editProduct.SupplyAutoCompleteBox.Text = supplyName;
+
+            editProduct.SupplyContent.IsVisible = false;
             editProduct.QuantityTextBox.Text = selectedProducts.Total.ToString();
             
             editProduct.MinMaxView.MinTextBox.Text = selectedProducts.Weekdays.Min.ToString();

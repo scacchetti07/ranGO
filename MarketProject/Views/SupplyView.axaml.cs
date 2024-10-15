@@ -36,7 +36,15 @@ public partial class SupplyView : UserControl
                 SupplyDataGrid.ItemsSource = (sender as ObservableCollection<Supply>)!
                     .Select(SupplyViewModel.SuppliesToDataGrid);
             }, DispatcherPriority.Background);
-        }; 
+        };
+        Database.ProductsList.CollectionChanged += (_, _) =>
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                SupplyDataGrid.ItemsSource = new List<SupplyDataGrid>();
+                SupplyDataGrid.ItemsSource = Database.SupplyList.Select(SupplyViewModel.SuppliesToDataGrid);
+            }, DispatcherPriority.Background);
+        };
     }
 
     private async void AddSupply_OnClick(object sender, RoutedEventArgs e)
@@ -81,6 +89,7 @@ public partial class SupplyView : UserControl
     {
         var supplies = SupplyDataGrid.SelectedItems.Cast<SupplyDataGrid>().FirstOrDefault();
         var selectedSupply = Supplyctrl.FindSupply(supplies.Cnpj);
+        if (selectedSupply is null) return;
         
         SupplyAddView editSupply = new()
         {
