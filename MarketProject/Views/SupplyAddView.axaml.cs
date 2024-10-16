@@ -31,6 +31,8 @@ public partial class SupplyAddView : Window
     
     public List<Product> AutoCompleteSelectedProducts { get; } = [];
     
+    private SupplyAddViewModel _vm => DataContext as SupplyAddViewModel;
+    
     public SupplyAddView()
     {
         InitializeComponent();
@@ -239,19 +241,56 @@ public partial class SupplyAddView : Window
     }
 
 
-    private async void CepMaskedTextBox_OnTextChanging(object sender, TextChangedEventArgs e)
+    private async void CepMaskedTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
     {
         var keyword = CepMaskedTextBox.Text;
-        keyword?.Replace("_", "");
+
+        if (keyword.Contains('_')) return;
         
-        try
+        Console.WriteLine(keyword);
+        var cepContent = await Supply.ValidarCEP(keyword);
+
+        switch (cepContent)
         {
-            var cepContent = await Supply.ValidarCEP(keyword);
-            AddressTextBox.Text = $"{cepContent.logradouro} - {cepContent.localidade}";
+            case false:
+                return;
+            case null:
+                AddressTextBox.Text = string.Empty;
+                break;
         }
-        catch (Exception ex)
-        {
-            return;
-        }
+
+        AddressTextBox.Text = $"{cepContent.logradouro} - {cepContent.localidade}";
+    }
+
+    private async void CnpjMaskedTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+    //     var keyword = CnpjMaskedTextBox.Text;
+    //     if (keyword.Contains('_')) return;
+    //     try
+    //     {
+    //         var cnpjContent = await Supply.ConsultaCNPJ(keyword);
+    //         switch (cnpjContent)
+    //         {
+    //             case false:
+    //                 return;
+    //             case null:
+    //                 AddressTextBox.Text = string.Empty;
+    //                 NameTextBox.Text = string.Empty;
+    //                 CepMaskedTextBox.Text = string.Empty;
+    //                 EmailTextBox.Text = string.Empty;
+    //                 PhoneMaskedTextBox.Text = string.Empty;
+    //                 break;
+    //         }
+    //
+    //         NameTextBox.Text = cnpjContent?.nome;
+    //         CepMaskedTextBox.Text = cnpjContent.cep;
+    //         AddressTextBox.Text = $"{cnpjContent.logradouro} - {cnpjContent.uf}";
+    //         PhoneMaskedTextBox.Text = cnpjContent.telefone;
+    //         EmailTextBox.Text = cnpjContent.email;
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         SupplyAdded.Invoke(null);
+    //     }
     }
 }

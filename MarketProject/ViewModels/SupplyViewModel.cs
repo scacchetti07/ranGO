@@ -11,7 +11,7 @@ public class SupplyViewModel : ViewModelBase
     {
         List<Product> supplyProducts = StorageController.FindProductsFromSupply(supply);
         var products = supplyProducts.Any()
-            ? supplyProducts.Select(p => p.Name).Aggregate((sum, current) => sum + ", " + current)
+            ? supplyProducts.Take(2).Select(p => p.Name).Aggregate((sum, current) => sum + ", " + current)+"..."
             : string.Empty;
         
         return new SupplyDataGrid(supply.Cnpj, supply.Name, supply.Phone, supply.Cep,

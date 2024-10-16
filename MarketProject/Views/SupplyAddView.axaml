@@ -10,63 +10,67 @@
         FontFamily="{StaticResource FilsonPro}"
         Width="1142"
         Height="564">
-    
+
+
     <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto" Margin="50 27">
-        <TextBlock Text="Cadastro de Fornecedores" FontWeight="Medium" FontSize="30"/>
+        <TextBlock Text="Cadastro de Fornecedores" FontWeight="Bold" FontSize="30" />
         <Button Grid.Column="1" Classes="ReturnButton" Margin="0" Padding="0" Click="ReturnButton_OnClick">
             <StackPanel Classes="ReturnButtonStackPanel">
-                <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}"/>
-                <Label Content="Retornar"/>
+                <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
+                <Label Content="Retornar" />
             </StackPanel>
         </Button>
         <StackPanel Grid.Row="1" Classes="ProductRegisterStyle">
-           <!-- Name Text -->
-           <Label Content="Nome: *" Margin="-2 15 0 0"/>
-           <TextBox Width="443" Name="NameTextBox"/>
-           
-           <!-- CNPJ MaskText -->
-           <Label Content="CNPJ: "/>
-           <MaskedTextBox Width="265" Mask="00.000.000/0000-00" OpacityMask="Gray" Name="CnpjMaskedTextBox"/>
-           
-           <!-- Products AutoText -->
-           <Label Content="Produtos Fornecidos: *"/>
-           <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox" HorizontalAlignment="Left" 
-                            TextChanged="ProductsAutoCompleteBox_OnTextChanged" KeyDown="ProductsAutoCompleteBox_OnKeyDown"/>
-           <WrapPanel Name="TagContentStackPanel" MaxWidth="500" Orientation="Horizontal" HorizontalAlignment="Left"/>
-           
-           <Grid ColumnDefinitions="Auto, Auto">
-               <!-- Data AutoText -->
-               <StackPanel>
-                    <Label Content="Prazo: *"/>
-                    <TextBox Width="177" Name="DateLimitTextBox" Watermark="0 dias" MaxLength="2"/>
-               </StackPanel>
-               
-               <!-- CEP AutoText -->
-               <StackPanel Grid.Column="1" Margin="69 0 0 0">
-                   <Label Content="CEP: *"/>
-                   <MaskedTextBox Width="197" Mask="00000-000" Name="CepMaskedTextBox" TextChanged="CepMaskedTextBox_OnTextChanging"/>
-               </StackPanel>
-           </Grid>
-       </StackPanel>
-       
-       <StackPanel Grid.Column="1" Grid.Row="1" Classes="ProductRegisterStyle" Margin="134 0 0 0">
-           <!-- Address Text -->
-           <Label Content="Endereço: *" Margin="-2 15 0 0"/>
-           <TextBox Width="443" Name="AddressTextBox"/>
-           
-           <!-- Phone MaskText -->
-           <Label Content="Telefone: *" Margin="-2 15 0 0"/>
-           <MaskedTextBox Width="265" Mask="(00) 00000-0000" Name="PhoneMaskedTextBox"/>
-           
-           <!-- Email Text -->
-           <Label Content="Email: " Margin="-2 15 0 0"/>
-           <TextBox Width="443" Watermark="emailfornecedor@email.com" Name="EmailTextBox"/>
-           
-           <!-- Buttons Add and clean -->
-           <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left">
-               <Button Content="Adicionar" Name="AddButton" Background="#3374B9" Click="AddSupplyButton_OnClick"/>
-               <Button Content="Limpar" Background="#D87249" Click="CleanText_OnClick"/>
-           </StackPanel>
-       </StackPanel>
+            <!-- CNPJ MaskText -->
+            <Label Content="CNPJ: " Margin="-2 15 0 0"/>
+            <MaskedTextBox Width="265" Mask="00.000.000/0000-00" OpacityMask="Gray" Name="CnpjMaskedTextBox" TextChanged="CnpjMaskedTextBox_OnTextChanged"/>
+            
+            <!-- Name Text -->
+            <Label Content="Nome: "/>
+            <TextBox Width="443" Name="NameTextBox" />
+
+            <!-- Products AutoText -->
+            <Label Content="Produtos Fornecidos: *" />
+            <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox"
+                             HorizontalAlignment="Left"
+                             TextChanged="ProductsAutoCompleteBox_OnTextChanged"
+                             KeyDown="ProductsAutoCompleteBox_OnKeyDown" />
+            <WrapPanel Name="TagContentStackPanel" MaxWidth="500" Orientation="Horizontal" HorizontalAlignment="Left" />
+
+            <Grid ColumnDefinitions="Auto, Auto">
+                <!-- Data AutoText -->
+                <StackPanel>
+                    <Label Content="Prazo:" />
+                    <TextBox Width="177" Name="DateLimitTextBox" Watermark="0 dias" MaxLength="2" />
+                </StackPanel>
+
+                <!-- CEP AutoText -->
+                <StackPanel Grid.Column="1" Margin="69 0 0 0">
+                    <Label Content="CEP:" />
+                    <MaskedTextBox Width="197" Mask="00000-000" Name="CepMaskedTextBox"
+                                   TextChanged="CepMaskedTextBox_OnTextChanged" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Classes="ProductRegisterStyle" Margin="134 0 0 0">
+            <!-- Address Text -->
+            <Label Content="Endereço: *" Margin="-2 15 0 0" />
+            <TextBox Width="443" Name="AddressTextBox" />
+
+            <!-- Phone MaskText -->
+            <Label Content="Telefone:" Margin="-2 15 0 0" />
+            <MaskedTextBox Width="265" Mask="(00) 00000-0000" Name="PhoneMaskedTextBox" />
+
+            <!-- Email Text -->
+            <Label Content="Email:" Margin="-2 15 0 0" />
+            <TextBox Width="443" Watermark="emailfornecedor@email.com" Name="EmailTextBox" />
+
+            <!-- Buttons Add and clean -->
+            <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left">
+                <Button Content="Adicionar" Name="AddButton" Background="#3374B9" Click="AddSupplyButton_OnClick" />
+                <Button Content="Limpar" Background="#D87249" Click="CleanText_OnClick" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

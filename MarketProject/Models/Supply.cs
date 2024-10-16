@@ -1,12 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MarketProject.ViewModels;
+using MarketProject.Views;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Reflection;
+using ReactiveUI;
 
 namespace MarketProject.Models;
 
@@ -48,17 +56,57 @@ public class Supply
         using HttpClient client = new HttpClient();
             var response = await client.GetAsync(url).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
-                throw new Exception("CEP Inválido");
+                return false;
                 
-            var conteudo = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var jsonDefinition = new
             {
-                cep = "",
                 logradouro = "",
                 localidade = ""
             };
-            var json = JsonConvert.DeserializeAnonymousType(conteudo, jsonDefinition);
-            // Verifica se o conteúdo contém a chave "erro", que indica que o CEP não foi encontrado
+            var json = JsonConvert.DeserializeAnonymousType(content, jsonDefinition);
             return json;
+    }
+
+    public static async Task<dynamic> ConsultaCNPJ(string cnpj)
+    {
+        // Corrigir API
+        var newCnpj = cnpj.Replace("-", "").Replace("/", "").Replace(".", "");
+        
+        var client = new HttpClient();
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Get,
+            RequestUri = new Uri("https://receitaws.com.br/v1/cnpj/{newCnpj}"),
+            Headers =
+            {
+                { "Accept", "application/json" },
+            },
+        };
+        using var response = await client.SendAsync(request);
+        
+        if (response.StatusCode == (HttpStatusCode)429)
+            throw new Exception("Muitas pesquisas foram realizadas. Tente novamente em alguns minutos...");
+        
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            var jsonDefinition = new
+            {
+                nome = "",
+                logradouro = "",
+                uf = "",
+                cep = "",
+                email = "",
+                telefone = ""
+            };
+            return JsonConvert.DeserializeAnonymousType(content, jsonDefinition);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        return false;
     }
 }
