@@ -11,68 +11,103 @@
              Height="1026"
              FontFamily="{StaticResource FilsonPro}">
     <UserControl.DataContext>
-        <vm:SupplyViewModel/>
+        <vm:SupplyViewModel />
     </UserControl.DataContext>
-    <StackPanel Classes="SupplyView">
-        <DockPanel>
-            <Panel Classes="SearchTextBox">
-                    <TextBox Watermark="Procure por CNPJ ou Nome do fornecedor..." MaxLength="20" Name="SearchTextBox" TextChanged="SearchTextBox_OnTextChanged" />
-                <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}"/>
-            </Panel>
-            
-            <StackPanel Orientation="Horizontal" Spacing="20" Name="ButtonOptions" Classes="ButtonOptions">
-                <Button Click="EditSupply_OnClick">
-                    <Svg Path="/Assets/Icons/SVG/IconEdit.svg" Width="30" Height="30"/>
-                </Button>
-                <Button Click="DeleteSupply_OnClick">
-                    <Svg Path="/Assets/Icons/SVG/IconDelete.svg" Width="30" Height="30"/>
-                </Button>
-            </StackPanel>
-            
-            <Button Classes="AddSupplyButton" Click="AddSupply_OnClick">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="{SvgImage /Assets/Icons/SVG/IconAddSupply.svg}" Width="26" Height="29"/>
-                    <TextBlock Text="Cadastrar Fornecedor"/>
+    <Grid>
+        <StackPanel Classes="SupplyView">
+            <DockPanel>
+                <Panel Classes="SearchTextBox">
+                    <TextBox Watermark="Procure por CNPJ ou Nome do fornecedor..." MaxLength="20" Name="SearchTextBox"
+                             TextChanged="SearchTextBox_OnTextChanged" />
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}" />
+                </Panel>
+
+                <StackPanel Orientation="Horizontal" Spacing="20" Name="ButtonOptions" Classes="ButtonOptions">
+                    <Button Click="EditSupply_OnClick">
+                        <Svg Path="/Assets/Icons/SVG/IconEdit.svg" Width="30" Height="30" />
+                    </Button>
+                    <Button Click="DeleteSupply_OnClick">
+                        <Svg Path="/Assets/Icons/SVG/IconDelete.svg" Width="30" Height="30" />
+                    </Button>
                 </StackPanel>
-            </Button>
-        </DockPanel>
-        <DataGrid ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  x:CompileBindings="False"
-                  Classes="ItensTableDataGrid"
-                  VerticalScrollBarVisibility="Visible"
-                  IsReadOnly="True"
-                  IsScrollInertiaEnabled="True"
-                  Name="SupplyDataGrid"
-                  GridLinesVisibility="Horizontal">
-            <DataGrid.Styles>
-                <Style Selector="DataGridColumnHeader">
-                    <Setter Property="Background" Value="#3374B9"/>
-                    <Setter Property="Foreground" Value="#FFF"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="FontSize" Value="20"/>
-                    <Setter Property="Height" Value="40"/>
-                    <Setter Property="Margin" Value="0 0 0 10"/>
-                </Style>
-                <Style Selector="DataGridColumnHeader:nth-child(1)">
-                    <Setter Property="CornerRadius" Value="10 0 0 10"/>
-                </Style>
-                <Style Selector="DataGridColumnHeader:nth-child(6)">
-                    <Setter Property="CornerRadius" Value="0 10 10 00"/>
-                </Style>
-            </DataGrid.Styles>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="CNPJ"  Width="*" Binding="{Binding Cnpj}"/>
-                <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Telefone" Width="*" Binding="{Binding Phone}"/>
-                <DataGridTextColumn Header="CEP" Width="*" Binding="{Binding Cep}"/>
-                <DataGridTextColumn Header="Produtos" Width="*" Binding="{Binding Products}"/>
-                <DataGridTextColumn Header="Prazo" Width="*" Binding="{Binding Date}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <controls:AnimatedPopup x:Name="EditPopup"
-                                PlacementMode="Right"
+
+                <Button Classes="AddSupplyButton" Click="AddSupply_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{SvgImage /Assets/Icons/SVG/IconAddSupply.svg}" Width="26" Height="29" />
+                        <TextBlock Text="Cadastrar Fornecedor" />
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+            <DataGrid ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      x:CompileBindings="False"
+                      Classes="ItensTableDataGrid"
+                      VerticalScrollBarVisibility="Visible"
+                      IsReadOnly="True"
+                      IsScrollInertiaEnabled="True"
+                      Name="SupplyDataGrid"
+                      GridLinesVisibility="Horizontal">
+                <DataGrid.Styles>
+                    <Style Selector="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#3374B9" />
+                        <Setter Property="Foreground" Value="#FFF" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="Height" Value="40" />
+                        <Setter Property="Margin" Value="0 0 0 10" />
+                    </Style>
+                    <Style Selector="DataGridColumnHeader:nth-child(1)">
+                        <Setter Property="CornerRadius" Value="10 0 0 10" />
+                    </Style>
+                    <Style Selector="DataGridColumnHeader:nth-child(6)">
+                        <Setter Property="CornerRadius" Value="0 10 10 00" />
+                    </Style>
+                </DataGrid.Styles>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="CNPJ" Width="*" Binding="{Binding Cnpj}" />
+                    <DataGridTextColumn Header="Nome" Width="*" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Telefone" Width="*" Binding="{Binding Phone}" />
+                    <DataGridTextColumn Header="CEP" Width="*" Binding="{Binding Cep}" />
+                    <DataGridTextColumn Header="Produtos" Width="*" Binding="{Binding Products}" />
+                    <DataGridTextColumn Header="Prazo" Width="*" Binding="{Binding Date}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <controls:AnimatedPopup x:Name="AddPopup"
+                                PlacementMode="Absolute"
+                                HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
-                                HorizontalAlignment="Right">
+                                Margin="10"
+                                CloseAfter="0:0:0:4">
+            <controls:AnimatedPopup.Child>
+                <Border Background="#6EA759" Classes="PopUpLayout">
+                    <Grid RowDefinitions="Auto, Auto">
+                        <StackPanel>
+                            <Svg Path="/Assets/Icons/SVG/IconCheck.svg" />
+                            <Label Name="AddProdLabel" />
+                        </StackPanel>
+                        <TextBlock Grid.Row="1" Name="ContentAddTextBlock" />
+                    </Grid>
+                </Border>
+            </controls:AnimatedPopup.Child>
         </controls:AnimatedPopup>
-    </StackPanel>
+        
+        <controls:AnimatedPopup x:Name="DeletePopup"
+                                PlacementMode="Absolute"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Margin="10"
+                                CloseAfter="0:0:0:4">
+            <controls:AnimatedPopup.Child>
+                <Border Background="#D87249" Classes="PopUpLayout">
+                    <Grid RowDefinitions="Auto, Auto">
+                        <StackPanel>
+                            <Svg Path="/Assets/Icons/SVG/IconRemove.svg"/>
+                            <Label Name="DeleteProdLabel" />
+                        </StackPanel>
+                        <TextBlock Grid.Row="1" Name="ContentDeleteTextBlock" />
+                    </Grid>
+                </Border>
+            </controls:AnimatedPopup.Child>
+        </controls:AnimatedPopup>
+    </Grid>
 </UserControl>

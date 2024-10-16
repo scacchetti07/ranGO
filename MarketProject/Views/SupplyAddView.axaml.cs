@@ -26,6 +26,9 @@ namespace MarketProject.Views;
 
 public partial class SupplyAddView : Window
 { 
+    public delegate void SupplyAddedDelegate(Supply? supply);
+    public event SupplyAddedDelegate? SupplyAdded;
+    
     public List<Product> AutoCompleteSelectedProducts { get; } = [];
     
     public SupplyAddView()
@@ -109,27 +112,7 @@ public partial class SupplyAddView : Window
         }
 
         // Trocar por uma "Data Validation" na text box quando digitado.
-        try
-        {
-            var cepContent = await Supply.ValidarCEP(CepMaskedTextBox.Text);
-            AddressTextBox.Text = $"{cepContent.logradouro} - {cepContent.localidade}";
-        }
-        catch (Exception ex)
-        {
-            var cepMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-            {
-                ContentHeader = ex.Message,
-                ContentMessage = $"O CEP \"{CepMaskedTextBox.Text}\" digitado não existe. \nDigite outro que seja válido.",
-                ButtonDefinitions = ButtonEnum.Ok, 
-                Icon = MsBox.Avalonia.Enums.Icon.Warning,
-                ShowInCenter = true,
-                SizeToContent = SizeToContent.WidthAndHeight,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                SystemDecorations = SystemDecorations.BorderOnly
-            });
-           await cepMsgBox.ShowAsync().ConfigureAwait(false);
-           return;
-        }
+        
         
         Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit, 
             CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
@@ -139,45 +122,15 @@ public partial class SupplyAddView : Window
         {
             newSupply.Id = oldsupply.Id;
             SupplyCtrl.UpdateSupply(newSupply);
-            
-            // Mudar para popUp Personalizado.
-            Dispatcher.UIThread.Post(async () =>
-            {
-                var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-                {
-                    ContentHeader = "Fornecedor foi Editado!!",
-                    ContentMessage = $"Os dados do fornecedor \"{newSupply.Name}\" foram modificados!",
-                    ButtonDefinitions = ButtonEnum.Ok,
-                    Icon = MsBox.Avalonia.Enums.Icon.Success,
-                    CanResize = false,
-                    ShowInCenter = true,
-                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                    SystemDecorations = SystemDecorations.BorderOnly
-                });
-                await msgbox.ShowAsync();
-            });
+            SupplyAdded?.Invoke(newSupply);
             return;
         }
         
         SupplyCtrl.AddNewSupply(newSupply);
-        
-        Dispatcher.UIThread.Post(async () =>
-        {
-            var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-            {
-                ContentHeader = "Novo Fornecedor Adicionado!",
-                ContentMessage = $"O fornecedor \"{newSupply.Name}\" foi adicionado ao sistema!",
-                ButtonDefinitions = ButtonEnum.Ok,
-                Icon = MsBox.Avalonia.Enums.Icon.Success,
-                CanResize = false,
-                ShowInCenter = true,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                SystemDecorations = SystemDecorations.BorderOnly
-            });
-            await msgbox.ShowAsync();
-            ClearTextBox(); 
-        });
-        
+        SupplyAdded?.Invoke(newSupply);
+        ClearTextBox();
+        AutoCompleteSelectedProducts.Clear();
+        TagContentStackPanel.Children.Clear();
     }
 
     private async void CleanText_OnClick(object sender, RoutedEventArgs e)
@@ -212,7 +165,6 @@ public partial class SupplyAddView : Window
         DateLimitTextBox.Text = null;
         EmailTextBox.Text = null;
         PhoneMaskedTextBox.Text = null;
-        ProductsAutoCompleteBox.Text = null;
         CepMaskedTextBox.Text = null;
     }
 
@@ -284,5 +236,22 @@ public partial class SupplyAddView : Window
             ProductsAutoCompleteBox.ItemsSource = itemSource;
         };
         return border;
+    }
+
+
+    private async void CepMaskedTextBox_OnTextChanging(object sender, TextChangedEventArgs e)
+    {
+        var keyword = CepMaskedTextBox.Text;
+        keyword?.Replace("_", "");
+        
+        try
+        {
+            var cepContent = await Supply.ValidarCEP(keyword);
+            AddressTextBox.Text = $"{cepContent.logradouro} - {cepContent.localidade}";
+        }
+        catch (Exception ex)
+        {
+            return;
+        }
     }
 }

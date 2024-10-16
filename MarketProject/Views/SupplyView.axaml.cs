@@ -37,6 +37,7 @@ public partial class SupplyView : UserControl
                     .Select(SupplyViewModel.SuppliesToDataGrid);
             }, DispatcherPriority.Background);
         };
+        
         Database.ProductsList.CollectionChanged += (_, _) =>
         {
             Dispatcher.UIThread.Post(() =>
@@ -58,6 +59,12 @@ public partial class SupplyView : UserControl
             CanResize = false,
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
+        };
+        addNewSupplyView.SupplyAdded += (supply) =>
+        {
+            AddPopup.IsOpen = true;
+            AddProdLabel.Content = "Novo Fornecedor Adicionado!";
+            ContentAddTextBlock.Text = $"O Fornecedor '{supply.Name}' foi adicionado com sucesso!";
         };
         await addNewSupplyView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
     }
@@ -81,15 +88,23 @@ public partial class SupplyView : UserControl
         });
         var result = await msgBox.ShowAsync().ConfigureAwait(false);
         if (result == ButtonResult.No) return;
-        
         Supplyctrl.DeleteSupply(selectedSupply);
+        
+        Dispatcher.UIThread.Post(() =>
+        {
+            DeletePopup.IsOpen = true;
+            DeleteProdLabel.Content = "Fornecedor Removido!";
+            ContentDeleteTextBlock.Text = $"O '{selectedSupply.Name}' foi removido do estoque com sucesso!";
+            
+        }, DispatcherPriority.Background);
+        
     }
 
     private async void EditSupply_OnClick(object sender, RoutedEventArgs e)
     {
         var supplies = SupplyDataGrid.SelectedItems.Cast<SupplyDataGrid>().FirstOrDefault();
+        if (supplies is null) return;
         var selectedSupply = Supplyctrl.FindSupply(supplies.Cnpj);
-        if (selectedSupply is null) return;
         
         SupplyAddView editSupply = new()
         {
@@ -101,44 +116,34 @@ public partial class SupplyView : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
-        try
+        editSupply.AddButton.Content = "Editar";
+        
+        List<Product> products = StorageController.FindProductsFromSupply(selectedSupply);
+        editSupply.NameTextBox.Text = selectedSupply.Name;
+        editSupply.CnpjMaskedTextBox.Text = selectedSupply.Cnpj;
+        editSupply.CnpjMaskedTextBox.IsEnabled = false;
+        foreach (var prod in products)
         {
-            List<Product> products = StorageController.FindProductsFromSupply(selectedSupply);
-            editSupply.NameTextBox.Text = selectedSupply.Name;
-            editSupply.CnpjMaskedTextBox.Text = selectedSupply.Cnpj;
-            foreach (var prod in products)
-            {
-                editSupply.AutoCompleteSelectedProducts.Add(prod);
-                editSupply.TagContentStackPanel.Children.Add(editSupply.GenereteAutoCompleteTag(prod));
-                
-                var itemSource = editSupply.ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
-                itemSource.Remove(prod.Name);
-                editSupply.ProductsAutoCompleteBox.ItemsSource = itemSource;
-            }
-            editSupply.DateLimitTextBox.Text = selectedSupply.DayLimit.ToString();
-            editSupply.CepMaskedTextBox.Text = selectedSupply.Cep;
-            editSupply.AddressTextBox.Text = selectedSupply.Adress;
-            editSupply.EmailTextBox.Text = selectedSupply.Email;
-            editSupply.PhoneMaskedTextBox.Text = selectedSupply.Phone;
+            editSupply.AutoCompleteSelectedProducts.Add(prod);
+            editSupply.TagContentStackPanel.Children.Add(editSupply.GenereteAutoCompleteTag(prod));
             
-            await editSupply.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
+            var itemSource = editSupply.ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+            itemSource.Remove(prod.Name);
+            editSupply.ProductsAutoCompleteBox.ItemsSource = itemSource;
         }
-        catch (NullReferenceException)
+        editSupply.DateLimitTextBox.Text = selectedSupply.DayLimit.ToString();
+        editSupply.CepMaskedTextBox.Text = selectedSupply.Cep;
+        editSupply.AddressTextBox.Text = selectedSupply.Adress;
+        editSupply.EmailTextBox.Text = selectedSupply.Email;
+        editSupply.PhoneMaskedTextBox.Text = selectedSupply.Phone;
+
+        editSupply.SupplyAdded += (supply) =>
         {
-            var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-            {
-                ContentHeader = "Produto não selecionado ou inválido!",
-                ContentMessage = "Tente selecionar algum produto novamente.",
-                ButtonDefinitions = ButtonEnum.Ok,
-                Icon = Icon.Warning,
-                CanResize = false,
-                ShowInCenter = true,
-                SizeToContent = SizeToContent.WidthAndHeight,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                SystemDecorations = SystemDecorations.BorderOnly
-            });
-            await msgBox.ShowAsync().ConfigureAwait(false);  
-        }
+            AddPopup.IsOpen = true;
+            AddProdLabel.Content = "Fornecedor Editado!";
+            ContentAddTextBlock.Text = $"O Fornecedor '{supply.Name}' foi editado com sucesso!";
+        };
+        await editSupply.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
     }
 
     private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)

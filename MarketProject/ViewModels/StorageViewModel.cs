@@ -38,7 +38,7 @@ public class StorageViewModel : ReactiveObject
         }
 
         string supplyName = SupplyController.GetSupplyNameByProduct(prod);
-        ProductWasAdded = true;    
+        ProductWasAdded = true;
         
         return new ProductDataGrid(prod.Gtin, prod.Name, prod.Total, supplyName, min, max);
     }

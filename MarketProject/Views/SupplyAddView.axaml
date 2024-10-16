@@ -44,8 +44,7 @@
                <!-- CEP AutoText -->
                <StackPanel Grid.Column="1" Margin="69 0 0 0">
                    <Label Content="CEP: *"/>
-                   <MaskedTextBox Width="197" Mask="00000-000" Name="CepMaskedTextBox"/>
-
+                   <MaskedTextBox Width="197" Mask="00000-000" Name="CepMaskedTextBox" TextChanged="CepMaskedTextBox_OnTextChanging"/>
                </StackPanel>
            </Grid>
        </StackPanel>
@@ -65,7 +64,7 @@
            
            <!-- Buttons Add and clean -->
            <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left">
-               <Button Content="Adicionar" Background="#3374B9" Click="AddSupplyButton_OnClick"/>
+               <Button Content="Adicionar" Name="AddButton" Background="#3374B9" Click="AddSupplyButton_OnClick"/>
                <Button Content="Limpar" Background="#D87249" Click="CleanText_OnClick"/>
            </StackPanel>
        </StackPanel>

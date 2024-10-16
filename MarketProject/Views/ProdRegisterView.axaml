@@ -38,7 +38,7 @@
                 </StackPanel>
                 <StackPanel Name="SupplyContent">
                     <Label Content="Fornecedor: *"/>
-                    <AutoCompleteBox x:Name="SupplyAutoCompleteBox" FilterMode="StartsWith" Watermark="Selecione alguns fornecedores"/>
+                    <AutoCompleteBox x:Name="SupplyAutoCompleteBox" FilterMode="Contains" Watermark="Selecione alguns fornecedores" IsDropDownOpen="True"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
@@ -85,7 +85,7 @@
                 </StackPanel>
                 
                    <StackPanel Classes="ProductRegisterButtons" Margin="0 67 0 0">
-                       <Button Content="Adicionar" Background="#3374B9" Click="AddProductButton"/>
+                       <Button Name="AddButton" Content="Adicionar" Background="#3374B9" Click="AddProductButton"/>
                        <Button Content="Limpar" Background="#D87249" Click="CleanTextBoxButton"/>
                    </StackPanel>
             </StackPanel>

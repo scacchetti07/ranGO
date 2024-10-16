@@ -30,7 +30,7 @@
             </StackPanel>
             <StackPanel>
                 <Button Background="#3374B9" Content="Editar" Click="EditOrder_OnClick"/>
-                <Button Classes="StatusOrderButton" Click="PreparingOrder_OnClick" Background="#D87249" ToolTip.Tip="Preparando pedido">
+                <Button Classes="StatusOrderButton" Click="PreparingOrder_OnClick" Background="#9f7a23" ToolTip.Tip="Preparando pedido">
                     <Svg Path="/Assets/Icons/SVG/IconCooking.svg"/>
                 </Button>
                 <Button Classes="StatusOrderButton" Click="CheckOrder_OnClick" ToolTip.Tip="Concluir pedido">

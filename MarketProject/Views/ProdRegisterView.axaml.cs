@@ -69,47 +69,15 @@ public partial class ProdRegisterView : Window
             {
                 newproduct.Id = oldProductId.Id;
                 StorageController.UpdateStorage(newproduct, SupplyAutoCompleteBox.Text);
-                
-                // Mudar para popUp Personalizado.
-                Dispatcher.UIThread.Post(async () =>
-                {
-                    var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-                    {
-                        ContentHeader = "Dados do produto foram Editado!!",
-                        ContentMessage = $"Os dados do produto \"{newproduct.Name}\" foram modificados!",
-                        ButtonDefinitions = ButtonEnum.Ok,
-                        Icon = MsBox.Avalonia.Enums.Icon.Success,
-                        CanResize = false,
-                        ShowInCenter = true,
-                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                        SystemDecorations = SystemDecorations.BorderOnly
-                    });
-                    await msgbox.ShowAsync();
-                });
+                ProductAdded?.Invoke(newproduct);
                 return;
             }
             StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
-            
-            // Alterar msgBox por uma notificação na cor verde indicando que o produto foi adicionado ao estoque.
-            Dispatcher.UIThread.Post(async () =>
-            {
-                var msgbox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-                {
-                    ContentHeader = "Novo Produto Adicionado!",
-                    ContentMessage = $"O Produto \"{newproduct.Name}\" foi adicionado ao sistema!",
-                    ButtonDefinitions = ButtonEnum.Ok,
-                    Icon = MsBox.Avalonia.Enums.Icon.Success,
-                    CanResize = false,
-                    ShowInCenter = true,
-                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                    SystemDecorations = SystemDecorations.BorderOnly
-                });
-                await msgbox.ShowAsync();
-                ClearTextBox(); 
-            });
+            ProductAdded?.Invoke(newproduct);
         }
         catch (MaxMinException)
         {
+            // Adicionar Data Validation
             var errorMinMaxMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
                 ContentHeader = "Erro: Número máximo do estoque é inferiro ao mínimo.",

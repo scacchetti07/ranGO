@@ -65,7 +65,13 @@ public partial class StorageView : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
-       await RegisProdView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
+        RegisProdView.ProductAdded += (product) =>
+        {
+            AddPopup.IsOpen = true;
+            AddProdLabel.Content = "Novo Produto Adicionado!";
+            ContentAddTextBlock.Text = $"Produto '{product.Name}' foi adicionado com sucesso!";
+        };
+        await RegisProdView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 
     private void ChangeMinMaxTable_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -88,7 +94,14 @@ public partial class StorageView : UserControl
             CanResize = false,
             ShowInTaskbar = false,
         };
-        await removeProductView.ShowDialog((Window)this.Parent!.Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
+        removeProductView.ProductDeleted += (product) =>
+        {
+            DeletePopup.IsOpen = true;
+            IconDeleteProd.Path = "/Assets/Icons/SVG/IconDeleteTotal.svg";
+            DeleteProdLabel.Content = "Total do produto quitado!";
+            ContentDeleteTextBlock.Text = $"O total do '{product.Name}' foi atualizado no sistema.";
+        };
+        await removeProductView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
     }
 
     private async void EditButton_OnClick(object sender, RoutedEventArgs e)
@@ -107,50 +120,41 @@ public partial class StorageView : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
-        try
-        {
+        editProduct.AddButton.Content = "Editar";
+        
+        var supplyName = SupplyController.GetSupplyNameByProduct(selectedProducts);
+        
+        editProduct.GtinTextBox.Text = selectedProducts.Gtin.ToString();
+        editProduct.GtinTextBox.IsEnabled = false;
+        
+        editProduct.NameTextBox.Text = selectedProducts.Name;
+        editProduct.DescriptionTextBox.Text = selectedProducts.Description;
+        
+        editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("f2").PadLeft(6, '_');
+        
+        var item = editProduct.UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);
+        editProduct.UnitComboBox.SelectedIndex = editProduct.UnitComboBox.Items.IndexOf(item);
+        
+        editProduct.SupplyAutoCompleteBox.Text = supplyName;
+        editProduct.SupplyContent.IsEnabled = false;
+        editProduct.QuantityTextBox.Text = selectedProducts.Total.ToString();
+        
+        editProduct.MinMaxView.MinTextBox.Text = selectedProducts.Weekdays.Min.ToString();
+        editProduct.MinMaxViewModel.WeekdaysMin = selectedProducts.Weekdays.Min;
+        editProduct.MinMaxView.MaxTextBox.Text = selectedProducts.Weekdays.Max.ToString();
+        editProduct.MinMaxViewModel.WeekdaysMax = selectedProducts.Weekdays.Max;
+        editProduct.MinMaxViewModel.EventsMin = selectedProducts.Events.Min;
+        editProduct.MinMaxViewModel.EventsMax = selectedProducts.Events.Max;
+        editProduct.MinMaxViewModel.WeekendsMin = selectedProducts.Weekends.Min;
+        editProduct.MinMaxViewModel.WeekendsMax = selectedProducts.Weekends.Max;
 
-            editProduct.GtinTextBox.Text = selectedProducts.Gtin.ToString();
-            editProduct.GtinTextBox.IsEnabled = false;
-            
-            editProduct.NameTextBox.Text = selectedProducts.Name;
-            editProduct.DescriptionTextBox.Text = selectedProducts.Description;
-            
-            editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("f2").PadLeft(6, '_');
-            
-            var item = editProduct.UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);
-            editProduct.UnitComboBox.SelectedIndex = editProduct.UnitComboBox.Items.IndexOf(item);
-
-            editProduct.SupplyContent.IsVisible = false;
-            editProduct.QuantityTextBox.Text = selectedProducts.Total.ToString();
-            
-            editProduct.MinMaxView.MinTextBox.Text = selectedProducts.Weekdays.Min.ToString();
-            editProduct.MinMaxViewModel.WeekdaysMin = selectedProducts.Weekdays.Min;
-            editProduct.MinMaxView.MaxTextBox.Text = selectedProducts.Weekdays.Max.ToString();
-            editProduct.MinMaxViewModel.WeekdaysMax = selectedProducts.Weekdays.Max;
-            editProduct.MinMaxViewModel.EventsMin = selectedProducts.Events.Min;
-            editProduct.MinMaxViewModel.EventsMax = selectedProducts.Events.Max;
-            editProduct.MinMaxViewModel.WeekendsMin = selectedProducts.Weekends.Min;
-            editProduct.MinMaxViewModel.WeekendsMax = selectedProducts.Weekends.Max;
-            
-            await editProduct.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
-        }
-        catch (NullReferenceException)
+        editProduct.ProductAdded += (product) =>
         {
-            var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-            {
-                ContentHeader = "Produto não selecionado ou inválidao!",
-                ContentMessage = "Tente selecionar o produto novamente.",
-                ButtonDefinitions = ButtonEnum.Ok,
-                Icon = Icon.Warning,
-                CanResize = false,
-                ShowInCenter = true,
-                SizeToContent = SizeToContent.WidthAndHeight,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                SystemDecorations = SystemDecorations.BorderOnly
-            });
-            await msgBox.ShowAsync().ConfigureAwait(false);  
-        }
+            AddPopup.IsOpen = true;
+            AddProdLabel.Content = "Produto Editado!";
+            ContentAddTextBlock.Text = $"O Produto '{product.Name}' foi editado com sucesso!";
+        };
+        await editProduct.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
         
     }
 
@@ -174,8 +178,17 @@ public partial class StorageView : UserControl
         });
         var result = await msgBox.ShowAsync().ConfigureAwait(false);
         if (result == ButtonResult.No) return;
-        
         StorageCtrl.DeleteProduct(selectedProducts);
+        
+        Dispatcher.UIThread.Post(() =>
+        {
+            DeletePopup.IsOpen = true;
+            IconDeleteProd.Path = "/Assets/Icons/SVG/IconRemove.svg";
+            DeleteProdLabel.Content = "Produto Removido!";
+            ContentDeleteTextBlock.Text = $"O '{product.Name}' foi removido do estoque com sucesso!";    
+            
+        },DispatcherPriority.Background);
+        
     }
 
     private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -196,10 +209,5 @@ public partial class StorageView : UserControl
             searchedList = Database.ProductsList.Where(p => p.Name.ToLower().Contains(keyword.ToLower()));
             
         ProductsDataGrid.ItemsSource = searchedList!.Select(p => StorageViewModel.ProductToDataGrid(p, (MinMaxOptions)SchedComboBox.SelectedIndex));
-    }
-
-    private void PopUpOpenTest_OnClick(object sender, RoutedEventArgs e)
-    {
-        Popup.IsOpen = true;
     }
 }

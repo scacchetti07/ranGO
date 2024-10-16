@@ -21,6 +21,8 @@ namespace MarketProject.Views;
 
 public partial class RemoveProductView : Window
 {
+    public delegate void ProductDeletedDelegate(Product? product);
+    public event ProductDeletedDelegate? ProductDeleted;
     public RemoveProductView()
     {
         InitializeComponent();
@@ -48,19 +50,8 @@ public partial class RemoveProductView : Window
             if (remove > product.Total) return;
 
             StorageCtrl.RemoveTotalProduct(product, remove);
-            
-            var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-            {
-                ContentHeader = $"Produto {product.Name} foi atualizado!",
-                ContentMessage = $"O produto {product.Name} teve seu estoque atual atualizado!",
-                ButtonDefinitions = ButtonEnum.Ok, 
-                Icon = MsBox.Avalonia.Enums.Icon.Info,
-                CanResize = false,
-                ShowInCenter = true,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                SystemDecorations = SystemDecorations.BorderOnly
-            });
-            await msgBox.ShowAsync().ConfigureAwait(false);
+            ProductDeleted?.Invoke(product);
+            ClearTextBox();
             
         }
         catch (Exception)
