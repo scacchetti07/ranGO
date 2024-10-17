@@ -5,7 +5,9 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
 using MarketProject.Controllers;
 using MarketProject.Controls;
 using MarketProject.Models;
@@ -33,6 +35,7 @@ public partial class OrderHomeView : UserControl
     {
         InitializeComponent();
         UpdateOrders();
+        toggleSelectedButton(AllOrdersButton);
         OrdersProperty.Changed.AddClassHandler<OrderHomeView>((_, _) => UpdateOrders());
     }
 
@@ -88,10 +91,12 @@ public partial class OrderHomeView : UserControl
         UpdateOrders(preparingStatusOrders);
     }
 
-    // private void ClosedOrders_OnClick(object sender, RoutedEventArgs e)
-    // {
-    //     toggleSelectedButton(sender as Button);
-    // }
+    private async void ClosedOrders_OnClick(object sender, RoutedEventArgs e)
+    {
+        toggleSelectedButton(sender as Button);
+        var preparingStatusOrders = await OrderCtrl.FindOrders(OrderStatusEnum.Closed);
+        UpdateOrders(preparingStatusOrders);
+    }
     private async void AddOrder_OnClick(object sender, RoutedEventArgs e)
     {
         ManageOrdersView manageOrdersView = new()

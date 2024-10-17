@@ -44,7 +44,7 @@ public partial class ManageOrdersView : Window
                 }, "Shake do Monstro")
 
         };
-        var newOrder = new Orders(1, "Pablo Marçal", foodList.Select(f => f.FoodName).ToList(), OrderStatusEnum.New);
-        _task.SetResult(newOrder); // O que sinaliza que o card foi adicionado.
+        var newOrder = new Orders(1, "Pedro da Silva", foodList.Select(f => f.FoodName).ToList(), OrderStatusEnum.New);
+        _task.SetResult(newOrder); // Sinaliza que o card foi adicionado.
     }
 }

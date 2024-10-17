@@ -30,10 +30,10 @@
         <StackPanel Grid.Row="1" Margin="0 40" >
             <Canvas>
                 <StackPanel Classes="OrderHomeTitles">
-                   <Button Content="Todos" Click="AllOrders_OnClick"/>
+                   <Button Content="Todos" Name="AllOrdersButton" Click="AllOrders_OnClick"/>
                    <Button Content="Novos" Click="NewOrders_OnClick"/>
                    <Button Content="Preparando" Click="PreparingOrders_OnClick"/>
-                   <!-- <Button Content="Fechados" Click="ClosedOrders_OnClick"/> -->
+                   <Button Content="Fechados" Click="ClosedOrders_OnClick"/>
                    <Label Content="0 pedidos concluídos"/>
                 </StackPanel>
                     <Border Classes="OrderDivider" Canvas.Top="38"/>

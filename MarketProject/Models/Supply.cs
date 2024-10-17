@@ -23,6 +23,7 @@ public class Supply
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public ObjectId Id { get; internal set; }
+
     public string Name { get; set; }
     public string Cnpj { get; private set; }
     public List<string> Products { get; private set; }
@@ -31,8 +32,9 @@ public class Supply
     public string? Adress { get; private set; }
     public string? Phone { get; private set; }
     public string? Email { get; private set; }
-    
-    public Supply(string name, string cnpj, List<string> products, int dayLimit, string cep, string adress, string phone,
+
+    public Supply(string name, string cnpj, List<string> products, int dayLimit, string cep, string adress,
+        string phone,
         string email)
     {
         Name = name;
@@ -44,54 +46,52 @@ public class Supply
         Phone = phone;
         Email = email;
     }
-    public Supply()
-    { }
     
     public static async Task<dynamic> ValidarCEP(string cep)
     {
         // Remove o hífen do CEP, se existir
         cep = cep.Replace("-", "");
-        
+
         string url = $"https://viacep.com.br/ws/{cep}/json/";
         using HttpClient client = new HttpClient();
-            var response = await client.GetAsync(url).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode)
-                return false;
-                
-            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var jsonDefinition = new
-            {
-                logradouro = "",
-                localidade = ""
-            };
-            var json = JsonConvert.DeserializeAnonymousType(content, jsonDefinition);
-            return json;
+        var response = await client.GetAsync(url).ConfigureAwait(false);
+        if (!response.IsSuccessStatusCode)
+            return false;
+
+        var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        var jsonDefinition = new
+        {
+            logradouro = "",
+            localidade = ""
+        };
+        var json = JsonConvert.DeserializeAnonymousType(content, jsonDefinition);
+        return json;
     }
 
     public static async Task<dynamic> ConsultaCNPJ(string cnpj)
     {
-        // Corrigir API
-        var newCnpj = cnpj.Replace("-", "").Replace("/", "").Replace(".", "");
-        
+        var newCnpj = cnpj.Replace("-", "").Replace("/", "").Replace(".", "").Replace(",", "");
         var client = new HttpClient();
         var request = new HttpRequestMessage
         {
             Method = HttpMethod.Get,
-            RequestUri = new Uri("https://receitaws.com.br/v1/cnpj/{newCnpj}"),
+            RequestUri = new Uri($"https://receitaws.com.br/v1/cnpj/{newCnpj}"),
             Headers =
             {
                 { "Accept", "application/json" },
             },
         };
         using var response = await client.SendAsync(request);
-        
         if (response.StatusCode == (HttpStatusCode)429)
             throw new Exception("Muitas pesquisas foram realizadas. Tente novamente em alguns minutos...");
-        
+
         try
         {
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
+            if (content.Contains("ERROR"))
+                throw new Exception("Não foi possível ver os dados do CNPJ informado");
+
             var jsonDefinition = new
             {
                 nome = "",
@@ -107,6 +107,7 @@ public class Supply
         {
             Console.WriteLine(e.Message);
         }
+
         return false;
     }
 }

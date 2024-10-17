@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Avalonia.Vulkan;
@@ -12,12 +15,12 @@ using MarketProject.Controllers;
 using MarketProject.Extensions;
 using MarketProject.Models;
 using StorageController = MarketProject.Controllers.StorageController;
-using MarketProject.Models.Exceptions;
 using MarketProject.ViewModels;
 using MongoDB.Driver.Core.Misc;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
+using Timer = System.Timers.Timer;
 
 namespace MarketProject.Views;
 
@@ -25,8 +28,6 @@ public partial class ProdRegisterView : Window
 {
     public delegate void ProductAddedDelegate(Product? product);
     public event ProductAddedDelegate? ProductAdded;
-    
-    // Implementando as funções do ProdRegisterViewmModel por meio do DataContext
     public RegisterMinMaxViewModel MinMaxViewModel => (MinMaxView.DataContext as RegisterMinMaxViewModel)!;
     
     public ProdRegisterView()
@@ -56,48 +57,39 @@ public partial class ProdRegisterView : Window
             
             if (MinMaxViewModel.EventsMax <= MinMaxViewModel.EventsMin || MinMaxViewModel.WeekdaysMax <= MinMaxViewModel.WeekdaysMin ||
                 MinMaxViewModel.WeekendsMax <= MinMaxViewModel.WeekendsMin)
-                throw new MaxMinException();
+                throw new Exception("Estoque máximo não pode ser inferior ao mínimo.");
 
+            if (SupplyController.FindSupplyByName(SupplyAutoCompleteBox.Text) is null)
+                throw new Exception("O Fornecedor digitado não existe no sistema!");
+
+            if (ValidityDatePicker.SelectedDate.Value < DateTimeOffset.Now)
+                throw new Exception($"A data inserida é inferior a data atual '{DateTime.Now}'!");
+            
             var newproduct = new Product(gtinCode, NameTextBox.Text, Prodprice,
-                (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),
+                (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),  ValidityDatePicker.SelectedDate.Value.DateTime,
                 new Range<int>(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range<int>(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range<int>(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);
             
             var oldProductId = StorageController.FindProduct(newproduct.Gtin);
-            if (oldProductId is not null)
+            if (oldProductId is not null && AddButton.Content == "Editar")
             {
                 newproduct.Id = oldProductId.Id;
                 StorageController.UpdateStorage(newproduct, SupplyAutoCompleteBox.Text);
                 ProductAdded?.Invoke(newproduct);
                 return;
             }
+            if (oldProductId is not null)
+                throw new Exception("Código GTIN digitado já existe no sistema!");
             StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
             ProductAdded?.Invoke(newproduct);
         }
-        catch (MaxMinException)
-        {
-            // Adicionar Data Validation
-            var errorMinMaxMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-            {
-                ContentHeader = "Erro: Número máximo do estoque é inferiro ao mínimo.",
-                ContentMessage = "Não foi possível adicionar o produto por seu valor Máximo no estoque ser inferior ao Mínimo!",
-                ButtonDefinitions = ButtonEnum.Ok, 
-                Icon = MsBox.Avalonia.Enums.Icon.Error,
-                CanResize = false,
-                ShowInCenter = true,
-                SizeToContent = SizeToContent.WidthAndHeight,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                SystemDecorations = SystemDecorations.BorderOnly
-            });
-            await errorMinMaxMsgBox.ShowAsync().ConfigureAwait(false);
-        }
-        catch (Exception)
+        catch (Exception ex)
         {
             var errorMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
-                ContentHeader = "Algum erro inesperado ocorreu!",
-                ContentMessage = "Ocorreu algum erro inesperado no sistema enquanto o produo era adicionado.\nTente Novamente!",
+                ContentHeader = "Erro ao cadastrar o produto no estoque!",
+                ContentMessage = ex.Message,
                 ButtonDefinitions = ButtonEnum.Ok, 
                 Icon = MsBox.Avalonia.Enums.Icon.Error,
                 CanResize = false,
@@ -179,6 +171,7 @@ public partial class ProdRegisterView : Window
         GtinTextBox.Text = null;
         NameTextBox.Text = null;
         DescriptionTextBox.Text = null;
+        ValidityDatePicker.SelectedDate = null;
         PriceTextBox.Text = null;
         QuantityTextBox.Text = null;
         SupplyAutoCompleteBox.Text = null;
@@ -202,4 +195,13 @@ public partial class ProdRegisterView : Window
             SupplyAutoCompleteBox.Text,
             QuantityTextBox.Text,
         };
+
+    private void ValidityDatePicker_OnSelectedDateChanged(object sender, DatePickerSelectedValueChangedEventArgs e)
+    {
+        var date = ValidityDatePicker.SelectedDate.Value.DateTime;
+        var today = DateTime.Now;
+        
+        if (date < today)
+            ProductAdded?.Invoke(null);
+    }
 }

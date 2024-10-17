@@ -25,19 +25,20 @@ using SupplyCtrl = MarketProject.Controllers.SupplyController;
 namespace MarketProject.Views;
 
 public partial class SupplyAddView : Window
-{ 
+{
     public delegate void SupplyAddedDelegate(Supply? supply);
+
     public event SupplyAddedDelegate? SupplyAdded;
-    
+
     public List<Product> AutoCompleteSelectedProducts { get; } = [];
-    
+
     private SupplyAddViewModel _vm => DataContext as SupplyAddViewModel;
-    
+
     public SupplyAddView()
     {
         InitializeComponent();
         this.ResponsiveWindow();
-        
+
         CepMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         CnpjMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         DateLimitTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
@@ -45,7 +46,7 @@ public partial class SupplyAddView : Window
 
         ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
     }
-    
+
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
     {
         Regex regex = new(@"^[0-9]+$");
@@ -60,14 +61,15 @@ public partial class SupplyAddView : Window
             Close();
             return;
         }
-        
+
         Dispatcher.UIThread.Post(async () =>
         {
             var checkMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
                 ContentHeader = "Dados ainda digitados.",
-                ContentMessage = "Ainda existem dados escritos nos campos de cadastro,\nQuer realmente sair do cadastro?",
-                ButtonDefinitions = ButtonEnum.YesNo, 
+                ContentMessage =
+                    "Ainda existem dados escritos nos campos de cadastro,\nQuer realmente sair do cadastro?",
+                ButtonDefinitions = ButtonEnum.YesNo,
                 Icon = MsBox.Avalonia.Enums.Icon.Info,
                 CanResize = false,
                 ShowInCenter = true,
@@ -77,62 +79,66 @@ public partial class SupplyAddView : Window
             });
             var result = await checkMsgBox.ShowAsync();
             if (result == ButtonResult.Yes) Close();
-            
         }, DispatcherPriority.Background);
-        
     }
 
     private async void AddSupplyButton_OnClick(object sender, RoutedEventArgs e)
     {
-        // Verificar se cnpj digitado é real após implementar a API do gov.br
-        // Aplicar "Data Validation" Nos campos de CNPJ e CEP caso estejam incorretos.
-
         if (DateLimitTextBox.Text == null) return;
-        
+
         int dateLimit = Convert.ToInt32(DateLimitTextBox.Text);
         List<string> textBoxes = GetTextBoxes();
-        
         if (textBoxes.Any(txt => string.IsNullOrEmpty(txt))) return;
-
         if (!AutoCompleteSelectedProducts.Any()) return;
-        
-        if (int.Parse(DateLimitTextBox.Text) <= 0)
+
+        try
+        {
+            if (int.Parse(DateLimitTextBox.Text) <= 0)
+                throw new Exception("Não é possível adicionar um fornecedor com prazo inferir ou igual a zero.");
+            if (AutoCompleteSelectedProducts.Count == 0)
+                throw new Exception("Não existe produtos adicionado na lista deste fornecedor. Adicione!");
+            if (await Supply.ValidarCEP(CepMaskedTextBox.Text) is false)
+                throw new Exception($"CEP informado é inválido e não existe.");
+            if (await Supply.ConsultaCNPJ(CnpjMaskedTextBox.Text) is false)
+                throw new Exception($"CNPJ informado é inválido e não existe.");
+            
+            Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text,
+                AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit,
+                CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
+
+            var oldsupply = SupplyCtrl.FindSupply(newSupply.Cnpj);
+            if (oldsupply is not null)
+            {
+                newSupply.Id = oldsupply.Id;
+                SupplyCtrl.UpdateSupply(newSupply);
+                SupplyAdded?.Invoke(newSupply);
+                return;
+            }
+            if (oldsupply is not null)
+                throw new Exception("Código GTIN digitado já existe no sistema!");
+            SupplyCtrl.AddNewSupply(newSupply);
+            SupplyAdded?.Invoke(newSupply);
+            ClearTextBox();
+            AutoCompleteSelectedProducts.Clear();
+            TagContentStackPanel.Children.Clear();
+        }
+        catch (Exception ex)
         {
             var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
-                ContentHeader = "Prazo inferior ou igual a 0",
-                ContentMessage = "Não é possível adicionar um fornecedor com prazo inferir ou igual a 0.",
-                ButtonDefinitions = ButtonEnum.YesNo, 
-                Icon = MsBox.Avalonia.Enums.Icon.Info,
+                ContentHeader = "Erro ao cadastrar fornecedor",
+                ContentMessage = ex.Message,
+                ButtonDefinitions = ButtonEnum.Ok,
+                Icon = MsBox.Avalonia.Enums.Icon.Error,
                 CanResize = false,
                 ShowInCenter = true,
                 SizeToContent = SizeToContent.WidthAndHeight,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 SystemDecorations = SystemDecorations.BorderOnly
             });
-            await msgBox.ShowAsync().ConfigureAwait(false);
-        }
-
-        // Trocar por uma "Data Validation" na text box quando digitado.
-        
-        
-        Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text, AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit, 
-            CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
-
-        var oldsupply = SupplyCtrl.FindSupply(newSupply.Cnpj);
-        if (oldsupply is not null)
-        {
-            newSupply.Id = oldsupply.Id;
-            SupplyCtrl.UpdateSupply(newSupply);
-            SupplyAdded?.Invoke(newSupply);
-            return;
+            await msgBox.ShowAsync().ConfigureAwait(false); 
         }
         
-        SupplyCtrl.AddNewSupply(newSupply);
-        SupplyAdded?.Invoke(newSupply);
-        ClearTextBox();
-        AutoCompleteSelectedProducts.Clear();
-        TagContentStackPanel.Children.Clear();
     }
 
     private async void CleanText_OnClick(object sender, RoutedEventArgs e)
@@ -141,7 +147,7 @@ public partial class SupplyAddView : Window
         {
             ContentHeader = "Limpar campos...",
             ContentMessage = "Você realmente deseja limpar todos os campos de texto?",
-            ButtonDefinitions = ButtonEnum.YesNo, 
+            ButtonDefinitions = ButtonEnum.YesNo,
             Icon = MsBox.Avalonia.Enums.Icon.Warning,
             CanResize = false,
             ShowInCenter = true,
@@ -149,16 +155,16 @@ public partial class SupplyAddView : Window
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
             SystemDecorations = SystemDecorations.BorderOnly
         });
-        
+
         var res = await ClearMessageBox.ShowAsync();
         if (res == ButtonResult.No) return;
         ClearTextBox();
         AutoCompleteSelectedProducts.Clear();
         TagContentStackPanel.Children.Clear();
-        
+
         ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
-        
     }
+
     private void ClearTextBox()
     {
         CnpjMaskedTextBox.Text = null;
@@ -170,8 +176,9 @@ public partial class SupplyAddView : Window
         CepMaskedTextBox.Text = null;
     }
 
-    private List<string> GetTextBoxes() 
-        => new() {
+    private List<string> GetTextBoxes()
+        => new()
+        {
             NameTextBox.Text,
             EmailTextBox.Text,
             AddressTextBox.Text,
@@ -182,7 +189,7 @@ public partial class SupplyAddView : Window
     {
         var keyword = ProductsAutoCompleteBox.Text;
         if (keyword.LastOrDefault() != ',') return;
-        
+
         keyword = keyword!.Replace(",", "");
         Product prod = StorageController.FindProductByNameAsync(keyword);
         if (prod is null || AutoCompleteSelectedProducts.Any(p => p.Id == prod.Id))
@@ -190,31 +197,30 @@ public partial class SupplyAddView : Window
             ProductsAutoCompleteBox.Text = ProductsAutoCompleteBox.Text!.Replace(",", "");
             return;
         }
-        
+
         AutoCompleteSelectedProducts.Add(prod);
         var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
         itemSource.Remove(prod.Name);
         ProductsAutoCompleteBox.ItemsSource = itemSource;
-            
+
         ProductsAutoCompleteBox.Text = "";
         TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
     }
-    
+
     private void ProductsAutoCompleteBox_OnKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key != Avalonia.Input.Key.Enter) return;
-        
+
         Product prod = StorageController.FindProductByNameAsync(ProductsAutoCompleteBox.Text);
         if (prod is null || AutoCompleteSelectedProducts.Any(p => p.Id == prod.Id)) return;
-        
+
         AutoCompleteSelectedProducts.Add(prod);
         var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
         itemSource.Remove(prod.Name);
         ProductsAutoCompleteBox.ItemsSource = itemSource;
-            
+
         ProductsAutoCompleteBox.Text = "";
         TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
-
     }
 
     public Border GenereteAutoCompleteTag(Product product)
@@ -232,7 +238,7 @@ public partial class SupplyAddView : Window
         {
             AutoCompleteSelectedProducts.Remove(product);
             TagContentStackPanel.Children.Remove(border);
-            
+
             var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
             itemSource.Add(product.Name);
             ProductsAutoCompleteBox.ItemsSource = itemSource;
@@ -246,51 +252,32 @@ public partial class SupplyAddView : Window
         var keyword = CepMaskedTextBox.Text;
 
         if (keyword.Contains('_')) return;
-        
+
         Console.WriteLine(keyword);
         var cepContent = await Supply.ValidarCEP(keyword);
-
-        switch (cepContent)
-        {
-            case false:
-                return;
-            case null:
-                AddressTextBox.Text = string.Empty;
-                break;
-        }
+        if (cepContent is false) return;
 
         AddressTextBox.Text = $"{cepContent.logradouro} - {cepContent.localidade}";
     }
 
     private async void CnpjMaskedTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
     {
-    //     var keyword = CnpjMaskedTextBox.Text;
-    //     if (keyword.Contains('_')) return;
-    //     try
-    //     {
-    //         var cnpjContent = await Supply.ConsultaCNPJ(keyword);
-    //         switch (cnpjContent)
-    //         {
-    //             case false:
-    //                 return;
-    //             case null:
-    //                 AddressTextBox.Text = string.Empty;
-    //                 NameTextBox.Text = string.Empty;
-    //                 CepMaskedTextBox.Text = string.Empty;
-    //                 EmailTextBox.Text = string.Empty;
-    //                 PhoneMaskedTextBox.Text = string.Empty;
-    //                 break;
-    //         }
-    //
-    //         NameTextBox.Text = cnpjContent?.nome;
-    //         CepMaskedTextBox.Text = cnpjContent.cep;
-    //         AddressTextBox.Text = $"{cnpjContent.logradouro} - {cnpjContent.uf}";
-    //         PhoneMaskedTextBox.Text = cnpjContent.telefone;
-    //         EmailTextBox.Text = cnpjContent.email;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         SupplyAdded.Invoke(null);
-    //     }
+        var keyword = CnpjMaskedTextBox.Text;
+        if (keyword.Contains('_')) return;
+        try
+        {
+            var cnpjContent = await Supply.ConsultaCNPJ(keyword);
+            if (cnpjContent is false) return;
+            
+            NameTextBox.Text = cnpjContent?.nome;
+            CepMaskedTextBox.Text = cnpjContent.cep.Replace(".", "");
+            AddressTextBox.Text = $"{cnpjContent.logradouro} - {cnpjContent.uf}";
+            PhoneMaskedTextBox.Text = cnpjContent.telefone;
+            EmailTextBox.Text = cnpjContent.email;
+        }
+        catch (Exception ex)
+        {
+            SupplyAdded.Invoke(null);
+        }
     }
 }

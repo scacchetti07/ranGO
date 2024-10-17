@@ -68,7 +68,7 @@
                     <DataGridTextColumn Header="Telefone" Width="*" Binding="{Binding Phone}" />
                     <DataGridTextColumn Header="CEP" Width="*" Binding="{Binding Cep}" />
                     <DataGridTextColumn Header="Produtos" Width="*" Binding="{Binding Products}" />
-                    <DataGridTextColumn Header="Prazo" Width="*" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Prazo de Entrega" Width="*" Binding="{Binding Date}" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

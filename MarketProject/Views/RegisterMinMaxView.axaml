@@ -11,34 +11,36 @@
              CornerRadius="5"
              Background="{Binding ChangeBackground}">
     <UserControl.DataContext>
-        <vm:RegisterMinMaxViewModel/>
+        <vm:RegisterMinMaxViewModel />
     </UserControl.DataContext>
-    <Grid RowDefinitions="Auto, *" Margin="20">
+    <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="Auto, *" Margin="20">
         <StackPanel>
             <StackPanel Classes="HeaderMinMax">
-                <Button Click="WeekdaysButton" Name="WeekdayButton">
-                    <Image Source="{SvgImage /Assets/Icons/SVG/IconWeekdays.svg}" Width="21.5" Height="24"/>
+                <Button Click="WeekdaysButton" x:Name="WeekdayButton">
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconWeekdays.svg}" Width="21.5" Height="24" />
                 </Button>
-                
-                <Button Click="WeekendsButton" Name="WeekendButton">
-                    <Image Source="{SvgImage /Assets/Icons/SVG/IconWeekends.svg}" Width="25" Height="23"/>
+
+                <Button Click="WeekendsButton" x:Name="WeekendButton">
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconWeekends.svg}" Width="25" Height="23" />
                 </Button>
-                
-                <Button Click="EventsButton" Name="EventButton">
-                    <Image Source="{SvgImage /Assets/Icons/SVG/IconEvents.svg}" Width="20" Height="27"/>
+
+                <Button Click="EventsButton" x:Name="EventButton">
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconEvents.svg}" Width="20" Height="27" />
                 </Button>
-                <TextBlock Text="{Binding SectionTitle}" FontSize="21.3" Padding="155 0 0 0" VerticalAlignment="Center" FontWeight="Bold"/>
             </StackPanel>
-            <Border BorderBrush="#2B375C" BorderThickness="1" Margin="2 3 0 0"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" Classes="ContentMinMax">
+        <TextBlock Text="{Binding SectionTitle}" FontSize="18" Grid.Column="0" VerticalAlignment="Bottom"
+                   HorizontalAlignment="Right" FontWeight="Medium" />
+        <Border Grid.Row="1" BorderBrush="#2B375C" BorderThickness="1" VerticalAlignment="Top" Height="2"
+                Margin="2 3 0 0" />
+        <StackPanel Grid.Row="2" Classes="ContentMinMax">
             <StackPanel>
-                <Label Content="Mínimo: *"/>
-                <TextBox Width="192.34" Name="MinTextBox" Text="{Binding WeekdaysMin}"/>
+                <Label Content="Mínimo: *" />
+                <TextBox Width="192.34" Name="MinTextBox" Text="{Binding WeekdaysMin}" />
             </StackPanel>
             <StackPanel>
-                <Label Content="Máximo: *"/>
-                <TextBox Width="192.34" Name="MaxTextBox" Text="{Binding WeekdaysMax}"/>
+                <Label Content="Máximo: *" />
+                <TextBox Width="192.34" Name="MaxTextBox" Text="{Binding WeekdaysMax}" />
             </StackPanel>
         </StackPanel>
     </Grid>

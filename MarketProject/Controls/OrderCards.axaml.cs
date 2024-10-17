@@ -99,18 +99,18 @@ public partial class OrderCards : UserControl
                     Classes = { "OrderStatusTag" }
                 };
                 break;
+            case OrderStatusEnum.Closed:
+                textBlock = new TextBlock()
+                    { Text = "Fechado", Foreground = Brush.Parse("#203817"), };
+                return new Border
+                {
+                    Child = textBlock,
+                    Background = Brush.Parse("#596EA759"),
+                    BorderBrush = Brush.Parse("#6EA759"),
+                    Classes = { "OrderStatusTag" }
+                };
             default:
                 return null;
-            // case OrderStatusEnum.Closed:
-            //     textBlock = new TextBlock()
-            //         { Text = "Fechado", Foreground = Brush.Parse("#203817"), };
-            //     return new Border
-            //     {
-            //         Child = textBlock,
-            //         Background = Brush.Parse("#596EA759"),
-            //         BorderBrush = Brush.Parse("#6EA759"),
-            //         Classes = { "OrderStatusTag" }
-            //     };
         }
         return border;
     }
@@ -128,28 +128,15 @@ public partial class OrderCards : UserControl
 
     private async void CheckOrder_OnClick(object sender, RoutedEventArgs e)
     {
-        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-        {
-            ContentHeader = "Concluir Pedido?",
-            ContentMessage = "Concluir o pedido, irá resultar na remoção do mesmo, você tem certeza disso?",
-            ButtonDefinitions = ButtonEnum.YesNo,
-            Icon = Icon.Warning,
-            CanResize = false,
-            ShowInCenter = true,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            SystemDecorations = SystemDecorations.BorderOnly
-        });
-        var result = await msgBox.ShowAsync().ConfigureAwait(false);
-        if (result == ButtonResult.No) return;
-        
+        if (this.OrderStatus == OrderStatusEnum.Closed) return;
         Dispatcher.UIThread.Post(() =>
         {
             var actualOrder = OrderController.OrdersList.FirstOrDefault(o => o.Id.Contains(Id[1..]));
             if (actualOrder is null) return;
+
+            OrderStatus = actualOrder.OrderStatus = OrderStatusEnum.Closed;
+            OrderController.EditOrder(actualOrder);
             
-            OrderController.DeleteOrder(actualOrder);
-            // Atualizar a tela de que o pedido foi removido.
         },DispatcherPriority.Background);
        
     }

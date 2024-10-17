@@ -37,8 +37,14 @@ public class RegisterMinMaxViewModel : ReactiveObject
                 return null;
         }
     }
-    
-    public string SectionTitle { get; set; }
+
+    private string _sectionTitle;
+
+    public string SectionTitle
+    {
+        get => _sectionTitle;
+        set => this.RaiseAndSetIfChanged(ref _sectionTitle, value);
+    } 
 
     public int WeekdaysMin { get; set; }
     public int WeekdaysMax { get; set; }

@@ -40,7 +40,7 @@
             <Grid ColumnDefinitions="Auto, Auto">
                 <!-- Data AutoText -->
                 <StackPanel>
-                    <Label Content="Prazo:" />
+                    <Label Content="Prazo de entrega:" />
                     <TextBox Width="177" Name="DateLimitTextBox" Watermark="0 dias" MaxLength="2" />
                 </StackPanel>
 
@@ -60,11 +60,11 @@
 
             <!-- Phone MaskText -->
             <Label Content="Telefone:" Margin="-2 15 0 0" />
-            <MaskedTextBox Width="265" Mask="(00) 00000-0000" Name="PhoneMaskedTextBox" />
+            <MaskedTextBox Width="265" Mask="(00) 0000-0000" Name="PhoneMaskedTextBox" />
 
             <!-- Email Text -->
             <Label Content="Email:" Margin="-2 15 0 0" />
-            <TextBox Width="443" Watermark="emailfornecedor@email.com" Name="EmailTextBox" />
+            <TextBox Width="443" Watermark="suporte@rango.com" Name="EmailTextBox" />
 
             <!-- Buttons Add and clean -->
             <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left">

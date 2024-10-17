@@ -14,9 +14,9 @@ public class SupplyViewModel : ViewModelBase
             ? supplyProducts.Take(2).Select(p => p.Name).Aggregate((sum, current) => sum + ", " + current)+"..."
             : string.Empty;
         
-        return new SupplyDataGrid(supply.Cnpj, supply.Name, supply.Phone, supply.Cep,
-            products, supply.DayLimit);
+        return new SupplyDataGrid(supply.Cnpj.Replace(",", "."), supply.Name, supply.Phone, supply.Cep,
+            products, $"{supply.DayLimit} dias");
     }
 }
 
-public record SupplyDataGrid(string Cnpj, string Name, string Phone, string Cep, string Products, int Date);
+public record SupplyDataGrid(string Cnpj, string Name, string Phone, string Cep, string Products, string Date);

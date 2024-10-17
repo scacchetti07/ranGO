@@ -12,6 +12,7 @@ namespace MarketProject.Views;
 
 public partial class RegisterMinMaxView : UserControl
 {
+    public RegisterMinMaxViewModel _vmMinMax => DataContext as RegisterMinMaxViewModel;
     public RegisterMinMaxView()
     {
         InitializeComponent();
@@ -22,6 +23,7 @@ public partial class RegisterMinMaxView : UserControl
         MaxTextBox.AddHandler(TextBox.KeyDownEvent, KeyDownEvent, RoutingStrategies.Tunnel);
         
         SelectedButton = WeekdayButton;
+        _vmMinMax.SectionTitle = "Em dias úteis";
     }
 
     private Button _selectedButton;
@@ -57,6 +59,7 @@ public partial class RegisterMinMaxView : UserControl
         SelectedButton = WeekdayButton; // Definindo o estilo de seleção no botão
         MinTextBox.Bind(TextBox.TextProperty, new Binding("WeekdaysMin"));
         MaxTextBox.Bind(TextBox.TextProperty, new Binding("WeekdaysMax"));
+        _vmMinMax.SectionTitle = "Em dias úteis";
     }
 
     private void WeekendsButton(object sender, RoutedEventArgs e)
@@ -64,6 +67,7 @@ public partial class RegisterMinMaxView : UserControl
         SelectedButton = WeekendButton;
         MinTextBox.Bind(TextBox.TextProperty, new Binding("WeekendsMin"));
         MaxTextBox.Bind(TextBox.TextProperty, new Binding("WeekendsMax"));
+        _vmMinMax.SectionTitle = "Em fins de semana";
     }
 
     private void EventsButton(object sender, RoutedEventArgs e)
@@ -71,5 +75,6 @@ public partial class RegisterMinMaxView : UserControl
         SelectedButton = EventButton;
         MinTextBox.Bind(TextBox.TextProperty, new Binding("EventsMin"));
         MaxTextBox.Bind(TextBox.TextProperty, new Binding("EventsMax"));
+        _vmMinMax.SectionTitle = "Em Eventos";
     }
 }

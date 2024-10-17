@@ -15,8 +15,6 @@ namespace MarketProject.ViewModels;
 
 public class StorageViewModel : ReactiveObject
 {
-    private static bool _productWasAdded;
-    public static bool ProductWasAdded { get; set; }
 
     public static ProductDataGrid ProductToDataGrid(Product prod, MinMaxOptions options)
     {
@@ -38,7 +36,6 @@ public class StorageViewModel : ReactiveObject
         }
 
         string supplyName = SupplyController.GetSupplyNameByProduct(prod);
-        ProductWasAdded = true;
         
         return new ProductDataGrid(prod.Gtin, prod.Name, prod.Total, supplyName, min, max);
     }

@@ -67,6 +67,14 @@ public partial class StorageView : UserControl
         };
         RegisProdView.ProductAdded += (product) =>
         {
+            if (product is null)
+            {
+                DeletePopup.IsOpen = true;
+                IconDeleteProd.Path = "/Assets/Icons/SVG/IconInfo.svg";
+                DeleteProdLabel.Content = "Data Inválida";
+                ContentDeleteTextBlock.Text = $"A data inserida é inferior a data atual '{DateTime.Now}'!";
+                return;
+            }
             AddPopup.IsOpen = true;
             AddProdLabel.Content = "Novo Produto Adicionado!";
             ContentAddTextBlock.Text = $"Produto '{product.Name}' foi adicionado com sucesso!";
@@ -129,14 +137,13 @@ public partial class StorageView : UserControl
         
         editProduct.NameTextBox.Text = selectedProducts.Name;
         editProduct.DescriptionTextBox.Text = selectedProducts.Description;
+        editProduct.ValidityDatePicker.SelectedDate = selectedProducts.Validaty;
         
         editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("f2").PadLeft(6, '_');
-        
         var item = editProduct.UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);
         editProduct.UnitComboBox.SelectedIndex = editProduct.UnitComboBox.Items.IndexOf(item);
         
         editProduct.SupplyAutoCompleteBox.Text = supplyName;
-        editProduct.SupplyContent.IsEnabled = false;
         editProduct.QuantityTextBox.Text = selectedProducts.Total.ToString();
         
         editProduct.MinMaxView.MinTextBox.Text = selectedProducts.Weekdays.Min.ToString();

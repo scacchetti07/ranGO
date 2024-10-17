@@ -103,7 +103,7 @@
             <Setter Property="FontSize" Value="21.3"/>
             <Setter Property="FontWeight" Value="Regular"/>
         </Style>
-        <Style Selector="^ TextBox, ^ ComboBox, ^ MaskedTextBox">
+        <Style Selector="^ TextBox, ^ ComboBox, ^ MaskedTextBox, ^ DatePicker">
             <Setter Property="ThemeVariantScope.RequestedThemeVariant" Value="Light"/>
             <Setter Property="Width" Value="443"/>
             <Setter Property="Height" Value="50"/>
