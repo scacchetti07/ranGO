@@ -81,7 +81,7 @@
                     <!-- Home Screen -->
                     <Image Source="/Assets/HomeScreenLogo.png" VerticalAlignment="Stretch" Width="288" Opacity="0.1" IsVisible="true"/>
                     <!-- Dashboard Screen -->
-                    <Rectangle Fill="Red" Height="500" Width="500"/>
+                    <scr:DashboardView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <!-- Storage Screen -->
                     <Carousel Name="TabStorage">
                         <Carousel.PageTransition>

@@ -120,7 +120,9 @@ public partial class SupplyView : UserControl
         
         List<Product> products = StorageController.FindProductsFromSupply(selectedSupply);
         editSupply.NameTextBox.Text = selectedSupply.Name;
-        editSupply.CnpjMaskedTextBox.Text = selectedSupply.Cnpj;
+        var editedCnpj = selectedSupply.Cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
+        
+        editSupply.CnpjMaskedTextBox.Text = editedCnpj;
         editSupply.CnpjMaskedTextBox.IsEnabled = false;
         foreach (var prod in products)
         {
@@ -132,13 +134,14 @@ public partial class SupplyView : UserControl
             editSupply.ProductsAutoCompleteBox.ItemsSource = itemSource;
         }
         editSupply.DateLimitTextBox.Text = selectedSupply.DayLimit.ToString();
-        editSupply.CepMaskedTextBox.Text = selectedSupply.Cep;
+        editSupply.CepMaskedTextBox.Text = selectedSupply.Cep.Replace("-", "");
         editSupply.AddressTextBox.Text = selectedSupply.Adress;
         editSupply.EmailTextBox.Text = selectedSupply.Email;
         editSupply.PhoneMaskedTextBox.Text = selectedSupply.Phone;
 
         editSupply.SupplyAdded += (supply) =>
         {
+            if (supply is null) return;
             AddPopup.IsOpen = true;
             AddProdLabel.Content = "Fornecedor Editado!";
             ContentAddTextBlock.Text = $"O Fornecedor '{supply.Name}' foi editado com sucesso!";

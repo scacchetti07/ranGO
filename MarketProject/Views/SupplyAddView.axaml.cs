@@ -101,8 +101,13 @@ public partial class SupplyAddView : Window
                 throw new Exception($"CEP informado é inválido e não existe.");
             if (await Supply.ConsultaCNPJ(CnpjMaskedTextBox.Text) is false)
                 throw new Exception($"CNPJ informado é inválido e não existe.");
+
+            string cnpj = CnpjMaskedTextBox.Text;
+            if (cnpj.Contains(','))
+                cnpj = CnpjMaskedTextBox.Text.Replace(',', '.'); 
+                
             
-            Supply newSupply = new Supply(NameTextBox.Text, CnpjMaskedTextBox.Text,
+            Supply newSupply = new Supply(NameTextBox.Text, cnpj,
                 AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit,
                 CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
 
@@ -252,8 +257,7 @@ public partial class SupplyAddView : Window
         var keyword = CepMaskedTextBox.Text;
 
         if (keyword.Contains('_')) return;
-
-        Console.WriteLine(keyword);
+        
         var cepContent = await Supply.ValidarCEP(keyword);
         if (cepContent is false) return;
 
@@ -277,7 +281,7 @@ public partial class SupplyAddView : Window
         }
         catch (Exception ex)
         {
-            SupplyAdded.Invoke(null);
+            Console.WriteLine(ex.Message);
         }
     }
 }
