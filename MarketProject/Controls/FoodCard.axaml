@@ -2,7 +2,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="MarketProject.Controls.FoodCard">
-    Welcome to Avalonia!
+             mc:Ignorable="d" d:DesignWidth="456" d:DesignHeight="120"
+             x:Class="MarketProject.Controls.FoodCard"
+             Background="#E8EEF7"
+             Foreground="Black"
+             FontFamily="{StaticResource FilsonPro}"
+             CornerRadius="10">
+    <Grid ColumnDefinitions="Auto, Auto" Classes="FoodCardStyle">
+        <Border Grid.Column="0" x:Name="FoodPictureImageBrush">
+            <Border.Background>
+                <ImageBrush Source="/Assets/FoodPhotos/hamburguer.png" Stretch="UniformToFill"/>
+            </Border.Background>
+        </Border>
+        
+        <StackPanel Grid.Column="1">
+            <Label Content="Duplo Mega Burguer" x:Name="FoodNameLabel"/>
+            <StackPanel Opacity="0.5">
+                <TextBlock Text="Nota: "/>
+                <!-- Text Block com limite de 20 caracteres -->
+                <TextBlock Text="Super Burguer" FontWeight="Bold" x:Name="FoodNoteTextBlock"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Preço: "/>
+                <TextBlock Text="R$ 43,00" FontWeight="Bold" x:Name="FoodPriceTextBlock"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <Canvas HorizontalAlignment="Right">
+            <StackPanel Classes="CrudStyles">
+                <Button Background="#D87249">
+                    <Svg Path="/Assets/Icons/SVG/IconDelete.svg"/>
+                </Button>
+                <Button Background="#3384B9">
+                    <Svg Path="/Assets/Icons/SVG/IconEdit.svg"/>
+                </Button>
+            </StackPanel>
+        </Canvas>
+    </Grid>
 </UserControl>
