@@ -10,7 +10,7 @@
     <StackPanel>
         <StackPanel Margin="20" Orientation="Horizontal" Spacing="100">
             <TextBlock Text="Chegada Fornecedor" FontSize="18"/>
-            <Svg Path="/Assets/Icons/SVG/IconSupply.svg" Width="24" Height="19" Css="path { fill: #DCB861; }"/>
+            <Svg Path="/Assets/Icons/SVG/IconSupply.svg" Width="24" Height="19"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="20 0">
             <TextBlock Text="10 DIAS" FontSize="60" FontWeight="Heavy" Foreground="#DBDBDA"/>

@@ -12,15 +12,11 @@ namespace MarketProject.Controllers;
 public class OrderController : Database
 {
     private static IMongoCollection<Orders> Collection { get; } = GetCollection<Orders>("storage", "orders");
-
-    public delegate void OrderModifiedDelegate(Orders? orders);
-    public static event OrderModifiedDelegate? OrderModified;
     
     public static async void AddNewOrder(Orders order)
     {
         await Collection.InsertOneAsync(order);
         OrdersList.Add(order);
-        OrderModified?.Invoke(order);
     }
 
     public static Orders FindOrders(string id)
@@ -42,7 +38,6 @@ public class OrderController : Database
         var filter = Builders<Orders>.Filter.Eq(o => o.Id, order.Id); 
         await Collection.ReplaceOneAsync(filter, order);
         OrdersList.Replace(OrdersList.SingleOrDefault(o => o.Id == order.Id), order);
-        OrderModified?.Invoke(order);
     }
     
     public static async void DeleteOrder(Orders order)
@@ -50,6 +45,5 @@ public class OrderController : Database
         var filter = Builders<Orders>.Filter.Eq(o => o.Id, order.Id);
         await Collection.DeleteOneAsync(filter);
         OrdersList.Remove(order);
-        OrderModified?.Invoke(null);
     }
 }

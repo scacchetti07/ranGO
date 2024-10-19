@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -59,6 +60,11 @@ public partial class OrderCards : UserControl
         OrderIdProperty.Changed.AddClassHandler<OrderCards>((_, _) => UpdateOrderCard());
         OrderStatusProperty.Changed.AddClassHandler<OrderCards>((_, _) => UpdateOrderCard());
         
+        Application.Current.ActualThemeVariantChanged += (_, _) =>
+        {
+            var theme = Application.Current.RequestedThemeVariant.ToString();
+            UpdateBackgroundColorTheme(theme);
+        };
     }
 
     private void UpdateOrderCard()
@@ -69,36 +75,64 @@ public partial class OrderCards : UserControl
         OrderIdLabel.Content = Id;
         OrderStatusStackPanel.Children.Clear();
         OrderStatusStackPanel.Children.Add(GenerateOrderTag(OrderStatus));
+
+        switch (OrderStatus)
+        {
+            case OrderStatusEnum.New:
+                OrderStatusButton.Background = Brush.Parse("#D87249");
+                ButtonIconSvg.Path = "/Assets/Icons/SVG/IconCooking.svg";
+                break;
+            case OrderStatusEnum.Preparing:
+                OrderStatusButton.Background = Brush.Parse("#6EA759");
+                ButtonIconSvg.Path = "/Assets/Icons/SVG/IconCheck.svg";
+                break;
+            case OrderStatusEnum.Closed:
+                OrderStatusButton.IsVisible = false;
+                break;
+        }
+    }
+
+    private void UpdateBackgroundColorTheme(string theme)
+    {
+        switch (theme)
+        {
+            case "Light":
+                Classes.Add("LightText");
+                OrderCard.Background = Brush.Parse("#0B0E18");
+                break;
+            case "Dark":
+                Classes.Remove("LightText");
+                OrderCard.Background = Brush.Parse("#E8EEF7");
+                break;
+        }
     }
 
     private static Border GenerateOrderTag(OrderStatusEnum statusEnum)
     {
         TextBlock textBlock;
-        Border border = new();
+        //Border border;
         switch (statusEnum)
         {
             case OrderStatusEnum.New:
                 textBlock = new TextBlock()
                 { Text = "Novo", Foreground = Brush.Parse("#351C12"), };
-                border = new Border()
+                return new Border()
                 {
                     Child = textBlock,
                     Background = Brush.Parse("#59D87249"),
                     BorderBrush = Brush.Parse("#D87249"),
                     Classes = { "OrderStatusTag" }
                 };
-                break;
             case OrderStatusEnum.Preparing:
                 textBlock = new TextBlock()
                     { Text = "Preparando", Foreground = Brush.Parse("#3C3119"), };
-                border = new Border()
+                return new Border()
                 {
                     Child = textBlock,
                     Background = Brush.Parse("#59DCB861"),
                     BorderBrush = Brush.Parse("#DCB861"),
                     Classes = { "OrderStatusTag" }
                 };
-                break;
             case OrderStatusEnum.Closed:
                 textBlock = new TextBlock()
                     { Text = "Fechado", Foreground = Brush.Parse("#203817"), };
@@ -109,10 +143,8 @@ public partial class OrderCards : UserControl
                     BorderBrush = Brush.Parse("#6EA759"),
                     Classes = { "OrderStatusTag" }
                 };
-            default:
-                return null;
         }
-        return border;
+        return null;
     }
 
     private async void EditOrder_OnClick(object sender, RoutedEventArgs e)
@@ -126,34 +158,33 @@ public partial class OrderCards : UserControl
         await manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 
-    private async void CheckOrder_OnClick(object sender, RoutedEventArgs e)
+    private void OrderStatus_OnClick(object sender, RoutedEventArgs e)
     {
-        if (this.OrderStatus == OrderStatusEnum.Closed) return;
+        var orderStatus = OrderStatusEnum.Preparing;
+        switch (OrderStatus)
+        {
+            case OrderStatusEnum.New:
+                orderStatus = OrderStatusEnum.Preparing;
+                OrderStatusButton.Background = Brush.Parse("#6EA759");
+                ButtonIconSvg.Path = "/Assets/Icons/SVG/IconCheck.svg";
+                break;
+            case OrderStatusEnum.Preparing:
+                orderStatus = OrderStatusEnum.Closed;
+                OrderStatusButton.IsVisible = false;
+                break;
+        }
+        
         Dispatcher.UIThread.Post(() =>
         {
             var actualOrder = OrderController.OrdersList.FirstOrDefault(o => o.Id.Contains(Id[1..]));
             if (actualOrder is null) return;
-
-            OrderStatus = actualOrder.OrderStatus = OrderStatusEnum.Closed;
-            OrderController.EditOrder(actualOrder);
             
-        },DispatcherPriority.Background);
-       
-    }
-
-    private void PreparingOrder_OnClick(object sender, RoutedEventArgs e)
-    {
-        if (this.OrderStatus == OrderStatusEnum.Preparing) return;
-        Dispatcher.UIThread.Post(() =>
-        {
-            var actualOrder = OrderController.OrdersList.FirstOrDefault(o => o.Id.Contains(Id[1..]));
-            if (actualOrder is null) return;
-
-            OrderStatus = actualOrder.OrderStatus = OrderStatusEnum.Preparing;
+            
+            OrderStatus = actualOrder.OrderStatus = orderStatus;
             OrderController.EditOrder(actualOrder);
         },DispatcherPriority.Background);
-       
     }
+    
 }
 
 public enum OrderStatusEnum

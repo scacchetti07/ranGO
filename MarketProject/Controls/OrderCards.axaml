@@ -7,6 +7,7 @@
              Width="479"
              Height="150"
              CornerRadius="15"
+             Name="OrderCard"
              Background="#E8EEF7"
              Foreground="Black"
              FontFamily="{StaticResource FilsonPro}"
@@ -30,11 +31,8 @@
             </StackPanel>
             <StackPanel>
                 <Button Background="#3374B9" Content="Editar" Click="EditOrder_OnClick"/>
-                <Button Classes="StatusOrderButton" Click="PreparingOrder_OnClick" Background="#9f7a23" ToolTip.Tip="Preparando pedido">
-                    <Svg Path="/Assets/Icons/SVG/IconCooking.svg"/>
-                </Button>
-                <Button Classes="StatusOrderButton" Click="CheckOrder_OnClick" ToolTip.Tip="Concluir pedido">
-                    <Svg Path="/Assets/Icons/SVG/IconCheck.svg"/>
+                <Button Classes="StatusOrderButton" Click="OrderStatus_OnClick" Name="OrderStatusButton">
+                    <Svg Name="ButtonIconSvg"/>
                 </Button>
             </StackPanel>
         </StackPanel>

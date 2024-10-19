@@ -26,17 +26,22 @@ public partial class OrderHomeView : UserControl
     private Button? _selectedButton;
     private OrderHomeViewModel _vm => DataContext as OrderHomeViewModel;
 
-    private ObservableCollection<Orders> _ordersList
-    {
-        get => GetValue(OrdersProperty);
-        set => SetValue(OrdersProperty, value);
-    }
+    public delegate void OrderSelectedChanged(OrderStatusEnum? order);
+    public event OrderSelectedChanged? OrderSelected;
     public OrderHomeView()
     {
         InitializeComponent();
-        UpdateOrders();
         toggleSelectedButton(AllOrdersButton);
+        UpdateOrders();
         OrdersProperty.Changed.AddClassHandler<OrderHomeView>((_, _) => UpdateOrders());
+        
+        OrderSelected += (order) =>
+        {
+            if (order is null)
+                UpdateOrders();
+            else
+                UpdateOrders(order); 
+        };
     }
 
     private void unSelectButton() => _selectedButton?.Classes.Remove("IsSelected");
@@ -52,61 +57,62 @@ public partial class OrderHomeView : UserControl
         unSelectButton();
         selectButton(btn);
     }
-    public async void UpdateOrders()
+    private async void UpdateOrders()
     {
         OrderCardsPanel.Children.Clear();
         var ordersList = await OrderController.FindOrders();
         if (ordersList is null) return;
         foreach (Orders order in ordersList)
-        {
             OrderCardsPanel.Children.Add(_vm.OrderToCard(order));
-        }
     }
-    public void UpdateOrders(IEnumerable<Orders> searchOrders)
+    private async void UpdateOrders(OrderStatusEnum? orderStatus)
     {
+        if (orderStatus is null) return;
+        
+        var searchOrders = await OrderCtrl.FindOrders((OrderStatusEnum)orderStatus);
         OrderCardsPanel.Children.Clear();
         foreach (Orders order in searchOrders)
-        {
             OrderCardsPanel.Children.Add(_vm.OrderToCard(order));
-        }
+    }
+    
+    private void UpdateOrders(IEnumerable<Orders> searchedList)
+    {
+        OrderCardsPanel.Children.Clear();
+        foreach (Orders order in searchedList)
+            OrderCardsPanel.Children.Add(_vm.OrderToCard(order));
     }
 
     private void AllOrders_OnClick(object sender, RoutedEventArgs e)
     {
         toggleSelectedButton(sender as Button);
-        UpdateOrders();
+        OrderSelected?.Invoke(null);
     }
 
-    private async void NewOrders_OnClick(object sender, RoutedEventArgs e)
+    private void NewOrders_OnClick(object sender, RoutedEventArgs e)
     {
         toggleSelectedButton(sender as Button);
-        var newStatusOrders = await OrderCtrl.FindOrders(OrderStatusEnum.New);
-        UpdateOrders(newStatusOrders);
+        OrderSelected?.Invoke(OrderStatusEnum.New);
     }
 
-    private async void PreparingOrders_OnClick(object sender, RoutedEventArgs e)
+    private void PreparingOrders_OnClick(object sender, RoutedEventArgs e)
     {
         toggleSelectedButton(sender as Button);
-        var preparingStatusOrders = await OrderCtrl.FindOrders(OrderStatusEnum.Preparing);
-        UpdateOrders(preparingStatusOrders);
+        OrderSelected?.Invoke(OrderStatusEnum.Preparing);
     }
 
-    private async void ClosedOrders_OnClick(object sender, RoutedEventArgs e)
+    private void ClosedOrders_OnClick(object sender, RoutedEventArgs e)
     {
         toggleSelectedButton(sender as Button);
-        var preparingStatusOrders = await OrderCtrl.FindOrders(OrderStatusEnum.Closed);
-        UpdateOrders(preparingStatusOrders);
+        OrderSelected?.Invoke(OrderStatusEnum.Closed);
     }
     private async void AddOrder_OnClick(object sender, RoutedEventArgs e)
     {
-        ManageOrdersView manageOrdersView = new()
-        {
-            Title = "Adicionar Pedido - ranGO!"
-        };
+        ManageOrdersView manageOrdersView = new() { Title = "Adicionar Pedido - ranGO!" };
         manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!);
         var newOrder = await manageOrdersView.GetOrder();
         OrderCtrl.AddNewOrder(newOrder);
-        UpdateOrders();
+        if (_selectedButton.Name == "AllOrdersButton")
+            OrderSelected?.Invoke(null);
     }
 
     private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -124,7 +130,6 @@ public partial class OrderHomeView : UserControl
             searchedList = OrderCtrl.OrdersList.Where(o => o.TableNumber.ToString().Contains($"{tbl}"));
         else
             searchedList = OrderCtrl.OrdersList.Where(o => o.Id.ToLower().EndsWith(keyword.ToLower()));   
-           
         
         UpdateOrders(searchedList);
     }
