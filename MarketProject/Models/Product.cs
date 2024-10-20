@@ -20,7 +20,7 @@ public class Product
     public string? Description { get; set; }
     public string Name { get; set; }
     public int Total { get; set; }
-    public DateTime Validaty { get; set; }
+    public DateTime Validity { get; set; }
     public Range<int> Weekdays { get; set; } = new(0, 0); // Min Max
     public Range<int> Weekends { get; set; } = new(0, 0); // Min Max
     public Range<int> Events { get; set; } = new(0, 0); // Min Max
@@ -33,7 +33,7 @@ public class Product
         Price = price;
         Unit = unit;
         Total = prodTotal;
-        Validaty = validity;
+        Validity = validity;
         Weekdays = weekdays;
         Weekends = weekends;
         Events = events;

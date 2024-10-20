@@ -11,15 +11,10 @@ namespace MarketProject.Models;
 
 public class Database
 {
-    public Database()
-    {
-        _client.StartSession();
-        Console.WriteLine("Conexão Estabelecida!");
-    }
     public static ObservableCollection<Product> ProductsList { get; private set; } = new();
     public static ObservableCollection<Supply> SupplyList { get; private set; } = new();
-    
     public static ObservableCollection<Orders> OrdersList { get; private set; } = new();
+    public static ObservableCollection<Foods> FoodsMenuList { get; private set; } = new();
 
     private static MongoClient _client =
         new("mongodb+srv://luiscacchetti07:c2qb5VFjcVBA18PH@rango.3fwol.mongodb.net/");
@@ -28,6 +23,11 @@ public class Database
         => _client.GetDatabase(dbName);
     protected static IMongoCollection<T> GetCollection<T>(string dbName, string dbCollection)
         => GetDatabase(dbName).GetCollection<T>(dbCollection);
+    public Database()
+    {
+        _client.StartSession();
+        Console.WriteLine("Conexão Estabelecida!");
+    }
     public async void StartStorage()
     {
         var collectionProducts = GetDatabase("storage").GetCollection<Product>("products");
@@ -39,9 +39,14 @@ public class Database
         var collectionOrder = GetDatabase("storage").GetCollection<Orders>("orders");
         var orderDocs = await collectionOrder.Find(Builders<Orders>.Filter.Empty).ToListAsync();
         
+        var collectionFoodMenu = GetDatabase("storage").GetCollection<Foods>("foodMenu");
+        var foodsMenuDocs = await collectionFoodMenu.Find(Builders<Foods>.Filter.Empty).ToListAsync();
+        
         ProductsList = new ObservableCollection<Product>(prodDocs);
         SupplyList = new ObservableCollection<Supply>(supplyDocs);
         OrdersList = new ObservableCollection<Orders>(orderDocs);
-        Console.WriteLine("Lista de produtos, fornecedores e pedidos Iniciada!");
+        FoodsMenuList = new ObservableCollection<Foods>(foodsMenuDocs);
+        Console.WriteLine("Lista de produtos e fornecedores Iniciada!");
+        Console.WriteLine("Listas de Pedidos e Cardápio iniciadas!");
     }
 }

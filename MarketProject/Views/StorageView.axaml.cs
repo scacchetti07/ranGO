@@ -137,7 +137,7 @@ public partial class StorageView : UserControl
         
         editProduct.NameTextBox.Text = selectedProducts.Name;
         editProduct.DescriptionTextBox.Text = selectedProducts.Description;
-        editProduct.ValidityDatePicker.SelectedDate = selectedProducts.Validaty;
+        editProduct.ValidityDatePicker.SelectedDate = selectedProducts.Validity;
         
         editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("f2").PadLeft(6, '_');
         var item = editProduct.UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);

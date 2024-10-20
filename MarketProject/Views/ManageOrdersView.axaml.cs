@@ -34,14 +34,14 @@ public partial class ManageOrdersView : Window
                 {
                     StorageController.FindProductByNameAsync("Banana"),
                     StorageController.FindProductByNameAsync("Jabuticaba")
-                }, "Salada de frutas"),
+                }, 15.00, FoodTypesEnum.Desserts ,"Salada de frutas"),
             
             new("Vitamina Proteica",
                 new List<Product>()
                 {
                     StorageController.FindProductByNameAsync("Whey Protein"),
                     StorageController.FindProductByNameAsync("Moranguinho")
-                }, "Shake do Monstro")
+                }, 25.00, FoodTypesEnum.Drink ,"Shake do Monstro")
 
         };
         var orderStatus = OrderStatusEnum.New;

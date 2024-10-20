@@ -23,4 +23,15 @@ public class OrderHomeViewModel : ViewModelBase
         };
         return orderCards;
     }
+
+    public FoodCard FoodToCard(Foods food)
+    {
+        return new FoodCard
+        {
+            FoodName = food.FoodName,
+            FoodIngredients = string.Join(", ", food.ListOfIngredients.Take(2)),
+            FoodPrice = food.FoodPrice,
+            FoodPicture = food.FoodPhoto
+        };
+    }
 }

@@ -11,20 +11,20 @@
     <Grid ColumnDefinitions="Auto, Auto" Classes="FoodCardStyle">
         <Border Grid.Column="0" x:Name="FoodPictureImageBrush">
             <Border.Background>
-                <ImageBrush Source="/Assets/FoodPhotos/hamburguer.png" Stretch="UniformToFill"/>
+                <ImageBrush Stretch="UniformToFill"/>
             </Border.Background>
         </Border>
         
         <StackPanel Grid.Column="1">
-            <Label Content="Duplo Mega Burguer" x:Name="FoodNameLabel"/>
-            <StackPanel Opacity="0.5">
-                <TextBlock Text="Nota: "/>
-                <!-- Text Block com limite de 20 caracteres -->
-                <TextBlock Text="Super Burguer" FontWeight="Bold" x:Name="FoodNoteTextBlock"/>
-            </StackPanel>
+            <Label x:Name="FoodNameLabel"/>
             <StackPanel>
+                <TextBlock Text="Itens: "/>
+                <!-- Text Block com limite de 2 produtos -->
+                <TextBlock FontWeight="Bold" x:Name="FoodIngredientsTextBlock"/>
+            </StackPanel>
+            <StackPanel Opacity="0.5">
                 <TextBlock Text="Preço: "/>
-                <TextBlock Text="R$ 43,00" FontWeight="Bold" x:Name="FoodPriceTextBlock"/>
+                <TextBlock FontWeight="Bold" x:Name="FoodPriceTextBlock"/>
             </StackPanel>
         </StackPanel>
         
