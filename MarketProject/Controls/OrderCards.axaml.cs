@@ -62,8 +62,7 @@ public partial class OrderCards : UserControl
         
         Application.Current.ActualThemeVariantChanged += (_, _) =>
         {
-            var theme = Application.Current.RequestedThemeVariant.ToString();
-            UpdateBackgroundColorTheme(theme);
+            UpdateBackgroundColorTheme();
         };
     }
 
@@ -75,7 +74,8 @@ public partial class OrderCards : UserControl
         OrderIdLabel.Content = Id;
         OrderStatusStackPanel.Children.Clear();
         OrderStatusStackPanel.Children.Add(GenerateOrderTag(OrderStatus));
-
+        UpdateBackgroundColorTheme();
+        
         switch (OrderStatus)
         {
             case OrderStatusEnum.New:
@@ -92,16 +92,15 @@ public partial class OrderCards : UserControl
         }
     }
 
-    private void UpdateBackgroundColorTheme(string theme)
+    public void UpdateBackgroundColorTheme()
     {
+        var theme = Application.Current.RequestedThemeVariant.ToString();
         switch (theme)
         {
             case "Light":
-                Classes.Add("LightText");
-                OrderCard.Background = Brush.Parse("#0B0E18");
+                OrderCard.Background = Brush.Parse("#BCC4D0");
                 break;
             case "Dark":
-                Classes.Remove("LightText");
                 OrderCard.Background = Brush.Parse("#E8EEF7");
                 break;
         }

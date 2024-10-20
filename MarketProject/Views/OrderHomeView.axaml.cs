@@ -34,13 +34,13 @@ public partial class OrderHomeView : UserControl
         toggleSelectedButton(AllOrdersButton);
         UpdateOrders();
         OrdersProperty.Changed.AddClassHandler<OrderHomeView>((_, _) => UpdateOrders());
-        
+
         OrderSelected += (order) =>
         {
             if (order is null)
                 UpdateOrders();
             else
-                UpdateOrders(order); 
+                UpdateOrders(order);
         };
     }
 

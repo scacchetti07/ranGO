@@ -11,9 +11,6 @@
     <Style Selector="Window.Light Svg">
         <Setter Property="Css" Value="path {fill: #0B0E18; }" />
     </Style>
-    <Style Selector="Window.LightText Label">
-        <Setter Property="Foreground" Value="Black" />
-    </Style>
 
     <Style Selector="Button.BtnLoginHover:pointerover /template/ ContentPresenter">
         <Setter Property="BorderBrush" Value="#DCB861" />
@@ -259,13 +256,13 @@
 
     <Style Selector="StackPanel.ButtonOptions">
         <Style Selector="^ Button">
-            <Setter Property="Background" Value="#0B0E18" />
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="Width" Value="45" />
             <Setter Property="Height" Value="45" />
             <Setter Property="CornerRadius" Value="3" />
         </Style>
         <Style Selector="^ Button:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#0B0E18" />
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="#88DCB861" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Cursor" Value="Hand" />
@@ -532,6 +529,7 @@
                 <Setter Property="Width" Value="134" />
                 <Setter Property="Height" Value="35" />
                 <Setter Property="FontSize" Value="15" />
+                <Setter Property="Foreground" Value="White"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="CornerRadius" Value="5" />
@@ -540,17 +538,20 @@
             <Style Selector="^ Button:pointerover /template/ ContentPresenter">
                 <Setter Property="Background" Value="#590B0E18" />
                 <Setter Property="BorderBrush" Value="#DCB861" />
+                <Setter Property="Foreground" Value="White"/>
                 <Setter Property="BorderThickness" Value="2" />
             </Style>
         </Style>
         <Style Selector="^ Button.StatusOrderButton">
             <Setter Property="Width" Value="45" />
             <Setter Property="Height" Value="35" />
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Cursor" Value="Hand" />
             <Style Selector="^ Svg">
                 <Setter Property="Height" Value="50" />
+                <Setter Property="Css" Value="path {fill: #FFFFF; }"></Setter>
             </Style>
         </Style>
         <Style Selector="^ Button.StatusOrderButton:pointerover /template/ ContentPresenter">
@@ -595,9 +596,10 @@
                 <Setter Property="Background" Value="#6EA759" />
                 <Setter Property="Width" Value="50" />
                 <Setter Property="Height" Value="50" />
-                <Setter Property="ToolTip.Tip" Value="Adicioanr Novo Prato" />
+                <Setter Property="ToolTip.Tip" Value="Adicioanr Novo Pedido" />
                 <Style Selector="^ Svg">
                     <Setter Property="Path" Value="/Assets/Icons/SVG/IconAdd.svg" />
+                    <Setter Property="Css" Value="path {fill: #FFF; }"/>
                     <Setter Property="Width" Value="40" />
                     <Setter Property="Height" Value="50" />
                 </Style>
@@ -615,6 +617,7 @@
                 <Setter Property="Width" Value="220" />
                 <Setter Property="Height" Value="50" />
                 <Setter Property="FontSize" Value="20" />
+                <Setter Property="Foreground" Value="#DBDBDA"/>
                 <Setter Property="FontWeight" Value="SemiBold" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />

@@ -58,7 +58,7 @@
                 <DataGrid.Styles>
                     <Style Selector="DataGridColumnHeader">
                         <Setter Property="Background" Value="#3374B9" />
-                        <Setter Property="Foreground" Value="#FFF" />
+                        <Setter Property="Foreground" Value="White" />
                         <Setter Property="FontWeight" Value="Bold" />
                         <Setter Property="FontSize" Value="20" />
                         <Setter Property="Height" Value="40" />
