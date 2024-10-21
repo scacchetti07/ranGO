@@ -5,7 +5,5 @@ using ReactiveUI;
 
 namespace MarketProject.ViewModels;
 
-public class ProdRegisterViewModel : ReactiveObject
-{
-    public DataAnnotationErrors dataErros { get; } = new();
-}
+public class ProdRegisterViewModel : ViewModelBase
+{ }

@@ -36,11 +36,11 @@
         <StackPanel Grid.Row="2" Classes="ContentMinMax">
             <StackPanel>
                 <Label Content="Mínimo: *" />
-                <TextBox Width="192.34" Name="MinTextBox" Text="{Binding WeekdaysMin}" />
+                <TextBox Width="192.34" Name="MinTextBox" Text="{Binding WeekdaysMin, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             <StackPanel>
                 <Label Content="Máximo: *" />
-                <TextBox Width="192.34" Name="MaxTextBox" Text="{Binding WeekdaysMax}" />
+                <TextBox Width="192.34" Name="MaxTextBox" Text="{Binding WeekdaysMax, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </StackPanel>
     </Grid>

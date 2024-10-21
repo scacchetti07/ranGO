@@ -12,6 +12,47 @@
         <Setter Property="Css" Value="path {fill: #0B0E18; }" />
     </Style>
 
+    <Style Selector="DataValidationErrors">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel LastChildFill="True">
+                    <ContentControl DockPanel.Dock="Right"
+                                    ContentTemplate="{TemplateBinding ErrorTemplate}"
+                                    DataContext="{TemplateBinding Owner}"
+                                    Content="{Binding (DataValidationErrors.Errors)}"
+                                    IsVisible="{Binding (DataValidationErrors.HasErrors)}"/>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      Padding="{TemplateBinding Padding}"/>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="ErrorTemplate">
+            <DataTemplate x:DataType="{x:Type x:Object}">
+                <Canvas Width="14" Height="14" Margin="4 0 1 0" 
+                        Background="Transparent">
+                    <Canvas.Styles>
+                        <Style Selector="ToolTip">
+                            <Setter Property="Background" Value="LightSalmon"/>
+                            <Setter Property="BorderBrush" Value="#D87249"/>
+                        </Style>
+                    </Canvas.Styles>
+                    <ToolTip.Tip>
+                        <ItemsControl ItemsSource="{Binding}"/>
+                    </ToolTip.Tip>
+                    <Path Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2" 
+                          Stroke="Red" 
+                          StrokeThickness="2"/>
+                </Canvas>
+            </DataTemplate>
+        </Setter>
+    </Style>
+    
     <Style Selector="Button.BtnLoginHover:pointerover /template/ ContentPresenter">
         <Setter Property="BorderBrush" Value="#DCB861" />
         <Setter Property="BorderThickness" Value="2" />
@@ -551,7 +592,7 @@
             <Setter Property="Cursor" Value="Hand" />
             <Style Selector="^ Svg">
                 <Setter Property="Height" Value="50" />
-                <Setter Property="Css" Value="path {fill: #FFFFF; }"></Setter>
+                <Setter Property="Css" Value="path {fill: #FFFFFF; }"></Setter>
             </Style>
         </Style>
         <Style Selector="^ Button.StatusOrderButton:pointerover /template/ ContentPresenter">

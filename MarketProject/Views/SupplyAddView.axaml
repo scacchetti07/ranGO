@@ -10,7 +10,9 @@
         FontFamily="{StaticResource FilsonPro}"
         Width="1142"
         Height="564">
-
+    <Window.DataContext>
+        <vm:SupplyAddViewModel />
+    </Window.DataContext>
 
     <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto" Margin="50 27">
         <TextBlock Text="Cadastro de Fornecedores" FontWeight="Bold" FontSize="30" />
@@ -22,11 +24,13 @@
         </Button>
         <StackPanel Grid.Row="1" Classes="ProductRegisterStyle">
             <!-- CNPJ MaskText -->
-            <Label Content="CNPJ: " Margin="-2 15 0 0"/>
-            <MaskedTextBox Width="265" Mask="00.000.000/0000-00" OpacityMask="Gray" Name="CnpjMaskedTextBox" TextChanged="CnpjMaskedTextBox_OnTextChanged"/>
-            
+            <Label Content="CNPJ: " Margin="-2 15 0 0" />
+            <MaskedTextBox Width="265" Mask="00.000.000/0000-00"
+                           Text="{Binding Cnpj, UpdateSourceTrigger=PropertyChanged}" Name="CnpjMaskedTextBox"
+                           TextChanged="CnpjMaskedTextBox_OnTextChanged" />
+
             <!-- Name Text -->
-            <Label Content="Nome: "/>
+            <Label Content="Nome: " />
             <TextBox Width="443" Name="NameTextBox" />
 
             <!-- Products AutoText -->
@@ -34,7 +38,8 @@
             <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox"
                              HorizontalAlignment="Left"
                              TextChanged="ProductsAutoCompleteBox_OnTextChanged"
-                             KeyDown="ProductsAutoCompleteBox_OnKeyDown" />
+                             KeyDown="ProductsAutoCompleteBox_OnKeyDown" 
+                             Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}"/>
             <WrapPanel Name="TagContentStackPanel" MaxWidth="500" Orientation="Horizontal" HorizontalAlignment="Left" />
 
             <Grid ColumnDefinitions="Auto, Auto">
@@ -48,7 +53,7 @@
                 <StackPanel Grid.Column="1" Margin="69 0 0 0">
                     <Label Content="CEP:" />
                     <MaskedTextBox Width="197" Mask="00000-000" Name="CepMaskedTextBox"
-                                   TextChanged="CepMaskedTextBox_OnTextChanged" />
+                                   TextChanged="CepMaskedTextBox_OnTextChanged" Text="{Binding Cep, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -64,7 +69,8 @@
 
             <!-- Email Text -->
             <Label Content="Email:" Margin="-2 15 0 0" />
-            <TextBox Width="443" Watermark="suporte@rango.com" Name="EmailTextBox" />
+            <TextBox Width="443" Watermark="suporte@rango.com" Name="EmailTextBox"
+                     Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
 
             <!-- Buttons Add and clean -->
             <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left">

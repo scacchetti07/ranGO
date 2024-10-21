@@ -11,13 +11,14 @@ using Tmds.DBus.Protocol;
 
 namespace MarketProject.ViewModels;
 
-public class RegisterMinMaxViewModel : ReactiveObject
+public class RegisterMinMaxViewModel : ViewModelBase
 {
     public RegisterMinMaxViewModel()
     {
         var theme = Application.Current?.RequestedThemeVariant;
         ChangeBackground = GetColor(theme?.ToString());
     }
+    
     private ISolidColorBrush _changeBackground;
     public ISolidColorBrush ChangeBackground
     {
@@ -44,14 +45,54 @@ public class RegisterMinMaxViewModel : ReactiveObject
     {
         get => _sectionTitle;
         set => this.RaiseAndSetIfChanged(ref _sectionTitle, value);
-    } 
+    }
 
-    public int WeekdaysMin { get; set; }
+
+    private int _weekdaysMin;
+    public int WeekdaysMin
+    {
+        get => _weekdaysMin;
+        set
+        {
+            _weekdaysMin = value;
+            ClearErrors(nameof(WeekdaysMax));
+            if (_weekdaysMin > WeekdaysMax)
+                AddError(nameof(WeekdaysMax), "Estoque máximo é inferior ao mínimo");
+            else
+                RemoveError(nameof(WeekdaysMax));
+        }
+    }
     public int WeekdaysMax { get; set; }
-    
-    public int WeekendsMin { get; set; }
+
+    private int _weekendsMin;
+    public int WeekendsMin
+    {
+        get => _weekendsMin;
+        set
+        {
+            _weekendsMin = value;
+            ClearErrors(nameof(WeekendsMax));
+            if (_weekendsMin > WeekendsMax)
+                AddError(nameof(WeekendsMax), "Estoque máximo é inferior ao mínimo");
+            else
+                RemoveError(nameof(WeekendsMax));
+        }
+    }
     public int WeekendsMax { get; set; }
-    
-    public int EventsMin { get; set; }
-    public int EventsMax { get; set; }
+
+    private int _eventsMin;
+    public int EventsMin
+    {
+        get => _eventsMin;
+        set
+        {
+            _eventsMin = value;
+            ClearErrors(nameof(EventsMax));
+            if (_eventsMin > EventsMax)
+                AddError(nameof(EventsMax), "Estoque máximo é inferior ao mínimo");
+            else
+                RemoveError(nameof(EventsMax));
+        }
+    }
+    public int EventsMax { get; set; } 
 }

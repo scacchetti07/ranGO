@@ -97,10 +97,6 @@ public partial class SupplyAddView : Window
                 throw new Exception("Não é possível adicionar um fornecedor com prazo inferir ou igual a zero.");
             if (AutoCompleteSelectedProducts.Count == 0)
                 throw new Exception("Não existe produtos adicionado na lista deste fornecedor. Adicione!");
-            if (await Supply.ValidarCEP(CepMaskedTextBox.Text) is false)
-                throw new Exception($"CEP informado é inválido e não existe.");
-            if (await Supply.ConsultaCNPJ(CnpjMaskedTextBox.Text) is false)
-                throw new Exception($"CNPJ informado é inválido e não existe.");
 
             string cnpj = CnpjMaskedTextBox.Text;
             if (cnpj.Contains(','))
@@ -121,6 +117,11 @@ public partial class SupplyAddView : Window
             }
             if (oldsupply is not null)
                 throw new Exception("Código GTIN digitado já existe no sistema!");
+            
+            if (await Supply.ValidarCEP(CepMaskedTextBox.Text) is false)
+                throw new Exception($"CEP informado é inválido e não existe.");
+            if (await Supply.ConsultaCNPJ(CnpjMaskedTextBox.Text) is false)
+                throw new Exception($"CNPJ informado é inválido e não existe.");
             SupplyCtrl.AddNewSupply(newSupply);
             SupplyAdded?.Invoke(newSupply);
             ClearTextBox();

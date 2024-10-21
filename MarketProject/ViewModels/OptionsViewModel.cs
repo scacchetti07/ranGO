@@ -12,7 +12,7 @@ using MarketProject.Views;
 
 namespace MarketProject.ViewModels;
 
-public class OptionsViewModel : ReactiveObject
+public class OptionsViewModel : ViewModelBase
 {
     private HomeViewModel _homeViewModel = new();
     

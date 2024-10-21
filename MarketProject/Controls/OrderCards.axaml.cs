@@ -177,8 +177,7 @@ public partial class OrderCards : UserControl
         {
             var actualOrder = OrderController.OrdersList.FirstOrDefault(o => o.Id.Contains(Id[1..]));
             if (actualOrder is null) return;
-            
-            
+
             OrderStatus = actualOrder.OrderStatus = orderStatus;
             OrderController.EditOrder(actualOrder);
         },DispatcherPriority.Background);
