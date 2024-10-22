@@ -7,7 +7,9 @@
              Background="#E8EEF7"
              Foreground="Black"
              FontFamily="{StaticResource FilsonPro}"
-             CornerRadius="10">
+             CornerRadius="10"
+             Width="456"
+             Height="120">
     <Grid ColumnDefinitions="Auto, Auto" Classes="FoodCardStyle">
         <Border Grid.Column="0" x:Name="FoodPictureImageBrush">
             <Border.Background>

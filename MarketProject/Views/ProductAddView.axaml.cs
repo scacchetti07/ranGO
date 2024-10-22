@@ -24,13 +24,13 @@ using Timer = System.Timers.Timer;
 
 namespace MarketProject.Views;
 
-public partial class ProdRegisterView : Window
+public partial class ProductAddView : Window
 {
     public delegate void ProductAddedDelegate(Product? product);
     public event ProductAddedDelegate? ProductAdded;
     public RegisterMinMaxViewModel MinMaxViewModel => (MinMaxView.DataContext as RegisterMinMaxViewModel)!;
     
-    public ProdRegisterView()
+    public ProductAddView()
     {
         InitializeComponent();
         this.ResponsiveWindow();

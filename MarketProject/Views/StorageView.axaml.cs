@@ -55,7 +55,7 @@ public partial class StorageView : UserControl
     
     private async void RegisterProductButton(object sender, RoutedEventArgs e)
     {
-        ProdRegisterView RegisProdView = new()
+        ProductAddView RegisProdView = new()
         {
             Title = "Cadastro de Produtos",
             WindowStartupLocation= WindowStartupLocation.CenterScreen,
@@ -118,7 +118,7 @@ public partial class StorageView : UserControl
         if (product is null) return;
         var selectedProducts = StorageCtrl.FindProduct(product.Gtin);
         
-        ProdRegisterView editProduct = new()
+        ProductAddView editProduct = new()
         {
             Title = "Cadastro de Produtos",
             WindowStartupLocation= WindowStartupLocation.CenterScreen,

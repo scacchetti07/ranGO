@@ -83,7 +83,7 @@ public class Supply
         };
         using var response = await client.SendAsync(request);
         if (response.StatusCode == (HttpStatusCode)429)
-            throw new Exception("Muitas pesquisas foram realizadas. Tente novamente em alguns minutos...");
+            throw new Exception("A consulta de CNPJ ultrapassou de 3 vezes, aguarde 1 minuto...");
 
         try
         {

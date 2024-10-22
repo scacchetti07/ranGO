@@ -35,8 +35,8 @@ public class Foods
 public enum FoodTypesEnum
 {
     Appetizer, // Entrada
-    Salad,
     Main, // Prato principal
+    Salad,
     Pasta,
     Meat,
     Fish,

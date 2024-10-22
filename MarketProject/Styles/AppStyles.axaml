@@ -20,7 +20,7 @@
                                     ContentTemplate="{TemplateBinding ErrorTemplate}"
                                     DataContext="{TemplateBinding Owner}"
                                     Content="{Binding (DataValidationErrors.Errors)}"
-                                    IsVisible="{Binding (DataValidationErrors.HasErrors)}"/>
+                                    IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
@@ -28,31 +28,31 @@
                                       CornerRadius="{TemplateBinding CornerRadius}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       Content="{TemplateBinding Content}"
-                                      Padding="{TemplateBinding Padding}"/>
+                                      Padding="{TemplateBinding Padding}" />
                 </DockPanel>
             </ControlTemplate>
         </Setter>
         <Setter Property="ErrorTemplate">
             <DataTemplate x:DataType="{x:Type x:Object}">
-                <Canvas Width="14" Height="14" Margin="4 0 1 0" 
+                <Canvas Width="14" Height="14" Margin="4 0 1 0"
                         Background="Transparent">
                     <Canvas.Styles>
                         <Style Selector="ToolTip">
-                            <Setter Property="Background" Value="LightSalmon"/>
-                            <Setter Property="BorderBrush" Value="#D87249"/>
+                            <Setter Property="Background" Value="LightSalmon" />
+                            <Setter Property="BorderBrush" Value="#D87249" />
                         </Style>
                     </Canvas.Styles>
                     <ToolTip.Tip>
-                        <ItemsControl ItemsSource="{Binding}"/>
+                        <ItemsControl ItemsSource="{Binding}" />
                     </ToolTip.Tip>
-                    <Path Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2" 
-                          Stroke="Red" 
-                          StrokeThickness="2"/>
+                    <Path Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2"
+                          Stroke="Red"
+                          StrokeThickness="2" />
                 </Canvas>
             </DataTemplate>
         </Setter>
     </Style>
-    
+
     <Style Selector="Button.BtnLoginHover:pointerover /template/ ContentPresenter">
         <Setter Property="BorderBrush" Value="#DCB861" />
         <Setter Property="BorderThickness" Value="2" />
@@ -347,14 +347,15 @@
                 <Setter Property="Opacity" Value="70" />
             </Style>
         </Style>
-        <Style Selector="^ ComboBox.ChangeTable">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Bottom" />
-            <Setter Property="Margin" Value="0 -15" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="BorderThickness" Value="0" />
-        </Style>
+    </Style>
+    <Style Selector="ComboBox.ChangeTable">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="0 -15" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="5" />
     </Style>
     <Style Selector="Panel.SearchTextBox">
         <Style Selector="^ TextBox">
@@ -570,7 +571,7 @@
                 <Setter Property="Width" Value="134" />
                 <Setter Property="Height" Value="35" />
                 <Setter Property="FontSize" Value="15" />
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Foreground" Value="White" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="CornerRadius" Value="5" />
@@ -579,14 +580,14 @@
             <Style Selector="^ Button:pointerover /template/ ContentPresenter">
                 <Setter Property="Background" Value="#590B0E18" />
                 <Setter Property="BorderBrush" Value="#DCB861" />
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Foreground" Value="White" />
                 <Setter Property="BorderThickness" Value="2" />
             </Style>
         </Style>
         <Style Selector="^ Button.StatusOrderButton">
             <Setter Property="Width" Value="45" />
             <Setter Property="Height" Value="35" />
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="White" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Cursor" Value="Hand" />
@@ -640,7 +641,7 @@
                 <Setter Property="ToolTip.Tip" Value="Adicioanr Novo Pedido" />
                 <Style Selector="^ Svg">
                     <Setter Property="Path" Value="/Assets/Icons/SVG/IconAdd.svg" />
-                    <Setter Property="Css" Value="path {fill: #FFF; }"/>
+                    <Setter Property="Css" Value="path {fill: #FFF; }" />
                     <Setter Property="Width" Value="40" />
                     <Setter Property="Height" Value="50" />
                 </Style>
@@ -658,7 +659,7 @@
                 <Setter Property="Width" Value="220" />
                 <Setter Property="Height" Value="50" />
                 <Setter Property="FontSize" Value="20" />
-                <Setter Property="Foreground" Value="#DBDBDA"/>
+                <Setter Property="Foreground" Value="#DBDBDA" />
                 <Setter Property="FontWeight" Value="SemiBold" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -763,8 +764,8 @@
             </Style>
             <Style Selector="^ Label">
                 <Setter Property="FontSize" Value="16" />
-                <Setter Property="FontWeight" Value="Heavy"/>
-                <Setter Property="Margin" Value="5 0"/>
+                <Setter Property="FontWeight" Value="Heavy" />
+                <Setter Property="Margin" Value="5 0" />
             </Style>
             <Style Selector="^ StackPanel">
                 <Setter Property="Orientation" Value="Horizontal" />
@@ -778,7 +779,7 @@
                 <Style Selector="^ Button">
                     <Setter Property="Width" Value="40" />
                     <Setter Property="Height" Value="29" />
-                    <Setter Property="CornerRadius" Value="5"/>
+                    <Setter Property="CornerRadius" Value="5" />
                     <Style Selector="^ Svg">
                         <Setter Property="Height" Value="20" />
                     </Style>
@@ -794,5 +795,37 @@
                 </Style>
             </Style>
         </Style>
+    </Style>
+
+    <Style Selector="StackPanel.FoodMenuTopStyles">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="0 0 0 36" />
+    </Style>
+    <Style Selector="ComboBox.FoodMenuComboBoxStyle">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="BorderBrush" Value="Azure" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style Selector="ScrollViewer.FoodMenuCardsStyles">
+        <Setter Property="MaxHeight" Value="780" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Style Selector="^ StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="35" />
+            <Setter Property="Spacing" Value="30" />
+        </Style>
+    </Style>
+    <Style Selector="Button.AddFoodButton">
+        <Setter Property="Canvas.Left" Value="24"/>
+        <Setter Property="Canvas.Top" Value="780"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="#6EA759" />
+        <Setter Property="Width" Value="442" />
+        <Setter Property="Height" Value="60" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="CornerRadius" Value="5" />
     </Style>
 </Styles>

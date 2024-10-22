@@ -4,16 +4,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:MarketProject.ViewModels"
         xmlns:vw="using:MarketProject.Views"
-        xmlns:models="using:MarketProject.Models"
         mc:Ignorable="d" d:DesignWidth="1142" d:DesignHeight="800"
-        x:Class="MarketProject.Views.ProdRegisterView"
-        x:DataType="vm:ProdRegisterViewModel"
+        x:Class="MarketProject.Views.ProductAddView"
+        x:DataType="vm:ProductAddViewModel"
         FontFamily="{StaticResource FilsonPro}"
         Width="1142"
         Height="800">
 
     <Window.DataContext>
-        <vm:ProdRegisterViewModel />
+        <vm:ProductAddViewModel />
     </Window.DataContext>
 
     <Grid ColumnDefinitions="Auto,Auto" Margin="50 0">

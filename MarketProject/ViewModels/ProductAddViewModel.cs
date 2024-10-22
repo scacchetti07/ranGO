@@ -5,5 +5,5 @@ using ReactiveUI;
 
 namespace MarketProject.ViewModels;
 
-public class ProdRegisterViewModel : ViewModelBase
+public class ProductAddViewModel : ViewModelBase
 { }
