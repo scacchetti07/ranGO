@@ -36,7 +36,9 @@
             <ComboBoxItem Content="Bebidas" />
         </ComboBox>
         <ScrollViewer Grid.Row="2" Classes="FoodMenuCardsStyles">
-            <StackPanel Name="OrderCardsPanel"/>
+            <StackPanel Name="OrderCardsPanel" Classes="FoodStackPanel">
+                <src:FoodCard/>
+            </StackPanel>
         </ScrollViewer>
         <Canvas Grid.Row="2">
             <Button Content="Adicionar Novo Prato" Classes="AddFoodButton"/>

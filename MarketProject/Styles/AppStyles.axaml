@@ -52,6 +52,8 @@
             </DataTemplate>
         </Setter>
     </Style>
+    
+    
 
     <Style Selector="Button.BtnLoginHover:pointerover /template/ ContentPresenter">
         <Setter Property="BorderBrush" Value="#DCB861" />
@@ -160,6 +162,15 @@
         <Style Selector="^ TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="MaxLength" Value="70" />
+        </Style>
+        
+        <Style Selector="^ AutoCompleteBox.ErrorAutoCompleteStyle /template/ TextBox">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+        <Style Selector="^ AutoCompleteBox.WarnAutoCompleteStyle /template/ TextBox">
+            <Setter Property="Foreground" Value="Yellow"/>
+            <Setter Property="BorderThickness" Value="2"/>
         </Style>
 
         <Style Selector="^ ComboBox">
@@ -810,7 +821,7 @@
     <Style Selector="ScrollViewer.FoodMenuCardsStyles">
         <Setter Property="MaxHeight" Value="780" />
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
-        <Style Selector="^ StackPanel">
+        <Style Selector="^ StackPanel.FoodStackPanel">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Margin" Value="35" />
             <Setter Property="Spacing" Value="30" />

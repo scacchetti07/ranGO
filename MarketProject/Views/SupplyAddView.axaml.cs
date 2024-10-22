@@ -7,10 +7,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using ExCSS;
 using MarketProject.Controllers;
 using MarketProject.Extensions;
@@ -45,6 +49,16 @@ public partial class SupplyAddView : Window
         PhoneMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
 
         ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
+
+        ProductsAutoCompleteBox.Loaded += (_, _) =>
+        {
+            TextBox textBox = ProductsAutoCompleteBox.GetTemplateChildren().Single(control => control is TextBox) as TextBox;
+            textBox!.Bind(TextBox.TextProperty, new Binding()
+            {
+                Path = "ProductName",
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            });
+        };        
     }
 
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
@@ -118,9 +132,9 @@ public partial class SupplyAddView : Window
             if (oldsupply is not null)
                 throw new Exception("Código GTIN digitado já existe no sistema!");
             
-            if (await Supply.ValidarCEP(CepMaskedTextBox.Text) is false)
+            if (await Supply.ValidarCEP(CepMaskedTextBox.Text) is null)
                 throw new Exception($"CEP informado é inválido e não existe.");
-            if (await Supply.ConsultaCNPJ(CnpjMaskedTextBox.Text) is false)
+            if (await Supply.ConsultaCNPJ(CnpjMaskedTextBox.Text) is null)
                 throw new Exception($"CNPJ informado é inválido e não existe.");
             SupplyCtrl.AddNewSupply(newSupply);
             SupplyAdded?.Invoke(newSupply);
@@ -191,28 +205,6 @@ public partial class SupplyAddView : Window
             DateLimitTextBox.Text,
         };
 
-    private void ProductsAutoCompleteBox_OnTextChanged(object sender, TextChangedEventArgs e)
-    {
-        var keyword = ProductsAutoCompleteBox.Text;
-        if (keyword.LastOrDefault() != ',') return;
-
-        keyword = keyword!.Replace(",", "");
-        Product prod = StorageController.FindProductByNameAsync(keyword);
-        if (prod is null || AutoCompleteSelectedProducts.Any(p => p.Id == prod.Id))
-        {
-            ProductsAutoCompleteBox.Text = ProductsAutoCompleteBox.Text!.Replace(",", "");
-            return;
-        }
-
-        AutoCompleteSelectedProducts.Add(prod);
-        var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
-        itemSource.Remove(prod.Name);
-        ProductsAutoCompleteBox.ItemsSource = itemSource;
-
-        ProductsAutoCompleteBox.Text = "";
-        TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
-    }
-
     private void ProductsAutoCompleteBox_OnKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key != Avalonia.Input.Key.Enter) return;
@@ -260,7 +252,7 @@ public partial class SupplyAddView : Window
         if (keyword.Contains('_')) return;
         
         var cepContent = await Supply.ValidarCEP(keyword);
-        if (cepContent is false) return;
+        if (cepContent is null) return;
 
         AddressTextBox.Text = $"{cepContent.logradouro} - {cepContent.localidade}";
     }
@@ -272,7 +264,7 @@ public partial class SupplyAddView : Window
         try
         {
             var cnpjContent = await Supply.ConsultaCNPJ(keyword);
-            if (cnpjContent is false) return;
+            if (cnpjContent is null) return;
             
             NameTextBox.Text = cnpjContent?.nome;
             CepMaskedTextBox.Text = cnpjContent.cep.Replace(".", "");

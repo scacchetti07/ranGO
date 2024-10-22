@@ -31,13 +31,12 @@
 
             <!-- Name Text -->
             <Label Content="Nome: " />
-            <TextBox Width="443" Name="NameTextBox" />
+            <TextBox Width="443" Name="NameTextBox"/>
 
             <!-- Products AutoText -->
             <Label Content="Produtos Fornecidos: *" />
             <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox"
                              HorizontalAlignment="Left"
-                             TextChanged="ProductsAutoCompleteBox_OnTextChanged"
                              KeyDown="ProductsAutoCompleteBox_OnKeyDown" 
                              Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}"/>
             <WrapPanel Name="TagContentStackPanel" MaxWidth="500" Orientation="Horizontal" HorizontalAlignment="Left" />

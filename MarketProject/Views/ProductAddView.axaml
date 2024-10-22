@@ -35,7 +35,8 @@
             <StackPanel Name="SupplyContent">
                 <Label Content="Fornecedor: *" />
                 <AutoCompleteBox x:Name="SupplyAutoCompleteBox" FilterMode="Contains"
-                                 Watermark="Selecione um fornecedor"/>
+                                 Watermark="Selecione um fornecedor"
+                                 Text="{Binding SupplyName, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel>
                 <Label Content="Descrição:" />

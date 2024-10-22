@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -39,6 +41,16 @@ public partial class ProductAddView : Window
         QuantityTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
 
         SupplyAutoCompleteBox.ItemsSource = Database.SupplyList.Select(s => s.Name);
+        
+        SupplyAutoCompleteBox.Loaded += (_, _) =>
+        {
+            TextBox textBox = SupplyAutoCompleteBox.GetTemplateChildren().Single(control => control is TextBox) as TextBox;
+            textBox!.Bind(TextBox.TextProperty, new Binding()
+            {
+                Path = "SupplyName",
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            });
+        };      
     }
 
     private void PreviewTextChanged(object sender, TextInputEventArgs e)

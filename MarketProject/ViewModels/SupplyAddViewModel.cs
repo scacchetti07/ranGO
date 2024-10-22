@@ -58,7 +58,6 @@ public class SupplyAddViewModel : ViewModelBase
     }
 
     
-    // Verificar se o produto digitado existe no sistema
     private string? _productName;
     public string? ProductName
     {
@@ -67,7 +66,7 @@ public class SupplyAddViewModel : ViewModelBase
         {
             _productName = value;
             ClearErrors(nameof(ProductName));
-            if (StorageController.FindProductByNameAsync(ProductName) is null)
+            if (ProductName?.Trim() != "" && StorageController.FindProductByNameAsync(ProductName) is null)
                 AddError(nameof(ProductName), "Produto digitado não no estoque!");
             else if (!string.IsNullOrEmpty(ProductName))
                 AddError(nameof(ProductName), "Produto não foi adicionado. Clique 'Enter'");

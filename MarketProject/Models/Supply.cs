@@ -56,7 +56,7 @@ public class Supply
         using HttpClient client = new HttpClient();
         var response = await client.GetAsync(url).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
-            return false;
+            return null;
 
         var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         var jsonDefinition = new
@@ -108,6 +108,6 @@ public class Supply
             Console.WriteLine(e.Message);
         }
 
-        return false;
+        return null;
     }
 }
