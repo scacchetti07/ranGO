@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -13,6 +14,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
+using Avalonia.Metadata;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using ExCSS;
@@ -47,18 +49,37 @@ public partial class SupplyAddView : Window
         CnpjMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         DateLimitTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         PhoneMaskedTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        ProductsAutoCompleteBox.AddHandler(KeyDownEvent, (sender, e) =>
+        {
+            if (sender is not AutoCompleteBox autoComplete)
+                return;
+            if (e.Key != Avalonia.Input.Key.Tab || autoComplete.Text is null || autoComplete.Text.Trim() == "")
+                return;
+
+            string item = autoComplete.ItemsSource!
+                .Cast<string>()
+                .FirstOrDefault(item =>
+                    autoComplete.TextFilter?.Invoke(autoComplete.Text, item) ?? true);
+            if (item is null)
+                return;
+
+            autoComplete.Text = item;
+            autoComplete.CaretIndex = autoComplete.Text.Length;
+            e.Handled = true;
+        }, RoutingStrategies.Tunnel);
 
         ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
 
         ProductsAutoCompleteBox.Loaded += (_, _) =>
         {
-            TextBox textBox = ProductsAutoCompleteBox.GetTemplateChildren().Single(control => control is TextBox) as TextBox;
+            TextBox textBox =
+                ProductsAutoCompleteBox.GetTemplateChildren().Single(control => control is TextBox) as TextBox;
             textBox!.Bind(TextBox.TextProperty, new Binding()
             {
                 Path = "ProductName",
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
-        };        
+        };
     }
 
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
@@ -114,9 +135,9 @@ public partial class SupplyAddView : Window
 
             string cnpj = CnpjMaskedTextBox.Text;
             if (cnpj.Contains(','))
-                cnpj = CnpjMaskedTextBox.Text.Replace(',', '.'); 
-                
-            
+                cnpj = CnpjMaskedTextBox.Text.Replace(',', '.');
+
+
             Supply newSupply = new Supply(NameTextBox.Text, cnpj,
                 AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit,
                 CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
@@ -129,9 +150,10 @@ public partial class SupplyAddView : Window
                 SupplyAdded?.Invoke(newSupply);
                 return;
             }
+
             if (oldsupply is not null)
                 throw new Exception("Código GTIN digitado já existe no sistema!");
-            
+
             if (await Supply.ValidarCEP(CepMaskedTextBox.Text) is null)
                 throw new Exception($"CEP informado é inválido e não existe.");
             if (await Supply.ConsultaCNPJ(CnpjMaskedTextBox.Text) is null)
@@ -156,9 +178,8 @@ public partial class SupplyAddView : Window
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 SystemDecorations = SystemDecorations.BorderOnly
             });
-            await msgBox.ShowAsync().ConfigureAwait(false); 
+            await msgBox.ShowAsync().ConfigureAwait(false);
         }
-        
     }
 
     private async void CleanText_OnClick(object sender, RoutedEventArgs e)
@@ -250,7 +271,7 @@ public partial class SupplyAddView : Window
         var keyword = CepMaskedTextBox.Text;
 
         if (keyword.Contains('_')) return;
-        
+
         var cepContent = await Supply.ValidarCEP(keyword);
         if (cepContent is null) return;
 
@@ -265,7 +286,7 @@ public partial class SupplyAddView : Window
         {
             var cnpjContent = await Supply.ConsultaCNPJ(keyword);
             if (cnpjContent is null) return;
-            
+
             NameTextBox.Text = cnpjContent?.nome;
             CepMaskedTextBox.Text = cnpjContent.cep.Replace(".", "");
             AddressTextBox.Text = $"{cnpjContent.logradouro} - {cnpjContent.uf}";

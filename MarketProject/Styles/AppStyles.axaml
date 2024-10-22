@@ -15,12 +15,14 @@
     <Style Selector="DataValidationErrors">
         <Setter Property="Template">
             <ControlTemplate>
-                <DockPanel LastChildFill="True">
-                    <ContentControl DockPanel.Dock="Right"
-                                    ContentTemplate="{TemplateBinding ErrorTemplate}"
+                <Grid>
+                    <ContentControl ContentTemplate="{TemplateBinding ErrorTemplate}"
                                     DataContext="{TemplateBinding Owner}"
                                     Content="{Binding (DataValidationErrors.Errors)}"
-                                    IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+                                    IsVisible="{Binding (DataValidationErrors.HasErrors)}" 
+                                    HorizontalAlignment="Right"
+                                    ZIndex="1"
+                                    Margin="0,0,10,0"/>
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
@@ -29,7 +31,7 @@
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       Content="{TemplateBinding Content}"
                                       Padding="{TemplateBinding Padding}" />
-                </DockPanel>
+                </Grid>
             </ControlTemplate>
         </Setter>
         <Setter Property="ErrorTemplate">

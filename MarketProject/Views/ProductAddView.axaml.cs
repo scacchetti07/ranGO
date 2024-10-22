@@ -39,6 +39,24 @@ public partial class ProductAddView : Window
         GtinTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         PriceTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         QuantityTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        SupplyAutoCompleteBox.AddHandler(KeyDownEvent, (sender, e) =>
+        {
+            if (sender is not AutoCompleteBox autoComplete)
+                return;
+            if (e.Key != Key.Tab || autoComplete.Text is null || autoComplete.Text.Trim() == "")
+                return;
+
+            string item = autoComplete.ItemsSource!
+                .Cast<string>()
+                .FirstOrDefault(item =>
+                    autoComplete.TextFilter?.Invoke(autoComplete.Text, item) ?? true);
+            if (item is null)
+                return;
+
+            autoComplete.Text = item;
+            autoComplete.CaretIndex = autoComplete.Text.Length;
+            e.Handled = true;
+        }, RoutingStrategies.Tunnel);
 
         SupplyAutoCompleteBox.ItemsSource = Database.SupplyList.Select(s => s.Name);
         
