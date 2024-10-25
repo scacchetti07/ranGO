@@ -126,7 +126,7 @@ public partial class SupplyView : UserControl
         editSupply.CnpjMaskedTextBox.IsEnabled = false;
         foreach (var prod in products)
         {
-            editSupply.AutoCompleteSelectedProducts.Add(prod);
+            editSupply .AutoCompleteSelectedProducts.Add(prod);
             editSupply.TagContentStackPanel.Children.Add(editSupply.GenereteAutoCompleteTag(prod));
             
             var itemSource = editSupply.ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();

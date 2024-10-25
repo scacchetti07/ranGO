@@ -2,23 +2,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="493" d:DesignHeight="1026"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="1026"
              x:Class="MarketProject.Views.FoodMenuView"
              xmlns:vm="using:MarketProject.ViewModels"
              xmlns:src="using:MarketProject.Controls"
              BorderBrush="#E8EEF7"
-             x:DataType="vm:FoodMenuView"
-             BorderThickness="2 0 0 0">
+             Background="#0B0E18"
+             x:DataType="vm:FoodMenuViewModel"
+             BorderThickness="2 0 0 0"
+             Width="450"
+             Height="1026">
     <Grid RowDefinitions="Auto, Auto, Auto">
         <StackPanel Classes="FoodMenuTopStyles">
-            <Panel Classes="SearchTextBox" VerticalAlignment="Center">
+            <Panel Classes="SearchTextBox" VerticalAlignment="Center" Margin="-10">
                 <TextBox Watermark="Procure pelo Nome do prato..." Width="290" Name="SearchTextBox" />
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}" />
             </Panel>
-            <Button Classes="ReturnButton" VerticalAlignment="Center">
-                <StackPanel Classes="ReturnButtonStackPanel">
-                    <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
-                    <Label Content="Fechar" />
+            <Button Name="ExitButton" Classes="ExitButton">
+                <StackPanel Orientation="Horizontal">
+                    <Svg />
+                    <Label />
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -37,11 +40,11 @@
         </ComboBox>
         <ScrollViewer Grid.Row="2" Classes="FoodMenuCardsStyles">
             <StackPanel Name="OrderCardsPanel" Classes="FoodStackPanel">
-                <src:FoodCard/>
+                <src:FoodCard />
             </StackPanel>
         </ScrollViewer>
         <Canvas Grid.Row="2">
-            <Button Content="Adicionar Novo Prato" Classes="AddFoodButton"/>
+            <Button Content="Adicionar Novo Prato" Classes="AddFoodButton" />
         </Canvas>
     </Grid>
 </UserControl>

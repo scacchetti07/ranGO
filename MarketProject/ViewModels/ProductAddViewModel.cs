@@ -18,8 +18,6 @@ public class ProductAddViewModel : ViewModelBase
             ClearErrors(nameof(SupplyName));
             if (SupplyName?.Trim() != "" && SupplyController.FindSupplyByName(SupplyName) is null)
                 AddError(nameof(SupplyName), "Fornecedor digitado não existe no estoque!");
-            else if (!string.IsNullOrEmpty(SupplyName))
-                AddError(nameof(SupplyName), "Fornecedor existe mas não foi adicionado. Pressione 'Enter'");
             else
                 RemoveError(nameof(SupplyName));
         }

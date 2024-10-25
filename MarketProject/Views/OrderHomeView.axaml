@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1026"
              x:Class="MarketProject.Views.OrderHomeView"
              xmlns:vm="clr-namespace:MarketProject.ViewModels"
-             xmlns:controls="clr-namespace:MarketProject.Controls"
+             xmlns:view="clr-namespace:MarketProject.Views"
              x:DataType="vm:OrderHomeViewModel"
              FontFamily="{StaticResource FilsonPro}"
              Width="1581"
@@ -13,35 +13,37 @@
     <UserControl.DataContext>
         <vm:OrderHomeViewModel />
     </UserControl.DataContext>
-    <Grid Classes="OrderHomeStyles" RowDefinitions="Auto, Auto, Auto">
-        <Grid ColumnDefinitions="Auto, *">
-            <Panel Classes="SearchTextBox">
-                <TextBox Watermark="Procure pelo ID do pedido ou N° da mesa..." Name="SearchTextBox"
-                         TextChanged="SearchTextBox_OnTextChanged" />
-                <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}" />
-            </Panel>
+    <Panel>
+        <Grid Classes="OrderHomeStyles" RowDefinitions="Auto, Auto, Auto, Auto">
+            <Grid ColumnDefinitions="Auto, *">
+                <Panel Classes="SearchTextBox">
+                    <TextBox Watermark="Procure pelo ID do pedido ou N° da mesa..." Name="SearchTextBox"
+                             TextChanged="SearchTextBox_OnTextChanged" />
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}" />
+                </Panel>
 
-            <StackPanel Grid.Column="1" Classes="OrderHomeTop">
-                <Button Classes="AddOrder" Click="AddOrder_OnClick">
-                    <Svg />
-                </Button>
-                <Button Classes="ShowFood" Content="Ver Cardápio" />
-            </StackPanel>
+                <StackPanel Grid.Column="1" Classes="OrderHomeTop">
+                    <Button Classes="AddOrder" Click="AddOrder_OnClick">
+                        <Svg />
+                    </Button>
+                    <Button Classes="ShowFood" Content="Ver Cardápio" Click="FoodMenuButton_OnClick"/>
+                </StackPanel>
+            </Grid>
+                <StackPanel Grid.Row="1" Margin="0 40">
+                    <Canvas>
+                        <StackPanel Classes="OrderHomeTitles">
+                            <Button Content="Todos" Name="AllOrdersButton" Click="AllOrders_OnClick" />
+                            <Button Content="Novos" Click="NewOrders_OnClick" />
+                            <Button Content="Preparando" Click="PreparingOrders_OnClick" />
+                            <Button Content="Fechados" Click="ClosedOrders_OnClick" />
+                        </StackPanel>
+                        <Border Classes="OrderDivider" Canvas.Top="38" />
+                    </Canvas>
+                </StackPanel>
+            <ScrollViewer MaxHeight="800" Grid.Row="2" VerticalScrollBarVisibility="Hidden">
+                <WrapPanel Classes="OrderCardsDisplay" Name="OrderCardsPanel"/>
+            </ScrollViewer>
         </Grid>
-            <StackPanel Grid.Row="1" Margin="0 40">
-                <Canvas>
-                    <StackPanel Classes="OrderHomeTitles">
-                        <Button Content="Todos" Name="AllOrdersButton" Click="AllOrders_OnClick" />
-                        <Button Content="Novos" Click="NewOrders_OnClick" />
-                        <Button Content="Preparando" Click="PreparingOrders_OnClick" />
-                        <Button Content="Fechados" Click="ClosedOrders_OnClick" />
-                    </StackPanel>
-                    <Border Classes="OrderDivider" Canvas.Top="38" />
-                </Canvas>
-            </StackPanel>
-        <ScrollViewer MaxHeight="800" Grid.Row="2" VerticalScrollBarVisibility="Hidden">
-            <WrapPanel Classes="OrderCardsDisplay" Name="OrderCardsPanel"/>
-        </ScrollViewer>
-    </Grid>
-
+        <Panel HorizontalAlignment="Right" x:Name="FoodMenuViewPanel"/>
+    </Panel>
 </UserControl>
