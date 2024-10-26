@@ -48,10 +48,8 @@ public class SupplyAddViewModel : ViewModelBase
         {
             _email = value;
             ClearErrors(nameof(Email));
-            if (string.IsNullOrEmpty(_email))
-                AddError(nameof(Email), "Campo obrigatório");
-            else if (!_email.Contains('@'))
-                AddError(nameof(Email), "Email deve conter '@'");
+            if (!_email.Contains('@') || !_email.Contains('.'))
+                AddError(nameof(Email), "Email deve conter '@' e '.'");
             else
                 RemoveError(nameof(Email));
         }

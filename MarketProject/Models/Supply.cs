@@ -94,7 +94,7 @@ public class Supply
 
             var jsonDefinition = new
             {
-                nome = "",
+                fantasia = "",
                 logradouro = "",
                 uf = "",
                 cep = "",

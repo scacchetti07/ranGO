@@ -4,23 +4,42 @@
              x:DataType="vm:OptionsViewModel"
              xmlns:vm="using:MarketProject.ViewModels"
              xmlns:local="using:MarketProject"
+             xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              RequestedThemeVariant="Dark">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme>
             <FluentTheme.Palettes>
-                <ColorPaletteResources x:Key="Light" Accent="#ff4787cd" AltHigh="White" AltLow="White" AltMedium="White" AltMediumHigh="White" AltMediumLow="White" BaseHigh="Black" BaseLow="#ffb1bbcc" BaseMedium="#ff5f7e9b" BaseMediumHigh="#ff29557a" BaseMediumLow="#ff44698a" ChromeAltLow="#ff29557a" ChromeBlackHigh="Black" ChromeBlackLow="#ffb1bbcc" ChromeBlackMedium="#ff29557a" ChromeBlackMediumLow="#ff5f7e9b" ChromeDisabledHigh="#ffb1bbcc" ChromeDisabledLow="#ff5f7e9b" ChromeGray="#ff44698a" ChromeHigh="#ffb1bbcc" ChromeLow="#ffdbe7f8" ChromeMedium="#ffd3deef" ChromeMediumLow="#ffdbe7f8" ChromeWhite="White" ListLow="#ffd3deef" ListMedium="#ffb1bbcc" RegionColor="#ffe8eef7" />
-                <ColorPaletteResources x:Key="Dark" Accent="#ff3374b9" AltHigh="Black" AltLow="Black" AltMedium="Black" AltMediumHigh="Black" AltMediumLow="Black" BaseHigh="White" BaseLow="#ff202229" BaseMedium="#ff8d919e" BaseMediumHigh="#ffa8adbb" BaseMediumLow="#ff565a63" ChromeAltLow="#ffa8adbb" ChromeBlackHigh="Black" ChromeBlackLow="#ffa8adbb" ChromeBlackMedium="Black" ChromeBlackMediumLow="Black" ChromeDisabledHigh="#ff202229" ChromeDisabledLow="#ff8d919e" ChromeGray="#ff727581" ChromeHigh="#ff727581" ChromeLow="#ff060f25" ChromeMedium="#ff0d1426" ChromeMediumLow="#ff1a1d28" ChromeWhite="White" ListLow="#ff0d1426" ListMedium="#ff202229" RegionColor="#ff0b0e18" />
+                <ColorPaletteResources x:Key="Light" Accent="#ff4787cd" AltHigh="White" AltLow="White"
+                                       AltMedium="White" AltMediumHigh="White" AltMediumLow="White" BaseHigh="Black"
+                                       BaseLow="#ffb1bbcc" BaseMedium="#ff5f7e9b" BaseMediumHigh="#ff29557a"
+                                       BaseMediumLow="#ff44698a" ChromeAltLow="#ff29557a" ChromeBlackHigh="Black"
+                                       ChromeBlackLow="#ffb1bbcc" ChromeBlackMedium="#ff29557a"
+                                       ChromeBlackMediumLow="#ff5f7e9b" ChromeDisabledHigh="#ffb1bbcc"
+                                       ChromeDisabledLow="#ff5f7e9b" ChromeGray="#ff44698a" ChromeHigh="#ffb1bbcc"
+                                       ChromeLow="#ffdbe7f8" ChromeMedium="#ffd3deef" ChromeMediumLow="#ffdbe7f8"
+                                       ChromeWhite="White" ListLow="#ffd3deef" ListMedium="#ffb1bbcc"
+                                       RegionColor="#ffe8eef7" />
+                <ColorPaletteResources x:Key="Dark" Accent="#ff3374b9" AltHigh="Black" AltLow="Black" AltMedium="Black"
+                                       AltMediumHigh="Black" AltMediumLow="Black" BaseHigh="White" BaseLow="#ff202229"
+                                       BaseMedium="#ff8d919e" BaseMediumHigh="#ffa8adbb" BaseMediumLow="#ff565a63"
+                                       ChromeAltLow="#ffa8adbb" ChromeBlackHigh="Black" ChromeBlackLow="#ffa8adbb"
+                                       ChromeBlackMedium="Black" ChromeBlackMediumLow="Black"
+                                       ChromeDisabledHigh="#ff202229" ChromeDisabledLow="#ff8d919e"
+                                       ChromeGray="#ff727581" ChromeHigh="#ff727581" ChromeLow="#ff060f25"
+                                       ChromeMedium="#ff0d1426" ChromeMediumLow="#ff1a1d28" ChromeWhite="White"
+                                       ListLow="#ff0d1426" ListMedium="#ff202229" RegionColor="#ff0b0e18" />
             </FluentTheme.Palettes>
         </FluentTheme>
-        
-        <StyleInclude Source="/Styles/AppStyles.axaml"/>
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+
+        <StyleInclude Source="/Styles/AppStyles.axaml" />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <dialogHostAvalonia:DialogHostStyles />
     </Application.Styles>
     <Application.Resources>
         <FontFamily x:Key="FilsonPro">avares://MarketProject/Assets/Fonts#Filson Pro</FontFamily>

@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="591" d:DesignHeight="224"
+        x:Class="MarketProject.Controls.ImportDataPopUp"
+        Width="591"
+        Height="224"
+        WindowStartupLocation = "CenterScreen"
+        ExtendClientAreaChromeHints = "NoChrome"
+        ExtendClientAreaToDecorationsHint = "True"
+        CanResize = "False"
+        ShowInTaskbar = "False"
+        SizeToContent = "WidthAndHeight">
+    <Border Classes="ImportDataPopUp">
+        <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, *">
+            <Canvas ZIndex="1" HorizontalAlignment="Right">
+                <Button Classes="ExitPopUp" Click="ExitPopUpButton_OnClick">
+                    <Svg />
+                </Button>
+            </Canvas>
+            <Svg Classes="InfoIcon" />
+            <StackPanel Grid.Column="1" Classes="TextContent">
+                <TextBlock Text="Configurando Importe de dados" FontSize="24" FontWeight="Bold" />
+                <TextBlock FontSize="20" TextWrapping="Wrap" MaxWidth="500"
+                           Text="Deseja importar os dados direto do backup ou escolher um arquivo?" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="1" Classes="ButtonContent">
+                <Button Content="Do backup" Click="ImportByBackupButton_OnClick"/>
+                <Button Content="Ver arquivos" Click="ImportByFileButton_OnClick"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

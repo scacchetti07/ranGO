@@ -287,7 +287,7 @@ public partial class SupplyAddView : Window
             var cnpjContent = await Supply.ConsultaCNPJ(keyword);
             if (cnpjContent is null) return;
 
-            NameTextBox.Text = cnpjContent?.nome;
+            NameTextBox.Text = cnpjContent?.fantasia;
             CepMaskedTextBox.Text = cnpjContent.cep.Replace(".", "");
             AddressTextBox.Text = $"{cnpjContent.logradouro} - {cnpjContent.uf}";
             PhoneMaskedTextBox.Text = cnpjContent.telefone;
