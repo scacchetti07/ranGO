@@ -68,14 +68,15 @@ Este dashboard oferece uma visão completa para tomada de decisão rápida e inf
 ## 🚀 Como Instalar
 
 1. Clone o repositório:
-   ```bash
-   git clone https://github.com/scacchetti07/ranGO.git
+```bash
+ git clone https://github.com/scacchetti07/ranGO.git
+```
 2. Instale as dependências:
-  ```bash
-   cd rango
-   npm install
-  ```
+```bash
+ cd rango
+ npm install
+```
 3. Inicie o sistema:
-  ```bash
-   npm start
-  ```
+```bash
+ npm start
+```
