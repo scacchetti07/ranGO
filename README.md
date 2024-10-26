@@ -62,7 +62,7 @@ Este dashboard oferece uma visão completa para tomada de decisão rápida e inf
 
 - **Backend**: [Linguagem C#.NET](https://learn.microsoft.com/pt-br/dotnet/csharp/tour-of-csharp/) e [Asp.NET](https://dotnet.microsoft.com/pt-br/apps/aspnet) 
 - **Frontend**: [Avalonia UI Framework](https://avaloniaui.net/)
-- **Banco de Dados**: MongoDB(https://www.mongodb.com/pt-br/docs/drivers/csharp/current/)
+- **Banco de Dados**: [MongoDB](https://www.mongodb.com/pt-br/docs/drivers/csharp/current/)
 - **Interface de Usuário (UI)**: [Figma para design](https://www.figma.com) [XAML para design do sistema](https://docs.avaloniaui.net/docs/basics/user-interface/introduction-to-xaml)
 
 ## 🚀 Como Instalar
