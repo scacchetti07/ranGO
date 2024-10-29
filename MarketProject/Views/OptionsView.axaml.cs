@@ -11,8 +11,10 @@ using MarketProject.ViewModels;
 using System.Diagnostics;
 using db = MarketProject.Models.Database;
 using System.IO;
+using DynamicData;
 using MarketProject.Controllers;
 using MarketProject.Controls;
+using MarketProject.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MsBox.Avalonia;
@@ -25,7 +27,7 @@ namespace MarketProject.Views;
 
 public partial class OptionsView : UserControl
 {
-    private const string _backupPath = @"C:\ranGO\Backup";
+    private const string BackupPath = @"C:\ranGO\Backup";
 
     private readonly List<string> _backupFilesName = new()
     {
@@ -41,7 +43,6 @@ public partial class OptionsView : UserControl
 
     private async void BackupButton_OnClick(object sender, RoutedEventArgs e)
     {
-        Directory.CreateDirectory(_backupPath);
         List<string> jsonLists = new()
         {
             JsonConvert.SerializeObject(db.ProductsList), JsonConvert.SerializeObject(db.SupplyList),
@@ -50,9 +51,11 @@ public partial class OptionsView : UserControl
 
         for (int i = 0; i < _backupFilesName.Count; i++)
         {
-            string path = $@"{_backupPath}\{_backupFilesName[i]}";
-            await using var file = File.AppendText(path);
-            await file.WriteLineAsync(jsonLists[i]).ConfigureAwait(false);
+            string path = $@"{BackupPath}\{_backupFilesName[i]}";
+            if (File.Exists(path))
+                File.Delete(path);
+            await using StreamWriter sw = new(path);
+            await sw.WriteLineAsync(jsonLists[i]).ConfigureAwait(false);
         }
 
         var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
@@ -76,11 +79,52 @@ public partial class OptionsView : UserControl
         ImportDataPopUp importDataPopUp = new ImportDataPopUp();
         importDataPopUp.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!);
 
-        importDataPopUp.ImportOption += (file, backup) =>
+        importDataPopUp.ImportOption += async (file, backup) =>
         {
             if (backup)
             {
-                
+                foreach (var f in _backupFilesName)
+                {
+                    string path = $@"{BackupPath}\{f}";
+                    using StreamReader sr = new(path);
+                    var contentJson = await sr.ReadToEndAsync().ConfigureAwait(false);
+
+                    switch (f)
+                    {
+                        case "products.json":
+                            var products = JsonConvert.DeserializeObject<List<Product>>(contentJson);
+                            db.ProductsList.Clear();
+                            db.DropDatabase(DbType.Products);
+                            db.CreateNewCollectionIntoDatabase(DbType.Products);
+                            db.ProductsList.AddRange(products);
+                            db.AddDataIntoDatabase(products);
+                            break;
+                        case "supply.json":
+                            var supplies = JsonConvert.DeserializeObject<List<Supply>>(contentJson);
+                            db.SupplyList.Clear();
+                            db.DropDatabase(DbType.Supply);
+                            db.CreateNewCollectionIntoDatabase(DbType.Supply);
+                            db.SupplyList.AddRange(supplies);
+                            db.AddDataIntoDatabase(supplies);
+                            break;
+                        case "orders.json":
+                            var ordersList = JsonConvert.DeserializeObject<List<Orders>>(contentJson);
+                            db.OrdersList.Clear();
+                            db.DropDatabase(DbType.Orders);
+                            db.CreateNewCollectionIntoDatabase(DbType.Orders);
+                            db.OrdersList.AddRange(ordersList);
+                            db.AddDataIntoDatabase(ordersList);
+                            break;
+                        case "foodMenu.json":
+                            var foodsList = JsonConvert.DeserializeObject<List<Foods>>(contentJson);
+                            db.FoodsMenuList.Clear();
+                            db.DropDatabase(DbType.FoodMenu);
+                            db.CreateNewCollectionIntoDatabase(DbType.Orders);
+                            db.FoodsMenuList.AddRange(foodsList);
+                            db.AddDataIntoDatabase(foodsList);
+                            break;
+                    }
+                }
             }
             else
             {
@@ -93,8 +137,6 @@ public partial class OptionsView : UserControl
                     case "xlsx":
                         break;
                     case "ods":
-                        break;
-                    case "csv":
                         break;
                     case "json":
                         break;

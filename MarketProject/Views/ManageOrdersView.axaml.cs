@@ -29,6 +29,6 @@ public partial class ManageOrdersView : Window
     {
         var orderStatus = OrderStatusEnum.New;
         var newOrder = new Orders(1, "Pedro da Silva", ["Shake do Monstro", "Moranguinho"], OrderStatusEnum.New);
-        _task.SetResult(newOrder); // Sinaliza que o card foi adicionado.
+        _task.TrySetResult(newOrder); // Sinaliza que o card foi adicionado.
     }
 }

@@ -32,11 +32,6 @@ public partial class ImportDataPopUp : Window
             Patterns = new[] { "*.json" },
             MimeTypes = new[] { "application/vnd.google-apps.script+json" }
         },
-        new("CSV")
-        {
-            Patterns = new[] { "*.csv" },
-            MimeTypes = new[] { "text/csv" }
-        }
     };
 
     public delegate void ImportOptionSelected(IStorageFile file, bool isBackup = false);
