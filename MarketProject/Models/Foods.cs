@@ -10,9 +10,8 @@ namespace MarketProject.Models;
 
 public class Foods
 {
-    public Foods(string foodName, List<Product> listOfIngredients, double foodPrice, FoodTypesEnum foodTypes, string foodDescription = "", Bitmap? foodPhoto = null)
+    public Foods(string foodName, List<string> listOfIngredients, double foodPrice, FoodTypesEnum? foodTypes, string foodDescription = "", byte[] foodPhoto = null)
     {
-        Id = new ObjectId();
         FoodName = foodName;
         FoodPhoto = foodPhoto;
         FoodPrice = foodPrice;
@@ -23,13 +22,13 @@ public class Foods
 
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public ObjectId Id { get; set; }
+    public string Id { get; set; }
     public string FoodName { get; set; }
     public double FoodPrice { get; set; }
-    public List<Product> ListOfIngredients { get; set; }
+    public List<string> ListOfIngredients { get; set; }
     public string FoodDescription { get; set; }
-    public FoodTypesEnum FoodTypes { get; set; }
-    public Bitmap? FoodPhoto { get; set; }
+    public FoodTypesEnum? FoodTypes { get; set; }
+    public byte[] FoodPhoto { get; set; }
 }
 
 public enum FoodTypesEnum

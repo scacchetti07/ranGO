@@ -235,24 +235,33 @@
     </Style>
 
     <Style Selector="Border.ImageProduct">
-        <Setter Property="BorderBrush" Value="#333374B9" />
-        <Setter Property="BorderThickness" Value="1" />
-        <!-- <Setter Property="Background" Value="#1C1F2B"/> -->
         <Setter Property="Width" Value="441" />
-        <Setter Property="Height" Value="248" />
+        <Setter Property="Height" Value="353" />
         <Setter Property="CornerRadius" Value="5" />
         <Style Selector="^ Button">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Width" Value="402" />
-            <Setter Property="Height" Value="188" />
+            <Setter Property="Width" Value="435" />
+            <Setter Property="Height" Value="267" />
+            <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Background="{TemplateBinding Background}"
+                                      Content="{TemplateBinding Content}"/>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="^ Button:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+            <Setter Property="Cursor" Value="Hand"/>
         </Style>
         <Style Selector="^ Border.ImageSelect">
             <Setter Property="BorderBrush" Value="#DCB861" />
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="Background" Value="#1ADBDBDA" />
-            <Setter Property="Width" Value="402" />
-            <Setter Property="Height" Value="188" />
+            <Setter Property="Width" Value="435" />
+            <Setter Property="Height" Value="267" />
             <Setter Property="CornerRadius" Value="5" />
         </Style>
         <Style Selector="^ StackPanel">

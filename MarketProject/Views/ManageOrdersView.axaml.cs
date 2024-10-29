@@ -27,25 +27,8 @@ public partial class ManageOrdersView : Window
     public async Task<Orders> GetOrder() => await _task.Task;
     private void Button2_OnClick(object sender, RoutedEventArgs e)
     {
-        var foodList = new List<Foods>
-        {
-            new("Salada de Fruta",
-                new List<Product>()
-                {
-                    StorageController.FindProductByNameAsync("Banana"),
-                    StorageController.FindProductByNameAsync("Jabuticaba")
-                }, 15.00, FoodTypesEnum.Desserts ,"Salada de frutas"),
-            
-            new("Vitamina Proteica",
-                new List<Product>()
-                {
-                    StorageController.FindProductByNameAsync("Whey Protein"),
-                    StorageController.FindProductByNameAsync("Moranguinho")
-                }, 25.00, FoodTypesEnum.Drink ,"Shake do Monstro")
-
-        };
         var orderStatus = OrderStatusEnum.New;
-        var newOrder = new Orders(1, "Pedro da Silva", foodList.Select(f => f.FoodName).ToList(), OrderStatusEnum.New);
+        var newOrder = new Orders(1, "Pedro da Silva", ["Shake do Monstro", "Moranguinho"], OrderStatusEnum.New);
         _task.SetResult(newOrder); // Sinaliza que o card foi adicionado.
     }
 }

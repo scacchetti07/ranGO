@@ -5,6 +5,7 @@ using Avalonia.Media;
 using DynamicData;
 using MarketProject.Controls;
 using MarketProject.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace MarketProject.Controllers;
@@ -22,11 +23,15 @@ public class FoodMenuController : Database
     public static async Task<List<Foods>> FindFoodMenu(FoodTypesEnum foodType)
     {
         var filter = Builders<Foods>.Filter.Eq(fm => fm.FoodTypes, foodType);
-        return await Collection.Find(filter).ToListAsync();
+        return await Collection.Find(filter).ToListAsync().ConfigureAwait(false);
     }
 
-    public static async Task<List<Foods>> FindFoodMenu()
-        => await Collection.Find(Builders<Foods>.Filter.Empty).ToListAsync();
+    public static List<Foods> FindFoodMenu()
+        => Collection.Find(Builders<Foods>.Filter.Empty).ToList();
+    public static async Task<Foods> FindFoodMenu(string id)
+        => await Collection.Find(fm => fm.Id == id).FirstOrDefaultAsync().ConfigureAwait(false);
+    public static async Task<Foods> FindFoodMenuByName(string name)
+        => await Collection.Find(fm => fm.FoodName == name).FirstOrDefaultAsync().ConfigureAwait(false);
     
     public static async void EditFoodMenu(Foods food)
     {

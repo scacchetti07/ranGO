@@ -154,10 +154,10 @@ public partial class OrderHomeView : UserControl
     private void FoodMenuButton_OnClick(object sender, RoutedEventArgs e)
     {
         FoodMenuView foodMenuView = new() { HorizontalAlignment = HorizontalAlignment.Right };
-
+        
         FoodMenuViewPanel.Children.Add(foodMenuView);
         FoodMenuViewPanel.Classes.Add("FoodMenuAnimation");
-
+        
         foodMenuView.ExitButton.Command = ReactiveCommand.Create(() =>
         {
             FoodMenuViewPanel.Classes.Clear();

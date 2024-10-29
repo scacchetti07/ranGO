@@ -132,20 +132,6 @@ public partial class ProductAddView : Window
         }
     }
 
-    private async void AddImageProduct(object sender, RoutedEventArgs e)
-    {
-        FilePickerOpenOptions fileoption = new()
-        {
-            AllowMultiple = false,
-            Title = "Selecione a foto do produto",
-            FileTypeFilter = new List<FilePickerFileType>
-            {
-                FilePickerFileTypes.ImagePng, FilePickerFileTypes.ImageJpg
-            }
-        };
-        var result = await TopLevel.GetTopLevel(this)!.StorageProvider.OpenFilePickerAsync(fileoption);
-    }
-
     private async void ReturnButton(object sender, RoutedEventArgs e)
     {
         List<string> textBoxes = GetTextBoxes();

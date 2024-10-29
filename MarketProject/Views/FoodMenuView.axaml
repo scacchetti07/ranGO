@@ -6,9 +6,10 @@
              x:Class="MarketProject.Views.FoodMenuView"
              xmlns:vm="using:MarketProject.ViewModels"
              xmlns:src="using:MarketProject.Controls"
+             FontFamily="{StaticResource FilsonPro}"
              BorderBrush="#E8EEF7"
              Background="#0B0E18"
-             x:DataType="vm:FoodMenuViewModel"
+             x:DataType="vm:OrderHomeViewModel"
              BorderThickness="2 0 0 0"
              Width="450"
              Height="1026">
@@ -39,12 +40,10 @@
             <ComboBoxItem Content="Bebidas" />
         </ComboBox>
         <ScrollViewer Grid.Row="2" Classes="FoodMenuCardsStyles">
-            <StackPanel Name="OrderCardsPanel" Classes="FoodStackPanel">
-                <src:FoodCard />
-            </StackPanel>
+            <StackPanel Name="FoodMenuCardsPanel" Classes="FoodStackPanel"/>
         </ScrollViewer>
         <Canvas Grid.Row="2">
-            <Button Content="Adicionar Novo Prato" Classes="AddFoodButton" />
+            <Button Content="Adicionar Novo Prato" Classes="AddFoodButton" Click="AddFoodButton_OnClick" />
         </Canvas>
     </Grid>
 </UserControl>

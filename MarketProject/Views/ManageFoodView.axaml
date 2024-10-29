@@ -1,0 +1,98 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MarketProject.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="1142" d:DesignHeight="564"
+        x:Class="MarketProject.Views.ManageFoodView"
+        Title="ManageFoodView"
+        x:DataType="vm:ManageFoodViewModel"
+        FontFamily="{StaticResource FilsonPro}"
+        WindowStartupLocation = "CenterScreen"
+        ExtendClientAreaChromeHints= "NoChrome"
+        ExtendClientAreaToDecorationsHint = "True"
+        CanResize = "False"
+        ShowInTaskbar = "False"
+        SizeToContent = "WidthAndHeight">
+    <Window.DataContext>
+        <vm:ManageFoodViewModel />
+    </Window.DataContext>
+    <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto" Margin="50 27">
+        <TextBlock Text="Cadastro de Pratos" FontWeight="Bold" FontSize="30" />
+        <Button Grid.Column="1" Classes="ReturnButton" Margin="0" Padding="0" Click="ReturnButton_OnClick">
+            <StackPanel Classes="ReturnButtonStackPanel">
+                <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
+                <Label Content="Retornar" />
+            </StackPanel>
+        </Button>
+        <StackPanel Grid.Row="1" Classes="ProductRegisterStyle">
+            <!-- Name TextBox -->
+            <Label Content="Nome do prato:" Margin="-2 15 0 0" />
+            <TextBox Width="443" Name="NameTextBox"/>
+            
+            <!-- Products AutoText -->
+            <Label Content="Ingredientes Usados:" />
+            <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox"
+                             HorizontalAlignment="Left" 
+                             KeyDown="ProductsAutoCompleteBox_OnKeyDown" 
+                             Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}" />
+            <WrapPanel Name="TagContentStackPanel" MaxWidth="500" Orientation="Horizontal" HorizontalAlignment="Left" />
+
+            <!-- Description TextBox -->
+            <Label Content="Descrição:" />
+            <TextBox Name="DescriptionTextBox" Height="60" VerticalContentAlignment="Top" MaxLength="150"
+                     TextWrapping="Wrap" />
+            
+            <Grid ColumnDefinitions="Auto, Auto">
+                <!-- Data AutoText -->
+                <StackPanel>
+                    <Label Content="Preço Unitário:" />
+                    <MaskedTextBox Name="PriceTextBox" Width="190" MaxLength="7" Watermark="R$ 00,00" Mask="##0.00"
+                                   OpacityMask="#d3d3d3">
+                    </MaskedTextBox>
+                </StackPanel>
+
+                <!-- CEP AutoText -->
+                <StackPanel Grid.Column="1" Margin="69 0 0 0">
+                    <Label Content="Categoria:" />
+                    <ComboBox Name="CategoryComboBox" SelectedIndex="0">
+                        <ComboBoxItem Content="Entrada" />
+                        <ComboBoxItem Content="Principal" />
+                        <ComboBoxItem Content="Kids" />
+                        <ComboBoxItem Content="Vegano" />
+                        <ComboBoxItem Content="Salada" />
+                        <ComboBoxItem Content="Massa" />
+                        <ComboBoxItem Content="Peixes" />
+                        <ComboBoxItem Content="Carnes" />
+                        <ComboBoxItem Content="Hambúrgueres" />
+                        <ComboBoxItem Content="Sobremesas" />
+                        <ComboBoxItem Content="Bebidas" />
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Classes="ProductRegisterStyle" Margin="134 0 0 0">
+            <StackPanel>
+                <Label Content="Imagem do Produto: "/>
+                <StackPanel>
+                    <Border Classes="ImageProduct">
+                        <Button Name="ProductImage" Click="AddImageProduct_OnClick" >
+                            <Border Classes="ImageSelect">
+                                <StackPanel Name="TextContentStackPanel">
+                                    <Label Content="Arraste e solte ou escolha uma arquivo" Opacity="0.5"/>
+                                    <Label Content="Arquivos em .png e .jpg" Padding="0 -2 4 0"/>
+                                </StackPanel>
+                            </Border>
+                        </Button>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            <!-- Buttons Add and clean -->
+            <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left">
+                <Button Content="Adicionar" Name="AddButton" Background="#3374B9" Click="AddButton_OnClick"/>
+                <Button Content="Limpar" Background="#D87249" Click="ClearTextBoxButton_OnClick"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

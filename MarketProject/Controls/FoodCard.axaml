@@ -32,10 +32,10 @@
         
         <Canvas HorizontalAlignment="Right">
             <StackPanel Classes="CrudStyles">
-                <Button Background="#D87249">
+                <Button Background="#D87249" Click="DeleteFoodButton_OnClick">
                     <Svg Path="/Assets/Icons/SVG/IconDelete.svg"/>
                 </Button>
-                <Button Background="#3384B9">
+                <Button Background="#3384B9" Click="EditFoodButton_OnClick">
                     <Svg Path="/Assets/Icons/SVG/IconEdit.svg"/>
                 </Button>
             </StackPanel>

@@ -11,8 +11,10 @@ using MarketProject.ViewModels;
 using System.Diagnostics;
 using db = MarketProject.Models.Database;
 using System.IO;
+using MarketProject.Controllers;
 using MarketProject.Controls;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
@@ -39,6 +41,7 @@ public partial class OptionsView : UserControl
 
     private async void BackupButton_OnClick(object sender, RoutedEventArgs e)
     {
+        Directory.CreateDirectory(_backupPath);
         List<string> jsonLists = new()
         {
             JsonConvert.SerializeObject(db.ProductsList), JsonConvert.SerializeObject(db.SupplyList),
@@ -72,12 +75,31 @@ public partial class OptionsView : UserControl
         // Perguntar sobre se quer importar os dados do backup ou arquivos manuais
         ImportDataPopUp importDataPopUp = new ImportDataPopUp();
         importDataPopUp.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!);
-    }
-}
 
-public enum FileType
-{
-    xlsx,
-    csv,
-    json
+        importDataPopUp.ImportOption += (file, backup) =>
+        {
+            if (backup)
+            {
+                
+            }
+            else
+            {
+                if (file is null) return;
+                // Implementar isso depois
+                var fileName = file.Name;
+                var fileSplited = fileName.Split('.');
+                switch (fileSplited[^1])
+                {
+                    case "xlsx":
+                        break;
+                    case "ods":
+                        break;
+                    case "csv":
+                        break;
+                    case "json":
+                        break;
+                }
+            }
+        };
+    }
 }
