@@ -27,6 +27,7 @@ namespace MarketProject.Views;
 
 public partial class OptionsView : UserControl
 {
+    // Acrescentar no caminho da backup, a data atual e uma pasta respectiva.
     private const string BackupPath = @"C:\ranGO\Backup";
 
     private readonly List<string> _backupFilesName = new()
@@ -35,10 +36,10 @@ public partial class OptionsView : UserControl
         "orders.json", "foodMenu.json"
     };
 
+    private readonly string Today = DateTime.Now.ToShortDateString().Replace('/', '.');
     public OptionsView()
     {
         InitializeComponent();
-        Directory.CreateDirectory(@"C:\ranGO\Backup"); // Cria o diretório no Disco C caso o diretório não existir.
     }
 
     private async void BackupButton_OnClick(object sender, RoutedEventArgs e)
@@ -51,10 +52,13 @@ public partial class OptionsView : UserControl
 
         for (int i = 0; i < _backupFilesName.Count; i++)
         {
-            string path = $@"{BackupPath}\{_backupFilesName[i]}";
-            if (File.Exists(path))
-                File.Delete(path);
-            await using StreamWriter sw = new(path);
+            string dirPath = $@"{BackupPath}\{Today}";
+            string filePath = dirPath + @$"\{_backupFilesName[i]}";
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+            else
+                Directory.CreateDirectory(dirPath);
+            await using StreamWriter sw = new(filePath);
             await sw.WriteLineAsync(jsonLists[i]).ConfigureAwait(false);
         }
 
@@ -85,7 +89,7 @@ public partial class OptionsView : UserControl
             {
                 foreach (var f in _backupFilesName)
                 {
-                    string path = $@"{BackupPath}\{f}";
+                    string path = $@"{BackupPath}\{Today}\{f}";
                     using StreamReader sr = new(path);
                     var contentJson = await sr.ReadToEndAsync().ConfigureAwait(false);
 
@@ -143,5 +147,15 @@ public partial class OptionsView : UserControl
                 }
             }
         };
+    }
+
+    private void AccesSiteButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        ProcessStartInfo psi = new ProcessStartInfo
+        {
+            FileName = "https://pietromauergodoy.github.io/ranGO_WebSite/",
+            UseShellExecute = true
+        };
+        Process.Start (psi);
     }
 }

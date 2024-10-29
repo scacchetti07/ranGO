@@ -550,7 +550,7 @@
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
 
-        <Style Selector="^ Button.OptionButton[IsDefault=false]">
+        <Style Selector="^ Button.OptionButton[IsDefault=false], ^ HyperlinkButton.OptionButton[IsDefault=false]">
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="BorderThickness" Value="1.5" />
@@ -564,8 +564,9 @@
             <Setter Property="FontWeight" Value="Medium" />
             <Setter Property="FontSize" Value="18" />
             <Setter Property="Foreground" Value="#DBDBDA" />
+            <Setter Property="FontStyle" Value="Normal"/>
         </Style>
-        <Style Selector="^ Button.OptionButton[IsDefault=false]:pointerover /template/ ContentPresenter">
+        <Style Selector="^ Button.OptionButton[IsDefault=false]:pointerover /template/ ContentPresenter, ^ HyperlinkButton.OptionButton[IsDefault=false]:pointerover /template/ ContentPresenter">
             <Setter Property="BorderBrush" Value="#73DCB861" />
             <Setter Property="Background" Value="#801F2024" />
             <Setter Property="Cursor" Value="Hand" />

@@ -14,6 +14,16 @@ public partial class ImportDataPopUp : Window
 {
     private FilePickerFileType[] _fileType { get; } = new FilePickerFileType[]
     {
+        new("Todos")
+        {
+            Patterns = new[] { ".xlsx", ".ods" ,".json" },
+            MimeTypes = new[]
+            {
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "application/x-vnd.oasis.opendocument.spreadsheet",
+                "application/vnd.google-apps.script+json"
+            }
+        },
         new("Microsoft Excel")
         {
             Patterns = new[] { "*.xlsx" },
