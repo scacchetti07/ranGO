@@ -72,7 +72,7 @@ public partial class SupplyView : UserControl
     private async void DeleteSupply_OnClick(object sender, RoutedEventArgs e)
     {
         var supplies = SupplyDataGrid.SelectedItems.Cast<SupplyDataGrid>().FirstOrDefault();
-        var selectedSupply = Supplyctrl.FindSupply(supplies.Cnpj);
+        var selectedSupply = Supplyctrl.FindSupplyByCnpj(supplies.Cnpj);
         
         var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {
@@ -104,7 +104,7 @@ public partial class SupplyView : UserControl
     {
         var supplies = SupplyDataGrid.SelectedItems.Cast<SupplyDataGrid>().FirstOrDefault();
         if (supplies is null) return;
-        var selectedSupply = Supplyctrl.FindSupply(supplies.Cnpj);
+        var selectedSupply = Supplyctrl.FindSupplyByCnpj(supplies.Cnpj);
         
         SupplyAddView editSupply = new()
         {

@@ -19,9 +19,9 @@ public class SupplyController : Database
         SupplyList.Add(supply);
     }
 
-    public static Supply FindSupply(string cnpj) => Collection.Find(s => s.Cnpj == cnpj).FirstOrDefault();
+    public static Supply FindSupplyByCnpj(string cnpj) => Collection.Find(s => s.Cnpj == cnpj).FirstOrDefault();
     public static Supply FindSupplyByName(string name) => Collection.Find(s => s.Name == name).FirstOrDefault();
-    public static Supply FindSupply(ObjectId id) => Collection.Find(s => s.Id == id).FirstOrDefault(); 
+    public static Supply FindSupply(string id) => Collection.Find(s => s.Id == id).FirstOrDefault(); 
     
     public static async void DeleteSupply(Supply supply)
     {

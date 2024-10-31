@@ -96,7 +96,7 @@ public partial class ProductAddView : Window
                 throw new Exception($"A data inserida é inferior a data atual '{DateTime.Now}'!");
             
             var newproduct = new Product(gtinCode, NameTextBox.Text, Prodprice,
-                (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(),  ValidityDatePicker.SelectedDate.Value.DateTime,
+                (UnitComboBox.SelectedItem as ComboBoxItem).Content.ToString(), ValidityDatePicker.SelectedDate.Value.DateTime.Date,
                 new Range<int>(MinMaxViewModel.WeekdaysMin, MinMaxViewModel.WeekdaysMax),
                 new Range<int>(MinMaxViewModel.WeekendsMin, MinMaxViewModel.WeekendsMax),
                 new Range<int>(MinMaxViewModel.EventsMin, MinMaxViewModel.EventsMax), DescriptionTextBox.Text, total);

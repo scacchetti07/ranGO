@@ -142,7 +142,7 @@ public partial class SupplyAddView : Window
                 AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), dateLimit,
                 CepMaskedTextBox.Text, AddressTextBox.Text, PhoneMaskedTextBox.Text, EmailTextBox.Text);
 
-            var oldsupply = SupplyCtrl.FindSupply(newSupply.Cnpj);
+            var oldsupply = SupplyCtrl.FindSupplyByCnpj(newSupply.Cnpj);
             if (oldsupply is not null)
             {
                 newSupply.Id = oldsupply.Id;
@@ -280,6 +280,7 @@ public partial class SupplyAddView : Window
 
     private async void CnpjMaskedTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
     {
+        if (CnpjMaskedTextBox.IsEnabled is false) return;
         var keyword = CnpjMaskedTextBox.Text;
         if (keyword.Contains('_')) return;
         try

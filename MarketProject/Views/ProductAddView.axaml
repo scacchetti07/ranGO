@@ -66,7 +66,7 @@
         <StackPanel Grid.Column="1" Classes="ProductRegisterStyle" Margin="95 100 0 0">
             <StackPanel>
                 <Label Content="Validade do Produto: *" />
-                <DatePicker Name="ValidityDatePicker" DayVisible="False" SelectedDateChanged="ValidityDatePicker_OnSelectedDateChanged"/>
+                <DatePicker Name="ValidityDatePicker" SelectedDateChanged="ValidityDatePicker_OnSelectedDateChanged"/>
             </StackPanel>
             <StackPanel>
                 <Label Content="Quantidade Atual: " />

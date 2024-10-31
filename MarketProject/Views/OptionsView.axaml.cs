@@ -11,6 +11,8 @@ using MarketProject.ViewModels;
 using System.Diagnostics;
 using db = MarketProject.Models.Database;
 using System.IO;
+using System.Linq;
+using Avalonia.Platform.Storage;
 using DynamicData;
 using MarketProject.Controllers;
 using MarketProject.Controls;
@@ -32,11 +34,12 @@ public partial class OptionsView : UserControl
 
     private readonly List<string> _backupFilesName = new()
     {
-        "products.json", "supplys.json",
+        "supplys.json", "products.json",
         "orders.json", "foodMenu.json"
     };
 
     private readonly string Today = DateTime.Now.ToShortDateString().Replace('/', '.');
+
     public OptionsView()
     {
         InitializeComponent();
@@ -46,7 +49,7 @@ public partial class OptionsView : UserControl
     {
         List<string> jsonLists = new()
         {
-            JsonConvert.SerializeObject(db.ProductsList), JsonConvert.SerializeObject(db.SupplyList),
+            JsonConvert.SerializeObject(db.SupplyList), JsonConvert.SerializeObject(db.ProductsList),
             JsonConvert.SerializeObject(db.OrdersList), JsonConvert.SerializeObject(db.FoodsMenuList)
         };
 
@@ -77,85 +80,75 @@ public partial class OptionsView : UserControl
         await msgBox.ShowAsync().ConfigureAwait(false);
     }
 
-    private void ImportButton_OnClick(object sender, RoutedEventArgs e)
+    private async void RestoreButton_OnClick(object sender, RoutedEventArgs e)
     {
-        // Perguntar sobre se quer importar os dados do backup ou arquivos manuais
-        ImportDataPopUp importDataPopUp = new ImportDataPopUp();
-        importDataPopUp.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!);
-
-        importDataPopUp.ImportOption += async (file, backup) =>
+        var startLocation = await TopLevel.GetTopLevel(this)!.StorageProvider.TryGetFolderFromPathAsync(BackupPath)
+            .ConfigureAwait(false);
+        FolderPickerOpenOptions folderOption = new()
         {
-            if (backup)
-            {
-                foreach (var f in _backupFilesName)
-                {
-                    string path = $@"{BackupPath}\{Today}\{f}";
-                    using StreamReader sr = new(path);
-                    var contentJson = await sr.ReadToEndAsync().ConfigureAwait(false);
+            AllowMultiple = false,
+            Title = "Selecione um arquivo para importar",
+            SuggestedStartLocation = startLocation
+        };
+        var folder = TopLevel.GetTopLevel(this)!.StorageProvider.OpenFolderPickerAsync(folderOption).Result
+            .FirstOrDefault();
 
-                    switch (f)
-                    {
-                        case "products.json":
-                            var products = JsonConvert.DeserializeObject<List<Product>>(contentJson);
-                            db.ProductsList.Clear();
-                            db.DropDatabase(DbType.Products);
-                            db.CreateNewCollectionIntoDatabase(DbType.Products);
-                            db.ProductsList.AddRange(products);
-                            db.AddDataIntoDatabase(products);
-                            break;
-                        case "supply.json":
-                            var supplies = JsonConvert.DeserializeObject<List<Supply>>(contentJson);
-                            db.SupplyList.Clear();
-                            db.DropDatabase(DbType.Supply);
-                            db.CreateNewCollectionIntoDatabase(DbType.Supply);
-                            db.SupplyList.AddRange(supplies);
-                            db.AddDataIntoDatabase(supplies);
-                            break;
-                        case "orders.json":
-                            var ordersList = JsonConvert.DeserializeObject<List<Orders>>(contentJson);
-                            db.OrdersList.Clear();
-                            db.DropDatabase(DbType.Orders);
-                            db.CreateNewCollectionIntoDatabase(DbType.Orders);
-                            db.OrdersList.AddRange(ordersList);
-                            db.AddDataIntoDatabase(ordersList);
-                            break;
-                        case "foodMenu.json":
-                            var foodsList = JsonConvert.DeserializeObject<List<Foods>>(contentJson);
-                            db.FoodsMenuList.Clear();
-                            db.DropDatabase(DbType.FoodMenu);
-                            db.CreateNewCollectionIntoDatabase(DbType.Orders);
-                            db.FoodsMenuList.AddRange(foodsList);
-                            db.AddDataIntoDatabase(foodsList);
-                            break;
-                    }
-                }
-            }
-            else
+        foreach (var f in _backupFilesName)
+        {
+            if (folder is null) return;
+            string path = folder!.Path.AbsolutePath;
+            using StreamReader sr = new($"{path}{f}");
+            var contentJson = await sr.ReadToEndAsync().ConfigureAwait(false);
+
+            try
             {
-                if (file is null) return;
-                // Implementar isso depois
-                var fileName = file.Name;
-                var fileSplited = fileName.Split('.');
-                switch (fileSplited[^1])
+                switch (f)
                 {
-                    case "xlsx":
+                    case "supplys.json":
+                        var supplies = JsonConvert.DeserializeObject<List<Supply>>(contentJson);
+                        db.SupplyList.Clear();
+                        db.DropDatabase(DbType.Supply);
+                        db.CreateNewCollectionIntoDatabase(DbType.Supply);
+                        db.SupplyList.AddRange(supplies);
+                        db.AddDataIntoDatabase(supplies);
                         break;
-                    case "ods":
+                    case "products.json":
+                        var products = JsonConvert.DeserializeObject<List<Product>>(contentJson);
+                        db.ProductsList.Clear();
+                        db.DropDatabase(DbType.Products);
+                        db.CreateNewCollectionIntoDatabase(DbType.Products);
+                        db.ProductsList.AddRange(products);
+                        db.AddDataIntoDatabase(products);
+                        foreach (var product in products)
+                        {
+                            string supplyName = SupplyController.GetSupplyNameByProduct(product);
+                            SupplyController.AddProductToSupply(product, supplyName);
+                        }
+
                         break;
-                    case "json":
+                    case "orders.json":
+                        var ordersList = JsonConvert.DeserializeObject<List<Orders>>(contentJson);
+                        db.OrdersList.Clear();
+                        db.DropDatabase(DbType.Orders);
+                        db.CreateNewCollectionIntoDatabase(DbType.Orders);
+                        db.OrdersList.AddRange(ordersList);
+                        db.AddDataIntoDatabase(ordersList);
+                        break;
+                    case "foodMenu.json":
+                        var foodsList = JsonConvert.DeserializeObject<List<Foods>>(contentJson);
+                        db.FoodsMenuList.Clear();
+                        db.DropDatabase(DbType.FoodMenu);
+                        db.CreateNewCollectionIntoDatabase(DbType.Orders);
+                        db.FoodsMenuList.AddRange(foodsList);
+                        db.AddDataIntoDatabase(foodsList);
                         break;
                 }
             }
-        };
-    }
-
-    private void AccesSiteButton_OnClick(object sender, RoutedEventArgs e)
-    {
-        ProcessStartInfo psi = new ProcessStartInfo
-        {
-            FileName = "https://pietromauergodoy.github.io/ranGO_WebSite/",
-            UseShellExecute = true
-        };
-        Process.Start (psi);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine($"\n{ex.StackTrace}");
+            }
+        }
     }
 }

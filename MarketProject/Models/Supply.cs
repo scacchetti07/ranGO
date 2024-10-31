@@ -22,7 +22,7 @@ public class Supply
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public ObjectId Id { get; internal set; }
+    public string Id { get; internal set; }
 
     public string Name { get; set; }
     public string Cnpj { get; private set; }
