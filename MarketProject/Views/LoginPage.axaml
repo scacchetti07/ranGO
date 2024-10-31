@@ -11,7 +11,9 @@
         WindowState="Maximized"
         FontFamily="{StaticResource FilsonPro}"
         ExtendClientAreaToDecorationsHint="True"
-        CanResize="False">
+        CanResize="False"
+        Width="1280"
+        Height="720">
         <Window.Background>
                 <ImageBrush Source="/Assets/LoginBG_Dark.jpg" Stretch="UniformToFill"/>
         </Window.Background>

@@ -5,6 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Misc;
+using Newtonsoft.Json;
 using static ReactiveUI.ReactiveObject;
 
 namespace MarketProject.Models;
@@ -25,6 +26,21 @@ public class Product
     public Range<int> Weekends { get; set; } = new(0, 0); // Min Max
     public Range<int> Events { get; set; } = new(0, 0); // Min Max
     
+    [JsonConstructor]
+    public Product(string id, long gtin, string prodName, double price, string unit, DateTime validity ,Range<int> weekdays, Range<int> weekends, Range<int> events, string? description = null, int prodTotal = 0)
+    {
+        Id = id;
+        Gtin = gtin;
+        Description = description;
+        Name = prodName;
+        Price = price;
+        Unit = unit;
+        Total = prodTotal;
+        Validity = validity;
+        Weekdays = weekdays;
+        Weekends = weekends;
+        Events = events;
+    }
     public Product(long gtin, string prodName, double price, string unit, DateTime validity ,Range<int> weekdays, Range<int> weekends, Range<int> events, string? description = null, int prodTotal = 0)
     {
         Gtin = gtin;

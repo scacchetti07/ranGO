@@ -5,20 +5,12 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace MarketProject.Models;
 
 public class Foods
 {
-    public Foods(string foodName, List<string> listOfIngredients, double foodPrice, FoodTypesEnum? foodTypes, string foodDescription = "", byte[] foodPhoto = null)
-    {
-        FoodName = foodName;
-        FoodPhoto = foodPhoto;
-        FoodPrice = foodPrice;
-        FoodTypes = foodTypes;
-        FoodDescription = foodDescription;
-        ListOfIngredients = listOfIngredients;
-    }
 
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
@@ -29,6 +21,27 @@ public class Foods
     public string FoodDescription { get; set; }
     public FoodTypesEnum? FoodTypes { get; set; }
     public byte[] FoodPhoto { get; set; }
+    
+    [JsonConstructor]
+    public Foods(string id, string foodName, List<string> listOfIngredients, double foodPrice, FoodTypesEnum? foodTypes, string foodDescription = "", byte[] foodPhoto = null)
+    {
+        Id = id;
+        FoodName = foodName;
+        FoodPhoto = foodPhoto;
+        FoodPrice = foodPrice;
+        FoodTypes = foodTypes;
+        FoodDescription = foodDescription;
+        ListOfIngredients = listOfIngredients;
+    }
+    public Foods(string foodName, List<string> listOfIngredients, double foodPrice, FoodTypesEnum? foodTypes, string foodDescription = "", byte[] foodPhoto = null)
+    {
+        FoodName = foodName;
+        FoodPhoto = foodPhoto;
+        FoodPrice = foodPrice;
+        FoodTypes = foodTypes;
+        FoodDescription = foodDescription;
+        ListOfIngredients = listOfIngredients;
+    }
 }
 
 public enum FoodTypesEnum

@@ -33,6 +33,21 @@ public class Supply
     public string? Phone { get; private set; }
     public string? Email { get; private set; }
 
+    [JsonConstructor]
+    public Supply(string id, string name, string cnpj, List<string> products, int dayLimit, string cep, string adress,
+        string phone,
+        string email)
+    {
+        Id = id;
+        Name = name;
+        Cnpj = cnpj;
+        DayLimit = dayLimit;
+        Products = products;
+        Cep = cep;
+        Adress = adress;
+        Phone = phone;
+        Email = email;
+    }
     public Supply(string name, string cnpj, List<string> products, int dayLimit, string cep, string adress,
         string phone,
         string email)
@@ -46,6 +61,7 @@ public class Supply
         Phone = phone;
         Email = email;
     }
+
     
     public static async Task<dynamic> ValidarCEP(string cep)
     {
