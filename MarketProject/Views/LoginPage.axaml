@@ -18,7 +18,7 @@
         <ImageBrush Source="/Assets/LoginBG_Dark.jpg" Stretch="UniformToFill" />
     </Window.Background>
     <Grid>
-        <Svg Path="/Assets/ranGoLogo.svg" Width="424" Height="128" HorizontalAlignment="Center"/>
+        <Svg Path="/Assets/ranGoLogo.svg" Width="480" Height="200" HorizontalAlignment="Left" Margin="180 0 0 0"/>
         <Border Background="#0B0E18" BoxShadow="-5 0 20 -6 #88000000" HorizontalAlignment="Right" Width="661"
                 Height="1020" CornerRadius="20 10 10 20">
             <StackPanel Width="749" Height="746" VerticalAlignment="Center">
