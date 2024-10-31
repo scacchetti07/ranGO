@@ -62,7 +62,22 @@ public class RegisterMinMaxViewModel : ViewModelBase
                 RemoveError(nameof(WeekdaysMax));
         }
     }
-    public int WeekdaysMax { get; set; }
+
+    private int _weekdaysMax;
+    public int WeekdaysMax
+    {
+        get => _weekdaysMax;
+        set
+        {
+            _weekdaysMax = value;
+            ClearErrors(nameof(WeekdaysMax));
+            if (_weekdaysMax < WeekdaysMin)
+                AddError(nameof(WeekdaysMax), "Estoque máximo é inferior ao mínimo");
+            else
+                RemoveError(nameof(WeekdaysMax));
+        }
+        
+    }
 
     private int _weekendsMin;
     public int WeekendsMin
@@ -78,7 +93,21 @@ public class RegisterMinMaxViewModel : ViewModelBase
                 RemoveError(nameof(WeekendsMax));
         }
     }
-    public int WeekendsMax { get; set; }
+    private int _weekendsMax;
+
+    public int WeekendsMax
+    {
+        get => _weekendsMax;
+        set
+        {
+            _weekendsMax = value;
+            ClearErrors(nameof(WeekendsMax));
+            if (_weekdaysMax < WeekdaysMin)
+                AddError(nameof(WeekdaysMax), "Estoque máximo é inferior ao mínimo");
+            else
+                RemoveError(nameof(WeekdaysMax));
+        }
+    }
 
     private int _eventsMin;
     public int EventsMin
@@ -94,5 +123,18 @@ public class RegisterMinMaxViewModel : ViewModelBase
                 RemoveError(nameof(EventsMax));
         }
     }
-    public int EventsMax { get; set; } 
+    private int _eventsMax;
+
+    public int EventsMax
+    {
+        get => _eventsMax;
+        set
+        {
+            _eventsMax = value;
+            if (_eventsMax < EventsMin)
+                AddError(nameof(EventsMax), "Estoque máximo é inferior ao mínimo");
+            else
+                RemoveError(nameof(EventsMax));
+        }
+    }
 }

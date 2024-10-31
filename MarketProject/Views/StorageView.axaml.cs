@@ -120,7 +120,7 @@ public partial class StorageView : UserControl
         if (product is null) return;
         var selectedProducts = StorageCtrl.FindProduct(product.Gtin);
         
-        ProductAddView editProduct = new()
+        ProductAddView editProduct = new(selectedProducts)
         {
             Title = "Cadastro de Produtos",
             WindowStartupLocation= WindowStartupLocation.CenterScreen,
@@ -130,33 +130,7 @@ public partial class StorageView : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
-        editProduct.AddButton.Content = "Editar";
         
-        var supplyName = SupplyController.GetSupplyNameByProduct(selectedProducts);
-        
-        editProduct.GtinTextBox.Text = selectedProducts.Gtin.ToString();
-        editProduct.GtinTextBox.IsEnabled = false;
-        
-        editProduct.NameTextBox.Text = selectedProducts.Name;
-        editProduct.DescriptionTextBox.Text = selectedProducts.Description;
-        editProduct.ValidityDatePicker.SelectedDate = selectedProducts.Validity;
-        
-        editProduct.PriceTextBox.Text = selectedProducts.Price.ToString("f2").PadLeft(6, '_');
-        var item = editProduct.UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);
-        editProduct.UnitComboBox.SelectedIndex = editProduct.UnitComboBox.Items.IndexOf(item);
-        
-        editProduct.SupplyAutoCompleteBox.Text = supplyName;
-        editProduct.QuantityTextBox.Text = selectedProducts.Total.ToString();
-        
-        editProduct.MinMaxView.MinTextBox.Text = selectedProducts.Weekdays.Min.ToString();
-        editProduct.MinMaxViewModel.WeekdaysMin = selectedProducts.Weekdays.Min;
-        editProduct.MinMaxView.MaxTextBox.Text = selectedProducts.Weekdays.Max.ToString();
-        editProduct.MinMaxViewModel.WeekdaysMax = selectedProducts.Weekdays.Max;
-        editProduct.MinMaxViewModel.EventsMin = selectedProducts.Events.Min;
-        editProduct.MinMaxViewModel.EventsMax = selectedProducts.Events.Max;
-        editProduct.MinMaxViewModel.WeekendsMin = selectedProducts.Weekends.Min;
-        editProduct.MinMaxViewModel.WeekendsMax = selectedProducts.Weekends.Max;
-
         editProduct.ProductAdded += (product) =>
         {
             AddPopup.IsOpen = true;

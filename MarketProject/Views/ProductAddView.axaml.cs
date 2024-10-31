@@ -32,13 +32,46 @@ public partial class ProductAddView : Window
     public event ProductAddedDelegate? ProductAdded;
     public RegisterMinMaxViewModel MinMaxViewModel => (MinMaxView.DataContext as RegisterMinMaxViewModel)!;
     
-    public ProductAddView()
+    public ProductAddView(Product selectedProducts = null)
     {
         InitializeComponent();
         this.ResponsiveWindow();
         GtinTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         PriceTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         QuantityTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        if (selectedProducts is not null)
+        {
+            AddButton.Content = "Editar";
+            SupplyContent.IsVisible = false;
+            
+            var supplyName = SupplyController.GetSupplyNameByProduct(selectedProducts);
+        
+            GtinTextBox.Text = selectedProducts.Gtin.ToString();
+            GtinTextBox.IsEnabled = false;
+        
+            NameTextBox.Text = selectedProducts.Name;
+            DescriptionTextBox.Text = selectedProducts.Description;
+            ValidityDatePicker.SelectedDate = selectedProducts.Validity;
+        
+            PriceTextBox.Text = selectedProducts.Price.ToString("f2").PadLeft(6, '_');
+            var item = UnitComboBox.Items.SingleOrDefault(u => (u as ComboBoxItem).Content.ToString() == selectedProducts.Unit);
+            UnitComboBox.SelectedIndex = UnitComboBox.Items.IndexOf(item);
+        
+            SupplyAutoCompleteBox.Text = supplyName;
+            QuantityTextBox.Text = selectedProducts.Total.ToString();
+        
+            MinMaxView.MinTextBox.Text = selectedProducts.Weekdays.Min.ToString();
+            MinMaxViewModel.WeekdaysMin = selectedProducts.Weekdays.Min;
+            MinMaxView.MaxTextBox.Text = selectedProducts.Weekdays.Max.ToString();
+            MinMaxViewModel.WeekdaysMax = selectedProducts.Weekdays.Max;
+            MinMaxViewModel.EventsMin = selectedProducts.Events.Min;
+            MinMaxViewModel.EventsMax = selectedProducts.Events.Max;
+            MinMaxViewModel.WeekendsMin = selectedProducts.Weekends.Min;
+            MinMaxViewModel.WeekendsMax = selectedProducts.Weekends.Max;
+
+            return;
+        }
+        
         SupplyAutoCompleteBox.AddHandler(KeyDownEvent, (sender, e) =>
         {
             if (sender is not AutoCompleteBox autoComplete)
@@ -211,7 +244,7 @@ public partial class ProductAddView : Window
             SupplyAutoCompleteBox.Text,
             QuantityTextBox.Text,
         };
-
+    
     private void ValidityDatePicker_OnSelectedDateChanged(object sender, DatePickerSelectedValueChangedEventArgs e)
     {
         var date = ValidityDatePicker.SelectedDate.Value.DateTime;
