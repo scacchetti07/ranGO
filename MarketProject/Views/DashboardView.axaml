@@ -2,12 +2,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ctlr="clr-namespace:MarketProject.Controls"
              mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1026"
              x:Class="MarketProject.Views.DashboardView"
              FontFamily="{StaticResource FilsonPro}"
              Width="1581"
-             Height="1026">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock FontSize="40" Text="Tela em construção..." FontStyle="Italic"/>
+             Height="1026"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+    <StackPanel Margin="20">
+        <ctlr:DashCard_1 HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </StackPanel>
 </UserControl>
