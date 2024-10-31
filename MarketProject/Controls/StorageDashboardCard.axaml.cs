@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace MarketProject.Controls;
 
-public partial class DashCard_2 : UserControl
+public partial class StorageDashboardCard : UserControl
 {
-    public DashCard_2()
+    public StorageDashboardCard()
     {
         InitializeComponent();
     }

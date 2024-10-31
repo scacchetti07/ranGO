@@ -4,7 +4,6 @@
              x:DataType="vm:OptionsViewModel"
              xmlns:vm="using:MarketProject.ViewModels"
              xmlns:local="using:MarketProject"
-             xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              RequestedThemeVariant="Dark">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -39,7 +38,6 @@
 
         <StyleInclude Source="/Styles/AppStyles.axaml" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-        <dialogHostAvalonia:DialogHostStyles />
     </Application.Styles>
     <Application.Resources>
         <FontFamily x:Key="FilsonPro">avares://MarketProject/Assets/Fonts#Filson Pro</FontFamily>

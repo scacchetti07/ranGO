@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="370" d:DesignHeight="237"
+             x:Class="MarketProject.Controls.SupplyDashboardCard"
+             FontFamily="{StaticResource FilsonPro}"
+             CornerRadius="10"
+             Width="370"
+             Height="237">
+    <!-- Bindar Campos de Texto indicando o tempo de chegada e a porcentagem em meio o tempo vai chegando.  -->
+    <Border BoxShadow="5 5 15 0 #091929" Width="350" Height="217" CornerRadius="10">
+        <StackPanel>
+            <StackPanel Margin="20 10" Orientation="Horizontal" Spacing="38">
+                <TextBlock x:Name="DashboardCardTitle" Text="CHEGADA DE FORNECEDOR" FontSize="18" />
+                <Svg x:Name="DashboardCardIcon" Path="/Assets/Icons/SVG/IconSupply.svg" Css="path { fill: #DCB861; }" Width="34" Height="24"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20 0" Spacing="50">
+                <TextBlock Name="DashboardCardMainContent" Text="10 DIAS" FontSize="60" FontWeight="Heavy" Foreground="#DBDBDA" />
+                <Button Width="31" Height="25" VerticalAlignment="Bottom" ToolTip.Tip="Envie mensagem para o fornecedor!" Background="#6EA759">
+                    <Svg Path="/Assets/Icons/SVG/IconWhatsapp.svg" Width="18" Height="18"/>
+                </Button>
+            </StackPanel>
+            <Border Background="#3374B9" Opacity="0.2" Height="1" Margin="0 15" />
+            <TextBlock Name="IsSupplyDefinied" IsVisible="False" Text="Não definido..." FontStyle="Italic" Opacity="0.5" HorizontalAlignment="Center"/>
+            <Button Name="MoreInfoAboutSupplyButton" Background="#3374B9" Content="Ver mais informações do fornecedor" HorizontalAlignment="Center" Height="35" VerticalContentAlignment="Center" Margin="0 5 0 0" />
+        </StackPanel>
+    </Border>
+</UserControl>

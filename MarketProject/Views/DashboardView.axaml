@@ -10,7 +10,12 @@
              Height="1026"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch">
-    <StackPanel Margin="20">
-        <ctlr:DashCard_1 HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    <StackPanel Margin="15">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="20" Orientation="Horizontal">
+            <ctlr:StorageDashboardCard />
+            <ctlr:SupplyDashboardCard />
+            <ctlr:OrderDashboardCard />
+            <ctlr:ClosedOrderDashboardCard />
+        </StackPanel>
     </StackPanel>
 </UserControl>
