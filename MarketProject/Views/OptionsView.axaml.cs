@@ -13,6 +13,7 @@ using db = MarketProject.Models.Database;
 using System.IO;
 using System.Linq;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using DynamicData;
 using MarketProject.Controllers;
 using MarketProject.Controls;
@@ -82,6 +83,7 @@ public partial class OptionsView : UserControl
 
     private async void RestoreButton_OnClick(object sender, RoutedEventArgs e)
     {
+        bool isRestored = true;
         var startLocation = await TopLevel.GetTopLevel(this)!.StorageProvider.TryGetFolderFromPathAsync(BackupPath)
             .ConfigureAwait(false);
         FolderPickerOpenOptions folderOption = new()
@@ -119,12 +121,11 @@ public partial class OptionsView : UserControl
                         db.CreateNewCollectionIntoDatabase(DbType.Products);
                         db.ProductsList.AddRange(products);
                         db.AddDataIntoDatabase(products);
-                        foreach (var product in products)
-                        {
-                            string supplyName = SupplyController.GetSupplyNameByProduct(product);
-                            SupplyController.AddProductToSupply(product, supplyName);
-                        }
-
+                        // foreach (var product in products)
+                        // {
+                        //     string supplyName = SupplyController.GetSupplyNameByProduct(product);
+                        //     SupplyController.AddProductToSupply(product, supplyName);
+                        // }
                         break;
                     case "orders.json":
                         var ordersList = JsonConvert.DeserializeObject<List<Orders>>(contentJson);
@@ -146,9 +147,19 @@ public partial class OptionsView : UserControl
             }
             catch (Exception ex)
             {
+                isRestored = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine($"\n{ex.StackTrace}");
             }
         }
+        if (isRestored is false) return;
+        
+        // Dispatcher.UIThread.Post(() =>
+        // {
+        //     AddPopup.IsOpen = true;
+        //     AddProdLabel.Content = "Backup restaurado!";
+        //     ContentAddTextBlock.Text = $"O Backup do dia '{folder.Name.Replace('.', '/')}' foi restaurado!";   
+        // });
+        
     }
 }

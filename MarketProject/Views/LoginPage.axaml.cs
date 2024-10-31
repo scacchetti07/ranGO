@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -25,8 +26,14 @@ public partial class LoginPage : Window
     private void btnlogin(object? sender, RoutedEventArgs e)
     {
         bool res = ViewModel.VerifLogin(txtUser.Text!, txtPass.Text!);
-        if (res) {
-            new HomeView() { DataContext = ((ServiceProvider)this.FindResource(typeof(ServiceProvider))!).GetRequiredService<HomeViewModel>() }.Show();
+        if (res)
+        {
+            var homeView = new HomeView()
+            {
+                DataContext = ((ServiceProvider)this.FindResource(typeof(ServiceProvider))!)
+                    .GetRequiredService<HomeViewModel>()
+            };
+            homeView.Show();
             Close(); return;
         }
         

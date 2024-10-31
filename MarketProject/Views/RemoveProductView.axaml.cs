@@ -26,7 +26,6 @@ public partial class RemoveProductView : Window
     public RemoveProductView()
     {
         InitializeComponent();
-        this.ResponsiveWindow();
         RemoveTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         GtinIdTextBox.AddHandler(TextBox.TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
 

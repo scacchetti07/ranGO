@@ -11,7 +11,9 @@
         WindowState="Maximized"
         ExtendClientAreaToDecorationsHint="True"
         FontFamily="{StaticResource FilsonPro}"
-        x:DataType="vm:HomeViewModel">
+        x:DataType="vm:HomeViewModel"
+        Width="1920"
+        Height="1080">
     <Grid ColumnDefinitions="Auto,*">
             <Border BoxShadow="7 0 40 0 #1A3374B9" Width="339" Height="1072" HorizontalAlignment="Left">
             <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"/>    

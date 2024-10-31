@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:MarketProject.ViewModels"
              xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:controls="clr-namespace:MarketProject.Controls"
              mc:Ignorable="d" d:DesignWidth="1569" d:DesignHeight="1026"
              x:Class="MarketProject.Views.OptionsView"
              x:DataType="vm:OptionsViewModel"
@@ -12,53 +13,74 @@
         <vm:OptionsViewModel />
     </UserControl.DataContext>
 
-    <StackPanel Classes="OptionsStackPanel">
-        <TextBlock Classes="OptionTitle" Text="Configurações" />
+    <Grid>
+        <StackPanel Classes="OptionsStackPanel">
+            <TextBlock Classes="OptionTitle" Text="Configurações" />
 
-        <!-- Aparência e Personalização - Appearences Options -->
-        <Grid ColumnDefinitions="Auto, *" ShowGridLines="false" RowDefinitions="Auto, Auto, Auto">
-            <StackPanel Spacing="10">
-                <Label Content="Aparência e Personalização" Classes="OptionTitleValue" />
-                <Label Content="Modifica o tema atual do sistema ranGO somente para o usuário atual."
-                       Classes="OptionValue" />
-            </StackPanel>
-            <ComboBox Grid.Column="1" SelectedItem="{Binding CurrentAppTheme}"
-                      ItemsSource="{Binding Themes}"
-                      Classes="ValuesComboBox" />
-        </Grid>
-
-        <!-- Segurança de dados - Save and Import Datas -->
-        <Grid ColumnDefinitions="Auto, *" ShowGridLines="False" RowDefinitions="Auto, Auto" Margin="0 27">
-            <StackPanel Spacing="10">
-                <Label Content="Segurança de Dados" Classes="OptionTitleValue" />
-                <StackPanel Spacing="5">
-                    <Label Content="Realize o buckup de todos os dados registrados no sistema ranGO em .json!"
-                           Classes="OptionValue" />
-                    <Label Content="Local de Destino: C://ranGO/Buckup" Opacity="0.2" FontStyle="Oblique"
+            <!-- Aparência e Personalização - Appearences Options -->
+            <Grid ColumnDefinitions="Auto, *" ShowGridLines="false" RowDefinitions="Auto, Auto, Auto">
+                <StackPanel Spacing="10">
+                    <Label Content="Aparência e Personalização" Classes="OptionTitleValue" />
+                    <Label Content="Modifica o tema atual do sistema ranGO somente para o usuário atual."
                            Classes="OptionValue" />
                 </StackPanel>
-            </StackPanel>
-            <Button Grid.Column="1" Content="Backup" Classes="OptionButton" IsDefault="True"
-                    Click="BackupButton_OnClick" />
+                <ComboBox Grid.Column="1" SelectedItem="{Binding CurrentAppTheme}"
+                          ItemsSource="{Binding Themes}"
+                          Classes="ValuesComboBox" />
+            </Grid>
 
-            <Label Grid.Row="1"
-                   Content="Restaure os seus dados de de backup referente a data que ele foi realizado!"
-                   Classes="OptionValue" Margin="0 39 0 0" />
-            <Button Grid.Row="1" Grid.Column="1" Content="Restaurar" Classes="OptionButton" IsDefault="True"
-                    Click="RestoreButton_OnClick" />
-        </Grid>
+            <!-- Segurança de dados - Save and Import Datas -->
+            <Grid ColumnDefinitions="Auto, *" ShowGridLines="False" RowDefinitions="Auto, Auto" Margin="0 27">
+                <StackPanel Spacing="10">
+                    <Label Content="Segurança de Dados" Classes="OptionTitleValue" />
+                    <StackPanel Spacing="5">
+                        <Label Content="Realize o buckup de todos os dados registrados no sistema ranGO em .json!"
+                               Classes="OptionValue" />
+                        <Label Content="Local de Destino: C://ranGO/Buckup" Opacity="0.2" FontStyle="Oblique"
+                               Classes="OptionValue" />
+                    </StackPanel>
+                </StackPanel>
+                <Button Grid.Column="1" Content="Backup" Classes="OptionButton" IsDefault="True"
+                        Click="BackupButton_OnClick" />
 
-        <!-- Central de Ajuda - Help Section -->
-        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto" Margin="0 27">
-            <StackPanel Spacing="10">
-                <Label Content="Central de Ajuda" Classes="OptionTitleValue" />
-                <Label Content="Entre em contato com o suporte da ranGO pelo Email" Classes="OptionValue" />
-            </StackPanel>
-            <Button Grid.Column="1" Content="Suporte" Classes="OptionButton" Command="{Binding SentAMailTo}"/>
-            <Label Grid.Row="1" Content="Alguma dúvida em como usar o sistema? Acesse o nosso manual de uso!"
-                   Classes="OptionValue" Margin="0 39 0 0" />
+                <Label Grid.Row="1"
+                       Content="Restaure os seus dados de de backup referente a data que ele foi realizado!"
+                       Classes="OptionValue" Margin="0 39 0 0" />
+                <Button Grid.Row="1" Grid.Column="1" Content="Restaurar" Classes="OptionButton" IsDefault="True"
+                        Click="RestoreButton_OnClick" />
+            </Grid>
 
-            <Button Grid.Row="1" Grid.Column="1" Content="Acessar" Classes="OptionButton" Command="{Binding AccessWebSite}"/>
-        </Grid>
-    </StackPanel>
+            <!-- Central de Ajuda - Help Section -->
+            <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto" Margin="0 27">
+                <StackPanel Spacing="10">
+                    <Label Content="Central de Ajuda" Classes="OptionTitleValue" />
+                    <Label Content="Entre em contato com o suporte da ranGO pelo Email" Classes="OptionValue" />
+                </StackPanel>
+                <Button Grid.Column="1" Content="Suporte" Classes="OptionButton" Command="{Binding SentAMailTo}" />
+                <Label Grid.Row="1" Content="Alguma dúvida em como usar o sistema? Acesse o nosso manual de uso!"
+                       Classes="OptionValue" Margin="0 39 0 0" />
+
+                <Button Grid.Row="1" Grid.Column="1" Content="Acessar" Classes="OptionButton"
+                        Command="{Binding AccessWebSite}" />
+            </Grid>
+        </StackPanel>
+        <controls:AnimatedPopup x:Name="AddPopup"
+                                PlacementMode="Absolute"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Margin="10"
+                                CloseAfter="0:0:0:4">
+            <controls:AnimatedPopup.Child>
+                <Border Background="#6EA759" Classes="PopUpLayout">
+                    <Grid RowDefinitions="Auto, Auto">
+                        <StackPanel>
+                            <Svg Path="/Assets/Icons/SVG/IconCheck.svg" />
+                            <Label Name="AddProdLabel" />
+                        </StackPanel>
+                        <TextBlock Grid.Row="1" Name="ContentAddTextBlock" />
+                    </Grid>
+                </Border>
+            </controls:AnimatedPopup.Child>
+        </controls:AnimatedPopup>
+    </Grid>
 </UserControl>
