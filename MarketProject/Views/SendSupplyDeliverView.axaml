@@ -5,6 +5,11 @@
         mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
         x:Class="MarketProject.Views.SendSupplyDeliverView"
         Title="Definir Entrega - ranGO!"
+        WindowStartupLocation = "CenterScreen"
+        ExtendClientAreaChromeHints = "NoChrome"
+        ExtendClientAreaToDecorationsHint = "True"
+        CanResize = "False"
+        ShowInTaskbar = "False"
         CornerRadius="20"
         FontFamily="{StaticResource FilsonPro}"
         FontSize="16"
@@ -13,27 +18,28 @@
     <Grid RowDefinitions="Auto,Auto,Auto,Auto" Classes="DeliverSupplyContent">
         <StackPanel Classes="DeliverSupplyTitle">
             <TextBlock />
-            <Button Classes="ReturnButton" Margin="100 0" Padding="5">
+            <Button Classes="ReturnButton" Margin="100 0" Padding="5" Click="ReturnButton_OnClick">
                 <StackPanel Classes="ReturnButtonStackPanel">
-                    <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}"/>
-                    <Label Content="Retornar"/>
+                    <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
+                    <Label Content="Retornar" />
                 </StackPanel>
             </Button>
         </StackPanel>
         <StackPanel Grid.Row="1" Classes="ProductRegisterStyle DeliverSupplyTextName">
-            <Label Content="Nome do Fornecedor: "/>
-            <AutoCompleteBox />
+            <Label Content="Nome do Fornecedor: " />
+            <AutoCompleteBox Name="SupplyNameAutoCompleteBox" TextChanged="SupplyNameAutoCompleteBox_OnTextChanged" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" Classes="ProductRegisterStyle" Spacing="113">
             <StackPanel>
-                <Label Content="Prazo: "/>
-                <TextBox Width="120" IsEnabled="False"/>
+                <Label Content="Prazo: " />
+                <TextBox Width="120" IsEnabled="False" Name="DeliverTextBox" />
             </StackPanel>
             <StackPanel>
-                <Label Content="CNPJ: "/>
-                <TextBox Width="210"/>
+                <Label Content="CNPJ: " />
+                <TextBox Width="210" Name="CnpjTextBox" IsEnabled="False" />
             </StackPanel>
         </StackPanel>
-        <Button Grid.Row="3" HorizontalAlignment="Center" Classes="DeliverSupplyButton" Content="Definir Entrega" />
+        <Button Grid.Row="3" HorizontalAlignment="Center" Classes="DeliverSupplyButton" Content="Definir Entrega"
+                Click="DeliverSupplyButton_OnClick" />
     </Grid>
 </Window>

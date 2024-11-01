@@ -23,7 +23,6 @@ public class Supply
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; internal set; }
-
     public string Name { get; set; }
     public string Cnpj { get; private set; }
     public List<string> Products { get; private set; }
@@ -32,6 +31,7 @@ public class Supply
     public string? Adress { get; private set; }
     public string? Phone { get; private set; }
     public string? Email { get; private set; }
+    public bool InDeliver { get; set; }
 
     [JsonConstructor]
     public Supply(string id, string name, string cnpj, List<string> products, int dayLimit, string cep, string adress,

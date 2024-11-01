@@ -686,6 +686,10 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </Style>
+    <Style Selector="Button.DefineSupplyDeliverButtonToolTip:pointerover /template/ ContentPresenter">
+        <Setter Property="ToolTip.Tip" Value="Espere a entrega ser finalizada par definir uma nova!"/>
+    </Style>
+    
     <Style Selector="Button.DefineSupplyDeliverButton:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="#40DCB861"/>
         <Setter Property="Foreground" Value="#80FFFFFF"/>

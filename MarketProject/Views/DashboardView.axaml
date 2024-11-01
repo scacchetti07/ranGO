@@ -19,7 +19,7 @@
         <StackPanel Margin="15">
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="20" Orientation="Horizontal">
                 <ctlr:StorageDashboardCard />
-                <ctlr:SupplyDashboardCard CurrentSupply="{Binding CurrentSupply}" />
+                <ctlr:SupplyDashboardCard x:Name="CardSupplyDashboard" CurrentSupply="{Binding CurrentSupply}" />
                 <ctlr:OrderDashboardCard />
                 <ctlr:ClosedOrderDashboardCard />
             </StackPanel>

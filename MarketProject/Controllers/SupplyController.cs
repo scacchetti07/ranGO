@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DynamicData;
@@ -21,7 +22,8 @@ public class SupplyController : Database
 
     public static Supply FindSupplyByCnpj(string cnpj) => Collection.Find(s => s.Cnpj == cnpj).FirstOrDefault();
     public static Supply FindSupplyByName(string name) => Collection.Find(s => s.Name == name).FirstOrDefault();
-    public static Supply FindSupply(string id) => Collection.Find(s => s.Id == id).FirstOrDefault(); 
+    public static Supply FindSupply(string id) => Collection.Find(s => s.Id == id).FirstOrDefault();
+    public static List<Supply> FindSupply() => Collection.Find(FilterDefinition<Supply>.Empty).ToList();
     
     public static async void DeleteSupply(Supply supply)
     {

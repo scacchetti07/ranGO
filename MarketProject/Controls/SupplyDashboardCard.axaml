@@ -9,7 +9,6 @@
              CornerRadius="10"
              Width="370"
              Height="237">
-    <!-- Bindar Campos de Texto indicando o tempo de chegada e a porcentagem em meio o tempo vai chegando.  -->
     <Grid>
         <Border Classes="DashboardCardStyle">
             <StackPanel>
@@ -18,27 +17,27 @@
                     <Svg x:Name="DashboardCardIcon" Path="/Assets/Icons/SVG/IconSupply.svg" />
                 </StackPanel>
                 <StackPanel Classes="MainConent">
-                    <TextBlock Name="DashboardCardMainContent" Text="10 DIAS" FontSize="60" FontWeight="Heavy"
+                    <TextBlock Name="DashboardCardMainContent" Text="0 DIAS" FontSize="60" FontWeight="Heavy"
                                Foreground="#DBDBDA" />
-                    <Button Click="WhatsappButton_OnClick">
+                    <Button Click="WhatsappButton_OnClick" Name="WhatsappButton">
                         <Svg />
                     </Button>
                 </StackPanel>
                 <Border />
                 <TextBlock Name="IsSupplyDefinied" IsVisible="False" Text="Não definido..." FontStyle="Italic"
-                           Opacity="0.5" HorizontalAlignment="Center" />
+                           Opacity="0.5" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <Button Name="MoreInfoAboutSupplyButton" Click="MoreInfoAboutSupplyButton_OnClick" Background="#3374B9"
                         Content="Ver mais informações do fornecedor"
                         HorizontalAlignment="Center" Height="35" VerticalContentAlignment="Center" Margin="0 5 0 0" />
             </StackPanel>
         </Border>
-        
+
         <controls:AnimatedPopup x:Name="AddPopup"
-                            PlacementMode="Absolute"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            Margin="10"
-                            CloseAfter="0:0:0:4">
+                                PlacementMode="Absolute"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Margin="10"
+                                CloseAfter="0:0:0:4">
             <controls:AnimatedPopup.Child>
                 <Border Background="#6EA759" Classes="PopUpLayout">
                     <Grid RowDefinitions="Auto, Auto">

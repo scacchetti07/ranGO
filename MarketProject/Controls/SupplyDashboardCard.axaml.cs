@@ -25,12 +25,18 @@ public partial class SupplyDashboardCard : UserControl
         get => GetValue(CurrentSupplyProperty);
         set => SetValue(CurrentSupplyProperty, value);
     }
-    
-    
+
+
     public SupplyDashboardCard()
     {
         InitializeComponent();
         CurrentSupplyProperty.Changed.AddClassHandler<SupplyDashboardCard>((_, _) => UpdateDashboardCard());
+        
+        if (CurrentSupply is not null) return;
+        
+        MoreInfoAboutSupplyButton.IsVisible = false;
+        WhatsappButton.IsVisible = false;
+        IsSupplyDefinied.IsVisible = true;
     }
 
     private void UpdateDashboardCard()
@@ -38,6 +44,10 @@ public partial class SupplyDashboardCard : UserControl
         var name = new string(CurrentSupply.Name.ToUpper().Take(10).ToArray());
         DashboardCardTitle.Text = $"CHEGADA DO {name}";
         DashboardCardMainContent.Text = $"{CurrentSupply.DayLimit} DIAS";
+        
+        MoreInfoAboutSupplyButton.IsVisible = true;
+        WhatsappButton.IsVisible = true;
+        IsSupplyDefinied.IsVisible = false;
     }
     
     private void WhatsappButton_OnClick(object sender, RoutedEventArgs e)

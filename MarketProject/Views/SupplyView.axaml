@@ -37,7 +37,7 @@
                         <TextBlock Text="Cadastrar Fornecedor" />
                     </StackPanel>
                 </Button>
-                <Button DockPanel.Dock="Right" Classes="DefineSupplyDeliverButton">
+                <Button DockPanel.Dock="Right" Classes="DefineSupplyDeliverButton" Name="SendSupplyDeliverButton" Click="SendSupplyDeliverButton_OnClick">
                     <StackPanel >
                         <Svg />
                         <TextBlock Text="Definir Entrega" />
