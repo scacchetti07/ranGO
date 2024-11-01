@@ -40,7 +40,7 @@ public partial class SupplyAddView : Window
 
     private SupplyAddViewModel _vm => DataContext as SupplyAddViewModel;
 
-    public SupplyAddView()
+    public SupplyAddView(Supply selectedSupply = null)
     {
         InitializeComponent();
         this.ResponsiveWindow();
@@ -80,6 +80,30 @@ public partial class SupplyAddView : Window
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
         };
+
+        if (selectedSupply is null) return;
+        AddButton.Content = "Editar";
+        
+        List<Product> products = StorageController.FindProductsFromSupply(selectedSupply);
+        NameTextBox.Text = selectedSupply.Name;
+        var editedCnpj = selectedSupply.Cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
+        
+        CnpjMaskedTextBox.Text = editedCnpj;
+        CnpjMaskedTextBox.IsEnabled = false;
+        foreach (var prod in products)
+        {
+            AutoCompleteSelectedProducts.Add(prod);
+            TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
+            
+            var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+            itemSource.Remove(prod.Name);
+            ProductsAutoCompleteBox.ItemsSource = itemSource;
+        }
+        DateLimitTextBox.Text = selectedSupply.DayLimit.ToString();
+        CepMaskedTextBox.Text = selectedSupply.Cep.Replace("-", "");
+        AddressTextBox.Text = selectedSupply.Adress;
+        EmailTextBox.Text = selectedSupply.Email;
+        PhoneMaskedTextBox.Text = selectedSupply.Phone;
     }
 
     private void PreviewTextChanged(object sender, TextInputEventArgs e)

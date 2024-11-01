@@ -106,7 +106,7 @@ public partial class SupplyView : UserControl
         if (supplies is null) return;
         var selectedSupply = Supplyctrl.FindSupplyByCnpj(supplies.Cnpj);
         
-        SupplyAddView editSupply = new()
+        SupplyAddView editSupply = new(selectedSupply)
         {
             Title = "Cadastro de Fornecedores",
             WindowStartupLocation= WindowStartupLocation.CenterScreen,
@@ -116,29 +116,6 @@ public partial class SupplyView : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
-        editSupply.AddButton.Content = "Editar";
-        
-        List<Product> products = StorageController.FindProductsFromSupply(selectedSupply);
-        editSupply.NameTextBox.Text = selectedSupply.Name;
-        var editedCnpj = selectedSupply.Cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
-        
-        editSupply.CnpjMaskedTextBox.Text = editedCnpj;
-        editSupply.CnpjMaskedTextBox.IsEnabled = false;
-        foreach (var prod in products)
-        {
-            editSupply .AutoCompleteSelectedProducts.Add(prod);
-            editSupply.TagContentStackPanel.Children.Add(editSupply.GenereteAutoCompleteTag(prod));
-            
-            var itemSource = editSupply.ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
-            itemSource.Remove(prod.Name);
-            editSupply.ProductsAutoCompleteBox.ItemsSource = itemSource;
-        }
-        editSupply.DateLimitTextBox.Text = selectedSupply.DayLimit.ToString();
-        editSupply.CepMaskedTextBox.Text = selectedSupply.Cep.Replace("-", "");
-        editSupply.AddressTextBox.Text = selectedSupply.Adress;
-        editSupply.EmailTextBox.Text = selectedSupply.Email;
-        editSupply.PhoneMaskedTextBox.Text = selectedSupply.Phone;
-
         editSupply.SupplyAdded += (supply) =>
         {
             if (supply is null) return;

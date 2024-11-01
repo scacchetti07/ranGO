@@ -3,17 +3,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ctlr="clr-namespace:MarketProject.Controls"
+             xmlns:vm="clr-namespace:MarketProject.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1581" d:DesignHeight="1026"
              x:Class="MarketProject.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel"
              FontFamily="{StaticResource FilsonPro}"
              Width="1581"
              Height="1026"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch">
+    <UserControl.DataContext>
+        <vm:DashboardViewModel />
+    </UserControl.DataContext>
     <StackPanel Margin="15">
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="20" Orientation="Horizontal">
             <ctlr:StorageDashboardCard />
-            <ctlr:SupplyDashboardCard />
+            <ctlr:SupplyDashboardCard CurrentSupply="{Binding CurrentSupply}" />
             <ctlr:OrderDashboardCard />
             <ctlr:ClosedOrderDashboardCard />
         </StackPanel>
