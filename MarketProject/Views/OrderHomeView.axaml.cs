@@ -127,9 +127,17 @@ public partial class OrderHomeView : UserControl
         ManageOrdersView manageOrdersView = new() { Title = "Adicionar Pedido - ranGO!" };
         manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!);
         var newOrder = await manageOrdersView.GetOrder();
+        manageOrdersView.OrderAdded += (order) =>
+        {
+            var lastId = new string(order.Id.TakeLast(4).ToArray());
+            AddPopup.IsOpen = true;
+            AddProdLabel.Content = "Novo Pedido Adicionado!";
+            ContentAddTextBlock.Text = $"Pedido de Id '#{lastId}' foi adicionado!";
+        };
         OrderCtrl.AddNewOrder(newOrder);
         if (_selectedButton.Name == "AllOrdersButton")
             OrderSelected?.Invoke(null);
+        
     }
 
     private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)

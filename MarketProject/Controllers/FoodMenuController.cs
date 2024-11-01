@@ -30,7 +30,7 @@ public class FoodMenuController : Database
         => Collection.Find(Builders<Foods>.Filter.Empty).ToList();
     public static async Task<Foods> FindFoodMenu(string id)
         => await Collection.Find(fm => fm.Id == id).FirstOrDefaultAsync().ConfigureAwait(false);
-    public static async Task<Foods> FindFoodMenuByName(string name)
+    public static async Task<Foods> FindFoodMenuByNameAsync(string name)
         => await Collection.Find(fm => fm.FoodName == name).FirstOrDefaultAsync().ConfigureAwait(false);
     
     public static async void EditFoodMenu(Foods food)

@@ -103,7 +103,7 @@ public partial class FoodCard : UserControl
 
     private async void DeleteFoodButton_OnClick(object sender, RoutedEventArgs e)
     {
-        var selectedFood = await FoodMenuController.FindFoodMenuByName(Name).ConfigureAwait(false); // 
+        var selectedFood = await FoodMenuController.FindFoodMenuByNameAsync(Name).ConfigureAwait(false); // 
         
         var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {

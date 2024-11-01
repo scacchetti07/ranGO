@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1080" d:DesignHeight="1080"
+        mc:Ignorable="d" d:DesignWidth="543" d:DesignHeight="630"
         x:Class="MarketProject.Views.ManageOrdersView"
         Title="Gerenciando Pedidos - ranGo!"
         WindowStartupLocation="CenterScreen"
@@ -10,13 +10,36 @@
         ExtendClientAreaToDecorationsHint="True"
         CanResize="False"
         ShowInTaskbar="False"
-        SizeToContent="WidthAndHeight"
-        Width="1080"
-        Height="1080">
-    
-    <!-- Pensar em como vai ser o design desta tela -->
-    <StackPanel>
-    <Button Content="Clique aqui para sair" Click="Button_OnClick"/>
-    <Button Content="Adicione um pedido" Click="Button2_OnClick"/>
-    </StackPanel>
+        Width="543"
+        CornerRadius="20">
+    <Grid RowDefinitions="Auto, Auto" Margin="40" Classes="ManageOrderStyles">
+        <TextBlock Classes="ManageOrderTitle"/>
+        <Button Grid.Column="1" Classes="ReturnButton" Click="ReturnButton_OnClick">
+            <StackPanel Classes="ReturnButtonStackPanel">
+                <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
+                <Label Content="Retornar" />
+            </StackPanel>
+        </Button>
+
+        <StackPanel Grid.Row="1" Classes="ProductRegisterStyle ManageOrderTextBoxes">
+            <Label Content="N° da mesa"/>
+            <TextBox Classes="TableNumberManageOrder" Name="TableNumberTextBox"/>
+
+            <Label Content="Nome do Garçom: " />
+            <TextBox Name="WaiterNameTextBox" />
+
+            <Label Content="Pratos Pedidos: " />
+            <AutoCompleteBox Watermark="Selecione os pratos" Name="FoodsAutoCompleteBox" KeyDown="FoodsAutoCompleteBox_OnKeyDown"/>
+            <WrapPanel MaxWidth="500" Name="TagContentStackPanel" Orientation="Horizontal" HorizontalAlignment="Left"/>
+
+            <Label Content="Detalhes do Pedido: " />
+            <TextBox Height="60" Name="FoodDescriptionTextBox"/>
+
+            <StackPanel Classes="ManageOrderButtons">
+                <Button Background="#3374B9" Content="Adicionar" Name="AddNewOrderButton" Click="AddNewOrder_OnClick"/>
+                <Button Background="#D87249" Content="Limpar" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
 </Window>

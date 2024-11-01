@@ -941,6 +941,53 @@
         </Style>
     </Style>
 
+    <Style Selector="Grid.ManageOrderStyles">
+        <Setter Property="Margin" Value="40"/>
+        <Style Selector="^ TextBlock.ManageOrderTitle">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Text" Value="Adicionar Novo Pedido"/>
+        </Style>
+        <Style Selector="^ Button">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        
+        <Style Selector="^ StackPanel.ManageOrderTextBoxes">
+            <Setter Property="Margin" Value="0 15 0 0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            
+            <Style Selector="^ TextBox.TableNumberManageOrder">
+                <Setter Property="Width" Value="191"/>
+                <Setter Property="Watermark" Value="01"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="Medium"/>
+            </Style>
+        </Style>
+        
+        <Style Selector="^ StackPanel.ManageOrderButtons">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Spacing" Value="90"/>
+            <Style Selector="^ Button">
+                <Setter Property="Width" Value="177"/>
+                <Setter Property="Height" Value="50"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="#590B0E18" />
+                    <Setter Property="BorderBrush" Value="#DCB861" />
+                    <Setter Property="BorderThickness" Value="2" />
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Style>
+            </Style>
+            
+        </Style>
+    </Style>
 
     <Style Selector="Border.PopUpLayout">
         <Setter Property="CornerRadius" Value="10" />
@@ -1008,6 +1055,7 @@
                     <Setter Property="Background" Value="#590B0E18" />
                     <Setter Property="BorderBrush" Value="#DCB861" />
                     <Setter Property="BorderThickness" Value="2" />
+                    <Setter Property="Cursor" Value="Hand"/>
                     <Style Selector="^ Svg">
                         <Setter Property="Opacity" Value="0.7" />
                         <Setter Property="Height" Value="50" />
