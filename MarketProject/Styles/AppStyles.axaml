@@ -233,7 +233,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="FontWeight" Value="Medium" />
             <Setter Property="Foreground" Value="Black" />
-            <Setter Property="Width" Value="191"></Setter>
+            <Setter Property="Width" Value="191"/>
         </Style>
     </Style>
 
@@ -650,18 +650,92 @@
                 <Setter Property="Padding" Value="10 3 0 0" />
             </Style>
         </Style>
-        <Style Selector="^ Button.AddSupplyButton:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#B36EA759" />
-            <Setter Property="Foreground" Value="#B3FFFFFF" />
-            <Setter Property="BorderBrush" Value="#DCB861" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Style Selector="^ Image">
-                <Setter Property="Opacity" Value="70" />
-            </Style>
+    </Style>
+    <Style Selector="Button.AddSupplyButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#B36EA759" />
+        <Setter Property="Foreground" Value="#B3FFFFFF" />
+        <Setter Property="BorderBrush" Value="#DCB861" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Style Selector="^ Image">
+            <Setter Property="Opacity" Value="0.7" />
         </Style>
     </Style>
 
+    <Style Selector="Button.DefineSupplyDeliverButton">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Background" Value="#BFDCB861" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="#FFF" />
+        <Setter Property="Width" Value="200" />
+        <Setter Property="Height" Value="45" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Style Selector="^ StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Spacing" Value="10"/>
+        </Style>
+        <Style Selector="^ Svg">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Css" Value="path {fill: #FFF;}"/>
+            <Setter Property="Path" Value="/Assets/Icons/SVG/IconSupply.svg"/>
+        </Style>
+        <Style Selector="^ TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Style>
+    <Style Selector="Button.DefineSupplyDeliverButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#40DCB861"/>
+        <Setter Property="Foreground" Value="#80FFFFFF"/>
+        <Setter Property="BorderBrush" Value="#3374B9"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Style Selector="^ Svg">
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+    </Style>
 
+    <Style Selector="Grid.DeliverSupplyContent">
+        <Setter Property="Margin" Value="23"/>
+        <Style Selector="^ StackPanel.DeliverSupplyTitle">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Text" Value="Definir Entrega"/>
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+        </Style>
+        <Style Selector="^ StackPanel.DeliverSupplyTextName">
+            <Setter Property="Margin" Value="0 30 0 0"/>
+            <Style Selector="^ AutoCompleteBox">
+                <Setter Property="Width" Value="480"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+        </Style>
+    </Style>
+    
+    <Style Selector="Button.DeliverSupplyButton">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Background" Value="#6EA759" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="#FFF" />
+        <Setter Property="Width" Value="200" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+    <Style Selector="Button.DeliverSupplyButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#B36EA759" />
+        <Setter Property="Foreground" Value="#B3FFFFFF" />
+        <Setter Property="BorderBrush" Value="#DCB861" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    
     <Style Selector="Border.AutoCompleteTag">
         <Setter Property="Background" Value="#3374B9" />
         <Setter Property="CornerRadius" Value="10" />

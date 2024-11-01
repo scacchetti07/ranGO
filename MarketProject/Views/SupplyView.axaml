@@ -31,10 +31,16 @@
                     </Button>
                 </StackPanel>
 
-                <Button Classes="AddSupplyButton" Click="AddSupply_OnClick">
+                <Button DockPanel.Dock="Right" Classes="AddSupplyButton" Click="AddSupply_OnClick">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{SvgImage /Assets/Icons/SVG/IconAddSupply.svg}" Width="26" Height="29" />
                         <TextBlock Text="Cadastrar Fornecedor" />
+                    </StackPanel>
+                </Button>
+                <Button DockPanel.Dock="Right" Classes="DefineSupplyDeliverButton">
+                    <StackPanel >
+                        <Svg />
+                        <TextBlock Text="Definir Entrega" />
                     </StackPanel>
                 </Button>
             </DockPanel>

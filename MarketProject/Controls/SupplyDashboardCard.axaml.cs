@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,6 +10,9 @@ using Avalonia.Platform;
 using MarketProject.Controllers;
 using MarketProject.Models;
 using MarketProject.Views;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 
 namespace MarketProject.Controls;
 
@@ -38,10 +42,10 @@ public partial class SupplyDashboardCard : UserControl
     
     private void WhatsappButton_OnClick(object sender, RoutedEventArgs e)
     {
-        var phone = CurrentSupply.Phone.Replace("-", "").Replace("(", "").Replace(")", "").Trim();
+        var phone = CurrentSupply.Phone.Replace("-", "").Replace("(", "").Replace(")", "").Replace("_", "").Trim();
         ProcessStartInfo psi = new ProcessStartInfo
         {
-            FileName = $"https://api.whatsapp.com/send?phone={phone.Replace(" ", "")}&text=Olá {CurrentSupply.Name.ToLower()}, gostaria de saber como está o trajeto do meu pedido!",
+            FileName = $"https://api.whatsapp.com/send?phone=55{phone.Replace(" ", "")}&text=Olá {CurrentSupply.Name.ToLower()}, gostaria de saber como está o trajeto do meu pedido!",
             UseShellExecute = true
         };
         Process.Start(psi);
@@ -59,7 +63,6 @@ public partial class SupplyDashboardCard : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
-        await editSupply.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
-        
+        await editSupply.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 }

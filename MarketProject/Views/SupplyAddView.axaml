@@ -31,14 +31,14 @@
 
             <!-- Name Text -->
             <Label Content="Nome: " />
-            <TextBox Width="443" Name="NameTextBox"/>
+            <TextBox Width="443" Name="NameTextBox" />
 
             <!-- Products AutoText -->
             <Label Content="Produtos Fornecidos: *" />
             <AutoCompleteBox Width="443" Watermark="Selecione algum Produto" x:Name="ProductsAutoCompleteBox"
                              HorizontalAlignment="Left"
-                             KeyDown="ProductsAutoCompleteBox_OnKeyDown" 
-                             Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}"/>
+                             KeyDown="ProductsAutoCompleteBox_OnKeyDown"
+                             Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}" />
             <WrapPanel Name="TagContentStackPanel" MaxWidth="500" Orientation="Horizontal" HorizontalAlignment="Left" />
 
             <Grid ColumnDefinitions="Auto, Auto">
@@ -52,7 +52,8 @@
                 <StackPanel Grid.Column="1" Margin="69 0 0 0">
                     <Label Content="CEP:" />
                     <MaskedTextBox Width="197" Mask="00000-000" Name="CepMaskedTextBox"
-                                   TextChanged="CepMaskedTextBox_OnTextChanged" Text="{Binding Cep, UpdateSourceTrigger=PropertyChanged}"/>
+                                   TextChanged="CepMaskedTextBox_OnTextChanged"
+                                   Text="{Binding Cep, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -64,7 +65,21 @@
 
             <!-- Phone MaskText -->
             <Label Content="Telefone:" Margin="-2 15 0 0" />
-            <MaskedTextBox Width="265" Mask="(00) 0000-0000" Name="PhoneMaskedTextBox" />
+            <StackPanel Orientation="Horizontal" Spacing="95">
+                <MaskedTextBox Width="265" Mask="(00) 0000-0000" Name="PhoneMaskedTextBox" />
+                <ComboBox Name="PhoneType" Width="80" Height="50" ToolTip.Tip="Defina o modelo do telefone"
+                          VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                          SelectionChanged="PhoneType_OnSelectionChanged" SelectedIndex="0">
+                    <ComboBoxItem>
+                        <Svg Path="/Assets/Icons/SVG/IconPhone.svg" Width="28" Height="28" ToolTip.Tip="Empresarial"
+                             Css="path {fill: #000000; }" />
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <Svg Path="/Assets/Icons/SVG/IconWhatsapp.svg" Width="28" Height="28" ToolTip.Tip="Whatsapp"
+                             Css="path {fill: #000000; }" />
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
 
             <!-- Email Text -->
             <Label Content="Email:" Margin="-2 15 0 0" />

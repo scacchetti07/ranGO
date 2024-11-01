@@ -15,12 +15,19 @@
     <UserControl.DataContext>
         <vm:DashboardViewModel />
     </UserControl.DataContext>
-    <StackPanel Margin="15">
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="20" Orientation="Horizontal">
-            <ctlr:StorageDashboardCard />
-            <ctlr:SupplyDashboardCard CurrentSupply="{Binding CurrentSupply}" />
-            <ctlr:OrderDashboardCard />
-            <ctlr:ClosedOrderDashboardCard />
+    <Grid>
+        <StackPanel Margin="15">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="20" Orientation="Horizontal">
+                <ctlr:StorageDashboardCard />
+                <ctlr:SupplyDashboardCard CurrentSupply="{Binding CurrentSupply}" />
+                <ctlr:OrderDashboardCard />
+                <ctlr:ClosedOrderDashboardCard />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+        <Border BoxShadow="5 5 15 0 #091929" CornerRadius="10" Width="1518" Height="275">
+            <StackPanel>
+                <!-- Onde vai vir os cards de Pratos -->
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>

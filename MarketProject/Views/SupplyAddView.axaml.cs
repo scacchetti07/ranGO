@@ -38,8 +38,6 @@ public partial class SupplyAddView : Window
 
     public List<Product> AutoCompleteSelectedProducts { get; } = [];
 
-    private SupplyAddViewModel _vm => DataContext as SupplyAddViewModel;
-
     public SupplyAddView(Supply selectedSupply = null)
     {
         InitializeComponent();
@@ -83,27 +81,28 @@ public partial class SupplyAddView : Window
 
         if (selectedSupply is null) return;
         AddButton.Content = "Editar";
-        
+
         List<Product> products = StorageController.FindProductsFromSupply(selectedSupply);
         NameTextBox.Text = selectedSupply.Name;
         var editedCnpj = selectedSupply.Cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
-        
+
         CnpjMaskedTextBox.Text = editedCnpj;
         CnpjMaskedTextBox.IsEnabled = false;
         foreach (var prod in products)
         {
             AutoCompleteSelectedProducts.Add(prod);
             TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
-            
+
             var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
             itemSource.Remove(prod.Name);
             ProductsAutoCompleteBox.ItemsSource = itemSource;
         }
+
         DateLimitTextBox.Text = selectedSupply.DayLimit.ToString();
         CepMaskedTextBox.Text = selectedSupply.Cep.Replace("-", "");
         AddressTextBox.Text = selectedSupply.Adress;
         EmailTextBox.Text = selectedSupply.Email;
-        PhoneMaskedTextBox.Text = selectedSupply.Phone;
+        PhoneMaskedTextBox.Text = selectedSupply.Phone!.Replace(" ", "");
     }
 
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
@@ -322,5 +321,14 @@ public partial class SupplyAddView : Window
         {
             Console.WriteLine(ex.Message);
         }
+    }
+
+    private void PhoneType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (PhoneMaskedTextBox == null) return;
+        
+        PhoneMaskedTextBox.Mask = PhoneType.SelectedIndex == 0 
+            ? "(00) 0000-0000" 
+            : "(00) 00000-0000";
     }
 }
