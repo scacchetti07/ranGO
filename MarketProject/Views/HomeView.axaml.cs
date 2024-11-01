@@ -107,4 +107,10 @@ public partial class HomeView : Window
         if (result == ButtonResult.No) return;
         Environment.Exit(0);
     }
+
+    private void OpenDashboardToBegin_OnClick(object sender, RoutedEventArgs e)
+    {
+        TabGeral.SelectedIndex = 1;
+        toggleSelectedButton(sender as Button);
+    }
 }

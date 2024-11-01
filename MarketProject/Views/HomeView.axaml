@@ -81,7 +81,20 @@
                 </Carousel.PageTransition>
                 <Carousel.Items>
                     <!-- Home Screen -->
-                    <Image Source="/Assets/HomeScreenLogo.png" VerticalAlignment="Stretch" Width="288" Opacity="0.1" IsVisible="true"/>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel Spacing="20" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Seja Bem Vindo ao software ranGO!" VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       FontSize="60" FontWeight="Bold" MaxWidth="300" TextWrapping="Wrap" Background="Transparent" />
+                            <Image Source="/Assets/WelcomeToRango.png" Width="500" Margin="0 0 0 60" />
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="30">
+                            <TextBlock Text="Conheça o software abrindo a tela DASHBOARD para uma visão geral !" TextWrapping="Wrap" MaxWidth="910" TextAlignment="Center" FontSize="35" Opacity="0.7"/>
+                            <Button HorizontalAlignment="Center" Width="250" Height="60" Background="#3374B9" CornerRadius="5"
+                                    Content="Abrir Dashboard" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                    FontSize="24" FontWeight="Bold" Click="OpenDashboardToBegin_OnClick"/>
+                        </StackPanel>
+                    </StackPanel>
                     <!-- Dashboard Screen -->
                     <scr:DashboardView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <!-- Storage Screen -->
