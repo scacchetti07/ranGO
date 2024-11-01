@@ -13,11 +13,9 @@ public partial class StorageDashboardCard : UserControl
     {
         InitializeComponent();
         UpdateDashboardCard();
-        Database.ProductsList.CollectionChanged += (_, _) =>
-        {
-            UpdateDashboardCard();
-        };
+        Database.ProductsList.CollectionChanged += (_, _) => { UpdateDashboardCard(); };
     }
+
     private void UpdateDashboardCard()
     {
         Dispatcher.UIThread.Post(() =>
@@ -26,8 +24,7 @@ public partial class StorageDashboardCard : UserControl
             double percentegeValue = counting * 100 / ProductsProgressBar.Maximum;
             DashboardCardMainContent.Text = $"{counting} itens";
             ProductsProgressBar.Value = counting;
-            ProgressBarPercentage.Content = $"{Math.Round(percentegeValue,0)}%"; 
+            ProgressBarPercentage.Content = $"{Math.Round(percentegeValue, 0)}%";
         }, DispatcherPriority.Background);
-        
     }
 }

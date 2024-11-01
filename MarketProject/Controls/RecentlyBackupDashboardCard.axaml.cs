@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace MarketProject.Controls;
 
-public partial class ClosedOrderDashboardCard : UserControl
+public partial class RecentlyBackupDashboardCard : UserControl
 {
-    public ClosedOrderDashboardCard()
+    public RecentlyBackupDashboardCard()
     {
         InitializeComponent();
     }

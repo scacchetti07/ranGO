@@ -21,7 +21,7 @@
                 <ctlr:StorageDashboardCard />
                 <ctlr:SupplyDashboardCard x:Name="CardSupplyDashboard" CurrentSupply="{Binding CurrentSupply}" />
                 <ctlr:OrderDashboardCard />
-                <ctlr:ClosedOrderDashboardCard />
+                <ctlr:RecentlyBackupDashboardCard />
             </StackPanel>
         </StackPanel>
         <Border BoxShadow="5 5 15 0 #091929" CornerRadius="10" Width="1518" Height="275">
