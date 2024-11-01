@@ -32,7 +32,6 @@ public class OrderController : Database
 
     public static async Task<List<Orders>> FindOrders()
         => await Collection.Find(Builders<Orders>.Filter.Empty).ToListAsync();
-    
     public static async void EditOrder(Orders order)
     {
         var filter = Builders<Orders>.Filter.Eq(o => o.Id, order.Id); 

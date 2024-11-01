@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -9,6 +11,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using MarketProject.Controllers;
 using MarketProject.Controls;
+using MarketProject.Extensions;
 using MarketProject.Models;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
@@ -30,16 +33,47 @@ public partial class ManageOrdersView : Window
     public ManageOrdersView()
     {
         InitializeComponent();
+        TableNumberTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
+        this.ResponsiveWindow();
+    }
+    
+    private void PreviewTextChanged(object sender, TextInputEventArgs e)
+    {
+        Regex regex = new(@"^[0-9]+$");
+        e.Handled = !regex.IsMatch(e.Text!);
     }
 
-    private void AddNewOrder_OnClick(object sender, RoutedEventArgs e)
+    private async void AddNewOrder_OnClick(object sender, RoutedEventArgs e)
     {
         // AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList() -> Adicionar dps no campo de newOrder quando tiver pratos para adicionar
-        var newOrder = new Orders(int.Parse(TableNumberTextBox.Text!), WaiterNameTextBox.Text,
-            ["Banana Split", "Sorvete de Creme"], OrderStatusEnum.New);
-        _task.TrySetResult(newOrder);
-        OrderAdded?.Invoke(newOrder);
-        Close();
+        try
+        {
+            if (int.Parse(TableNumberTextBox.Text) < 1)
+                throw new Exception("O número da mesa deve ser superior a 0.");
+            
+            var newOrder = new Orders(int.Parse(TableNumberTextBox.Text!), WaiterNameTextBox.Text,
+                ["Banana Split", "Sorvete de Creme"], OrderStatusEnum.New);
+            
+            _task.TrySetResult(newOrder);
+            OrderAdded?.Invoke(newOrder);
+            Close();
+        }
+        catch (Exception ex)
+        {
+            var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Erro ao salvar no pedido",
+                ContentMessage = ex.Message,
+                ButtonDefinitions = ButtonEnum.Ok,
+                Icon = MsBox.Avalonia.Enums.Icon.Error,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+            await msgBox.ShowAsync().ConfigureAwait(false);
+        }
     }
 
     private void ReturnButton_OnClick(object sender, RoutedEventArgs e)

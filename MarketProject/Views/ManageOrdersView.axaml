@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="543" d:DesignHeight="630"
         x:Class="MarketProject.Views.ManageOrdersView"
+        FontFamily="{StaticResource FilsonPro}"
         Title="Gerenciando Pedidos - ranGo!"
         WindowStartupLocation="CenterScreen"
         ExtendClientAreaChromeHints="NoChrome"

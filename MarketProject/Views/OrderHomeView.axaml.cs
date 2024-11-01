@@ -19,6 +19,9 @@ using MarketProject.Models;
 using MarketProject.ViewModels;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using OrderCtrl = MarketProject.Controllers.OrderController;
 
@@ -50,6 +53,15 @@ public partial class OrderHomeView : UserControl
                 UpdateOrders();
             else
                 UpdateOrders(order);
+
+            if (order == OrderStatusEnum.Closed) {
+                DeleteOrderButton.IsVisible = true;
+                OrderHomeButtons.Margin = new Thickness(243, 0); 
+            }
+            else {
+                DeleteOrderButton.IsVisible = false;
+                OrderHomeButtons.Margin = new Thickness(314, 0);  
+            }
         };
     }
 
@@ -171,5 +183,32 @@ public partial class OrderHomeView : UserControl
             FoodMenuViewPanel.Classes.Clear();
             FoodMenuViewPanel.Children.Clear();
         });
+    }
+
+    private async void DeleteOrderButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        {
+            ContentHeader = "Você tem certeza disso?",
+            ContentMessage = "Tem certeza que realmente quer excluir TODOS os pedidos concluídos do sistema?",
+            ButtonDefinitions = ButtonEnum.YesNo,
+            Icon = Icon.Error,
+            CanResize = false,
+            ShowInCenter = true,
+            SizeToContent = SizeToContent.WidthAndHeight,
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            SystemDecorations = SystemDecorations.BorderOnly
+        });
+        var result = await msgBox.ShowAsync().ConfigureAwait(false);
+        if (result == ButtonResult.No) return;
+        
+        Dispatcher.UIThread.Post(async () =>
+        {
+            var searchOrders = await OrderCtrl.FindOrders(OrderStatusEnum.Closed);
+            foreach (var order in searchOrders)
+                OrderCtrl.DeleteOrder(order);
+            UpdateOrders(OrderStatusEnum.Closed);
+        }, DispatcherPriority.Background);
+        
     }
 }

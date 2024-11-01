@@ -856,7 +856,7 @@
                 <Setter Property="Background" Value="#6EA759" />
                 <Setter Property="Width" Value="50" />
                 <Setter Property="Height" Value="50" />
-                <Setter Property="ToolTip.Tip" Value="Adicioanr Novo Pedido" />
+                <Setter Property="ToolTip.Tip" Value="Adicionar Novo Pedido" />
                 <Style Selector="^ Svg">
                     <Setter Property="Path" Value="/Assets/Icons/SVG/IconAdd.svg" />
                     <Setter Property="Css" Value="path {fill: #FFF; }" />
@@ -866,6 +866,27 @@
             </Style>
             <Style Selector="^ Button.AddOrder:pointerover /template/ ContentPresenter">
                 <Setter Property="Background" Value="#806EA759" />
+                <Setter Property="BorderBrush" Value="#DCB861" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Style Selector="^ Svg:pointerover /template/ ContentPresenter">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Style>
+            </Style>
+            <Style Selector="^ Button.DeleteOrder">
+                <Setter Property="Background" Value="#D87249" />
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Height" Value="50" />
+                <Setter Property="ToolTip.Tip" Value="Excluir pedidos concluídos" />
+                <Style Selector="^ Svg">
+                    <Setter Property="Path" Value="/Assets/Icons/SVG/IconDelete.svg" />
+                    <Setter Property="Css" Value="path {fill: #FFF; }" />
+                    <Setter Property="Width" Value="40" />
+                    <Setter Property="Height" Value="50" />
+                </Style>
+            </Style>
+            <Style Selector="^ Button.DeleteOrder:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="#80D87249" />
                 <Setter Property="BorderBrush" Value="#DCB861" />
                 <Setter Property="BorderThickness" Value="2" />
                 <Setter Property="Cursor" Value="Hand" />

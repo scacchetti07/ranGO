@@ -21,10 +21,13 @@
                              TextChanged="SearchTextBox_OnTextChanged" />
                     <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}" />
                 </Panel>
-
-                <StackPanel Grid.Column="1" Classes="OrderHomeTop">
+                
+                <StackPanel Grid.Column="1" Classes="OrderHomeTop" Name="OrderHomeButtons">
                     <Button Classes="AddOrder" Click="AddOrder_OnClick">
                         <Svg />
+                    </Button>
+                    <Button Classes="DeleteOrder" Name="DeleteOrderButton" IsVisible="False" Click="DeleteOrderButton_OnClick">
+                        <Svg Width="36" Height="40"/>
                     </Button>
                     <Button Classes="ShowFood" Content="Ver Cardápio" Click="FoodMenuButton_OnClick"/>
                 </StackPanel>
