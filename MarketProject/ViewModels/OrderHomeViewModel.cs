@@ -20,32 +20,37 @@ public class OrderHomeViewModel : ViewModelBase
     public OrderCards OrderToCard(Orders order)
     {
         List<string> FoodOrderNames = new();
-        FoodOrderNames.AddRange(order.FoodsOrder.Select(foodId => FoodMenuController.FindFoodMenu(foodId).Result.FoodName));
-        
+        FoodOrderNames.AddRange(order.FoodsOrder.Select(foodId =>
+            FoodMenuController.FindFoodMenu(foodId).Result.FoodName));
+
         OrderCards orderCards = new()
         {
             WaiterName = order.WaiterName,
-            FoodOrderNames = String.Join(", ", FoodOrderNames.TakeLast(2)),
+            FoodOrderNames = String.Join(", ", FoodOrderNames.TakeLast(2)) + "...",
             TableNumber = order.TableNumber,
             Id = String.Join("", order.Id.TakeLast(4)).Insert(0, "#"),
             OrderStatus = order.OrderStatus
         };
         return orderCards;
     }
-    
+
     public static FoodCard FoodToCard(Foods food)
     {
-        List<string> nameOfIngredients = food.ListOfIngredients.Select(id => StorageController.FindProduct(id).Name).ToList();
+        List<string> nameOfIngredients =
+            food.ListOfIngredients.Select(id => StorageController.FindProduct(id).Name).ToList();
         return new FoodCard
         {
             FoodName = food.FoodName,
-            FoodIngredients = string.Join(',', nameOfIngredients.Take(1)),
-            FoodPrice = food.FoodPrice,
-            FoodPicturePath = food.FoodPhotoPath
+            FoodIngredients = nameOfIngredients.Count <= 1
+                ? string.Join(", ", nameOfIngredients.Take(1))
+                : string.Join(",", nameOfIngredients.Take(1))+ $"  + {nameOfIngredients.Count - 1}",
+                    FoodPrice = food.FoodPrice,
+                    FoodPicturePath = food.FoodPhotoPath
         };
     }
-    
+
     private string? _foodName;
+
     public string? FoodName
     {
         get => _foodName;

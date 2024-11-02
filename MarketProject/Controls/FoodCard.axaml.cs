@@ -72,15 +72,21 @@ public partial class FoodCard : UserControl
 
         try
         {
-            FoodPictureImageBrush.Background = FoodPicturePath is null
+            var newImageBrush = FoodPicturePath is null
                 ? new ImageBrush(
                     new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))))
                 : new ImageBrush(new Bitmap(FoodPicturePath));
+            
+            newImageBrush.Stretch = Stretch.UniformToFill;
+            FoodPictureImageBrush.Background = newImageBrush;
         }
         catch (FileNotFoundException)
         {
-            FoodPictureImageBrush.Background = new ImageBrush(
-                new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))));
+            FoodPictureImageBrush.Background =  new ImageBrush(
+                new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))))
+                {
+                    Stretch = Stretch.UniformToFill
+                };
         }
 
     }
@@ -99,12 +105,12 @@ public partial class FoodCard : UserControl
         };
         var newFood = await manageFoodView.GetFood();
         FoodMenuController.EditFoodMenu(newFood);
-        manageFoodView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent);
+        manageFoodView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 
     private async void DeleteFoodButton_OnClick(object sender, RoutedEventArgs e)
     {
-        var selectedFood = await FoodMenuController.FindFoodMenuByNameAsync(Name).ConfigureAwait(false); // 
+        var selectedFood = await FoodMenuController.FindFoodMenuByNameAsync(FoodNameLabel.Content!.ToString()).ConfigureAwait(false);
         
         var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
         {

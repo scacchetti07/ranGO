@@ -21,8 +21,7 @@
             <Label x:Name="FoodNameLabel"/>
             <StackPanel>
                 <TextBlock Text="Itens: "/>
-                <!-- Text Block com limite de 2 produtos -->
-                <TextBlock FontWeight="Bold" x:Name="FoodIngredientsTextBlock"/>
+                <TextBlock FontWeight="Bold" x:Name="FoodIngredientsTextBlock" TextWrapping="Wrap" MaxWidth="150"/>
             </StackPanel>
             <StackPanel Opacity="0.5">
                 <TextBlock Text="Preço: "/>
