@@ -45,4 +45,10 @@ public class OrderController : Database
         await Collection.DeleteOneAsync(filter);
         OrdersList.Remove(order);
     }
+    public static async void DeleteClosedOrders(IEnumerable<Orders> orders)
+    {
+        var closedOrder = orders.Where(o => o.OrderStatus == OrderStatusEnum.Closed);
+        await Collection.DeleteManyAsync(o => o.OrderStatus == OrderStatusEnum.Closed).ConfigureAwait(false);
+        OrdersList.Remove(closedOrder);
+    }
 }

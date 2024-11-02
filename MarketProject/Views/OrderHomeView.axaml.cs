@@ -192,7 +192,7 @@ public partial class OrderHomeView : UserControl
             ContentHeader = "Você tem certeza disso?",
             ContentMessage = "Tem certeza que realmente quer excluir TODOS os pedidos concluídos do sistema?",
             ButtonDefinitions = ButtonEnum.YesNo,
-            Icon = Icon.Error,
+            Icon = Icon.Warning,
             CanResize = false,
             ShowInCenter = true,
             SizeToContent = SizeToContent.WidthAndHeight,
@@ -205,10 +205,10 @@ public partial class OrderHomeView : UserControl
         Dispatcher.UIThread.Post(async () =>
         {
             var searchOrders = await OrderCtrl.FindOrders(OrderStatusEnum.Closed);
-            foreach (var order in searchOrders)
-                OrderCtrl.DeleteOrder(order);
+            OrderCtrl.DeleteClosedOrders(searchOrders);
             UpdateOrders(OrderStatusEnum.Closed);
-        }, DispatcherPriority.Background);
+        });
+        
         
     }
 }

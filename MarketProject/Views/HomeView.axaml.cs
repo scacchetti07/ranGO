@@ -111,6 +111,6 @@ public partial class HomeView : Window
     private void OpenDashboardToBegin_OnClick(object sender, RoutedEventArgs e)
     {
         TabGeral.SelectedIndex = 1;
-        toggleSelectedButton(sender as Button);
+        toggleSelectedButton(DashboardButton);
     }
 }

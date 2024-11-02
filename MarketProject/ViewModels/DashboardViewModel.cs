@@ -18,8 +18,6 @@ public class DashboardViewModel
         {
             var newList = sender as ObservableCollection<Supply>;
             CurrentSupply = newList!.FirstOrDefault(s => s.InDeliver);
-            Console.Write(CurrentSupply.Name + ": ");
-            Console.WriteLine(CurrentSupply.InDeliver);
         };
     }
         

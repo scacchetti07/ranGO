@@ -48,6 +48,10 @@ public partial class ManageOrdersView : Window
         // AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList() -> Adicionar dps no campo de newOrder quando tiver pratos para adicionar
         try
         {
+            List<string> textBoxes = GetTextBoxes();
+            if (textBoxes.TrueForAll(txt => !string.IsNullOrEmpty(txt)) && AutoCompleteSelectedFoodsList.Count > 0)
+                throw new Exception("Existem campos incompletos no cadastro de pedidos!");
+            
             if (int.Parse(TableNumberTextBox.Text) < 1)
                 throw new Exception("O número da mesa deve ser superior a 0.");
             

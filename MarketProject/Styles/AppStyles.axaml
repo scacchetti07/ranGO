@@ -55,7 +55,61 @@
         </Setter>
     </Style>
 
-
+    
+    
+    <Style Selector="StackPanel.HomePresentDesign">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Style Selector="^ StackPanel.MainHomeContent">
+            <Setter Property="Spacing" Value="20"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="60"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="MaxWidth" Value="300"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style Selector="^ Image">
+                    <Setter Property="Width" Value="500"/>
+                    <Setter Property="Margin" Value="0 0 0 60"/>
+                </Style>
+            </Style>
+        </Style>
+        <Style Selector="^ StackPanel.SuggestionForUser">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Spacing" Value="30"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="MaxWidth" Value="910"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="35"/>
+                <Setter Property="Opacity" Value="0.7"/>
+            </Style>
+            <Style Selector="^ Button">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Width" Value="250"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Background" Value="#3374B9"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="BorderBrush" Value="#DCB861"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="Background" Value="#803374B9"/>
+                    <Setter Property="Foreground" Value="#80FFFFFF"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Style>
+            </Style>
+        </Style>
+    </Style>
+    
     <Style Selector="Button.BtnLoginHover:pointerover /template/ ContentPresenter">
         <Setter Property="BorderBrush" Value="#DCB861" />
         <Setter Property="BorderThickness" Value="2" />
@@ -88,7 +142,7 @@
             <Style Selector="^ TextBlock">
                 <Setter Property="FontSize" Value="60"/>
                 <Setter Property="FontWeight" Value="Heavy"/>
-                <Setter Property="Foreground" Value="#DBDBDA"/>
+                <!-- <Setter Property="Foreground" Value="#DBDBDA"/> -->
             </Style>
             <Style Selector="^ Button">
                 <Setter Property="Width" Value="31"/>

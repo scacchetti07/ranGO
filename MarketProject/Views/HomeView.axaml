@@ -15,108 +15,105 @@
         Width="1920"
         Height="1080">
     <Grid ColumnDefinitions="Auto,*">
-            <Border BoxShadow="7 0 40 0 #1A3374B9" Width="339" Height="1072" HorizontalAlignment="Left">
-            <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right"/>    
-            </Border>
-                <StackPanel Grid.Column="0" Orientation="Vertical" Width="339" Height="1072" HorizontalAlignment="Left" Spacing="15">
-                    <Svg Path="/Assets/ranGoLogo.svg" Width="220" Height="86" Margin="0 50 0 0"/>
-                    <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 0 0 90"/>
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Options" Classes="tabBar">
-                        <Button Click="btnDashboard">
-                            <StackPanel Orientation="Horizontal">
-                                 <Svg Path="/Assets/Icons/SVG/IconDashboard.svg"/>
-                                 <Label Content="Dashboard"/>
-                             </StackPanel>
-                        </Button>
-                            <Button Click="btnStorage">
-                                <StackPanel Orientation="Horizontal">
-                                    <Svg Path="/Assets/Icons/SVG/IconStorage.svg"/>
-                                    <Label Content="Estoque"/>
-                                </StackPanel>
-                            </Button>
-                        <Button Click="BtnSupply">
-                            <StackPanel Orientation="Horizontal">
-                                <Svg Path="/Assets/Icons/SVG/IconSupply.svg"/>
-                                <Label Content="Fornecedor"/>
-                            </StackPanel> 
-                        </Button>
-                        <Button Click="btnOrder">
-                            <StackPanel Orientation="Horizontal">
-                                <Svg Path="/Assets/Icons/SVG/IconMenu.svg"/>
-                                <Label Content="Pedidos"/>
-                            </StackPanel>
-                        </Button>
-                        <!-- <Button> -->
-                        <!--     <StackPanel Orientation="Horizontal"> -->
-                        <!--         <Image Source="{SvgImage /Assets/Icons/SVG/IconAdmin.svg}"/> -->
-                        <!--         <Label Content="Gerência"/> -->
-                        <!--     </StackPanel> -->
-                        <!-- </Button> -->
-                        <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 100 0 125"/>
-                        
-                        <StackPanel>
-                            <Button Click="btnSettings">
-                                <StackPanel Orientation="Horizontal">
-                                    <Svg Path="/Assets/Icons/SVG/IconSettings.svg"/>
-                                    <Label Content="Opções"/>
-                                </StackPanel>
-                            </Button>
-                            <Button Click="btnExit">
-                                <StackPanel Orientation="Horizontal">
-                                    <Svg Path="/Assets/Icons/SVG/IconExit.svg"/>
-                                    <Label Content="Sair"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </StackPanel>  
-                </StackPanel>
-            
-            <Carousel Grid.Column="1" VerticalAlignment="Center" Name="TabGeral">
-                
-                <Carousel.PageTransition>
-                    <!-- Animação da Transição de Telas -->
-                    <CompositePageTransition> 
-                        <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
-                    </CompositePageTransition>
-                </Carousel.PageTransition>
-                <Carousel.Items>
-                    <!-- Home Screen -->
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel Spacing="20" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Seja Bem Vindo ao software ranGO!" VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
-                                       FontSize="60" FontWeight="Bold" MaxWidth="300" TextWrapping="Wrap" Background="Transparent" />
-                            <Image Source="/Assets/WelcomeToRango.png" Width="500" Margin="0 0 0 60" />
-                        </StackPanel>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="30">
-                            <TextBlock Text="Conheça o software abrindo a tela DASHBOARD para uma visão geral !" TextWrapping="Wrap" MaxWidth="910" TextAlignment="Center" FontSize="35" Opacity="0.7"/>
-                            <Button HorizontalAlignment="Center" Width="250" Height="60" Background="#3374B9" CornerRadius="5"
-                                    Content="Abrir Dashboard" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                    FontSize="24" FontWeight="Bold" Click="OpenDashboardToBegin_OnClick"/>
-                        </StackPanel>
+        <Border BoxShadow="7 0 40 0 #1A3374B9" Width="339" Height="1072" HorizontalAlignment="Left">
+            <Rectangle Fill="#3374B9" Width="5" HorizontalAlignment="Right" />
+        </Border>
+        <StackPanel Grid.Column="0" Orientation="Vertical" Width="339" Height="1072" HorizontalAlignment="Left"
+                    Spacing="15">
+            <Svg Path="/Assets/ranGoLogo.svg" Width="220" Height="86" Margin="0 50 0 0" />
+            <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 0 0 90" />
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Options" Classes="tabBar">
+                <Button Click="btnDashboard" Name="DashboardButton">
+                    <StackPanel Orientation="Horizontal">
+                        <Svg Path="/Assets/Icons/SVG/IconDashboard.svg" />
+                        <Label Content="Dashboard" />
                     </StackPanel>
-                    <!-- Dashboard Screen -->
-                    <scr:DashboardView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <!-- Storage Screen -->
-                    <Carousel Name="TabStorage">
-                        <Carousel.PageTransition>
-                            <CompositePageTransition>
-                                <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
-                            </CompositePageTransition>
-                        </Carousel.PageTransition>
-                        <Carousel.Items>
-                            <!-- Implementação do Storage View -->
-                            <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        </Carousel.Items>
-                    </Carousel>
-                    <!-- Supply Screen -->
-                    <scr:SupplyView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <!-- Orders Screen -->
-                    <scr:OrderHomeView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <!-- Option Screen -->
-                    <scr:OptionsView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                </Carousel.Items>
-                
-            </Carousel>
-        </Grid>
+                </Button>
+                <Button Click="btnStorage">
+                    <StackPanel Orientation="Horizontal">
+                        <Svg Path="/Assets/Icons/SVG/IconStorage.svg" />
+                        <Label Content="Estoque" />
+                    </StackPanel>
+                </Button>
+                <Button Click="BtnSupply">
+                    <StackPanel Orientation="Horizontal">
+                        <Svg Path="/Assets/Icons/SVG/IconSupply.svg" />
+                        <Label Content="Fornecedor" />
+                    </StackPanel>
+                </Button>
+                <Button Click="btnOrder">
+                    <StackPanel Orientation="Horizontal">
+                        <Svg Path="/Assets/Icons/SVG/IconMenu.svg" />
+                        <Label Content="Pedidos" />
+                    </StackPanel>
+                </Button>
+                <!-- <Button> -->
+                <!--     <StackPanel Orientation="Horizontal"> -->
+                <!--         <Image Source="{SvgImage /Assets/Icons/SVG/IconAdmin.svg}"/> -->
+                <!--         <Label Content="Gerência"/> -->
+                <!--     </StackPanel> -->
+                <!-- </Button> -->
+                <Border Background="#883374B9" Height="5" Width="250" CornerRadius="5" Margin="0 100 0 125" />
+
+                <StackPanel>
+                    <Button Click="btnSettings">
+                        <StackPanel Orientation="Horizontal">
+                            <Svg Path="/Assets/Icons/SVG/IconSettings.svg" />
+                            <Label Content="Opções" />
+                        </StackPanel>
+                    </Button>
+                    <Button Click="btnExit">
+                        <StackPanel Orientation="Horizontal">
+                            <Svg Path="/Assets/Icons/SVG/IconExit.svg" />
+                            <Label Content="Sair" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <Carousel Grid.Column="1" VerticalAlignment="Center" Name="TabGeral">
+
+            <Carousel.PageTransition>
+                <!-- Animação da Transição de Telas -->
+                <CompositePageTransition>
+                    <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
+                </CompositePageTransition>
+            </Carousel.PageTransition>
+            <Carousel.Items>
+                <!-- Home Screen -->
+                <StackPanel Classes="HomePresentDesign">
+                    <StackPanel Classes="MainHomeContent">
+                        <TextBlock Text="Seja Bem Vindo ao software ranGO!" />
+                        <Image Source="/Assets/WelcomeToRango.png" />
+                    </StackPanel>
+                    <StackPanel Classes="SuggestionForUser">
+                        <TextBlock Text="Conheça o software abrindo a tela DASHBOARD para uma visão geral !" />
+                            <Button Content="Abrir Dashboard" Click="OpenDashboardToBegin_OnClick"/>
+                    </StackPanel>
+                </StackPanel>
+                <!-- Dashboard Screen -->
+                <scr:DashboardView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <!-- Storage Screen -->
+                <Carousel Name="TabStorage">
+                    <Carousel.PageTransition>
+                        <CompositePageTransition>
+                            <CrossFade FadeInEasing="CubicEaseIn" FadeOutEasing="CubicEaseOut" Duration="0:00:00.350"></CrossFade>
+                        </CompositePageTransition>
+                    </Carousel.PageTransition>
+                    <Carousel.Items>
+                        <!-- Implementação do Storage View -->
+                        <scr:StorageView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    </Carousel.Items>
+                </Carousel>
+                <!-- Supply Screen -->
+                <scr:SupplyView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <!-- Orders Screen -->
+                <scr:OrderHomeView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <!-- Option Screen -->
+                <scr:OptionsView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            </Carousel.Items>
+
+        </Carousel>
+    </Grid>
 </Window>

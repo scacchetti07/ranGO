@@ -19,7 +19,7 @@
             </StackPanel>
             <Border />
             <Button Name="MoreInfoAboutSupplyButton" Background="#6EA759" Content="Realizar Novo Backup"
-                    HorizontalAlignment="Center" Height="35" VerticalContentAlignment="Center" Margin="0 5 0 0" />
+                    HorizontalAlignment="Center" Height="35" VerticalContentAlignment="Center" Margin="0 5 0 0" Foreground="White" />
         </StackPanel>
     </Border>
 </UserControl>

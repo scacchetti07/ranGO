@@ -17,8 +17,7 @@
                     <Svg x:Name="DashboardCardIcon" Path="/Assets/Icons/SVG/IconSupply.svg" />
                 </StackPanel>
                 <StackPanel Classes="MainConent">
-                    <TextBlock Name="DashboardCardMainContent" Text="0 DIAS" FontSize="60" FontWeight="Heavy"
-                               Foreground="#DBDBDA" />
+                    <TextBlock Name="DashboardCardMainContent" Text="0 DIAS" FontSize="60" FontWeight="Heavy" />
                     <Button Click="WhatsappButton_OnClick" Name="WhatsappButton">
                         <Svg />
                     </Button>
@@ -28,7 +27,8 @@
                            Opacity="0.5" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <Button Name="MoreInfoAboutSupplyButton" Click="MoreInfoAboutSupplyButton_OnClick" Background="#3374B9"
                         Content="Ver mais informações do fornecedor"
-                        HorizontalAlignment="Center" Height="35" VerticalContentAlignment="Center" Margin="0 5 0 0" />
+                        HorizontalAlignment="Center" Height="35" VerticalContentAlignment="Center" Margin="0 5 0 0"
+                        Foreground="White" />
             </StackPanel>
         </Border>
 
