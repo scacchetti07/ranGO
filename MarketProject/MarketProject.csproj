@@ -35,4 +35,9 @@
         <PackageReference Include="MongoDB.Driver.GridFS" Version="2.28.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Assets\FoodPhotos\hamburguer.png" />
+      <UpToDateCheckInput Remove="Assets\FoodPhotos\strogonoff.jpg" />
+    </ItemGroup>
 </Project>

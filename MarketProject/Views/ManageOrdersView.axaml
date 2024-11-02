@@ -2,8 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MarketProject.ViewModels"
         mc:Ignorable="d" d:DesignWidth="543" d:DesignHeight="630"
         x:Class="MarketProject.Views.ManageOrdersView"
+        x:DataType="vm:OrderHomeViewModel"
         FontFamily="{StaticResource FilsonPro}"
         Title="Gerenciando Pedidos - ranGo!"
         WindowStartupLocation="CenterScreen"
@@ -13,9 +15,12 @@
         ShowInTaskbar="False"
         Width="543"
         CornerRadius="20">
+    <Window.DataContext>
+        <vm:OrderHomeViewModel />
+    </Window.DataContext>
     <Grid RowDefinitions="Auto, Auto" Margin="40" Classes="ManageOrderStyles">
         <TextBlock Classes="ManageOrderTitle"/>
-        <Button Grid.Column="1" Classes="ReturnButton" Click="ReturnButton_OnClick">
+        <Button Classes="ReturnButton" Click="ReturnButton_OnClick">
             <StackPanel Classes="ReturnButtonStackPanel">
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
                 <Label Content="Retornar" />
@@ -24,13 +29,13 @@
 
         <StackPanel Grid.Row="1" Classes="ProductRegisterStyle ManageOrderTextBoxes">
             <Label Content="N° da mesa"/>
-            <TextBox Classes="TableNumberManageOrder" Name="TableNumberTextBox"/>
+            <TextBox Classes="TableNumberManageOrder" Name="TableNumberTextBox" MaxLength="2"/>
 
             <Label Content="Nome do Garçom: " />
             <TextBox Name="WaiterNameTextBox" />
 
             <Label Content="Pratos Pedidos: " />
-            <AutoCompleteBox Watermark="Selecione os pratos" Name="FoodsAutoCompleteBox" KeyDown="FoodsAutoCompleteBox_OnKeyDown"/>
+            <AutoCompleteBox Watermark="Selecione os pratos" Name="FoodsAutoCompleteBox" KeyDown="FoodsAutoCompleteBox_OnKeyDown" Text="{Binding FoodName, UpdateSourceTrigger=PropertyChanged}"/>
             <WrapPanel MaxWidth="500" Name="TagContentStackPanel" Orientation="Horizontal" HorizontalAlignment="Left"/>
 
             <Label Content="Detalhes do Pedido: " />

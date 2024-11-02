@@ -14,7 +14,7 @@
              Margin="43 35">
    
     <!-- Design Não programado, somente UI feito. Necessário bindar propriedades de texto -->
-    <Grid ColumnDefinitions="Auto, Auto" Margin="20 10" Name="OrderCardContentGrid">
+    <Grid Margin="20 10" Name="OrderCardContentGrid">
         <StackPanel Classes="OrderCardR1">
             <StackPanel Orientation="Horizontal" Margin="0">
                 <Label Name="TableNumberLabel"/>
@@ -36,6 +36,8 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="1" Classes="OrderCardR2" Name="OrderStatusStackPanel"/>
+        <Canvas Grid.Column="0">
+            <StackPanel Canvas.Left="380" Classes="OrderCardR2" Name="OrderStatusStackPanel"/>
+        </Canvas>
     </Grid>
 </UserControl>

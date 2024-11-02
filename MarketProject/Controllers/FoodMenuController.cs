@@ -32,6 +32,11 @@ public class FoodMenuController : Database
         => await Collection.Find(fm => fm.Id == id).FirstOrDefaultAsync().ConfigureAwait(false);
     public static async Task<Foods> FindFoodMenuByNameAsync(string name)
         => await Collection.Find(fm => fm.FoodName == name).FirstOrDefaultAsync().ConfigureAwait(false);
+
+    public static async void FindFoodNamesByOrderAsync(Orders order)
+    {
+        // Resolver pelo LookUp depois !
+    }
     
     public static async void EditFoodMenu(Foods food)
     {
@@ -46,4 +51,5 @@ public class FoodMenuController : Database
         await Collection.DeleteOneAsync(filter);
         FoodsMenuList.Remove(food);
     }
+    
 }

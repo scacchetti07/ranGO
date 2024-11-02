@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -27,8 +28,8 @@ public partial class FoodCard : UserControl
     public static readonly StyledProperty<double> FoodPriceProperty =
         AvaloniaProperty.Register<FoodCard, double>(nameof(FoodPrice));
 
-    public static readonly StyledProperty<byte[]> FoodPictureProperty =
-        AvaloniaProperty.Register<FoodCard, byte[]>(nameof(FoodPicture));
+    public static readonly StyledProperty<string> FoodPicturePathProperty =
+        AvaloniaProperty.Register<FoodCard, string>(nameof(FoodPicturePath));
 
     public string FoodName
     {
@@ -48,10 +49,10 @@ public partial class FoodCard : UserControl
         set => SetValue(FoodPriceProperty, value);
     }
 
-    public byte[] FoodPicture
+    public string FoodPicturePath
     {
-        get => GetValue(FoodPictureProperty);
-        set => SetValue(FoodPictureProperty, value);
+        get => GetValue(FoodPicturePathProperty);
+        set => SetValue(FoodPicturePathProperty, value);
     }
 
     public FoodCard()
@@ -60,7 +61,7 @@ public partial class FoodCard : UserControl
         FoodNameProperty.Changed.AddClassHandler<FoodCard>((_, _) => UpdateFoodCard());
         FoodIngredientsProperty.Changed.AddClassHandler<FoodCard>((_, _) => UpdateFoodCard());
         FoodPriceProperty.Changed.AddClassHandler<FoodCard>((_, _) => UpdateFoodCard());
-        FoodPictureProperty.Changed.AddClassHandler<FoodCard>((_, _) => UpdateFoodCard());
+        FoodPicturePathProperty.Changed.AddClassHandler<FoodCard>((_, _) => UpdateFoodCard());
     }
 
     private void UpdateFoodCard()
@@ -71,17 +72,17 @@ public partial class FoodCard : UserControl
 
         try
         {
-            // FoodPictureImageBrush.Background = FoodPicture is null || FoodPicture.Size.Width == 0
-            //     ? new ImageBrush(
-            //         new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))))
-            //     : new ImageBrush(FoodPicture);
-        } 
-        catch (NullReferenceException)
+            FoodPictureImageBrush.Background = FoodPicturePath is null
+                ? new ImageBrush(
+                    new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))))
+                : new ImageBrush(new Bitmap(FoodPicturePath));
+        }
+        catch (FileNotFoundException)
         {
             FoodPictureImageBrush.Background = new ImageBrush(
                 new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))));
-
         }
+
     }
 
     private async void EditFoodButton_OnClick(object sender, RoutedEventArgs e)

@@ -19,10 +19,13 @@ public class OrderHomeViewModel : ViewModelBase
 {
     public OrderCards OrderToCard(Orders order)
     {
+        List<string> FoodOrderNames = new();
+        FoodOrderNames.AddRange(order.FoodsOrder.Select(foodId => FoodMenuController.FindFoodMenu(foodId).Result.FoodName));
+        
         OrderCards orderCards = new()
         {
             WaiterName = order.WaiterName,
-            FoodOrderNames = String.Join(", ", order.FoodsOrder.TakeLast(2)),
+            FoodOrderNames = String.Join(", ", FoodOrderNames.TakeLast(2)),
             TableNumber = order.TableNumber,
             Id = String.Join("", order.Id.TakeLast(4)).Insert(0, "#"),
             OrderStatus = order.OrderStatus
@@ -38,7 +41,24 @@ public class OrderHomeViewModel : ViewModelBase
             FoodName = food.FoodName,
             FoodIngredients = string.Join(',', nameOfIngredients.Take(1)),
             FoodPrice = food.FoodPrice,
-            FoodPicture = food.FoodPhoto
+            FoodPicturePath = food.FoodPhotoPath
         };
+    }
+    
+    private string? _foodName;
+    public string? FoodName
+    {
+        get => _foodName;
+        set
+        {
+            _foodName = value;
+            ClearErrors(nameof(FoodName));
+            if (FoodName?.Trim() != "" && StorageController.FindProductByNameAsync(FoodName) is null)
+                AddError(nameof(FoodName), "Produto digitado não no estoque!");
+            else if (!string.IsNullOrEmpty(FoodName))
+                AddError(nameof(FoodName), "Produto não foi adicionado. Clique 'Enter'");
+            else
+                RemoveError(nameof(FoodName));
+        }
     }
 }

@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using MarketProject.Controllers;
 using MarketProject.Models;
 
 namespace MarketProject.Controls;
@@ -23,8 +24,7 @@ public partial class OrderDashboardCard : UserControl
         Dispatcher.UIThread.Post(() =>
         {
             int preparingCount = Database.OrdersList.Where(o => o.OrderStatus == OrderStatusEnum.Preparing).Count();
-            int totalOrders = Database.OrdersList.Count;
-            ProductsProgressBar.Maximum = totalOrders;
+            ProductsProgressBar.Maximum = Database.OrdersList.Count;
             
             double percentegeValue = preparingCount * 100 / ProductsProgressBar.Maximum;
             DashboardCardMainContent.Text = $"{preparingCount} abertos";

@@ -138,17 +138,41 @@ public partial class OrderHomeView : UserControl
     {
         ManageOrdersView manageOrdersView = new() { Title = "Adicionar Pedido - ranGO!" };
         manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!);
-        var newOrder = await manageOrdersView.GetOrder();
-        manageOrdersView.OrderAdded += (order) =>
+
+        try
         {
-            var lastId = new string(order.Id.TakeLast(4).ToArray());
-            AddPopup.IsOpen = true;
-            AddProdLabel.Content = "Novo Pedido Adicionado!";
-            ContentAddTextBlock.Text = $"Pedido de Id '#{lastId}' foi adicionado!";
-        };
-        OrderCtrl.AddNewOrder(newOrder);
-        if (_selectedButton.Name == "AllOrdersButton")
-            OrderSelected?.Invoke(null);
+            var newOrder = await manageOrdersView.GetOrder();
+
+            if (newOrder.FoodsOrder.Count == 0)
+                throw new Exception("Lista de pratos pedidos está vazia!");
+            
+            manageOrdersView.OrderAdded += (order) =>
+            {
+                var lastId = new string(order.Id.TakeLast(4).ToArray());
+                AddPopup.IsOpen = true;
+                AddProdLabel.Content = "Novo Pedido Adicionado!";
+                ContentAddTextBlock.Text = $"Pedido de Id '#{lastId}' foi adicionado!";
+            };
+            OrderCtrl.AddNewOrder(newOrder);
+            if (_selectedButton.Name == "AllOrdersButton")
+                OrderSelected?.Invoke(null);
+        }
+        catch (Exception ex)
+        {
+            var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Erro ao cadastrar fornecedor",
+                ContentMessage = ex.Message,
+                ButtonDefinitions = ButtonEnum.Ok,
+                Icon = Icon.Error,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+            await msgBox.ShowAsync().ConfigureAwait(false);
+        }
         
     }
 
@@ -202,10 +226,9 @@ public partial class OrderHomeView : UserControl
         var result = await msgBox.ShowAsync().ConfigureAwait(false);
         if (result == ButtonResult.No) return;
         
-        Dispatcher.UIThread.Post(async () =>
+        Dispatcher.UIThread.Post(() =>
         {
-            var searchOrders = await OrderCtrl.FindOrders(OrderStatusEnum.Closed);
-            OrderCtrl.DeleteClosedOrders(searchOrders);
+            OrderCtrl.DeleteClosedOrders();
             UpdateOrders(OrderStatusEnum.Closed);
         });
         

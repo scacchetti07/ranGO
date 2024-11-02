@@ -20,23 +20,23 @@ public class Foods
     public List<string> ListOfIngredients { get; set; }
     public string FoodDescription { get; set; }
     public FoodTypesEnum? FoodTypes { get; set; }
-    public byte[] FoodPhoto { get; set; }
+    public string FoodPhotoPath { get; set; }
     
     [JsonConstructor]
-    public Foods(string id, string foodName, List<string> listOfIngredients, double foodPrice, FoodTypesEnum? foodTypes, string foodDescription = "", byte[] foodPhoto = null)
+    public Foods(string id, string foodName, List<string> listOfIngredients, double foodPrice, FoodTypesEnum? foodTypes, string foodDescription = "", string foodPhotoPath = null)
     {
         Id = id;
         FoodName = foodName;
-        FoodPhoto = foodPhoto;
+        FoodPhotoPath = foodPhotoPath;
         FoodPrice = foodPrice;
         FoodTypes = foodTypes;
         FoodDescription = foodDescription;
         ListOfIngredients = listOfIngredients;
     }
-    public Foods(string foodName, List<string> listOfIngredients, double foodPrice, FoodTypesEnum? foodTypes, string foodDescription = "", byte[] foodPhoto = null)
+    public Foods(string foodName, List<string> listOfIngredients, double foodPrice, FoodTypesEnum? foodTypes, string foodDescription = "", string foodPhotoPath = null)
     {
         FoodName = foodName;
-        FoodPhoto = foodPhoto;
+        FoodPhotoPath = foodPhotoPath;
         FoodPrice = foodPrice;
         FoodTypes = foodTypes;
         FoodDescription = foodDescription;

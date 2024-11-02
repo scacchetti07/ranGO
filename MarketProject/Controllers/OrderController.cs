@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -38,17 +39,9 @@ public class OrderController : Database
         await Collection.ReplaceOneAsync(filter, order);
         OrdersList.Replace(OrdersList.SingleOrDefault(o => o.Id == order.Id), order);
     }
-    
-    public static async void DeleteOrder(Orders order)
+    public static async void DeleteClosedOrders()
     {
-        var filter = Builders<Orders>.Filter.Eq(o => o.Id, order.Id);
-        await Collection.DeleteOneAsync(filter);
-        OrdersList.Remove(order);
-    }
-    public static async void DeleteClosedOrders(IEnumerable<Orders> orders)
-    {
-        var closedOrder = orders.Where(o => o.OrderStatus == OrderStatusEnum.Closed);
         await Collection.DeleteManyAsync(o => o.OrderStatus == OrderStatusEnum.Closed).ConfigureAwait(false);
-        OrdersList.Remove(closedOrder);
+        OrdersList.Remove(OrdersList.Where(o => o.OrderStatus == OrderStatusEnum.Closed).ToList());
     }
 }

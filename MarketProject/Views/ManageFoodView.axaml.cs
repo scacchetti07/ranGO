@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -22,7 +24,9 @@ namespace MarketProject.Views;
 public partial class ManageFoodView : Window
 {
     public List<Product> AutoCompleteSelectedProducts { get; } = [];
-    private ImageBrush _foodImage { get; set; }
+    private string FoodImagePath { get; set; }
+    private string _originalFoodpath;
+    private const string ImagePath = @"C:\ranGO\GaleriaDosPratos";
 
     public delegate void FoodMenuAddedDelegate(Foods? foods);
 
@@ -33,12 +37,12 @@ public partial class ManageFoodView : Window
     public ManageFoodView()
     {
         InitializeComponent();
-        
+        Directory.CreateDirectory(ImagePath);
         ProductsAutoCompleteBox.AddHandler(KeyDownEvent, (sender, e) =>
         {
             if (sender is not AutoCompleteBox autoComplete)
                 return;
-            if (e.Key != Avalonia.Input.Key.Tab || autoComplete.Text is null || autoComplete.Text.Trim() == "")
+            if (e.Key != Key.Tab || autoComplete.Text is null || autoComplete.Text.Trim() == "")
                 return;
 
             string item = autoComplete.ItemsSource!
@@ -69,7 +73,7 @@ public partial class ManageFoodView : Window
     public async Task<Foods> GetFood() => await _task.Task.ConfigureAwait(false);
     private void ProductsAutoCompleteBox_OnKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key != Avalonia.Input.Key.Enter) return;
+        if (e.Key != Key.Enter) return;
 
         Product prod = StorageController.FindProductByNameAsync(ProductsAutoCompleteBox.Text);
         if (prod is null || AutoCompleteSelectedProducts.Any(p => p.Id == prod.Id)) return;
@@ -128,15 +132,18 @@ public partial class ManageFoodView : Window
 
         GetFoodType(((CategoryComboBox.SelectedItem as ComboBoxItem)!).Content!.ToString(),
             out FoodTypesEnum? foodType);
+        
+        File.Copy(_originalFoodpath, FoodImagePath); 
         Foods newFood = new(NameTextBox.Text, AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), foodPrice,
-            foodType, DescriptionTextBox.Text);
-
+            foodType, DescriptionTextBox.Text, FoodImagePath);
+        
         var oldFood = await FoodMenuController.FindFoodMenu(newFood.Id).ConfigureAwait(false);
         if (oldFood is not null)
         {
             newFood.Id = oldFood.Id;
             FoodMenuAdded?.Invoke(newFood);
             _task.SetResult(newFood);
+            Close();
             return;
         }
         
@@ -144,9 +151,10 @@ public partial class ManageFoodView : Window
         _task.SetResult(newFood);
         Dispatcher.UIThread.Post(() =>
         {
+            Close();
             AutoCompleteSelectedProducts.Clear();
             TagContentStackPanel.Children.Clear(); 
-        });
+        },DispatcherPriority.Background);
         
     }
 
@@ -158,14 +166,21 @@ public partial class ManageFoodView : Window
             Title = "Selecione a foto do produto",
             FileTypeFilter = new List<FilePickerFileType>
             {
-                FilePickerFileTypes.ImagePng, FilePickerFileTypes.ImageJpg
+                FilePickerFileTypes.ImageJpg, FilePickerFileTypes.ImagePng
             }
         };
-        var result = await GetTopLevel(this)!.StorageProvider.OpenFilePickerAsync(fileoption);
-        foreach (var r in result)
-            _foodImage = new ImageBrush(new Bitmap(r.Path.LocalPath));
-        ProductImage.Background = _foodImage;
-        TextContentStackPanel.IsVisible = false;
+        var result = (await GetTopLevel(this)!.StorageProvider.OpenFilePickerAsync(fileoption).ConfigureAwait(false)).FirstOrDefault();
+        if (result is null) return;
+
+        _originalFoodpath = result.Path.LocalPath;
+        FoodImagePath = Path.Combine(ImagePath, Guid.NewGuid() + Path.GetExtension(_originalFoodpath));
+        Dispatcher.UIThread.Post(() =>
+        {
+            var foodImageBrush = new ImageBrush(new Bitmap(_originalFoodpath));
+            ProductImage.Background = foodImageBrush;
+            TextContentStackPanel.IsVisible = false; 
+        },DispatcherPriority.Background);
+        
     }
 
     private void ReturnButton_OnClick(object sender, RoutedEventArgs e)

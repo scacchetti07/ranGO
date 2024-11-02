@@ -154,7 +154,7 @@ public partial class OrderCards : UserControl
         };
         
         // Enviar os dados do pedido para a tela de editar
-        await manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
+       await manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 
     private void OrderStatus_OnClick(object sender, RoutedEventArgs e)

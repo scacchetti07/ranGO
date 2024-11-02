@@ -35,6 +35,27 @@ public partial class ManageOrdersView : Window
         InitializeComponent();
         TableNumberTextBox.AddHandler(TextInputEvent, PreviewTextChanged, RoutingStrategies.Tunnel);
         this.ResponsiveWindow();
+        
+        FoodsAutoCompleteBox.AddHandler(KeyDownEvent, (sender, e) =>
+        {
+            if (sender is not AutoCompleteBox autoComplete)
+                return;
+            if (e.Key != Key.Tab || autoComplete.Text is null || autoComplete.Text.Trim() == "")
+                return;
+
+            string item = autoComplete.ItemsSource!
+                .Cast<string>()
+                .FirstOrDefault(item =>
+                    autoComplete.TextFilter?.Invoke(autoComplete.Text, item) ?? true);
+            if (item is null)
+                return;
+
+            autoComplete.Text = item;
+            autoComplete.CaretIndex = autoComplete.Text.Length;
+            e.Handled = true;
+        }, RoutingStrategies.Tunnel);
+
+        FoodsAutoCompleteBox.ItemsSource = Database.FoodsMenuList.Select(f => f.FoodName);
     }
     
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
@@ -45,7 +66,6 @@ public partial class ManageOrdersView : Window
 
     private async void AddNewOrder_OnClick(object sender, RoutedEventArgs e)
     {
-        // AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList() -> Adicionar dps no campo de newOrder quando tiver pratos para adicionar
         try
         {
             List<string> textBoxes = GetTextBoxes();
@@ -56,7 +76,7 @@ public partial class ManageOrdersView : Window
                 throw new Exception("O número da mesa deve ser superior a 0.");
             
             var newOrder = new Orders(int.Parse(TableNumberTextBox.Text!), WaiterNameTextBox.Text,
-                ["Banana Split", "Sorvete de Creme"], OrderStatusEnum.New);
+                AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList(), OrderStatusEnum.New);
             
             _task.TrySetResult(newOrder);
             OrderAdded?.Invoke(newOrder);

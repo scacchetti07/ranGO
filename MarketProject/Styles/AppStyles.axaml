@@ -246,6 +246,7 @@
         <Setter Property="BorderBrush" Value="#DCB861" />
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand"/>
     </Style>
 
     <Style Selector="StackPanel.ProductRegisterStyle">
@@ -883,7 +884,7 @@
     <Style Selector="StackPanel.OrderCardR2">
         <Setter Property="Grid.Column" Value="1" />
         <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="Margin" Value="-30 0" />
+        <!-- <Setter Property="Margin" Value="-30 0" /> -->
     </Style>
 
     <Style Selector="Border.OrderStatusTag">
@@ -1026,7 +1027,7 @@
         <Style Selector="^ Button">
             <Setter Property="Margin" Value="0"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Padding" Value="2"/>
         </Style>
         
         <Style Selector="^ StackPanel.ManageOrderTextBoxes">
