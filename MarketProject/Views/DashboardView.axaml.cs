@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -12,6 +14,10 @@ public partial class DashboardView : UserControl
     public DashboardView()
     {
         InitializeComponent();
-       // CardSupplyDashboard.CurrentSupply = _vm.CurrentSupply;
+        Database.SupplyList.CollectionChanged += (sender, _) =>
+        {
+            var newList = sender as ObservableCollection<Supply>;
+            CardSupplyDashboard.CurrentSupply = newList!.FirstOrDefault(s => s.InDeliver);
+        };
     }
 }

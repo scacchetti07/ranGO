@@ -14,11 +14,11 @@ public class DashboardViewModel
 
     public DashboardViewModel()
     {
-        Database.SupplyList.CollectionChanged += (sender, _) =>
-        {
-            var newList = sender as ObservableCollection<Supply>;
-            CurrentSupply = newList!.FirstOrDefault(s => s.InDeliver);
-        };
+        // Database.SupplyList.CollectionChanged += (sender, _) =>
+        // {
+        //     var newList = sender as ObservableCollection<Supply>;
+        //     CurrentSupply = newList!.FirstOrDefault(s => s.InDeliver);
+        // };
     }
         
 }

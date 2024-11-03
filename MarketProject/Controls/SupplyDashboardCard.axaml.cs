@@ -74,5 +74,6 @@ public partial class SupplyDashboardCard : UserControl
             SizeToContent = SizeToContent.WidthAndHeight
         };
         await editSupply.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
+        editSupply.IsEnabled = false;
     }
 }
