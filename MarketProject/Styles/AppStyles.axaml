@@ -181,7 +181,23 @@
                 <Setter Property="Background" Value="#803374B9"/>
                 <Setter Property="Foreground" Value="#80FFFFFF"/>
                 <Setter Property="BorderBrush" Value="#DCB861" />
-                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^ Button.DoBackupDashboardButton">
+            <Setter Property="Background" Value="#6EA759"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 5 0 0 "/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style Selector="^:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="#806EA759"/>
+                <Setter Property="Foreground" Value="#80FFFFFF"/>
+                <Setter Property="BorderBrush" Value="#DCB861" />
+                <Setter Property="BorderThickness" Value="2" />
                 <Setter Property="Cursor" Value="Hand" />
             </Style>
         </Style>

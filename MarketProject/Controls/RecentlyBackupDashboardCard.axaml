@@ -20,11 +20,10 @@
                 <Svg Path="/Assets/Icons/SVG/IconSettings.svg" />
             </StackPanel>
             <StackPanel Classes="MainConent">
-                <TextBlock Name="DashboardCardMainContent" Text="2 DIAS" />
+                <TextBlock Name="DashboardCardMainContent" Text="0 DIAS" />
             </StackPanel>
             <Border />
-            <Button Name="BackupButton" Background="#6EA759" Content="Realizar Novo Backup"
-                    HorizontalAlignment="Center" Height="35" VerticalContentAlignment="Center" Margin="0 5 0 0" Foreground="White" Command="{Binding DoRangoBackup}"/>
+            <Button Name="BackupButton" Classes="DoBackupDashboardButton" Content="Realizar Novo Backup" Command="{Binding DoRangoBackup}"/>
         </StackPanel>
     </Border>
 </UserControl>

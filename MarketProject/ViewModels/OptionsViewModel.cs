@@ -21,6 +21,7 @@ public class OptionsViewModel : ViewModelBase
     public ICommand AccessWebSite { get; }
     public ICommand SentAMailTo { get; }
     public ICommand DoRangoBackup { get; }
+    public static event Action<bool> backupAction;
 
     private const string _light = "Claro";
     private const string _dark = "Escuro";
@@ -123,5 +124,11 @@ public class OptionsViewModel : ViewModelBase
             SystemDecorations = SystemDecorations.BorderOnly
         });
         await msgBox.ShowAsync().ConfigureAwait(false);
+        OnBackupAction(true);
+    }
+
+    protected virtual void OnBackupAction(bool obj)
+    {
+        backupAction?.Invoke(obj);
     }
 }
