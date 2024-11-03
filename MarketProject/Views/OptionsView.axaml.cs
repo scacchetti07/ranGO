@@ -46,41 +46,6 @@ public partial class OptionsView : UserControl
         InitializeComponent();
     }
 
-    private async void BackupButton_OnClick(object sender, RoutedEventArgs e)
-    {
-        List<string> jsonLists = new()
-        {
-            JsonConvert.SerializeObject(db.SupplyList), JsonConvert.SerializeObject(db.ProductsList),
-            JsonConvert.SerializeObject(db.OrdersList), JsonConvert.SerializeObject(db.FoodsMenuList)
-        };
-
-        for (int i = 0; i < _backupFilesName.Count; i++)
-        {
-            string dirPath = $@"{BackupPath}\{Today}";
-            string filePath = dirPath + @$"\{_backupFilesName[i]}";
-            if (File.Exists(filePath))
-                File.Delete(filePath);
-            else
-                Directory.CreateDirectory(dirPath);
-            await using StreamWriter sw = new(filePath);
-            await sw.WriteLineAsync(jsonLists[i]).ConfigureAwait(false);
-        }
-
-        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
-        {
-            ContentHeader = "Backup realizado com Sucesso!",
-            ContentMessage = "O Backup dos dados registrados no software ranGO! foram salvos!",
-            ButtonDefinitions = ButtonEnum.Ok,
-            Icon = Icon.Success,
-            CanResize = false,
-            ShowInCenter = true,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            SystemDecorations = SystemDecorations.BorderOnly
-        });
-        await msgBox.ShowAsync().ConfigureAwait(false);
-    }
-
     private async void RestoreButton_OnClick(object sender, RoutedEventArgs e)
     {
         bool isRestored = true;

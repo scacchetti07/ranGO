@@ -41,7 +41,7 @@
                     </StackPanel>
                 </StackPanel>
                 <Button Grid.Column="1" Content="Backup" Classes="OptionButton" IsDefault="True"
-                        Click="BackupButton_OnClick" />
+                        Command="{Binding DoRangoBackup}" />
 
                 <Label Grid.Row="1"
                        Content="Restaure os seus dados de de backup referente a data que ele foi realizado!"
