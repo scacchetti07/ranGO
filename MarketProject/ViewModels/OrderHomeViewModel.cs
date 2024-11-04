@@ -27,7 +27,7 @@ public class OrderHomeViewModel : ViewModelBase
         return orderCards;
     }
 
-    public static FoodCard FoodToCard(Foods food)
+    public FoodCard FoodToCard(Foods food)
     {
         List<string> nameOfIngredients = Database.ProductsList.Count != 0 ?
             food.ListOfIngredients.Select(id => StorageController.FindProduct(id).Name).ToList() : null;

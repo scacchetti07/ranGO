@@ -49,7 +49,7 @@ public partial class FoodDashboardCards : UserControl
         catch (FileNotFoundException)
         {
             FoodImageBorder.Background =  new ImageBrush(
-                new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))))
+                new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodDashboard_bg.jpg"))))
             {
                 Stretch = Stretch.UniformToFill
             };

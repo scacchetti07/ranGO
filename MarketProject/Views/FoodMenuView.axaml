@@ -13,10 +13,14 @@
              BorderThickness="2 0 0 0"
              Width="450"
              Height="1026">
+    <UserControl.DataContext>
+        <vm:OrderHomeViewModel />
+    </UserControl.DataContext>
     <Grid RowDefinitions="Auto, Auto, Auto">
         <StackPanel Classes="FoodMenuTopStyles">
             <Panel Classes="SearchTextBox" VerticalAlignment="Center" Margin="-10">
-                <TextBox Watermark="Procure pelo Nome do prato..." Width="290" Name="SearchTextBox" />
+                <TextBox Watermark="Procure pelo Nome do prato..." Width="290" Name="SearchTextBox"
+                         TextChanged="SearchTextBox_OnTextChanged" />
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconSearch.svg}" />
             </Panel>
             <Button Name="ExitButton" Classes="ExitButton">
@@ -26,7 +30,9 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <ComboBox Grid.Row="1" Name="TopicsComboBox" SelectedIndex="0" Classes="ChangeTable FoodMenuComboBoxStyle">
+        <ComboBox Grid.Row="1" Name="TopicsComboBox" SelectedIndex="0" Classes="ChangeTable FoodMenuComboBoxStyle"
+                  SelectionChanged="TopicsComboBox_OnSelectionChanged">
+            <ComboBoxItem Content="Todos" />
             <ComboBoxItem Content="Entrada" />
             <ComboBoxItem Content="Principal" />
             <ComboBoxItem Content="Kids" />
@@ -40,7 +46,7 @@
             <ComboBoxItem Content="Bebidas" />
         </ComboBox>
         <ScrollViewer Grid.Row="2" Classes="FoodMenuCardsStyles">
-            <StackPanel Name="FoodMenuCardsPanel" Classes="FoodStackPanel"/>
+            <StackPanel Name="FoodMenuCardsPanel" Classes="FoodStackPanel" />
         </ScrollViewer>
         <Canvas Grid.Row="2">
             <Button Content="Adicionar Novo Prato" Classes="AddFoodButton" Click="AddFoodButton_OnClick" />
