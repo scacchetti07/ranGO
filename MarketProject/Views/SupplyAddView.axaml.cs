@@ -180,7 +180,7 @@ public partial class SupplyAddView : Window
                 throw new Exception($"CNPJ informado é inválido e não existe.");
             SupplyCtrl.AddNewSupply(newSupply);
             SupplyAdded?.Invoke(newSupply);
-            ClearTextBox();
+            Close();
             AutoCompleteSelectedProducts.Clear();
             TagContentStackPanel.Children.Clear();
         }

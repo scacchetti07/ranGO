@@ -42,6 +42,17 @@ public partial class SupplyDashboardCard : UserControl
 
     private void UpdateDashboardCard()
     {
+        if (CurrentSupply is null)
+        {
+            DashboardCardTitle.Text = $"CHEGADA DO FORNECEDOR";
+            DashboardCardMainContent.Text = $"0 DIAS";
+            
+            MoreInfoAboutSupplyButton.IsVisible = false;
+            WhatsappButton.IsVisible = false;
+            IsSupplyDefinied.IsVisible = true;
+            return;
+        }
+        
         var name = new string(CurrentSupply.Name.ToUpper().Take(10).ToArray());
         DashboardCardTitle.Text = $"CHEGADA DO {name}";
         DashboardCardMainContent.Text = $"{CurrentSupply.DayLimit} DIAS";

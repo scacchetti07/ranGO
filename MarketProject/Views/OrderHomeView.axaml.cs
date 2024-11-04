@@ -66,7 +66,19 @@ public partial class OrderHomeView : UserControl
             }
         };
 
-        Database.OrdersList.CollectionChanged += (_, _) => { UpdateOrders(); };
+        Database.OrdersList.CollectionChanged += (_, _) =>
+        {
+            if (!_vm.IsEditable) return;
+            
+            Dispatcher.UIThread.Post(() =>
+            {
+                AddPopup.IsOpen = true;
+                AddProdLabel.Content = "Pedido Editado!";
+                ContentAddTextBlock.Text = $"O Pedido foi atualizado com sucesso!";
+            }, DispatcherPriority.Background);
+            UpdateOrders();
+
+        };
     }
 
     private void unSelectButton()
@@ -90,14 +102,11 @@ public partial class OrderHomeView : UserControl
 
     private async void UpdateOrders()
     {
-        Dispatcher.UIThread.Post(async () =>
-        {
-            OrderCardsPanel.Children.Clear();
-            var ordersList = await OrderController.FindOrders();
-            if (ordersList is null) return;
-            foreach (Orders order in ordersList)
-                OrderCardsPanel.Children.Add(_vm.OrderToCard(order));
-        }, DispatcherPriority.Background);
+        OrderCardsPanel.Children.Clear();
+        var ordersList = await OrderController.FindOrders();
+        if (ordersList is null) return;
+        foreach (Orders order in ordersList)
+            OrderCardsPanel.Children.Add(_vm.OrderToCard(order));
     }
 
     private async void UpdateOrders(OrderStatusEnum? orderStatus)
@@ -153,13 +162,15 @@ public partial class OrderHomeView : UserControl
             if (newOrder.FoodsOrder.Count == 0)
                 throw new Exception("Lista de pratos pedidos está vazia!");
 
-            manageOrdersView.OrderAdded += (order) =>
+            Dispatcher.UIThread.Post(() =>
             {
-                var lastId = new string(order.Id.TakeLast(4).ToArray());
+                var lastId = new string(newOrder.Id.TakeLast(4).ToArray());
                 AddPopup.IsOpen = true;
                 AddProdLabel.Content = "Novo Pedido Adicionado!";
                 ContentAddTextBlock.Text = $"Pedido de Id '#{lastId}' foi adicionado!";
-            };
+            }, DispatcherPriority.Background);
+
+
             OrderCtrl.AddNewOrder(newOrder);
             if (_selectedButton.Name == "AllOrdersButton")
                 OrderSelected?.Invoke(null);
@@ -235,7 +246,7 @@ public partial class OrderHomeView : UserControl
         Dispatcher.UIThread.Post(() =>
         {
             OrderCtrl.DeleteClosedOrders();
-          //  UpdateOrders(OrderStatusEnum.Closed);
+            UpdateOrders(OrderStatusEnum.Closed);
         });
     }
 }

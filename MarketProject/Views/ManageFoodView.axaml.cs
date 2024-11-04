@@ -69,7 +69,27 @@ public partial class ManageFoodView : Window
     private async Task EditFoodAsync(string id)
     {
         var selectedFood = await FoodMenuController.FindFoodMenu(id);
-        
+
+        if (selectedFood is null)
+        {
+            Dispatcher.UIThread.Post(async () =>
+            {
+                var checkMsgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+                {
+                    ContentHeader = "Determinado prato não existe no contexto atual",
+                    ContentMessage = "O prato que você escolheu não existe no cardápio.",
+                    ButtonDefinitions = ButtonEnum.Ok,
+                    Icon = MsBox.Avalonia.Enums.Icon.Info,
+                    CanResize = false,
+                    ShowInCenter = true,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SystemDecorations = SystemDecorations.BorderOnly
+                });
+                await checkMsgBox.ShowAsync();
+            }, DispatcherPriority.Background);
+            return;
+        }
         // Conteúdo
         AddButton.Content = "Editar";
         NameTextBox.Text = selectedFood.FoodName;

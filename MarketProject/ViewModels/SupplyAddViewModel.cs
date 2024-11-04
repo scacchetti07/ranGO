@@ -48,7 +48,7 @@ public class SupplyAddViewModel : ViewModelBase
         {
             _email = value;
             ClearErrors(nameof(Email));
-            if (!_email.Contains('@') || !_email.Contains('.'))
+            if (!Email.Contains('@') || !Email.Contains('.'))
                 AddError(nameof(Email), "Email deve conter '@' e '.'");
             else
                 RemoveError(nameof(Email));

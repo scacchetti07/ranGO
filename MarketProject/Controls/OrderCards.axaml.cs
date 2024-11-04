@@ -7,6 +7,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using MarketProject.Controllers;
 using MarketProject.Models;
+using MarketProject.ViewModels;
 using MarketProject.Views;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;

@@ -106,20 +106,20 @@ public partial class ManageOrdersView : Window
             
             var newOrder = new Orders(int.Parse(TableNumberTextBox.Text!), WaiterNameTextBox.Text,
                 AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList(), OrderStatusEnum.New, FoodDescriptionTextBox.Text);
-            Console.WriteLine(newOrder.Id);
             
             if (_editUserId is not null)
             {
                 newOrder.Id = _editUserId;
                 newOrder.OrderStatus = _vm.OrderStatus;
                 OrderController.EditOrder(newOrder);
-                OrderAdded?.Invoke(newOrder);
+                _task.TrySetResult(newOrder);
                 Close();
+                //OrderAdded?.Invoke(newOrder);
                 return;
             }
-            
+
+            _vm.IsEditable = false;
             _task.TrySetResult(newOrder);
-            OrderAdded?.Invoke(newOrder);
             Close();
         }
         catch (Exception ex)

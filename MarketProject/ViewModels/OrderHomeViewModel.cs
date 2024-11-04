@@ -9,6 +9,7 @@ namespace MarketProject.ViewModels;
 
 public class OrderHomeViewModel : ViewModelBase
 {
+    public bool IsEditable { get; set; } 
     public OrderStatusEnum OrderStatus;
     public OrderCards OrderToCard(Orders order)
     {

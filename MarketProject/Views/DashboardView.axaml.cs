@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 using DynamicData;
 using MarketProject.Controllers;
 using MarketProject.Controls;
@@ -20,8 +21,12 @@ public partial class DashboardView : UserControl
         InitializeComponent();
         Database.SupplyList.CollectionChanged += (sender, _) =>
         {
-            var newList = sender as ObservableCollection<Supply>;
-            CardSupplyDashboard.CurrentSupply = newList!.FirstOrDefault(s => s.InDeliver);
+            Dispatcher.UIThread.Post(() =>
+            {
+                var newList = sender as ObservableCollection<Supply>;
+                CardSupplyDashboard.CurrentSupply = newList!.FirstOrDefault(s => s.InDeliver);
+            }, DispatcherPriority.Background);
+            
         };
 
         Database.FoodsMenuList.CollectionChanged += (_, _) =>

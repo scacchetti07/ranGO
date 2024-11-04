@@ -96,13 +96,13 @@ public partial class SupplyView : UserControl
         var result = await msgBox.ShowAsync().ConfigureAwait(false);
         if (result == ButtonResult.No) return;
         Supplyctrl.DeleteSupply(selectedSupply);
-
+        
         Dispatcher.UIThread.Post(() =>
         {
             DeletePopup.IsOpen = true;
             DeleteProdLabel.Content = "Fornecedor Removido!";
-            ContentDeleteTextBlock.Text = $"O '{selectedSupply.Name}' foi removido do estoque com sucesso!";
-        }, DispatcherPriority.Background);
+            ContentDeleteTextBlock.Text = $"O '{selectedSupply.Name}' foi removido do estoque com sucesso!"; 
+        },DispatcherPriority.Background);
     }
 
     private async void EditSupply_OnClick(object sender, RoutedEventArgs e)
@@ -173,6 +173,7 @@ public partial class SupplyView : UserControl
             var result = await msgBox.ShowAsync();
             if (result == ButtonResult.No) return;
             deliverSupply.InDeliver = false;
+            Supplyctrl.UpdateSupply(deliverSupply);
         }
 
         SendSupplyDeliverView sendSupplyDeliverView = new();

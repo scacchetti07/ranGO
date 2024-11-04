@@ -142,10 +142,12 @@ public partial class ProductAddView : Window
                 ProductAdded?.Invoke(newproduct);
                 return;
             }
+            
             if (oldProductId is not null)
                 throw new Exception("Código GTIN digitado já existe no sistema!");
             StorageController.AddProduct(newproduct,SupplyAutoCompleteBox.Text);
             ProductAdded?.Invoke(newproduct);
+            Close();
         }
         catch (Exception ex)
         {
