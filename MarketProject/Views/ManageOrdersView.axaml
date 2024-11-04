@@ -14,12 +14,13 @@
         CanResize="False"
         ShowInTaskbar="False"
         Width="543"
+        Height="630"
         CornerRadius="20">
     <Window.DataContext>
         <vm:OrderHomeViewModel />
     </Window.DataContext>
     <Grid RowDefinitions="Auto, Auto" Margin="40" Classes="ManageOrderStyles">
-        <TextBlock Classes="ManageOrderTitle"/>
+        <TextBlock Classes="ManageOrderTitle" />
         <Button Classes="ReturnButton" Click="ReturnButton_OnClick">
             <StackPanel Classes="ReturnButtonStackPanel">
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
@@ -28,21 +29,23 @@
         </Button>
 
         <StackPanel Grid.Row="1" Classes="ProductRegisterStyle ManageOrderTextBoxes">
-            <Label Content="N° da mesa"/>
-            <TextBox Classes="TableNumberManageOrder" Name="TableNumberTextBox" MaxLength="2"/>
+            <Label Content="N° da mesa" />
+            <TextBox Classes="TableNumberManageOrder" Name="TableNumberTextBox" MaxLength="2" />
 
             <Label Content="Nome do Garçom: " />
             <TextBox Name="WaiterNameTextBox" />
 
             <Label Content="Pratos Pedidos: " />
-            <AutoCompleteBox Watermark="Selecione os pratos" Name="FoodsAutoCompleteBox" KeyDown="FoodsAutoCompleteBox_OnKeyDown" Text="{Binding FoodName, UpdateSourceTrigger=PropertyChanged}"/>
-            <WrapPanel MaxWidth="500" Name="TagContentStackPanel" Orientation="Horizontal" HorizontalAlignment="Left"/>
+            <AutoCompleteBox Watermark="Selecione os pratos" Name="FoodsAutoCompleteBox"
+                             KeyDown="FoodsAutoCompleteBox_OnKeyDown"
+                             Text="{Binding FoodName, UpdateSourceTrigger=PropertyChanged}" />
+            <WrapPanel MaxWidth="500" Name="TagContentStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" />
 
             <Label Content="Detalhes do Pedido: " />
-            <TextBox Height="60" Name="FoodDescriptionTextBox"/>
+            <TextBox Height="60" Name="FoodDescriptionTextBox" />
 
             <StackPanel Classes="ManageOrderButtons">
-                <Button Background="#3374B9" Content="Adicionar" Name="AddNewOrderButton" Click="AddNewOrder_OnClick"/>
+                <Button Background="#3374B9" Content="Adicionar" Name="AddNewOrderButton" Click="AddNewOrder_OnClick" />
                 <Button Background="#D87249" Content="Limpar" />
             </StackPanel>
         </StackPanel>

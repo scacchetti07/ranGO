@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MarketProject.Controllers;
 using MarketProject.Controls;
 using MarketProject.Models;
@@ -49,10 +50,10 @@ public class OrderHomeViewModel : ViewModelBase
         {
             _foodName = value;
             ClearErrors(nameof(FoodName));
-            if (FoodName?.Trim() != "" && StorageController.FindProductByNameAsync(FoodName) is null)
-                AddError(nameof(FoodName), "Produto digitado não no estoque!");
+            if (FoodName?.Trim() != "" && FoodMenuController.FindFoodMenuByName(FoodName) is null)
+                AddError(nameof(FoodName), "O Prato especificado não foi adicionado. Pressione 'Enter'");
             else if (!string.IsNullOrEmpty(FoodName))
-                AddError(nameof(FoodName), "Produto não foi adicionado. Clique 'Enter'");
+                AddError(nameof(FoodName), "Prato digitado não se econtra no cardápio!");
             else
                 RemoveError(nameof(FoodName));
         }
