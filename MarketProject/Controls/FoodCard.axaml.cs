@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -9,7 +10,9 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
+using DynamicData;
 using MarketProject.Controllers;
+using MarketProject.Models;
 using MarketProject.Views;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
@@ -76,56 +79,65 @@ public partial class FoodCard : UserControl
                 ? new ImageBrush(
                     new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))))
                 : new ImageBrush(new Bitmap(FoodPicturePath));
-            
+
             newImageBrush.Stretch = Stretch.UniformToFill;
             FoodPictureImageBrush.Background = newImageBrush;
         }
         catch (FileNotFoundException)
         {
-            FoodPictureImageBrush.Background =  new ImageBrush(
+            FoodPictureImageBrush.Background = new ImageBrush(
                 new Bitmap(AssetLoader.Open(new Uri("avares://MarketProject/Assets/DefaultFoodBackground.jpg"))))
-                {
-                    Stretch = Stretch.UniformToFill
-                };
+            {
+                Stretch = Stretch.UniformToFill
+            };
         }
-
     }
 
     private async void EditFoodButton_OnClick(object sender, RoutedEventArgs e)
     {
-        ManageFoodView manageFoodView = new ManageFoodView()
+        var food = await FoodMenuController.FindFoodMenuByNameAsync(FoodName);
+        ManageFoodView manageFoodView = new ManageFoodView(food.Id)
         {
             Title = "Cadastro de Pratos",
-            WindowStartupLocation= WindowStartupLocation.CenterScreen,
-            ExtendClientAreaChromeHints= ExtendClientAreaChromeHints.NoChrome,
-            ExtendClientAreaToDecorationsHint = true,
-            CanResize = false,
-            ShowInTaskbar = false,
-            SizeToContent = SizeToContent.WidthAndHeight
         };
+
+        manageFoodView.ShowDialog(
+            (Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
         var newFood = await manageFoodView.GetFood();
         FoodMenuController.EditFoodMenu(newFood);
-        manageFoodView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 
     private async void DeleteFoodButton_OnClick(object sender, RoutedEventArgs e)
     {
-        var selectedFood = await FoodMenuController.FindFoodMenuByNameAsync(FoodNameLabel.Content!.ToString()).ConfigureAwait(false);
-        
-        var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        var selectedFood = await FoodMenuController.FindFoodMenuByNameAsync(FoodNameLabel.Content!.ToString())
+            .ConfigureAwait(false);
+
+        Dispatcher.UIThread.Post(async () =>
         {
-            ContentHeader = "Excluir prato do cardápio",
-            ContentMessage = $"Você realmente deseja excluir \"{selectedFood.FoodName}\" do cardápio em definitivo?",
-            ButtonDefinitions = ButtonEnum.YesNo,
-            Icon = Icon.Warning,
-            CanResize = false,
-            ShowInCenter = true,
-            SizeToContent = SizeToContent.WidthAndHeight,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            SystemDecorations = SystemDecorations.BorderOnly
+            var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+            {
+                ContentHeader = "Excluir prato do cardápio",
+                ContentMessage =
+                    $"Você realmente deseja excluir \"{selectedFood.FoodName}\" do cardápio em definitivo?",
+                ButtonDefinitions = ButtonEnum.YesNo,
+                Icon = Icon.Warning,
+                CanResize = false,
+                ShowInCenter = true,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                SystemDecorations = SystemDecorations.BorderOnly
+            });
+            var result = await msgBox.ShowAsync().ConfigureAwait(false);
+            if (result == ButtonResult.No) return;
+
+            var orders = Database.OrdersList.Where(o => o.FoodsOrder.Contains(selectedFood.Id));
+            foreach (var ord in orders)
+            {
+                ord!.FoodsOrder.Remove(selectedFood.Id);
+                OrderController.EditOrder(ord);  
+            }
+            FoodMenuController.DeleteFoodMenu(selectedFood);
+            Database.FoodsMenuList.Remove(selectedFood);
         });
-        var result = await msgBox.ShowAsync().ConfigureAwait(false);
-        if (result == ButtonResult.No) return;
-        FoodMenuController.DeleteFoodMenu(selectedFood);
     }
 }

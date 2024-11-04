@@ -90,11 +90,15 @@ public partial class OrderHomeView : UserControl
 
     private async void UpdateOrders()
     {
-        OrderCardsPanel.Children.Clear();
-        var ordersList = await OrderController.FindOrders();
-        if (ordersList is null) return;
-        foreach (Orders order in ordersList)
-            OrderCardsPanel.Children.Add(_vm.OrderToCard(order));
+        Dispatcher.UIThread.Post(async () =>
+        {
+            OrderCardsPanel.Children.Clear();
+            var ordersList = await OrderController.FindOrders();
+            if (ordersList is null) return;
+            foreach (Orders order in ordersList)
+                OrderCardsPanel.Children.Add(_vm.OrderToCard(order)); 
+        });
+        
     }
 
     private async void UpdateOrders(OrderStatusEnum? orderStatus)

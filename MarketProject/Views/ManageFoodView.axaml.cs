@@ -69,10 +69,18 @@ public partial class ManageFoodView : Window
     private async Task EditFoodAsync(string id)
     {
         var selectedFood = await FoodMenuController.FindFoodMenu(id);
+        
+        // Conteúdo
         AddButton.Content = "Editar";
         NameTextBox.Text = selectedFood.FoodName;
         DescriptionTextBox.Text = selectedFood.FoodDescription;
         PriceTextBox.Text = selectedFood.FoodPrice.ToString("f2").PadLeft(6, '_');
+        
+        // Salvando Imagem nas variaveis
+        _originalFoodpath = selectedFood.FoodPhotoPath;
+        FoodImagePath = Path.Combine(ImagePath, Guid.NewGuid() + Path.GetExtension(_originalFoodpath));
+        
+        // Determinando estilo
         ButtonTitle.IsVisible = false;
         ButtonContent.Content = $"Fonte: {selectedFood.FoodPhotoPath} \n\nClique novamente para alterar a foto caso deseje.";
         
@@ -153,7 +161,7 @@ public partial class ManageFoodView : Window
         ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
     }
 
-    private async void AddButton_OnClick(object sender, RoutedEventArgs e)
+    private void AddButton_OnClick(object sender, RoutedEventArgs e)
     {
         double foodPrice = Convert.ToDouble(PriceTextBox.Text.Replace("_", ""));
         List<string> textBoxes = GetTextBox();
@@ -167,10 +175,9 @@ public partial class ManageFoodView : Window
         Foods newFood = new(NameTextBox.Text, AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), foodPrice,
             foodType, DescriptionTextBox.Text, FoodImagePath);
         
-        var oldFood = await FoodMenuController.FindFoodMenu(newFood.Id).ConfigureAwait(false);
-        if (oldFood is not null)
+        if (_editUserId is not null)
         {
-            newFood.Id = oldFood.Id;
+            newFood.Id = _editUserId;
             FoodMenuAdded?.Invoke(newFood);
             _task.SetResult(newFood);
             Close();

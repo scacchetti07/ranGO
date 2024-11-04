@@ -33,9 +33,9 @@ public partial class FoodDashboardCards : UserControl
     private void UpdateFoodCard()
     {
         FoodNameTextBlock.Text = CurrentFood.FoodName;
-        List<string> nameOfIngredients =
-            CurrentFood.ListOfIngredients.Select(id => StorageController.FindProduct(id).Name).ToList();
-        IngredientsListTextBlock.Text = string.Join(", ", nameOfIngredients);
+        List<string> nameOfIngredients = Database.ProductsList.Count != 0 ?
+            CurrentFood.ListOfIngredients.Select(id => StorageController.FindProduct(id).Name).ToList() : null;
+        IngredientsListTextBlock.Text = nameOfIngredients is not null ? string.Join(", ", nameOfIngredients) : "Ingredientes não encontrados.";
         try
         {
             var newImageBrush = CurrentFood.FoodPhotoPath is null

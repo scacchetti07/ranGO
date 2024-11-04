@@ -28,14 +28,13 @@ public class OrderHomeViewModel : ViewModelBase
 
     public static FoodCard FoodToCard(Foods food)
     {
-        List<string> nameOfIngredients =
-            food.ListOfIngredients.Select(id => StorageController.FindProduct(id).Name).ToList();
+        List<string> nameOfIngredients = Database.ProductsList.Count != 0 ?
+            food.ListOfIngredients.Select(id => StorageController.FindProduct(id).Name).ToList() : null;
         return new FoodCard
         {
             FoodName = food.FoodName,
-            FoodIngredients = nameOfIngredients.Count <= 1
-                ? string.Join(", ", nameOfIngredients.Take(1))
-                : string.Join(",", nameOfIngredients.Take(1))+ $"  + {nameOfIngredients.Count - 1}",
+            FoodIngredients = nameOfIngredients is not null
+                ? string.Join(",", nameOfIngredients.Take(1))+ $"  + {nameOfIngredients.Count - 1}" : "",
                     FoodPrice = food.FoodPrice,
                     FoodPicturePath = food.FoodPhotoPath
         };
