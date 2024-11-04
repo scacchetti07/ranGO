@@ -96,9 +96,8 @@ public partial class OrderHomeView : UserControl
             var ordersList = await OrderController.FindOrders();
             if (ordersList is null) return;
             foreach (Orders order in ordersList)
-                OrderCardsPanel.Children.Add(_vm.OrderToCard(order)); 
-        });
-        
+                OrderCardsPanel.Children.Add(_vm.OrderToCard(order));
+        }, DispatcherPriority.Background);
     }
 
     private async void UpdateOrders(OrderStatusEnum? orderStatus)
@@ -145,7 +144,7 @@ public partial class OrderHomeView : UserControl
     private async void AddOrder_OnClick(object sender, RoutedEventArgs e)
     {
         ManageOrdersView manageOrdersView = new() { Title = "Adicionar Pedido - ranGO!" };
-        await manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
+        await manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!);
 
         try
         {
@@ -169,7 +168,7 @@ public partial class OrderHomeView : UserControl
         {
             var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
-                ContentHeader = "Erro ao cadastrar fornecedor",
+                ContentHeader = "Erro ao cadastrar um novo pedido",
                 ContentMessage = ex.Message,
                 ButtonDefinitions = ButtonEnum.Ok,
                 Icon = Icon.Error,
@@ -214,19 +213,6 @@ public partial class OrderHomeView : UserControl
             FoodMenuViewPanel.Classes.Clear();
             FoodMenuViewPanel.Children.Clear();
         });
-        foodMenuView.FoodAdded += (food) =>
-        {
-            if (food is null)
-            {
-                DeletePopup.IsEnabled = true;
-                DeletePopup.Content = "Prato Removido do Cardápio!";
-                ContentDeleteTextBlock.Text = "Foi removido um prato do cardápio";
-                return;
-            }
-            AddPopup.IsOpen = true;
-            AddProdLabel.Content = "Novo Prato adicionado!";
-            ContentAddTextBlock.Text = $"O prato '{food.FoodName}' foi adicionado ao cardápio!";
-        };
     }
 
     private async void DeleteOrderButton_OnClick(object sender, RoutedEventArgs e)
@@ -249,7 +235,7 @@ public partial class OrderHomeView : UserControl
         Dispatcher.UIThread.Post(() =>
         {
             OrderCtrl.DeleteClosedOrders();
-            UpdateOrders(OrderStatusEnum.Closed);
+          //  UpdateOrders(OrderStatusEnum.Closed);
         });
     }
 }

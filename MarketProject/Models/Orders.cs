@@ -22,7 +22,7 @@ public class Orders
     public OrderStatusEnum OrderStatus { get; set; }
     
     [JsonConstructor]
-    public Orders(string id, int tableNumber, string waiterName, List<string> foods, string foodDescription, OrderStatusEnum orderStatus)
+    public Orders(string id, int tableNumber, string waiterName, List<string> foods, OrderStatusEnum orderStatus, string foodDescription = null)
     {
         Id = id;
         FoodsOrder = foods;
@@ -31,7 +31,7 @@ public class Orders
         FoodDescription = foodDescription;
         OrderStatus = orderStatus;
     }
-    public Orders(int tableNumber, string waiterName, List<string> foods, string foodDescription, OrderStatusEnum orderStatus)
+    public Orders(int tableNumber, string waiterName, List<string> foods, OrderStatusEnum orderStatus, string foodDescription = null)
     {
         FoodsOrder = foods;
         TableNumber = tableNumber;

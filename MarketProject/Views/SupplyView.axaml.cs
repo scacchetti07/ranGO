@@ -153,7 +153,7 @@ public partial class SupplyView : UserControl
         SupplyDataGrid.ItemsSource = searchedList!.Select(SupplyViewModel.SuppliesToDataGrid);
     }
 
-    private void SendSupplyDeliverButton_OnClick(object sender, RoutedEventArgs e)
+    private async void SendSupplyDeliverButton_OnClick(object sender, RoutedEventArgs e)
     {
         var deliverSupply = SupplyController.SupplyList.Where(s => s.InDeliver).FirstOrDefault();
         if (deliverSupply is not null)
@@ -161,8 +161,8 @@ public partial class SupplyView : UserControl
             var msgBox = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
             {
                 ContentHeader = "Já foi definido uma entrega!",
-                ContentMessage = $"Uma entrega realizada pelo fornecedor {deliverSupply.Name} já está em andamento.",
-                ButtonDefinitions = ButtonEnum.Ok,
+                ContentMessage = $"Uma entrega realizada pelo fornecedor {deliverSupply.Name} já está em andamento. Você quer removê-lo?",
+                ButtonDefinitions = ButtonEnum.YesNo,
                 Icon = Icon.Warning,
                 CanResize = false,
                 ShowInCenter = true,
@@ -170,8 +170,9 @@ public partial class SupplyView : UserControl
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 SystemDecorations = SystemDecorations.BorderOnly
             });
-            msgBox.ShowAsync();
-            return;
+            var result = await msgBox.ShowAsync();
+            if (result == ButtonResult.No) return;
+            deliverSupply.InDeliver = false;
         }
 
         SendSupplyDeliverView sendSupplyDeliverView = new();

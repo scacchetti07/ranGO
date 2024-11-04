@@ -24,7 +24,7 @@ namespace MarketProject.Views;
 public partial class ManageFoodView : Window
 {
     public List<Product> AutoCompleteSelectedProducts { get; } = [];
-    private string _editUserId;
+    private string _editFoodId;
     private string FoodImagePath { get; set; }
     private string _originalFoodpath;
     private const string ImagePath = @"C:\ranGO\GaleriaDosPratos";
@@ -62,7 +62,7 @@ public partial class ManageFoodView : Window
     }
     public ManageFoodView(string id) : this()
     {
-        _editUserId = id;
+        _editFoodId = id;
         _ = EditFoodAsync(id);
     }
 
@@ -107,7 +107,7 @@ public partial class ManageFoodView : Window
         };
     }
 
-    public async Task<Foods> GetFood() => await _task.Task.ConfigureAwait(false);
+    public async Task<Foods> GetFood() => await _task.Task;
     private void ProductsAutoCompleteBox_OnKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key != Key.Enter) return;
@@ -161,7 +161,7 @@ public partial class ManageFoodView : Window
         ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
     }
 
-    private void AddButton_OnClick(object sender, RoutedEventArgs e)
+    private async void AddButton_OnClick(object sender, RoutedEventArgs e)
     {
         double foodPrice = Convert.ToDouble(PriceTextBox.Text.Replace("_", ""));
         List<string> textBoxes = GetTextBox();
@@ -175,17 +175,15 @@ public partial class ManageFoodView : Window
         Foods newFood = new(NameTextBox.Text, AutoCompleteSelectedProducts.Select(p => p.Id).ToList(), foodPrice,
             foodType, DescriptionTextBox.Text, FoodImagePath);
         
-        if (_editUserId is not null)
+        if (_editFoodId is not null)
         {
-            newFood.Id = _editUserId;
-            FoodMenuAdded?.Invoke(newFood);
-            _task.SetResult(newFood);
+            newFood.Id = _editFoodId;
             Close();
             return;
         }
         
         FoodMenuAdded?.Invoke(newFood);
-        _task.SetResult(newFood);
+        _task.TrySetResult(newFood);
         Dispatcher.UIThread.Post(() =>
         {
             Close();

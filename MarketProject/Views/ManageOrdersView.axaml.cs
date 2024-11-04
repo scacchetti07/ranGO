@@ -105,8 +105,9 @@ public partial class ManageOrdersView : Window
                 throw new Exception("O número da mesa deve ser superior a 0.");
             
             var newOrder = new Orders(int.Parse(TableNumberTextBox.Text!), WaiterNameTextBox.Text,
-                AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList(), FoodDescriptionTextBox.Text, OrderStatusEnum.New);
-
+                AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList(), OrderStatusEnum.New, FoodDescriptionTextBox.Text);
+            Console.WriteLine(newOrder.Id);
+            
             if (_editUserId is not null)
             {
                 newOrder.Id = _editUserId;
