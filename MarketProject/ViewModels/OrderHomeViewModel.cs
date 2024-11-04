@@ -20,7 +20,7 @@ public class OrderHomeViewModel : ViewModelBase
         OrderCards orderCards = new()
         {
             WaiterName = order.WaiterName,
-            FoodOrderNames = String.Join(", ", FoodOrderNames.TakeLast(2)) + $"+ {FoodOrderNames.Count}",
+            FoodOrderNames = String.Join(", ", FoodOrderNames.TakeLast(2)) + $" + {FoodOrderNames.Count-1}",
             TableNumber = order.TableNumber,
             Id = order.Id,
             OrderStatus = order.OrderStatus

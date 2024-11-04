@@ -113,8 +113,6 @@ public partial class OptionsView : UserControl
             catch (Exception ex)
             {
                 isRestored = false;
-                Console.WriteLine(ex.Message);
-                Console.WriteLine($"\n{ex.StackTrace}");
             }
         }
         if (isRestored is false) return;
