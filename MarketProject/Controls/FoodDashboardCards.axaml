@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MarketProject.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="342" d:DesignHeight="200"
+             x:Class="MarketProject.Controls.FoodDashboardCards"
+             x:DataType="vm:ManageFoodViewModel"
+             CornerRadius="15"
+             Width="342"
+             Height="200">
+    <Border Classes="FoodDashboardCard">
+        <Button>
+            <Grid RowDefinitions="Auto, Auto">
+                <Border Name="FoodImageBorder" >
+                    <Border.Background>
+                        <ImageBrush Source="../Assets/DefaultFoodDashboard_bg.jpg" Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <StackPanel Grid.Row="1">
+                    <TextBlock Name="FoodNameTextBlock" Text="Nome do Prato" Classes="FoodNameTitle" />
+                    <TextBlock Text="Ingredientes:" Classes="IngredientsListTitle" />
+                    <TextBlock Name="IngredientsListTextBlock" Classes="IngredientsList" />
+                </StackPanel>
+            </Grid>
+        </Button>
+    </Border>
+</UserControl>

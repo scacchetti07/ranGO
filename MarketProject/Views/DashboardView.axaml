@@ -22,12 +22,15 @@
                 <ctlr:SupplyDashboardCard x:Name="CardSupplyDashboard" CurrentSupply="{Binding CurrentSupply}" />
                 <ctlr:OrderDashboardCard />
                 <ctlr:RecentlyBackupDashboardCard />
+                
             </StackPanel>
         </StackPanel>
         <Border BoxShadow="5 5 15 0 #091929" CornerRadius="10" Width="1518" Height="275">
-            <StackPanel>
-                <!-- Onde vai vir os cards de Pratos -->
-            </StackPanel>
+            <Grid ColumnDefinitions="Auto, *">
+                <TextBlock Text="PRATOS RECÉM ADICIONADOS" FontSize="18" Margin="21 0"/>
+                
+                <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="107 0 0 0" Orientation="Horizontal" Spacing="150" Name="FoodCardsStackPanel"/>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>
