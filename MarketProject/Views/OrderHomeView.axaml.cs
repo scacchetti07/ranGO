@@ -145,7 +145,7 @@ public partial class OrderHomeView : UserControl
     private async void AddOrder_OnClick(object sender, RoutedEventArgs e)
     {
         ManageOrdersView manageOrdersView = new() { Title = "Adicionar Pedido - ranGO!" };
-        manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!);
+        await manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!).ConfigureAwait(false);
 
         try
         {

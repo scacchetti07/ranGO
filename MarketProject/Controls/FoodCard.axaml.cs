@@ -137,6 +137,7 @@ public partial class FoodCard : UserControl
                 OrderController.EditOrder(ord);  
             }
             FoodMenuController.DeleteFoodMenu(selectedFood);
+            File.Delete(selectedFood.FoodPhotoPath);
             Database.FoodsMenuList.Remove(selectedFood);
         });
     }
