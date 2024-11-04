@@ -53,6 +53,7 @@ public partial class RecentlyBackupDashboardCard : UserControl
             if (today == backupDate)
             {
                 DashboardCardMainContent.Text = "0 DIAS";
+                BackupButton.IsEnabled = false;
                 return;
             }
             

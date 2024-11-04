@@ -17,6 +17,7 @@ namespace MarketProject.ViewModels;
 
 public class OrderHomeViewModel : ViewModelBase
 {
+    public OrderStatusEnum OrderStatus;
     public OrderCards OrderToCard(Orders order)
     {
         List<string> FoodOrderNames = new();
@@ -26,9 +27,9 @@ public class OrderHomeViewModel : ViewModelBase
         OrderCards orderCards = new()
         {
             WaiterName = order.WaiterName,
-            FoodOrderNames = String.Join(", ", FoodOrderNames.TakeLast(2)) + "...",
+            FoodOrderNames = String.Join(", ", FoodOrderNames.TakeLast(2)) + $"+ {FoodOrderNames.Count}",
             TableNumber = order.TableNumber,
-            Id = String.Join("", order.Id.TakeLast(4)).Insert(0, "#"),
+            Id = order.Id,
             OrderStatus = order.OrderStatus
         };
         return orderCards;

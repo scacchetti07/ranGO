@@ -33,9 +33,12 @@ public class FoodMenuController : Database
     public static async Task<Foods> FindFoodMenuByNameAsync(string name)
         => await Collection.Find(fm => fm.FoodName == name).FirstOrDefaultAsync().ConfigureAwait(false);
 
-    public static async void FindFoodNamesByOrderAsync(Orders order)
+    public static async Task<IEnumerable<Foods>> FindFoodsByOrders(IEnumerable<string> foods)
     {
-        // Resolver pelo LookUp depois !
+        List<Foods> foodsByOrders = new();
+        foreach (var f in foods)
+            foodsByOrders.Add(await FindFoodMenu(f));
+        return foodsByOrders;
     }
     
     public static async void EditFoodMenu(Foods food)

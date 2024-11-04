@@ -54,15 +54,19 @@ public partial class OrderHomeView : UserControl
             else
                 UpdateOrders(order);
 
-            if (order == OrderStatusEnum.Closed) {
+            if (order == OrderStatusEnum.Closed)
+            {
                 DeleteOrderButton.IsVisible = true;
-                OrderHomeButtons.Margin = new Thickness(243, 0); 
+                OrderHomeButtons.Margin = new Thickness(243, 0);
             }
-            else {
+            else
+            {
                 DeleteOrderButton.IsVisible = false;
-                OrderHomeButtons.Margin = new Thickness(314, 0);  
+                OrderHomeButtons.Margin = new Thickness(314, 0);
             }
         };
+
+        Database.OrdersList.CollectionChanged += (_, _) => { UpdateOrders(); };
     }
 
     private void unSelectButton()
@@ -145,7 +149,7 @@ public partial class OrderHomeView : UserControl
 
             if (newOrder.FoodsOrder.Count == 0)
                 throw new Exception("Lista de pratos pedidos está vazia!");
-            
+
             manageOrdersView.OrderAdded += (order) =>
             {
                 var lastId = new string(order.Id.TakeLast(4).ToArray());
@@ -173,7 +177,6 @@ public partial class OrderHomeView : UserControl
             });
             await msgBox.ShowAsync().ConfigureAwait(false);
         }
-        
     }
 
     private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -198,10 +201,10 @@ public partial class OrderHomeView : UserControl
     private void FoodMenuButton_OnClick(object sender, RoutedEventArgs e)
     {
         FoodMenuView foodMenuView = new() { HorizontalAlignment = HorizontalAlignment.Right };
-        
+
         FoodMenuViewPanel.Children.Add(foodMenuView);
         FoodMenuViewPanel.Classes.Add("FoodMenuAnimation");
-        
+
         foodMenuView.ExitButton.Command = ReactiveCommand.Create(() =>
         {
             FoodMenuViewPanel.Classes.Clear();
@@ -225,13 +228,11 @@ public partial class OrderHomeView : UserControl
         });
         var result = await msgBox.ShowAsync().ConfigureAwait(false);
         if (result == ButtonResult.No) return;
-        
+
         Dispatcher.UIThread.Post(() =>
         {
             OrderCtrl.DeleteClosedOrders();
             UpdateOrders(OrderStatusEnum.Closed);
         });
-        
-        
     }
 }

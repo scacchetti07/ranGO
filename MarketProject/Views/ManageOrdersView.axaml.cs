@@ -13,6 +13,7 @@ using MarketProject.Controllers;
 using MarketProject.Controls;
 using MarketProject.Extensions;
 using MarketProject.Models;
+using MarketProject.ViewModels;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
@@ -25,6 +26,9 @@ public partial class ManageOrdersView : Window
 
     private TaskCompletionSource<Orders> _task = new();
     public List<Foods> AutoCompleteSelectedFoodsList { get; } = [];
+
+    private string _editUserId;
+    private OrderHomeViewModel _vm => DataContext as OrderHomeViewModel;
 
     public delegate void NewOrderAdded(Orders? orders);
 
@@ -57,13 +61,38 @@ public partial class ManageOrdersView : Window
 
         FoodsAutoCompleteBox.ItemsSource = Database.FoodsMenuList.Select(f => f.FoodName);
     }
-    
+
+    public ManageOrdersView(string id) : this()
+    {
+        _editUserId = id;
+        _ = EditOrdersAsync(id);
+    }
     private void PreviewTextChanged(object sender, TextInputEventArgs e)
     {
         Regex regex = new(@"^[0-9]+$");
         e.Handled = !regex.IsMatch(e.Text!);
     }
 
+
+    private async Task EditOrdersAsync(string id)
+    {
+        var selectedOrders = OrderController.FindOrders(id);
+        AddNewOrderButton.Content = "Editar";
+        TableNumberTextBox.Text = selectedOrders.TableNumber.ToString();
+        WaiterNameTextBox.Text = selectedOrders.WaiterName;
+        _vm.OrderStatus = selectedOrders.OrderStatus;
+        List<Foods> foods = (await FoodMenuController.FindFoodsByOrders(selectedOrders.FoodsOrder)).ToList();
+        foreach (var food in foods)
+        {
+            AutoCompleteSelectedFoodsList.Add(food);
+            TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(food));
+
+            var itemSource = FoodsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+            itemSource.Remove(food.FoodName);
+            FoodsAutoCompleteBox.ItemsSource = itemSource;
+        }
+        FoodDescriptionTextBox.Text = selectedOrders.FoodDescription;
+    }
     private async void AddNewOrder_OnClick(object sender, RoutedEventArgs e)
     {
         try
@@ -76,7 +105,17 @@ public partial class ManageOrdersView : Window
                 throw new Exception("O número da mesa deve ser superior a 0.");
             
             var newOrder = new Orders(int.Parse(TableNumberTextBox.Text!), WaiterNameTextBox.Text,
-                AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList(), OrderStatusEnum.New);
+                AutoCompleteSelectedFoodsList.Select(f => f.Id).ToList(), FoodDescriptionTextBox.Text, OrderStatusEnum.New);
+
+            if (_editUserId is not null)
+            {
+                newOrder.Id = _editUserId;
+                newOrder.OrderStatus = _vm.OrderStatus;
+                OrderController.EditOrder(newOrder);
+                OrderAdded?.Invoke(newOrder);
+                Close();
+                return;
+            }
             
             _task.TrySetResult(newOrder);
             OrderAdded?.Invoke(newOrder);

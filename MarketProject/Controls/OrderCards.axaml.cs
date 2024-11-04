@@ -18,39 +18,49 @@ public partial class OrderCards : UserControl
 {
     public static readonly StyledProperty<string> WaiterNameProperty =
         AvaloniaProperty.Register<OrderCards, string>(nameof(WaiterName));
+
     public static readonly StyledProperty<string> FoodOrderNamesProperty =
         AvaloniaProperty.Register<OrderCards, string>(nameof(FoodOrderNames));
+
     public static readonly StyledProperty<int> TableNumberProperty =
         AvaloniaProperty.Register<OrderCards, int>(nameof(TableNumber));
+
     public static readonly StyledProperty<string> OrderIdProperty =
         AvaloniaProperty.Register<OrderCards, string>(nameof(Id));
-        public static readonly StyledProperty<OrderStatusEnum> OrderStatusProperty =
-            AvaloniaProperty.Register<OrderCards, OrderStatusEnum>(nameof(OrderStatus));
+
+    public static readonly StyledProperty<OrderStatusEnum> OrderStatusProperty =
+        AvaloniaProperty.Register<OrderCards, OrderStatusEnum>(nameof(OrderStatus));
+
     public string WaiterName
     {
         get => GetValue(WaiterNameProperty);
         set => SetValue(WaiterNameProperty, value);
     }
+
     public string FoodOrderNames
     {
         get => GetValue(FoodOrderNamesProperty);
         set => SetValue(FoodOrderNamesProperty, value);
     }
+
     public int TableNumber
     {
         get => GetValue(TableNumberProperty);
         set => SetValue(TableNumberProperty, value);
     }
+
     public string Id
     {
         get => GetValue(OrderIdProperty);
         set => SetValue(OrderIdProperty, value);
     }
+
     public OrderStatusEnum OrderStatus
     {
         get => GetValue(OrderStatusProperty);
         set => SetValue(OrderStatusProperty, value);
     }
+
     public OrderCards()
     {
         InitializeComponent();
@@ -59,11 +69,8 @@ public partial class OrderCards : UserControl
         TableNumberProperty.Changed.AddClassHandler<OrderCards>((_, _) => UpdateOrderCard());
         OrderIdProperty.Changed.AddClassHandler<OrderCards>((_, _) => UpdateOrderCard());
         OrderStatusProperty.Changed.AddClassHandler<OrderCards>((_, _) => UpdateOrderCard());
-        
-        Application.Current.ActualThemeVariantChanged += (_, _) =>
-        {
-            UpdateBackgroundColorTheme();
-        };
+
+        Application.Current.ActualThemeVariantChanged += (_, _) => { UpdateBackgroundColorTheme(); };
     }
 
     private void UpdateOrderCard()
@@ -71,11 +78,11 @@ public partial class OrderCards : UserControl
         WaiterNameLabel.Content = WaiterName;
         OrderFoodsLabel.Content = FoodOrderNames;
         TableNumberLabel.Content = TableNumber.ToString("D2").Insert(0, "Mesa ");
-        OrderIdLabel.Content = Id;
+        OrderIdLabel.Content = Id != null ? string.Join("", Id.TakeLast(4)).Insert(0, "#") : "";
         OrderStatusStackPanel.Children.Clear();
         OrderStatusStackPanel.Children.Add(GenerateOrderTag(OrderStatus));
         UpdateBackgroundColorTheme();
-        
+
         switch (OrderStatus)
         {
             case OrderStatusEnum.New:
@@ -114,7 +121,7 @@ public partial class OrderCards : UserControl
         {
             case OrderStatusEnum.New:
                 textBlock = new TextBlock()
-                { Text = "Novo", Foreground = Brush.Parse("#351C12"), };
+                    { Text = "Novo", Foreground = Brush.Parse("#351C12"), };
                 return new Border()
                 {
                     Child = textBlock,
@@ -143,18 +150,19 @@ public partial class OrderCards : UserControl
                     Classes = { "OrderStatusTag" }
                 };
         }
+
         return null;
     }
 
     private async void EditOrder_OnClick(object sender, RoutedEventArgs e)
     {
-        ManageOrdersView manageOrdersView = new()
+        ManageOrdersView manageOrdersView = new(Id)
         {
             Title = "Editar Pedido - ranGO!"
         };
-        
-        // Enviar os dados do pedido para a tela de editar
-       await manageOrdersView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!);
+        await manageOrdersView
+            .ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!)
+            .ConfigureAwait(false);
     }
 
     private void OrderStatus_OnClick(object sender, RoutedEventArgs e)
@@ -172,7 +180,7 @@ public partial class OrderCards : UserControl
                 OrderStatusButton.IsVisible = false;
                 break;
         }
-        
+
         Dispatcher.UIThread.Post(() =>
         {
             var actualOrder = OrderController.OrdersList.FirstOrDefault(o => o.Id.Contains(Id[1..]));
@@ -180,9 +188,8 @@ public partial class OrderCards : UserControl
 
             OrderStatus = actualOrder.OrderStatus = orderStatus;
             OrderController.EditOrder(actualOrder);
-        },DispatcherPriority.Background);
+        }, DispatcherPriority.Background);
     }
-    
 }
 
 public enum OrderStatusEnum

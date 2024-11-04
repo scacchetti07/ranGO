@@ -174,9 +174,6 @@ public partial class SupplyAddView : Window
                 return;
             }
 
-            if (oldsupply is not null)
-                throw new Exception("Código GTIN digitado já existe no sistema!");
-
             if (await Supply.ValidarCEP(CepMaskedTextBox.Text) is null)
                 throw new Exception($"CEP informado é inválido e não existe.");
             if (await Supply.ConsultaCNPJ(CnpjMaskedTextBox.Text) is null)
