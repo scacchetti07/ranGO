@@ -4,12 +4,14 @@ using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using MarketProject.Controllers;
 using MarketProject.Models;
+using MarketProject.Views;
 
 namespace MarketProject.Controls;
 
@@ -53,5 +55,25 @@ public partial class FoodDashboardCards : UserControl
             };
         }
         
+    }
+
+    private void FoodCardEditButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        ManageFoodView manageFoodView = new(CurrentFood.Id)
+        {
+            Title = "Editar Prato - ranGO!"
+        };
+        manageFoodView.TitleFoodManage.Text = "MODO VISUALIZAÇÃO";
+        manageFoodView.TitleFoodManage.Foreground = Brush.Parse("#D87249");
+        
+        manageFoodView.CategoryComboBox.IsEnabled = false;
+        manageFoodView.NameTextBox.IsEnabled = false;
+        manageFoodView.PriceTextBox.IsEnabled = false;
+        manageFoodView.DescriptionTextBox.IsEnabled = false;
+        manageFoodView.TagContentStackPanel.IsEnabled = false;
+        manageFoodView.ProductsAutoCompleteBox.IsEnabled = false;
+        manageFoodView.AddButton.IsEnabled = false;
+        manageFoodView.ClearButton.IsEnabled = false;
+        manageFoodView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
     }
 }

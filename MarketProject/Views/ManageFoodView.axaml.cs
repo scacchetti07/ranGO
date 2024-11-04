@@ -24,6 +24,7 @@ namespace MarketProject.Views;
 public partial class ManageFoodView : Window
 {
     public List<Product> AutoCompleteSelectedProducts { get; } = [];
+    private string _editUserId;
     private string FoodImagePath { get; set; }
     private string _originalFoodpath;
     private const string ImagePath = @"C:\ranGO\GaleriaDosPratos";
@@ -59,7 +60,35 @@ public partial class ManageFoodView : Window
 
         ProductsAutoCompleteBox.ItemsSource = Database.ProductsList.Select(p => p.Name);
     }
+    public ManageFoodView(string id) : this()
+    {
+        _editUserId = id;
+        _ = EditFoodAsync(id);
+    }
 
+    private async Task EditFoodAsync(string id)
+    {
+        var selectedFood = await FoodMenuController.FindFoodMenu(id);
+        AddButton.Content = "Editar";
+        NameTextBox.Text = selectedFood.FoodName;
+        DescriptionTextBox.Text = selectedFood.FoodDescription;
+        PriceTextBox.Text = selectedFood.FoodPrice.ToString("f2").PadLeft(6, '_');
+        ButtonTitle.IsVisible = false;
+        ButtonContent.Content = $"Fonte: {selectedFood.FoodPhotoPath} \n\nClique novamente para alterar a foto caso deseje.";
+        
+        // Procurando produtos pelo id dos ingredientes
+        List<Product> products = selectedFood.ListOfIngredients.Select(id => StorageController.FindProduct(id)).ToList();
+        
+        foreach (var prod in products)
+        {
+            AutoCompleteSelectedProducts.Add(prod);
+            TagContentStackPanel.Children.Add(GenereteAutoCompleteTag(prod));
+
+            var itemSource = ProductsAutoCompleteBox.ItemsSource.Cast<string>().ToList();
+            itemSource.Remove(prod.Name);
+            ProductsAutoCompleteBox.ItemsSource = itemSource;
+        }
+    }
     private List<string> GetTextBox()
     {
         return new()
@@ -116,7 +145,8 @@ public partial class ManageFoodView : Window
         DescriptionTextBox.Text = "";
         PriceTextBox.Text = null;
         CategoryComboBox.SelectedIndex = 0;
-        TextContentStackPanel.IsVisible = true;
+        ButtonTitle.IsVisible = true;
+        ButtonContent.Content = "Arquivos em .png e .jpg";
 
         AutoCompleteSelectedProducts.Clear();
         TagContentStackPanel.Children.Clear();
@@ -176,9 +206,8 @@ public partial class ManageFoodView : Window
         FoodImagePath = Path.Combine(ImagePath, Guid.NewGuid() + Path.GetExtension(_originalFoodpath));
         Dispatcher.UIThread.Post(() =>
         {
-            var foodImageBrush = new ImageBrush(new Bitmap(_originalFoodpath));
-            ProductImage.Background = foodImageBrush;
-            TextContentStackPanel.IsVisible = false; 
+            ButtonTitle.IsVisible = false;
+            ButtonContent.Content = $"Fonte: {_originalFoodpath} \nClique novamente para alterar a foto caso deseje.";
         },DispatcherPriority.Background);
         
     }

@@ -417,8 +417,8 @@
     </Style>
 
     <Style Selector="Border.ImageProduct">
-        <Setter Property="Width" Value="441" />
-        <Setter Property="Height" Value="353" />
+        <!-- <Setter Property="Width" Value="441" /> -->
+        <!-- <Setter Property="Height" Value="353" /> -->
         <Setter Property="CornerRadius" Value="5" />
         <Style Selector="^ Button">
             <Setter Property="HorizontalAlignment" Value="Center" />

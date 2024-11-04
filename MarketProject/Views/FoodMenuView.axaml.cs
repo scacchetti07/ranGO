@@ -24,6 +24,8 @@ public partial class FoodMenuView : UserControl
         InitializeComponent();
         UpdateFood();
         FoodsProperty.Changed.AddClassHandler<FoodMenuView>((_, _) => UpdateFood());
+
+        Database.FoodsMenuList.CollectionChanged += ((_, _) => { UpdateFood(); });
     }
 
     private async void UpdateFood()

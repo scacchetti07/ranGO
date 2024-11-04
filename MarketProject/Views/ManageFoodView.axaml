@@ -18,8 +18,8 @@
         <vm:ManageFoodViewModel />
     </Window.DataContext>
     <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto" Margin="50 27">
-        <TextBlock Text="Cadastro de Pratos" FontWeight="Bold" FontSize="30" />
-        <Button Grid.Column="1" Classes="ReturnButton" Margin="0" Padding="0" Click="ReturnButton_OnClick">
+        <TextBlock Name="TitleFoodManage" Text="Cadastro de Pratos" FontWeight="Bold" FontSize="30" />
+        <Button Name="ReturnButton" Grid.Column="1" Classes="ReturnButton" Margin="0" Padding="0" Click="ReturnButton_OnClick">
             <StackPanel Classes="ReturnButtonStackPanel">
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
                 <Label Content="Retornar" />
@@ -75,13 +75,13 @@
         <StackPanel Grid.Column="1" Grid.Row="1" Classes="ProductRegisterStyle" Margin="134 0 0 0">
             <StackPanel>
                 <Label Content="Imagem do Produto: "/>
-                <StackPanel>
+                <StackPanel Height="350">
                     <Border Classes="ImageProduct">
-                        <Button Name="ProductImage" Click="AddImageProduct_OnClick" >
-                            <Border Classes="ImageSelect">
-                                <StackPanel Name="TextContentStackPanel">
-                                    <Label Content="Arraste e solte ou escolha uma arquivo" Opacity="0.5"/>
-                                    <Label Content="Arquivos em .png e .jpg" Padding="0 -2 4 0"/>
+                        <Button Name="ProductImage" Click="AddImageProduct_OnClick" Height="200" Margin="0 70">
+                            <Border Classes="ImageSelect" Height="200">
+                                <StackPanel>
+                                    <Label Name="ButtonTitle" Content="Arraste e solte ou escolha uma arquivo" Opacity="0.5"/>
+                                    <Label Name="ButtonContent" Content="Arquivos em .png e .jpg" Padding="0 -2 4 0"/>
                                 </StackPanel>
                             </Border>
                         </Button>
@@ -89,9 +89,9 @@
                 </StackPanel>
             </StackPanel>
             <!-- Buttons Add and clean -->
-            <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <Button Content="Adicionar" Name="AddButton" Background="#3374B9" Click="AddButton_OnClick"/>
-                <Button Content="Limpar" Background="#D87249" Click="ClearTextBoxButton_OnClick"/>
+                <Button Content="Limpar" Name="ClearButton" Background="#D87249" Click="ClearTextBoxButton_OnClick"/>
             </StackPanel>
         </StackPanel>
     </Grid>

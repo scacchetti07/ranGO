@@ -15,7 +15,6 @@ namespace MarketProject.Views;
 
 public partial class DashboardView : UserControl
 {
-    private TaskCompletionSource<Foods> _task = new();
     public DashboardView()
     {
         InitializeComponent();
@@ -32,11 +31,9 @@ public partial class DashboardView : UserControl
                 FoodCardsStackPanel.Children.Add(new FoodDashboardCards { CurrentFood = foods});
         };
         
-        if (Database.FoodsMenuList.Count >= 3 || Database.FoodsMenuList.Count == 0) return;
+        if (Database.FoodsMenuList.Count == 0) return;
 
         foreach (var foods in Database.FoodsMenuList.TakeLast(3))
             FoodCardsStackPanel.Children.Add(new FoodDashboardCards { CurrentFood = foods});
     }
-    
-    public async Task<Foods> GetOrder() => await _task.Task;
 }
