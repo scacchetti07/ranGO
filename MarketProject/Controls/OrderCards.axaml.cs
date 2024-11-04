@@ -164,6 +164,7 @@ public partial class OrderCards : UserControl
         await manageOrdersView
             .ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!)
             .ConfigureAwait(false);
+        
     }
 
     private void OrderStatus_OnClick(object sender, RoutedEventArgs e)

@@ -112,13 +112,13 @@ public partial class ManageOrdersView : Window
                 newOrder.Id = _editUserId;
                 newOrder.OrderStatus = _vm.OrderStatus;
                 OrderController.EditOrder(newOrder);
-                _task.TrySetResult(newOrder);
+                OrderHomeViewModel.IsEditable = true;
                 Close();
                 //OrderAdded?.Invoke(newOrder);
                 return;
             }
 
-            _vm.IsEditable = false;
+            OrderHomeViewModel.IsEditable = false;
             _task.TrySetResult(newOrder);
             Close();
         }

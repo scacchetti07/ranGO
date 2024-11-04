@@ -68,7 +68,7 @@ public partial class OrderHomeView : UserControl
 
         Database.OrdersList.CollectionChanged += (_, _) =>
         {
-            if (!_vm.IsEditable) return;
+            if (!OrderHomeViewModel.IsEditable) return;
             
             Dispatcher.UIThread.Post(() =>
             {
