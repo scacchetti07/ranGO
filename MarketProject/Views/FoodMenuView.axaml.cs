@@ -19,8 +19,14 @@ namespace MarketProject.Views;
 public partial class FoodMenuView : UserControl
 {
     private OrderHomeViewModel _vm => DataContext as OrderHomeViewModel;
+
     private static readonly StyledProperty<ObservableCollection<Foods>> FoodsProperty =
         AvaloniaProperty.Register<FoodMenuView, ObservableCollection<Foods>>(nameof(FoodMenuController));
+
+    public delegate void FoodAddedDelegate(Foods? food);
+
+    public event FoodAddedDelegate FoodAdded;
+
     public FoodMenuView()
     {
         InitializeComponent();
@@ -42,7 +48,7 @@ public partial class FoodMenuView : UserControl
     private async void UpdateFood(FoodTypesEnum? foodtype)
     {
         if (foodtype is null) return;
-    
+
         var searchFood = await FoodMenuController.FindFoodMenu((FoodTypesEnum)foodtype);
         FoodMenuCardsPanel.Children.Clear();
         Dispatcher.UIThread.Post(() =>
@@ -51,7 +57,7 @@ public partial class FoodMenuView : UserControl
                 FoodMenuCardsPanel.Children.Add(_vm.FoodToCard(food));
         });
     }
-    
+
     private void UpdateFood(IEnumerable<Foods> searchedList)
     {
         FoodMenuCardsPanel.Children.Clear();
@@ -68,6 +74,13 @@ public partial class FoodMenuView : UserControl
         manageFoodView.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent);
         var newFood = await manageFoodView.GetFood();
         FoodMenuController.AddNewFoodMenu(newFood);
+        manageFoodView.FoodMenuAdded += (food) =>
+        {
+            if (food is null)
+                FoodAdded?.Invoke(null);
+
+            FoodAdded?.Invoke(food);
+        };
     }
 
     private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -78,7 +91,7 @@ public partial class FoodMenuView : UserControl
             UpdateFood();
             return;
         }
-        
+
         var searchedList = Database.FoodsMenuList.Where(f => f.FoodName.Contains(keyword));
         UpdateFood(searchedList);
     }
@@ -92,11 +105,12 @@ public partial class FoodMenuView : UserControl
             UpdateFood();
             return;
         }
+
         GetFoodType(((TopicsComboBox.SelectedItem as ComboBoxItem)!).Content!.ToString(),
             out FoodTypesEnum? foodType);
         UpdateFood(foodType);
     }
-    
+
     private void GetFoodType(string item, out FoodTypesEnum? foodType)
     {
         foodType = item switch

@@ -214,6 +214,19 @@ public partial class OrderHomeView : UserControl
             FoodMenuViewPanel.Classes.Clear();
             FoodMenuViewPanel.Children.Clear();
         });
+        foodMenuView.FoodAdded += (food) =>
+        {
+            if (food is null)
+            {
+                DeletePopup.IsEnabled = true;
+                DeletePopup.Content = "Prato Removido do Cardápio!";
+                ContentDeleteTextBlock.Text = "Foi removido um prato do cardápio";
+                return;
+            }
+            AddPopup.IsOpen = true;
+            AddProdLabel.Content = "Novo Prato adicionado!";
+            ContentAddTextBlock.Text = $"O prato '{food.FoodName}' foi adicionado ao cardápio!";
+        };
     }
 
     private async void DeleteOrderButton_OnClick(object sender, RoutedEventArgs e)

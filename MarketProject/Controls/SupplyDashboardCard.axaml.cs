@@ -6,6 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Platform;
 using MarketProject.Controllers;
 using MarketProject.Models;
@@ -73,7 +74,19 @@ public partial class SupplyDashboardCard : UserControl
             ShowInTaskbar = false,
             SizeToContent = SizeToContent.WidthAndHeight
         };
+        editSupply.SupplyAddTitle.Text = "MODO VISUALIZAÇÃO";
+        editSupply.SupplyAddTitle.Foreground = Brush.Parse("#D87249");
+        
+        editSupply.AddButton.IsEnabled = false;
+        editSupply.ClearButton.IsEnabled = false;
+
+        editSupply.NameTextBox.IsEnabled = false;
+        editSupply.CepMaskedTextBox.IsEnabled = false;
+        editSupply.DateLimitTextBox.IsEnabled = false;
+        editSupply.EmailTextBox.IsEnabled = false;
+        editSupply.ProductsAutoCompleteBox.IsEnabled = false;
+        editSupply.AddressTextBox.IsEnabled = false;
+        editSupply.TagContentStackPanel.IsEnabled = false;
         await editSupply.ShowDialog((Window)Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!);
-        editSupply.IsEnabled = false;
     }
 }

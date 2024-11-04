@@ -15,7 +15,7 @@
     </Window.DataContext>
 
     <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto" Margin="50 27">
-        <TextBlock Text="Cadastro de Fornecedores" FontWeight="Bold" FontSize="30" />
+        <TextBlock Name="SupplyAddTitle" Text="Cadastro de Fornecedores" FontWeight="Bold" FontSize="30" />
         <Button Grid.Column="1" Classes="ReturnButton" Margin="0" Padding="0" Click="ReturnButton_OnClick">
             <StackPanel Classes="ReturnButtonStackPanel">
                 <Image Source="{SvgImage /Assets/Icons/SVG/IconReturn.svg}" />
@@ -89,7 +89,7 @@
             <!-- Buttons Add and clean -->
             <StackPanel Orientation="Horizontal" Classes="ProductRegisterButtons" HorizontalAlignment="Left">
                 <Button Content="Adicionar" Name="AddButton" Background="#3374B9" Click="AddSupplyButton_OnClick" />
-                <Button Content="Limpar" Background="#D87249" Click="CleanText_OnClick" />
+                <Button Content="Limpar" Name="ClearButton" Background="#D87249" Click="CleanText_OnClick" />
             </StackPanel>
         </StackPanel>
     </Grid>
