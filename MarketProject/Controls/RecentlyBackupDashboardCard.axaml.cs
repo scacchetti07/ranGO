@@ -36,7 +36,13 @@ public partial class RecentlyBackupDashboardCard : UserControl
     {
         string backupPath = @"C:/ranGO/Backup";
         DateTime today = DateTime.Now.Date;
-        var lastBackup = Directory.GetDirectories(backupPath).Select(d => d.Replace('.', '/')).ToList()
+        if (!Directory.Exists(backupPath)) {
+            Directory.CreateDirectory(backupPath);
+            return;
+        }
+
+        try {
+            var lastBackup = Directory.GetDirectories(backupPath).Select(d => d.Replace('.', '/')).ToList()
             .Select(path => path.Remove(0, 16)).ToArray();
         int dayLimit = 0;
         for (int i = 0; i < lastBackup.Length; i++)
@@ -62,5 +68,10 @@ public partial class RecentlyBackupDashboardCard : UserControl
 
         DashboardCardMainContent.Text = dayLimit == 1 ? $"{dayLimit} DIA" : $"{dayLimit} DIAS";
         BackupButton.IsEnabled = true;
+        }
+        catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+
+        }
     }
 }
