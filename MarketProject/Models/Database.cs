@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using MarketProject.Views;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.IO;
 
 namespace MarketProject.Models;
 
@@ -51,6 +52,9 @@ public class Database
         SupplyList = new ObservableCollection<Supply>(supplyDocs);
         OrdersList = new ObservableCollection<Orders>(orderDocs);
         FoodsMenuList = new ObservableCollection<Foods>(foodsMenuDocs);
+
+        Directory.CreateDirectory(@"C:/ranGO/Backup");
+        Directory.CreateDirectory(@"C:/ranGO/GaleriaDosPratos");
         Console.WriteLine("Lista de produtos e fornecedores Iniciada!");
         Console.WriteLine("Listas de Pedidos e Cardápio iniciadas!");
     }
